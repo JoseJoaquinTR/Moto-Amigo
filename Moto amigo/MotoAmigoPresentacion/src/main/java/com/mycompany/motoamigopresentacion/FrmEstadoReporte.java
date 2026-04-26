@@ -11,7 +11,6 @@ import com.mycompany.motoamigodto.IncidenteDTO;
  */
 public class FrmEstadoReporte extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEstadoReporte.class.getName());
     private ControlRegistrarIncidente control;
 
     public FrmEstadoReporte(ControlRegistrarIncidente control, EntregaDTO entrega, IncidenteDTO incidente) {

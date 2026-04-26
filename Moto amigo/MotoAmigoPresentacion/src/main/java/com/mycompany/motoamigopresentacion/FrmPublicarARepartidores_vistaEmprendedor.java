@@ -296,7 +296,7 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
          
     RutaRequestDTO request = new RutaRequestDTO(txt_origen.getText(),txt_destino.getText());
 
-    FrmConsultarRuta pantalla = new FrmConsultarRuta(request);
+    frmConsultarRuta pantalla = new frmConsultarRuta(request);
     pantalla.setVisible(true);
 
     this.dispose();
