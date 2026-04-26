@@ -29,13 +29,21 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
     private javax.swing.JTextArea txtDescripcionOtro;
     private javax.swing.JScrollPane scrollOtro;
 
-    public FrmFormularioIncidente(ControlRegistrarIncidente control, FrmSeguimientoEnTiempoReal frmMapa) {
+    public FrmFormularioIncidente(FrmSeguimientoEnTiempoReal frmMapa) {
         this.frmMapa = frmMapa;
         initComponents();
+        inicializarUI();
+        setLocationRelativeTo(null);
+
+    }
+
+    private void inicializarUI() {
         panPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
         utileriasBotones.btnRedondeadoBlanco(btnPaqueteDañado);
+        utileriasBotones.btnRedondeadoBlanco(btnPaqueteExtravido);
         utileriasBotones.btnRedondeadoBlanco(btnAccidenteAveria);
-        utileriasBotones.btnRedondeadoBlanco(btnClienteDisponible);
+        utileriasBotones.btnRedondeadoBlanco(btnClienteNoDisponible);
+        utileriasBotones.btnRedondeadoBlanco(btnOtro);
         utileriasBotones.btnRedondeadoNegro(btnConfirmar);
 
         txtDescripcionOtro = new JTextArea();
@@ -50,7 +58,6 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
         scrollOtro.setVisible(false);
 
         panCentral.add(scrollOtro);
-
     }
 
     /**
@@ -70,15 +77,13 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
         btnConfirmar = new javax.swing.JButton();
         btnPaqueteDañado = new javax.swing.JButton();
         btnPaqueteExtravido = new javax.swing.JButton();
-        btnClienteDisponible = new javax.swing.JButton();
+        btnClienteNoDisponible = new javax.swing.JButton();
         btnAccidenteAveria = new javax.swing.JButton();
         btnOtro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Incidente");
-        setMaximumSize(new java.awt.Dimension(1008, 738));
         setMinimumSize(new java.awt.Dimension(1008, 738));
-        setPreferredSize(new java.awt.Dimension(1008, 738));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -105,6 +110,7 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
         btnConfirmar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnConfirmar.setForeground(new java.awt.Color(255, 255, 255));
         btnConfirmar.setText("Confirmar Reporte");
+        btnConfirmar.setOpaque(true);
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmarActionPerformed(evt);
@@ -134,14 +140,14 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
             }
         });
 
-        btnClienteDisponible.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnClienteDisponible.setText("Cliente no disponible");
-        btnClienteDisponible.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnClienteDisponible.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        btnClienteDisponible.setOpaque(true);
-        btnClienteDisponible.addActionListener(new java.awt.event.ActionListener() {
+        btnClienteNoDisponible.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnClienteNoDisponible.setText("Cliente no disponible");
+        btnClienteNoDisponible.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnClienteNoDisponible.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnClienteNoDisponible.setOpaque(true);
+        btnClienteNoDisponible.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClienteDisponibleActionPerformed(evt);
+                btnClienteNoDisponibleActionPerformed(evt);
             }
         });
 
@@ -177,41 +183,41 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
                     .addComponent(lblDescripcion)
                     .addComponent(lblReportarProblema)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClienteDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnClienteNoDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPaqueteExtravido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPaqueteDañado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
                     .addComponent(btnAccidenteAveria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnOtro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         panCentralLayout.setVerticalGroup(
             panCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panCentralLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(38, 38, 38)
                 .addComponent(btnCancelar)
                 .addGap(18, 18, 18)
                 .addComponent(lblReportarProblema)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDescripcion)
-                .addGap(50, 50, 50)
+                .addGap(18, 18, 18)
                 .addComponent(btnPaqueteDañado, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPaqueteExtravido, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnClienteDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnClienteNoDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAccidenteAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnOtro, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                 .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addGap(123, 123, 123))
         );
 
-        panPrincipal.add(panCentral, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 1020, 670));
+        panPrincipal.add(panCentral, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 60, 1030, 680));
 
-        getContentPane().add(panPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(-14, 0, 1040, -1));
+        getContentPane().add(panPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 0, 1010, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -231,10 +237,10 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
         marcarSeleccionado(btnPaqueteExtravido);
     }//GEN-LAST:event_btnPaqueteExtravidoActionPerformed
 
-    private void btnClienteDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteDisponibleActionPerformed
+    private void btnClienteNoDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteNoDisponibleActionPerformed
         incidenteSeleccionado = "cliente_no_disponible";
-
-    }//GEN-LAST:event_btnClienteDisponibleActionPerformed
+        marcarSeleccionado(btnClienteNoDisponible);
+    }//GEN-LAST:event_btnClienteNoDisponibleActionPerformed
 
     private void btnAccidenteAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccidenteAveriaActionPerformed
         incidenteSeleccionado = "accidente_averia";
@@ -248,8 +254,8 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
         scrollOtro.setVisible(visible);
 
         if (visible) {
-            Rectangle r = btnOtro.getBounds();
-            scrollOtro.setBounds(r.x, r.y + r.height + 8, r.width, 100);
+            Rectangle rect = btnOtro.getBounds();
+            scrollOtro.setBounds(rect.x, rect.y + rect.height + 8, rect.width, 100);
             txtDescripcionOtro.requestFocus();
         }
 
@@ -306,7 +312,7 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
 
     private void marcarSeleccionado(JButton btnActivo) {
         JButton[] todos = {
-            btnPaqueteDañado, btnPaqueteExtravido, btnClienteDisponible,
+            btnPaqueteDañado, btnPaqueteExtravido, btnClienteNoDisponible,
             btnAccidenteAveria, btnOtro
         };
         for (JButton b : todos) {
@@ -319,7 +325,7 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAccidenteAveria;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnClienteDisponible;
+    private javax.swing.JButton btnClienteNoDisponible;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnOtro;
     private javax.swing.JButton btnPaqueteDañado;

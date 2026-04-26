@@ -9,8 +9,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -28,10 +27,17 @@ public class utileriasBotones {
         btn.setBackground(new Color(232, 100, 10));
         btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setBorderPainted(false);
         btn.setOpaque(true);
+        
+        //Redondear con el lookandFeel del FlatLaf
+        btn.putClientProperty("JButton.buttonType", "roundRect");
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            new LineBorder(new Color(220, 222, 228), 1, true), 
+            new EmptyBorder(10, 16, 10, 16)
+        ));
     }
 
     /**
@@ -41,10 +47,17 @@ public class utileriasBotones {
         btn.setBackground(new Color(200, 16, 46));
         btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setBorderPainted(false);
         btn.setOpaque(true);
+        
+        //Redondear con el lookandFeel del FlatLaf
+        btn.putClientProperty("JButton.buttonType", "roundRect");
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            new LineBorder(new Color(220, 222, 228), 1, true), 
+            new EmptyBorder(10, 16, 10, 16)
+        ));
     }
 
     /**
@@ -54,10 +67,17 @@ public class utileriasBotones {
         btn.setBackground(new Color(26, 43, 109));
         btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setBorderPainted(false);
         btn.setOpaque(true);
+        
+        //Redondear con el lookandFeel del FlatLaf
+        btn.putClientProperty("JButton.buttonType", "roundRect");
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            new LineBorder(new Color(220, 222, 228), 1, true), 
+            new EmptyBorder(10, 16, 10, 16)
+        ));
     }
 
     /**
@@ -67,10 +87,16 @@ public class utileriasBotones {
         btn.setBackground(new Color(30, 122, 60));
         btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setBorderPainted(false);
         btn.setOpaque(true);
+        //Redondear con el lookandFeel del FlatLaf
+        btn.putClientProperty("JButton.buttonType", "roundRect");
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            new LineBorder(new Color(220, 222, 228), 1, true), 
+            new EmptyBorder(10, 16, 10, 16)
+        ));
     }
 
     /**
@@ -79,17 +105,18 @@ public class utileriasBotones {
      * 
      */
     public static void btnRedondeadoBlanco(JButton btn) {
-        btn.setBackground(new Color(255, 255, 255));
+        btn.setBackground(Color.WHITE);
         btn.setForeground(new Color(26, 26, 46));
         btn.setFocusPainted(false);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setOpaque(true);
-        btn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-
-        Border rounded = new LineBorder(new Color(232, 234, 240), 1, true);
-        Border padding = new EmptyBorder(12, 16, 12, 16);
-        btn.setBorder(new CompoundBorder(rounded, padding));
+        btn.setHorizontalAlignment(SwingConstants.LEFT);
+        btn.putClientProperty("JButton.buttonType", "roundRect");
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            new LineBorder(new Color(220, 222, 228), 1, true), 
+            new EmptyBorder(10, 16, 10, 16)
+        ));
     }
 
     /**
@@ -98,17 +125,18 @@ public class utileriasBotones {
      * 
      */
     public static void btnRedondeadoNegro(JButton btn) {
-        btn.setBackground(new Color(0, 0, 0));
-        btn.setForeground(new Color(255, 255, 255));
+        btn.setBackground(new Color(20, 20, 20));
+        btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 20));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setOpaque(true);
-        btn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        Border rounded = new LineBorder(new Color(232, 234, 240), 1, true);
-        Border padding = new EmptyBorder(12, 16, 12, 16);
-        btn.setBorder(new CompoundBorder(rounded, padding));
+        btn.putClientProperty("JButton.buttonType", "roundRect");
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            new LineBorder(new Color(220, 222, 228), 1, true), 
+            new EmptyBorder(10, 16, 10, 16)
+        ));
     }
     
     /**
@@ -120,12 +148,12 @@ public class utileriasBotones {
         btn.setBackground(new Color(232, 100, 10)); 
         btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 20));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setOpaque(true);
         btn.setBorder(BorderFactory.createCompoundBorder(
-            new javax.swing.border.LineBorder(new Color(26, 43, 109), 1, true),
-            new javax.swing.border.EmptyBorder(10, 16, 10, 16)
+            new LineBorder(new Color(26, 43, 109), 1, true),
+            new EmptyBorder(10, 16, 10, 16)
         ));
     }
 }

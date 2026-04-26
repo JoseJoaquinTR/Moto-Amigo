@@ -4,6 +4,7 @@
  */
 package com.mycompany.motoamigopresentacion;
 
+import Utilerias.utileriasBotones;
 import com.consultarruta.servicios.mapBox.MapBoxService;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
@@ -32,10 +33,12 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
         panelR.setBounds(50, 150, 700, 300);
         setLocationRelativeTo(null);
         add(panelR);
+        utileriasBotones.btnRedondeadoNegro(btn_aceptar);
 
         panPrincipal.setLayout(new AbsoluteLayout());
         panPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
         cargarSolicitud(solicitud);
+        setLocationRelativeTo(null);
     }
 
     public void cargarSolicitud(SolicitudEntregaDTO solicitud) {
@@ -106,7 +109,7 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
         txt_ganancia.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         btn_aceptar.setBackground(new java.awt.Color(0, 0, 0));
-        btn_aceptar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_aceptar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_aceptar.setForeground(new java.awt.Color(255, 255, 255));
         btn_aceptar.setText("ACEPTAR PEDIDO");
         btn_aceptar.setBorder(null);

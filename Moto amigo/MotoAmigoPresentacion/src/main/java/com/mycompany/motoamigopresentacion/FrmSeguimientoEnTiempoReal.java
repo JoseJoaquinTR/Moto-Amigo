@@ -12,16 +12,22 @@ import com.mycompany.cusolicitarentrega.IFuncionalidadSeguimiento;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
 import com.mycompany.motoamigopresentacion.controladores.ControlRegistrarIncidente;
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import org.jxmapviewer.JXMapViewer;
+import org.jxmapviewer.input.PanMouseInputListener;
+import org.jxmapviewer.input.ZoomMouseWheelListenerCenter;
 import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultWaypoint;
@@ -69,21 +75,21 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
 
     }
 
-    private org.jxmapviewer.painter.Painter<JXMapViewer> getRoutePainter(java.util.List<GeoPosition> track) {
+    private Painter<JXMapViewer> getRoutePainter(List<GeoPosition> track) {
         return (Graphics2D g, JXMapViewer map, int w, int h) -> {
             g = (Graphics2D) g.create();
             Rectangle rect = map.getViewportBounds();
             g.translate(-rect.x, -rect.y);
 
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g.setColor(new java.awt.Color(255, 102, 0));
-            g.setStroke(new java.awt.BasicStroke(4));
+            g.setColor(new Color(255, 102, 0));
+            g.setStroke(new BasicStroke(4));
 
             int lastX = -1;
             int lastY = -1;
 
             for (GeoPosition gp : track) {
-                java.awt.geom.Point2D pt = map.getTileFactory().geoToPixel(gp, map.getZoom());
+                Point2D pt = map.getTileFactory().geoToPixel(gp, map.getZoom());
                 if (lastX != -1) {
                     g.drawLine(lastX, lastY, (int) pt.getX(), (int) pt.getY());
                 }
@@ -101,10 +107,10 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
         tileFactory.setThreadPoolSize(4);
         mapViewer.setTileFactory(tileFactory);
 
-        org.jxmapviewer.input.PanMouseInputListener mm = new org.jxmapviewer.input.PanMouseInputListener(mapViewer);
+        org.jxmapviewer.input.PanMouseInputListener mm = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mm);
         mapViewer.addMouseMotionListener(mm);
-        mapViewer.addMouseWheelListener(new org.jxmapviewer.input.ZoomMouseWheelListenerCenter(mapViewer));
+        mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
 
         origen = new GeoPosition(ruta.getLatOrigen(), ruta.getLngOrigen());
         destino = new GeoPosition(ruta.getLatDestino(), ruta.getLngDestino());
@@ -113,7 +119,7 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
         waypointPainter = new WaypointPainter<>();
         waypointPainter.setWaypoints(new HashSet<>(Arrays.asList(marcador)));
 
-        List<org.jxmapviewer.painter.Painter<JXMapViewer>> painters = new ArrayList<>();
+        List<Painter<JXMapViewer>> painters = new ArrayList<>();
         painters.add(waypointPainter);
 
         CompoundPainter<JXMapViewer> compoundPainter = new CompoundPainter<>(painters);
@@ -136,11 +142,11 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
      * Agrega zoom con rueda del mouse y desplazamiento con arrastre al mapa.
      */
     private void agregarInteraccionMapa() {
-        org.jxmapviewer.input.PanMouseInputListener mm = new org.jxmapviewer.input.PanMouseInputListener(mapViewer);
+        org.jxmapviewer.input.PanMouseInputListener mm = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mm);
         mapViewer.addMouseMotionListener(mm);
 
-        mapViewer.addMouseWheelListener(new org.jxmapviewer.input.ZoomMouseWheelListenerCenter(mapViewer));
+        mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
     }
 
     /**
@@ -159,12 +165,12 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
             if (ubi.getDescripcion().toLowerCase().contains("llegó al origen") && !pedidoRecolectado) {
                 timer.stop(); 
 
-                int respuesta = javax.swing.JOptionPane.showConfirmDialog(this,
+                int respuesta = JOptionPane.showConfirmDialog(this,
                         "¿Has recibido el pedido correctamente?",
                         "Confirmar Recolección",
-                        javax.swing.JOptionPane.YES_NO_OPTION);
+                        JOptionPane.YES_NO_OPTION);
 
-                if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+                if (respuesta == JOptionPane.YES_OPTION) {
                     desbloquearDestino();
                     timer.start();
                 } else {
@@ -179,7 +185,7 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
     private void desbloquearDestino() {
         pedidoRecolectado = true;
 
-        java.util.List<GeoPosition> puntosRuta = Arrays.asList(origen, destino);
+        List<GeoPosition> puntosRuta = Arrays.asList(origen, destino);
 
         waypointPainter.setWaypoints(new HashSet<>(Arrays.asList(
                 new DefaultWaypoint(origen),
@@ -196,7 +202,7 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
 
         mapViewer.calculateZoomFrom(new HashSet<>(puntosRuta));
 
-        javax.swing.JOptionPane.showMessageDialog(this, "Ruta de entrega desbloqueada. Dirígete al destino.");
+        JOptionPane.showMessageDialog(this, "Ruta de entrega desbloqueada. Dirígete al destino.");
     }
 
     /**
@@ -250,7 +256,7 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
         );
         panelMapaLayout.setVerticalGroup(
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGap(0, 604, Short.MAX_VALUE)
         );
 
         btnVolverMenu.setBackground(new java.awt.Color(255, 102, 0));
@@ -279,18 +285,18 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
             panPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panPrincipalLayout.createSequentialGroup()
-                .addGap(165, 165, 165)
+                .addGap(277, 277, 277)
                 .addComponent(btnReportar, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
+                .addGap(108, 108, 108)
                 .addComponent(btnVolverMenu)
-                .addContainerGap(435, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
         panPrincipalLayout.setVerticalGroup(
             panPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panPrincipalLayout.createSequentialGroup()
                 .addGap(69, 69, 69)
-                .addComponent(panelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(panelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVolverMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReportar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))

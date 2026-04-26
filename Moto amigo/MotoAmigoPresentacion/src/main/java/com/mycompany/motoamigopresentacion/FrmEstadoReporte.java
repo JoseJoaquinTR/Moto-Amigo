@@ -20,8 +20,7 @@ public class FrmEstadoReporte extends javax.swing.JFrame {
     public FrmEstadoReporte(ControlRegistrarIncidente control, EntregaDTO entrega, IncidenteDTO incidente) {
         this.control = control;
         initComponents();
-//        lblMensaje.setText("Incidente: " + incidente.getTipoIncidente());
-//        lblEstado.setText("Nuevo estado de entrega: " + entrega.getEstadoEntrega());
+    setLocationRelativeTo(null);
     }
 
     /**

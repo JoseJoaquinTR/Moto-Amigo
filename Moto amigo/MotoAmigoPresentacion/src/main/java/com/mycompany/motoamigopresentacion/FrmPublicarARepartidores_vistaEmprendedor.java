@@ -43,6 +43,7 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
         setLayout(new AbsoluteLayout());
         add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
         utileriasBotones.btnRedondeadoNegro(btn_solicitar);
+        setLocationRelativeTo(null);
     }
 
     private void iniciarAutocompletado() {
@@ -228,10 +229,11 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
         txt_peso.setText("0.0");
 
         btn_solicitar.setBackground(new java.awt.Color(0, 0, 0));
-        btn_solicitar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_solicitar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_solicitar.setForeground(new java.awt.Color(255, 255, 255));
         btn_solicitar.setText("VALIDARD DATOS");
         btn_solicitar.setToolTipText("");
+        btn_solicitar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_solicitar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_solicitarActionPerformed(evt);

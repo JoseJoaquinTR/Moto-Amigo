@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
 
 public class ControlRegistrarIncidente {
     
-    // Variables de estado "de mentiritas"
     private EntregaDTO entregaActual;
     private IncidenteDTO incidenteNuevo;
 
@@ -35,37 +34,28 @@ public class ControlRegistrarIncidente {
         return instancia;
     }
 
-    // --- MÉTODOS DE NAVEGACIÓN ---
-    // 3. Transición cuando da clic en "Reportar"
     public void irAFormularioIncidente(FrmSeguimientoEnTiempoReal frmMapa) {
-        FrmFormularioIncidente frm = new FrmFormularioIncidente(this, frmMapa);
+        FrmFormularioIncidente frm = new FrmFormularioIncidente(frmMapa);
         frm.setVisible(true);
         frmMapa.setVisible(false);
     }
 
-    // 4. Transición y lógica cuando da clic en "Confirmar Reporte"
     public void registrarIncidente(String tipoIncidenteSeleccionado) {
-        // Simulación del bloque "ALT" de tu diagrama de secuencia
         if (tipoIncidenteSeleccionado == null || tipoIncidenteSeleccionado.isEmpty()) {
-            // [datos inválidos] - El rebote
             JOptionPane.showMessageDialog(frmFormulario, "Error: Debes seleccionar un incidente", "Datos Inválidos", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // [datos válidos] - Éxito
         incidenteNuevo.setTipoIncidente(tipoIncidenteSeleccionado);
         incidenteNuevo.setIdEntregaAsociada(entregaActual.getIdEntrega());
 
-        // Actualizamos estado simulando a la Base de Datos
         entregaActual.setEstadoEntrega("NO COMPLETADA");
-
-        frmFormulario.dispose(); // Cierra ventana 3
+        frmFormulario.dispose();
 
         frmEstado = new FrmEstadoReporte(this, entregaActual, incidenteNuevo);
-        frmEstado.setVisible(true); // Abre ventana 4 (Instrucciones finales)
+        frmEstado.setVisible(true); 
     }
 
-    // 5. Cierre final
     public void volverAlInicio() {
         frmEstado.dispose();
         System.out.println("Regresando al menú principal...");

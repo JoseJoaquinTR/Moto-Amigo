@@ -45,6 +45,8 @@ public class frmConsultarRuta extends javax.swing.JFrame {
     private WaypointPainter<DefaultWaypoint> waypointPainter;
     private static final Logger LOGGER = Logger.getLogger(frmConsultarRuta.class.getName());
     private RutaResponseDTO response;
+    
+    
     public frmConsultarRuta(RutaRequestDTO request) {
         initComponents();
 
@@ -56,6 +58,13 @@ public class frmConsultarRuta extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
+        consultarRuta(request);
+        
+        setLocationRelativeTo(null);
+        panelPrincipal.setLayout(new AbsoluteLayout());
+        panelPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
+    }
+    private void consultarRuta(RutaRequestDTO request){
         try {
             // Consultar ruta con direcciones en texto
             this.response = casoUso.consultarRuta(request);
@@ -73,11 +82,8 @@ public class frmConsultarRuta extends javax.swing.JFrame {
             LOGGER.severe("Error al consultar ruta: " + e.getMessage());
             mostrarErrorEnLabels("Error al consultar ruta");
         }
-
-        panelPrincipal.setLayout(new AbsoluteLayout());
-        panelPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
     }
-
+        
     /**
      * Inicializa el mapa usando las coordenadas ya calculadas en el response.
      */
@@ -166,14 +172,14 @@ public class frmConsultarRuta extends javax.swing.JFrame {
         panelMapa.setLayout(panelMapaLayout);
         panelMapaLayout.setHorizontalGroup(
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1090, Short.MAX_VALUE)
+            .addGap(0, 1010, Short.MAX_VALUE)
         );
         panelMapaLayout.setVerticalGroup(
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 440, Short.MAX_VALUE)
         );
 
-        panelPrincipal.add(panelMapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 52, 1090, 440));
+        panelPrincipal.add(panelMapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 52, 1010, 440));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
@@ -231,7 +237,7 @@ public class frmConsultarRuta extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        panelPrincipal.add(panelInformacionRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 510, -1, -1));
+        panelPrincipal.add(panelInformacionRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 510, -1, -1));
 
         btnEnviarSolicitud.setBackground(new java.awt.Color(255, 102, 0));
         btnEnviarSolicitud.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -242,7 +248,7 @@ public class frmConsultarRuta extends javax.swing.JFrame {
                 btnEnviarSolicitudActionPerformed(evt);
             }
         });
-        panelPrincipal.add(btnEnviarSolicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 660, -1, -1));
+        panelPrincipal.add(btnEnviarSolicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 660, -1, -1));
 
         btnCancelarSolicitud.setBackground(new java.awt.Color(255, 102, 0));
         btnCancelarSolicitud.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -253,15 +259,13 @@ public class frmConsultarRuta extends javax.swing.JFrame {
                 btnCancelarSolicitudActionPerformed(evt);
             }
         });
-        panelPrincipal.add(btnCancelarSolicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 660, -1, -1));
+        panelPrincipal.add(btnCancelarSolicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 660, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 1086, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 1008, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
