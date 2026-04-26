@@ -1,5 +1,5 @@
 
-package com.consultarruta.servicios.mapBox;
+package com.mycompany.infraestructura;
 
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;

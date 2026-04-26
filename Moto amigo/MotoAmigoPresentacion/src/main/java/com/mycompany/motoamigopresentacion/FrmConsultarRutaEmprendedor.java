@@ -5,13 +5,10 @@
 package com.mycompany.motoamigopresentacion;
 
 import Utilerias.OSMTileFactoryCustom;
-import com.consultarruta.servicios.mapBox.MapBoxService;
 import com.mycompany.cusolicitarentrega.ConsultarRuta;
 import com.mycompany.cusolicitarentrega.IConsultarRuta;
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
-import com.mycompany.motoamigonegocio.IRutaBO;
-import com.mycompany.motoamigonegocio.RutaBO;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,20 +35,19 @@ import panelesUtilerias.PanelHeader;
  *
  * @author calo2
  */
-public class FrmConsultarRuta extends javax.swing.JFrame {
+public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
 
     private IConsultarRuta casoUso;
     private JXMapViewer mapViewer;
     private WaypointPainter<DefaultWaypoint> waypointPainter;
-    private static final Logger LOGGER = Logger.getLogger(FrmConsultarRuta.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FrmConsultarRutaEmprendedor.class.getName());
     private RutaResponseDTO response;
     
     
-    public FrmConsultarRuta(RutaRequestDTO request) {
+    public FrmConsultarRutaEmprendedor(RutaRequestDTO request) {
         initComponents();
 
-        IRutaBO rutaBO = new RutaBO(MapBoxService.getInstance());
-        casoUso = new ConsultarRuta(rutaBO);
+        casoUso = new ConsultarRuta(); // en el constructor de consultarRuta ya se crea la fachada
 
         // Tamaño predeterminado y centrado
         this.setSize(1008, 738);
@@ -302,7 +298,7 @@ public class FrmConsultarRuta extends javax.swing.JFrame {
         };
     }
     private void btnEnviarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarSolicitudActionPerformed
-        new FrmSeguimientoEnTiempoReal_Emprendedor(this.response).setVisible(true);
+        new FrmSeguimientoEnTiempoRealEmprendedor(this.response).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEnviarSolicitudActionPerformed
 

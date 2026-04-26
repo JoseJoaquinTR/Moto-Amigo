@@ -1,17 +1,17 @@
-
 package com.mycompany.motoamigonegocio;
 
 import com.mycompany.motoamigodto.EmprendedorDTO;
 import com.mycompany.motoamigodto.IncidenteDTO;
+import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
-
+import com.mycompany.motoamigodto.UbicacionDTO;
 
 /**
- * Define las operaciones expuestas por la fachada del sistema.
- * Centraliza el acceso a la lógica de negocio para evitar que la
- * presentación o los casos de uso dependan directamente de múltiples BO.
- * 
+ * Define las operaciones expuestas por la fachada del sistema. Centraliza el
+ * acceso a la lógica de negocio para evitar que la presentación o los casos de
+ * uso dependan directamente de múltiples BO.
+ *
  * @author joset
  */
 public interface IFachadaNegocio {
@@ -40,4 +40,10 @@ public interface IFachadaNegocio {
      * @throws NegocioException si ocurre un error durante el cálculo.
      */
     public RutaResponseDTO calcularRuta(RutaRequestDTO rutaRequestDTO) throws NegocioException;
+
+    public boolean haTerminadoRuta();
+
+    public UbicacionDTO obtenerSiguienteUbicacion();
+
+    public RepartidorDTO obtenerRepartidorPorId(Long idRepartidor);
 }

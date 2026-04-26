@@ -4,7 +4,7 @@
  */
 package com.mycompany.motoamigopersistencia;
 
-import com.mycompany.motoamigodto.RepartidorDTO;
+import com.mycompany.Entidades.Repartidor;
 import java.util.List;
 
 /**
@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface IRepartidorDAO {
     
-    List <RepartidorDTO> obtenerRepartidoresDisponibles();
-    RepartidorDTO obtenerRepartidorPorId(Long idRepartidor);
+    List <Repartidor> obtenerRepartidoresDisponibles();
+    Repartidor obtenerRepartidorPorId(Long idRepartidor);
 }

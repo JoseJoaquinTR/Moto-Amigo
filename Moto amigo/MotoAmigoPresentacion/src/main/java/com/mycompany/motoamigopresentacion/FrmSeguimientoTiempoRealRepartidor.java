@@ -41,7 +41,7 @@ import panelesUtilerias.PanelHeader;
  *
  * @author joset
  */
-public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
+public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
 
     private JXMapViewer mapViewer;
     private WaypointPainter<DefaultWaypoint> waypointPainter;
@@ -54,7 +54,7 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
 
     private RutaResponseDTO ruta;
 
-    public FrmSeguimientoEnTiempoReal(RutaResponseDTO ruta) {
+    public FrmSeguimientoTiempoRealRepartidor(RutaResponseDTO ruta) {
         this.ruta = ruta;
         this.funcionalidad = FuncionalidadSeguimiento.crear();
         this.control = ControlRegistrarIncidente.getInstance();

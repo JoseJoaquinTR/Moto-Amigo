@@ -1,28 +1,29 @@
-package com.consultarruta.servicios.mapBox;
+package com.mycompany.infraestructura;
 
 import com.mycompany.Entidades.Ubicacion;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
 import com.mycompany.motoamigopersistencia.ISeguimientoEntregaDAO;
 import com.mycompany.motoamigopersistencia.SeguimientoEntregaDAO;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import org.jxmapviewer.viewer.GeoPosition;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
-
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.jxmapviewer.viewer.GeoPosition;
+
 
 public class MapBoxService implements IMapBoxService {
 
@@ -47,18 +48,18 @@ public class MapBoxService implements IMapBoxService {
             if (origen == null || origen.isBlank() || destino == null || destino.isBlank()) {
                 LOGGER.severe("Origen o destino vacío");
                 return new RutaResponseDTO(origen, destino, null, null, null, null,
-                        0, 0, 0, false, false);
+                        0.0, 0, 0.0, false, false);
             }
 
-            // Geocodificar ambos puntos
             GeoPosition posOrigen = geocodificar(origen);
             GeoPosition posDestino = geocodificar(destino);
 
             if (posOrigen == null || posDestino == null) {
-                LOGGER.severe("No se pudieron obtener coordenadas para origen/destino");
-                return new RutaResponseDTO(origen, destino, null, null, null, null,
-                        0, 0, 0, false, false);
+                LOGGER.severe("No se pudieron obtener coordenadas");
+                return new RutaResponseDTO(origen, destino, null, null, null, null, 
+                        0.0, 0, 0.0, false, false);
             }
+
             String url = "https://api.mapbox.com/directions/v5/mapbox/driving/"
                     + posOrigen.getLongitude() + "," + posOrigen.getLatitude()
                     + ";" + posDestino.getLongitude() + "," + posDestino.getLatitude()
@@ -68,64 +69,45 @@ public class MapBoxService implements IMapBoxService {
             JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
 
             if (!obj.has("routes") || obj.getAsJsonArray("routes").isEmpty()) {
-                LOGGER.severe("La respuesta de Mapbox no contiene rutas: " + json);
+                LOGGER.severe("Mapbox no devolvió rutas");
                 return new RutaResponseDTO(origen, destino,
                         posOrigen.getLatitude(), posOrigen.getLongitude(),
                         posDestino.getLatitude(), posDestino.getLongitude(),
-                        0, 0, 0, true, false);
+                        0.0, 0, 0.0, true, false);
             }
-
             JsonObject route = obj.getAsJsonArray("routes").get(0).getAsJsonObject();
-            JsonObject geometry = route.getAsJsonObject("geometry");
-            JsonArray coordinates = geometry.getAsJsonArray("coordinates");
+            JsonArray coordinates = route.getAsJsonObject("geometry").getAsJsonArray("coordinates");
 
-            List<Ubicacion> puntosReales = new ArrayList<>();
+            List<double[]> coords = new ArrayList<>();
             for (int i = 0; i < coordinates.size(); i++) {
                 JsonArray coord = coordinates.get(i).getAsJsonArray();
-                double lng = coord.get(0).getAsDouble();
-                double lat = coord.get(1).getAsDouble();
-
-                String desc = "En camino...";
-                if (i == 0) {
-                    desc = "Llegó al origen";
-                }
-                if (i == coordinates.size() - 1) {
-                    desc = "Destino";
-                }
-
-                puntosReales.add(new Ubicacion(lat, lng, desc));
+                coords.add(new double[]{coord.get(0).getAsDouble(), coord.get(1).getAsDouble()});
             }
 
-            SeguimientoEntregaDAO.getInstance().setRutaReal(puntosReales);
-            double distanciaKm = route.get("distance").getAsDouble() / 1000.0;
-            int etaMin = (int) Math.round(route.get("duration").getAsDouble() / 60.0);
-
-            double costo = calcularCosto(distanciaKm);
-
-            return new RutaResponseDTO(origen, destino,
+            MapboxRouteDTO mapboxRoute = new MapboxRouteDTO(
+                    route.get("distance").getAsDouble(),
+                    route.get("duration").getAsDouble(),
+                    coords,
                     posOrigen.getLatitude(), posOrigen.getLongitude(),
                     posDestino.getLatitude(), posDestino.getLongitude(),
-                    distanciaKm, etaMin, costo, true, true);
+                    origen, destino
+            );
+            return new AdapterMapboxRouteARutaResponseDTO().adaptar(mapboxRoute);
 
-        } catch (IOException e) {
-            LOGGER.severe("Error de red al llamar a Mapbox: " + e.getMessage());
-            return new RutaResponseDTO(origen, destino, null, null, null, null,
-                    0, 0, 0, false, false);
-        } catch (com.google.gson.JsonParseException e) {
-            LOGGER.severe("Error al parsear JSON de Mapbox: " + e.getMessage());
-            return new RutaResponseDTO(origen, destino, null, null, null, null,
-                    0, 0, 0, false, false);
-        } catch (Exception e) {
-            LOGGER.severe("Error inesperado en obtenerRuta: " + e.getMessage());
-            return new RutaResponseDTO(origen, destino, null, null, null, null,
-                    0, 0, 0, false, false);
+        } catch (IOException | JsonParseException  ex) {
+            return new RutaResponseDTO(origen, destino, null, null, null, null, 0.0, 0, 0.0, false, false);
+        } catch (org.apache.hc.core5.http.ParseException ex) {
+            Logger.getLogger(MapBoxService.class.getName()).log(Level.SEVERE, null, ex);
+            return new RutaResponseDTO(origen, destino, null, null, null, null, 0.0, 0, 0.0, false, false);
         }
     }
 
     @Override
     public UbicacionDTO obtenerSiguienteUbicacion() {
         Ubicacion entidad = dao.obtenerSiguiente();
-        if (entidad == null) return null;
+        if (entidad == null) {
+            return null;
+        }
 
         return new UbicacionDTO(
                 entidad.getLatitud(),
@@ -161,19 +143,19 @@ public class MapBoxService implements IMapBoxService {
 
             return new GeoPosition(lat, lng);
 
-        } catch (Exception e) {
-            LOGGER.severe("Error al geocodificar dirección: " + direccion + " -> " + e.getMessage());
+        } catch (Exception ex) {
+            LOGGER.severe("Error al geocodificar dirección: " + direccion + " -> " + ex.getMessage());
             return null;
         }
     }
 
-    private String llamarServicio(String url) throws IOException, ParseException {
+    private String llamarServicio(String url) throws IOException, org.apache.hc.core5.http.ParseException {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(url);
             try (CloseableHttpResponse response = client.execute(request)) {
                 if (response.getCode() != 200) {
                     LOGGER.severe("Error HTTP al llamar a Mapbox: código " + response.getCode());
-                    return "{}"; // Devuelve JSON vacío para no romper el parser
+                    return "{}"; 
                 }
                 return EntityUtils.toString(response.getEntity());
             }

@@ -1,9 +1,9 @@
-package com.mycompany.motoamigopersistencia;
+package com.mycompany.infraestructura;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mycompany.motoamigodto.UbicacionDTO;
+import com.mycompany.Entidades.Ubicacion;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -26,8 +26,8 @@ public class UbicacionDAO implements IUbicacionDAO {
     private static final String URL_BASE = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 
     @Override
-    public List<UbicacionDTO> buscarUbicacion(String query) throws Exception {
-        List<UbicacionDTO> lista = new ArrayList<>();
+    public List<Ubicacion> buscarUbicacion(String query) throws Exception {
+        List<Ubicacion> lista = new ArrayList<>();
 
         String urlStr = URL_BASE
                 + URLEncoder.encode(query, "UTF-8")
@@ -64,8 +64,8 @@ public class UbicacionDAO implements IUbicacionDAO {
             JsonArray coords = feature.getAsJsonObject("geometry")
                     .getAsJsonArray("coordinates");
 
-            UbicacionDTO dto = new UbicacionDTO(coords.get(1).getAsDouble(),coords.get(0).getAsDouble(),feature.get("place_name").getAsString());
-            lista.add(dto);
+            Ubicacion ubic = new Ubicacion(coords.get(1).getAsDouble(),coords.get(0).getAsDouble(),feature.get("place_name").getAsString());
+            lista.add(ubic);
         }
 
         return lista;

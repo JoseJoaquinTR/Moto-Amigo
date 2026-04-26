@@ -6,11 +6,17 @@ package com.mycompany.motoamigonegocio;
 
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
+import com.mycompany.motoamigodto.UbicacionDTO;
 
 /**
  *
  * @author calo2
  */
 public interface IRutaBO {
-     RutaResponseDTO calcularRuta(RutaRequestDTO request);
+
+    public RutaResponseDTO calcularRuta(RutaRequestDTO request);
+
+    public boolean haTerminadoRuta();
+
+    public UbicacionDTO obtenerSiguienteUbicacion();
 }

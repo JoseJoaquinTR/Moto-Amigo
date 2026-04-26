@@ -8,6 +8,7 @@
     <modules>
         <module>../MotoAmigoDto</module>
         <module>../MotoAmigoPersistencia</module>
+        <module>../Infraestructura</module> 
         <module>../MotoAmigoNegocio</module>
         <module>../CUSolicitarEntrega</module>
         <module>../MotoAmigoPresentacion</module>

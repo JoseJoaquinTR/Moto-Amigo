@@ -1,39 +1,34 @@
 package com.mycompany.cusolicitarentrega;
 
-import com.consultarruta.servicios.mapBox.IMapBoxService;
-import com.consultarruta.servicios.mapBox.MapBoxService;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
-import com.mycompany.motoamigonegocio.RepartidorBO;
+import com.mycompany.motoamigonegocio.FachadaNegocio;
+import com.mycompany.motoamigonegocio.IFachadaNegocio;
 
 public class FuncionalidadSeguimiento implements IFuncionalidadSeguimiento {
 
-    private final IMapBoxService mapBoxService;
-    private int pasos = 0;
-    private final int TOTAL_PASOS = 12;
+    private final IFachadaNegocio fachada;
 
-    private FuncionalidadSeguimiento(IMapBoxService mapBoxService) {
-        this.mapBoxService = mapBoxService;
+    private FuncionalidadSeguimiento(IFachadaNegocio fachada) {
+        this.fachada = fachada;
     }
 
     public static FuncionalidadSeguimiento crear() {
-        return new FuncionalidadSeguimiento(MapBoxService.getInstance());
+        return new FuncionalidadSeguimiento(FachadaNegocio.crear());
     }
 
     @Override
     public boolean haTerminado() {
-        return mapBoxService.comprobarSiFinalizoRuta();
-
+        return fachada.haTerminadoRuta();
     }
 
     @Override
     public UbicacionDTO obtenerSiguiente() {
-        return mapBoxService.obtenerSiguienteUbicacion();
+        return fachada.obtenerSiguienteUbicacion();
     }
 
     @Override
     public RepartidorDTO obtenerRepartidorAsignado(Long idRepartidor) {
-        RepartidorBO bo = new RepartidorBO();
-        return bo.obtenerRepartidorPorId(idRepartidor);
+        return fachada.obtenerRepartidorPorId(idRepartidor);
     }
 }

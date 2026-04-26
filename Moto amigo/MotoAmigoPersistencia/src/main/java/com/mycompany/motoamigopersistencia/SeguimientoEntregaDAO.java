@@ -19,7 +19,6 @@ public class SeguimientoEntregaDAO implements ISeguimientoEntregaDAO {
     private static SeguimientoEntregaDAO instancia;
 
     private SeguimientoEntregaDAO() {
-        // Constructor vacío: ya no simula datos fijos
     }
 
     public static SeguimientoEntregaDAO getInstance() {
@@ -34,7 +33,7 @@ public class SeguimientoEntregaDAO implements ISeguimientoEntregaDAO {
      */
     public void setRutaReal(List<Ubicacion> nuevaRuta) {
         this.ruta = nuevaRuta;
-        this.indice = 0; // Reiniciar seguimiento
+        this.indice = 0; 
     }
 
     @Override

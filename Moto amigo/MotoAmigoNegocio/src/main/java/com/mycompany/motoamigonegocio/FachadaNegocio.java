@@ -4,13 +4,15 @@
  */
 package com.mycompany.motoamigonegocio;
 
+import com.mycompany.infraestructura.MapBoxService;
 import com.mycompany.motoamigodto.EmprendedorDTO;
 import com.mycompany.motoamigodto.IncidenteDTO;
+import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
+import com.mycompany.motoamigodto.UbicacionDTO;
 
 public class FachadaNegocio implements IFachadaNegocio {
-
 
     /**
      * Lógica de negocio para rutas.
@@ -25,7 +27,9 @@ public class FachadaNegocio implements IFachadaNegocio {
     public FachadaNegocio(IRutaBO rutaBO) {
         this.rutaBO = rutaBO;
     }
-
+    public static FachadaNegocio crear() {
+        return new FachadaNegocio(new RutaBO(MapBoxService.getInstance()));
+    }
     @Override
     public void registrarEmprendedor(EmprendedorDTO emprendedorDTO) throws NegocioException {
         EmprendedorBO.registrarEmprendedor(emprendedorDTO);
@@ -39,5 +43,21 @@ public class FachadaNegocio implements IFachadaNegocio {
     @Override
     public RutaResponseDTO calcularRuta(RutaRequestDTO rutaRequestDTO) throws NegocioException {
         return rutaBO.calcularRuta(rutaRequestDTO);
+    }
+
+    @Override
+    public boolean haTerminadoRuta() {
+        return rutaBO.haTerminadoRuta();
+    }
+
+    @Override
+    public UbicacionDTO obtenerSiguienteUbicacion() {
+        return rutaBO.obtenerSiguienteUbicacion();
+    }
+
+    @Override
+    public RepartidorDTO obtenerRepartidorPorId(Long idRepartidor) {
+        RepartidorBO bo = new RepartidorBO();
+        return bo.obtenerRepartidorPorId(idRepartidor);
     }
 }

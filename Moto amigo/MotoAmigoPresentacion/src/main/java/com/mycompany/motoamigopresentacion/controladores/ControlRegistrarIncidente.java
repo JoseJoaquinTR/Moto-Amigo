@@ -6,9 +6,9 @@ package com.mycompany.motoamigopresentacion.controladores;
 
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.IncidenteDTO;
-import com.mycompany.motoamigopresentacion.FrmEstadoReporte;
-import com.mycompany.motoamigopresentacion.FrmFormularioIncidente;
-import com.mycompany.motoamigopresentacion.FrmSeguimientoEnTiempoReal;
+import com.mycompany.motoamigopresentacion.FrmEstadoReporteRepartidor;
+import com.mycompany.motoamigopresentacion.FrmFormularioIncidenteRepartidor;
+import com.mycompany.motoamigopresentacion.FrmSeguimientoTiempoRealRepartidor;
 
 import javax.swing.JOptionPane;
 
@@ -16,15 +16,15 @@ public class ControlRegistrarIncidente {
 
     private EntregaDTO entregaActual;
     private IncidenteDTO incidenteNuevo;
-
-    private FrmFormularioIncidente frmFormulario;
-    private FrmEstadoReporte frmEstado;
+    private Long idEntregaActual = 101L;
+    private FrmFormularioIncidenteRepartidor frmFormulario;
+    private FrmEstadoReporteRepartidor frmEstado;
 
     private static ControlRegistrarIncidente instancia;
 
     private ControlRegistrarIncidente() {
-        entregaActual = new EntregaDTO(101, "Polanco 45", "Caja", "DISPONIBLE");
-        incidenteNuevo = new IncidenteDTO();
+        entregaActual = new EntregaDTO( "Polanco 45", "Caja", "DISPONIBLE");
+        
     }
 
     public static ControlRegistrarIncidente getInstance() {
@@ -34,8 +34,8 @@ public class ControlRegistrarIncidente {
         return instancia;
     }
 
-    public void irAFormularioIncidente(FrmSeguimientoEnTiempoReal frmMapa) {
-        FrmFormularioIncidente frm = new FrmFormularioIncidente(frmMapa);
+    public void irAFormularioIncidente(FrmSeguimientoTiempoRealRepartidor frmMapa) {
+        FrmFormularioIncidenteRepartidor frm = new FrmFormularioIncidenteRepartidor(frmMapa);
         frm.setVisible(true);
         frmMapa.setVisible(false);
     }
@@ -45,14 +45,16 @@ public class ControlRegistrarIncidente {
             JOptionPane.showMessageDialog(frmFormulario, "Error: Debes seleccionar un incidente", "Datos Inválidos", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        incidenteNuevo = new IncidenteDTO(tipoIncidenteSeleccionado,"");
 
-        incidenteNuevo.setTipoIncidente(tipoIncidenteSeleccionado);
-        incidenteNuevo.setIdEntregaAsociada(entregaActual.getIdEntrega());
-
-        entregaActual.setEstadoEntrega("NO COMPLETADA");
+        entregaActual = new EntregaDTO(
+            entregaActual.getDireccionDestino(),
+            entregaActual.getTipoPaquete(),
+            "NO COMPLETADA"
+        );
         frmFormulario.dispose();
 
-        frmEstado = new FrmEstadoReporte(this, entregaActual, incidenteNuevo);
+        frmEstado = new FrmEstadoReporteRepartidor(this, entregaActual, incidenteNuevo);
         frmEstado.setVisible(true);
     }
 
@@ -62,8 +64,12 @@ public class ControlRegistrarIncidente {
      * observer a los repartidores disponibles cuando se implemente.
      */
     public void cancelarPedidoPorNoRecoleccion() {
-        entregaActual.setEstadoEntrega("DISPONIBLE");
+        entregaActual = new EntregaDTO(
+            entregaActual.getDireccionDestino(),
+            entregaActual.getTipoPaquete(),
+            "DISPONIBLE"
+        );
         // TODO: notificarObservers(entregaActual); 
-        System.out.println("Pedido " + entregaActual.getIdEntrega() + " cancelado y puesto como DISPONIBLE");
+        System.out.println("Pedido " + idEntregaActual + " cancelado y puesto como DISPONIBLE");
     }
 }

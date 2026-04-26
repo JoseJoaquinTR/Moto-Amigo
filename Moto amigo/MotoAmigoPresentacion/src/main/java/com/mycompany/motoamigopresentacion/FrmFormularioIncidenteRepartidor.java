@@ -24,14 +24,14 @@ import panelesUtilerias.PanelHeader;
  *
  * @author Dell
  */
-public class FrmFormularioIncidente extends javax.swing.JFrame {
+public class FrmFormularioIncidenteRepartidor extends javax.swing.JFrame {
 
     private String incidenteSeleccionado = null;
-    private FrmSeguimientoEnTiempoReal frmMapa;
+    private FrmSeguimientoTiempoRealRepartidor frmMapa;
     private javax.swing.JTextArea txtDescripcionOtro;
     private javax.swing.JScrollPane scrollOtro;
 
-    public FrmFormularioIncidente(FrmSeguimientoEnTiempoReal frmMapa) {
+    public FrmFormularioIncidenteRepartidor(FrmSeguimientoTiempoRealRepartidor frmMapa) {
         this.frmMapa = frmMapa;
         initComponents();
         inicializarUI();

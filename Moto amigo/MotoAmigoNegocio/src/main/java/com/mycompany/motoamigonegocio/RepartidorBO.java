@@ -1,9 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.motoamigonegocio;
 
+import Adapter.AdapterRepartidorARepartidorDTO;
+import com.mycompany.Entidades.Repartidor;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigopersistencia.IRepartidorDAO;
 import com.mycompany.motoamigopersistencia.RepartidorDAO;
@@ -18,6 +17,7 @@ public class RepartidorBO implements IRepartidorBO{
 
     @Override
     public RepartidorDTO obtenerRepartidorPorId(Long idRepartidor) {
-        return dao.obtenerRepartidorPorId(idRepartidor);
+        Repartidor repa = dao.obtenerRepartidorPorId(idRepartidor); 
+        return new AdapterRepartidorARepartidorDTO().adaptar(repa);
     }
 }

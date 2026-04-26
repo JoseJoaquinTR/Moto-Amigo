@@ -6,26 +6,19 @@ package com.mycompany.motoamigodto;
 
 public class IncidenteDTO {
 
-    private int idEntregaAsociada;
-    private String tipoIncidente; 
+    private String tipoIncidente;
+    private String descripcion;
 
-    public IncidenteDTO() {
-    }
-
-    // Getters y Setters
-    public int getIdEntregaAsociada() {
-        return idEntregaAsociada;
-    }
-
-    public void setIdEntregaAsociada(int idEntregaAsociada) {
-        this.idEntregaAsociada = idEntregaAsociada;
+    public IncidenteDTO(String tipoIncidente, String descripcion) {
+        this.tipoIncidente = tipoIncidente;
+        this.descripcion = descripcion;
     }
 
     public String getTipoIncidente() {
         return tipoIncidente;
     }
 
-    public void setTipoIncidente(String tipoIncidente) {
-        this.tipoIncidente = tipoIncidente;
+    public String getDescripcion() {
+        return descripcion;
     }
 }

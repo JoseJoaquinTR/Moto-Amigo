@@ -4,9 +4,10 @@
  */
 package com.mycompany.motoamigonegocio;
 
-import com.consultarruta.servicios.mapBox.IMapBoxService;
+import com.mycompany.infraestructura.IMapBoxService;
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
+import com.mycompany.motoamigodto.UbicacionDTO;
 
 /**
  *
@@ -15,9 +16,19 @@ import com.mycompany.motoamigodto.RutaResponseDTO;
 public class RutaBO implements IRutaBO {
 
     private IMapBoxService mapbox;
+    private CalculadoraDistanciasManager calculadora;
 
     public RutaBO(IMapBoxService mapbox) {
         this.mapbox = mapbox;
+        this.calculadora = new CalculadoraDistanciasManager(new DistanciaAutomovilStrategy());
+    }
+
+    public void setTipoTransporte(String tipoTransporte) {
+        if (tipoTransporte != null && tipoTransporte.equalsIgnoreCase("bicicleta")) {
+            calculadora.setStrategy(new DistanciaBicicletaStrategy());
+        } else {
+            calculadora.setStrategy(new DistanciaAutomovilStrategy());
+        }
     }
 
     @Override
@@ -27,31 +38,24 @@ public class RutaBO implements IRutaBO {
             return new RutaResponseDTO(
                     dto.getDireccionRecoleccion(),
                     dto.getDireccionEntrega(),
-                    0,
                     false,
-                    0
+                    false
             );
         }
-
-        RutaResponseDTO ruta = mapbox.obtenerRuta(
+        return mapbox.obtenerRuta(
                 dto.getDireccionRecoleccion(),
                 dto.getDireccionEntrega()
         );
-
-        if (!ruta.isRutaValida()) {
-            return ruta;
-        }
-
-        Double costoCalculado = calcularCosto(ruta.getTiempoEstimado());
-        ruta.setCosto(costoCalculado);
-
-        return ruta;
     }
 
-    private double calcularCosto(int tiempoEstimado) {
-        double costoBase = 10.0; 
-        double tarifaMinuto = 1.0; 
-        return costoBase + (tarifaMinuto * tiempoEstimado);
+    @Override
+    public boolean haTerminadoRuta() {
+        return mapbox.comprobarSiFinalizoRuta();
     }
-    
+
+    @Override
+    public UbicacionDTO obtenerSiguienteUbicacion() {
+        return mapbox.obtenerSiguienteUbicacion();
+    }
 }
+

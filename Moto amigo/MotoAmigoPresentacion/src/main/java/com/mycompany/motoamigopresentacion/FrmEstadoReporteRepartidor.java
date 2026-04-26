@@ -9,11 +9,11 @@ import com.mycompany.motoamigodto.IncidenteDTO;
  *
  * @author Dell
  */
-public class FrmEstadoReporte extends javax.swing.JFrame {
+public class FrmEstadoReporteRepartidor extends javax.swing.JFrame {
 
     private ControlRegistrarIncidente control;
 
-    public FrmEstadoReporte(ControlRegistrarIncidente control, EntregaDTO entrega, IncidenteDTO incidente) {
+    public FrmEstadoReporteRepartidor(ControlRegistrarIncidente control, EntregaDTO entrega, IncidenteDTO incidente) {
         this.control = control;
         initComponents();
     setLocationRelativeTo(null);

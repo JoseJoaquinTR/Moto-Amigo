@@ -36,7 +36,7 @@ public class ControlSolicitarEntrega {
     }
 
     public RutaResponseDTO obtenerRuta(String origen, String destino) {
-        IConsultarRuta cu = new ConsultarRuta(null); 
+        IConsultarRuta cu = new ConsultarRuta(); 
         RutaRequestDTO request = new RutaRequestDTO(origen, destino);
         return cu.consultarRuta(request);
     }

@@ -1,5 +1,7 @@
 package com.mycompany.motoamigonegocio;
 
+import Adapter.AdapterRepartidorARepartidorDTO;
+import com.mycompany.Entidades.Repartidor;
 import java.util.List;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
@@ -25,7 +27,8 @@ public class GestionRepartidores implements IGestionRepartidores {
 
     @Override
     public List<RepartidorDTO> obtenerRepartidoresDisponibles() {
-        return repartidorDAO.obtenerRepartidoresDisponibles();
+        List<Repartidor> lista = repartidorDAO.obtenerRepartidoresDisponibles();
+        return new AdapterRepartidorARepartidorDTO().adaptarLista(lista);
     }
 
     @Override

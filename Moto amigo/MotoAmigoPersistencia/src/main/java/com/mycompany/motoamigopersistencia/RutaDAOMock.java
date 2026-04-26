@@ -5,6 +5,7 @@
 
 package com.mycompany.motoamigopersistencia;
 
+import com.mycompany.Entidades.Ruta;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 
 /**

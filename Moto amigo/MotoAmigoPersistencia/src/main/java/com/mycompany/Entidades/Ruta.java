@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.motoamigopersistencia;
+package com.mycompany.Entidades;
 
 /**
  *
@@ -12,7 +12,7 @@ public class Ruta {
 
     private String direccionRecoleccion;
     private String direccionEntrega;
-    private int tiempoEstimado; // minutos
+    private int tiempoEstimado; 
 
     public Ruta(String direccionRecoleccion, String direccionEntrega, int tiempoEstimado) {
         this.direccionRecoleccion = direccionRecoleccion;

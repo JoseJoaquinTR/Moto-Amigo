@@ -27,7 +27,7 @@ import panelesUtilerias.PanelHeader;
  *
  * @author joset
  */
-public class FrmSeguimientoEnTiempoReal_Emprendedor extends javax.swing.JFrame {
+public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame {
 
     private JXMapViewer mapViewer;
     private WaypointPainter<DefaultWaypoint> waypointPainter;
@@ -39,7 +39,7 @@ public class FrmSeguimientoEnTiempoReal_Emprendedor extends javax.swing.JFrame {
     /**
      * Creates new form FrmSeguimientoEnTiempoReal_Emprendedor
      */
-    public FrmSeguimientoEnTiempoReal_Emprendedor(RutaResponseDTO ruta) {
+    public FrmSeguimientoEnTiempoRealEmprendedor(RutaResponseDTO ruta) {
         this.ruta = ruta;
         this.funcionalidad = FuncionalidadSeguimiento.crear();
         initComponents();

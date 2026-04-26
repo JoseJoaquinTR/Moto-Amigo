@@ -19,13 +19,13 @@ import panelesUtilerias.PanelRedondeado;
  *
  * @author xiomi
  */
-public class FrmPublicarARepartidores extends javax.swing.JFrame {
+public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
 
     private ControlSolicitarEntrega control = ControlSolicitarEntrega.getInstance();
     private SolicitudEntregaDTO solicitud;
     
 
-    public FrmPublicarARepartidores(SolicitudEntregaDTO solicitud) {
+    public FrmPublicarPedidoRepartidor(SolicitudEntregaDTO solicitud) {
         initComponents();
         
         utileriasBotones.btnRedondeadoNegro(btn_aceptar);
@@ -331,7 +331,7 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
             if (rutaReal != null) {
                 JOptionPane.showMessageDialog(this, "Pedido aceptado. Iniciando navegación.");
 
-                FrmSeguimientoEnTiempoReal seguimiento = new FrmSeguimientoEnTiempoReal(rutaReal);
+                FrmSeguimientoTiempoRealRepartidor seguimiento = new FrmSeguimientoTiempoRealRepartidor(rutaReal);
                 seguimiento.setVisible(true);
 
                 this.dispose();

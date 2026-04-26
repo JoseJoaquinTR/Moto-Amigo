@@ -4,9 +4,11 @@
  */
 package com.mycompany.motoamigonegocio;
 
+import Adapter.AdapterUbicacionAUbicacionDTO;
+import com.mycompany.Entidades.Ubicacion;
 import com.mycompany.motoamigodto.UbicacionDTO;
-import com.mycompany.motoamigopersistencia.IUbicacionDAO;
-import com.mycompany.motoamigopersistencia.UbicacionDAO;
+import com.mycompany.infraestructura.IUbicacionDAO;
+import com.mycompany.infraestructura.UbicacionDAO;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +36,8 @@ public class UbicacionBO implements IUbicacionBO {
     public List<UbicacionDTO> buscarUbicacion(String texto) throws NegocioException{
 
         try {
-            return dao.buscarUbicacion(texto.trim());
+            List<Ubicacion> entidades = dao.buscarUbicacion(texto.trim());
+            return new AdapterUbicacionAUbicacionDTO().adaptarLista(entidades);
         } catch (Exception ex) {
             Logger.getLogger(UbicacionBO.class.getName()).log(Level.SEVERE, null, ex);
             throw new NegocioException("Error"+ex.getMessage(),null);

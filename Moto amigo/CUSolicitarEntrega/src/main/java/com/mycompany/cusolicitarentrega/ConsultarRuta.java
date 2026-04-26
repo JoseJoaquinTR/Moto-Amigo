@@ -5,7 +5,6 @@ import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigonegocio.FachadaNegocio;
 import com.mycompany.motoamigonegocio.IFachadaNegocio;
-import com.mycompany.motoamigonegocio.IRutaBO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,8 +17,8 @@ public class ConsultarRuta implements IConsultarRuta {
 
     private IFachadaNegocio fachada;
 
-    public ConsultarRuta(IRutaBO negocio) {
-        this.fachada = new FachadaNegocio(negocio);
+    public ConsultarRuta() {
+        this.fachada = FachadaNegocio.crear();
     }
 
     @Override

@@ -4,15 +4,22 @@ import Utilerias.utileriasBotones;
 import com.mycompany.cusolicitarentrega.BuscarUbicacion;
 import com.mycompany.cusolicitarentrega.IBuscarUbicacion;
 import com.mycompany.motoamigodto.RutaRequestDTO;
+import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
 import com.mycompany.motoamigopresentacion.controladores.ControlSolicitarEntrega;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -25,25 +32,95 @@ import panelesUtilerias.PanelHeader;
  *
  * @author xiomi
  */
-public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFrame {
+public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
 
     private ControlSolicitarEntrega control = ControlSolicitarEntrega.getInstance();
-    
+
     private final IBuscarUbicacion buscarUbicacion = new BuscarUbicacion();
     private JPopupMenu popupOrigen;
     private JPopupMenu popupDestino;
     private double origenLat, origenLng;
     private double destinoLat, destinoLng;
-    
-    public FrmPublicarARepartidores_vistaEmprendedor() {
+    private JButton btnCajaPaquete;
+    private JButton btnSobreDoc;
+    private JPanel panelDimensiones;
+    private JTextField txtLargo;
+    private JTextField txtAncho;
+    private JTextField txtAlto;
+    private JLabel lblAlto;
+    private String tipoSeleccionado = null;
+
+    public FrmPublicarPedidosEmprendedor() {
         initComponents();
-        Color bg = new Color(248, 250, 252);
-        this.getContentPane().setBackground(bg);
-        iniciarAutocompletado();
+
+        this.getContentPane().setBackground(new Color(248, 250, 252));
         setLayout(new AbsoluteLayout());
         add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
-        utileriasBotones.btnRedondeadoNegro(btn_solicitar);
+
+        iniciarUI();
+        iniciarAutocompletado();
         setLocationRelativeTo(null);
+    }
+
+    private void iniciarUI() {
+        utileriasBotones.btnRedondeadoNegro(btn_solicitar);
+
+        Rectangle rCaja = new Rectangle(41, 220, 382, 86);
+        Rectangle rSobre = new Rectangle(571, 220, 382, 86);
+
+        // Botón Caja/Paquete
+        btnCajaPaquete = new JButton("Caja/Paquete");
+        btnCajaPaquete.setBackground(new Color(255, 247, 237));
+        btnCajaPaquete.setForeground(new Color(255, 105, 0));
+        btnCajaPaquete.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btnCajaPaquete.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(255, 105, 0)));
+        btnCajaPaquete.setFocusPainted(false);
+        btnCajaPaquete.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnCajaPaquete.setBounds(rCaja);
+        btnCajaPaquete.addActionListener(e -> seleccionarTipo("caja"));
+
+        // Botón Sobre/Doc
+        btnSobreDoc = new JButton("Sobre/Doc");
+        btnSobreDoc.setBackground(new Color(255, 247, 237));
+        btnSobreDoc.setForeground(new Color(255, 105, 0));
+        btnSobreDoc.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btnSobreDoc.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(255, 105, 0)));
+        btnSobreDoc.setFocusPainted(false);
+        btnSobreDoc.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnSobreDoc.setBounds(rSobre);
+        btnSobreDoc.addActionListener(e -> seleccionarTipo("sobre"));
+
+        // Panel de dimensiones
+        panelDimensiones = new JPanel(null);
+        panelDimensiones.setBackground(Color.WHITE);
+        panelDimensiones.setBounds(rCaja.x, rCaja.y + rCaja.height + 10, rSobre.x + rSobre.width - rCaja.x, 120);
+        panelDimensiones.setVisible(false);
+
+        JLabel lblLargo = new JLabel("Largo (cm):");
+        lblLargo.setBounds(0, 0, 100, 25);
+        txtLargo = new JTextField();
+        txtLargo.setBounds(110, 0, 150, 25);
+
+        JLabel lblAncho = new JLabel("Ancho (cm):");
+        lblAncho.setBounds(0, 35, 100, 25);
+        txtAncho = new JTextField();
+        txtAncho.setBounds(110, 35, 150, 25);
+
+        lblAlto = new JLabel("Alto (cm):");
+        lblAlto.setBounds(0, 70, 100, 25);
+        txtAlto = new JTextField();
+        txtAlto.setBounds(110, 70, 150, 25);
+
+        panelDimensiones.add(lblLargo);
+        panelDimensiones.add(txtLargo);
+        panelDimensiones.add(lblAncho);
+        panelDimensiones.add(txtAncho);
+        panelDimensiones.add(lblAlto);
+        panelDimensiones.add(txtAlto);
+
+        jPanel1.add(btnCajaPaquete);
+        jPanel1.add(btnSobreDoc);
+        jPanel1.add(panelDimensiones);
     }
 
     private void iniciarAutocompletado() {
@@ -53,6 +130,30 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
         configurarCampo(txt_destino, popupDestino, false);
     }
 
+    private void seleccionarTipo(String tipo) {
+        tipoSeleccionado = tipo;
+
+        if (tipo.equals("caja")) {
+            btnCajaPaquete.setBackground(new Color(255, 105, 0));
+            btnCajaPaquete.setForeground(Color.WHITE);
+            btnSobreDoc.setBackground(new Color(255, 247, 237));
+            btnSobreDoc.setForeground(new Color(255, 105, 0));
+            lblAlto.setVisible(true);
+            txtAlto.setVisible(true);
+        } else {
+            btnSobreDoc.setBackground(new Color(255, 105, 0));
+            btnSobreDoc.setForeground(Color.WHITE);
+            btnCajaPaquete.setBackground(new Color(255, 247, 237));
+            btnCajaPaquete.setForeground(new Color(255, 105, 0));
+            lblAlto.setVisible(false);
+            txtAlto.setVisible(false);
+        }
+
+        panelDimensiones.setVisible(true);
+        jPanel1.revalidate();
+        jPanel1.repaint();
+    }
+
     private void configurarCampo(JTextField campo, JPopupMenu popup, boolean esOrigen) {
         Timer[] timer = {null};
 
@@ -60,10 +161,7 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
             @Override
             public void keyReleased(KeyEvent e) {
                 int key = e.getKeyCode();
-                if (key == KeyEvent.VK_UP
-                        || key == KeyEvent.VK_DOWN
-                        || key == KeyEvent.VK_ENTER
-                        || key == KeyEvent.VK_ESCAPE) {
+                if (key == KeyEvent.VK_UP || key == KeyEvent.VK_DOWN || key == KeyEvent.VK_ENTER || key == KeyEvent.VK_ESCAPE) {
                     return;
                 }
 
@@ -89,7 +187,7 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
     }
 
     private void mostrarPopup(JTextField campo, JPopupMenu popup, List<UbicacionDTO> sugerencias, boolean esOrigen) {
-        popup.setBorder(BorderFactory.createLineBorder(new Color(255, 102, 0), 1)); // borde naranja como tu tema
+        popup.setBorder(BorderFactory.createLineBorder(new Color(255, 102, 0), 1));
         popup.setBackground(Color.WHITE);
         popup.removeAll();
 
@@ -101,21 +199,21 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
         for (UbicacionDTO dto : sugerencias) {
             JMenuItem item = new JMenuItem(dto.getDescripcion());
             item.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-            item.setBackground(java.awt.Color.WHITE);
-            item.setForeground(java.awt.Color.DARK_GRAY);
+            item.setBackground(Color.WHITE);
+            item.setForeground(Color.DARK_GRAY);
             item.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
             item.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseEntered(java.awt.event.MouseEvent e) {
-                    item.setBackground(new java.awt.Color(255, 102, 0)); // naranja
-                    item.setForeground(java.awt.Color.WHITE);
+                    item.setBackground(new Color(255, 102, 0));
+                    item.setForeground(Color.WHITE);
                 }
 
                 @Override
                 public void mouseExited(java.awt.event.MouseEvent e) {
-                    item.setBackground(java.awt.Color.WHITE);
-                    item.setForeground(java.awt.Color.DARK_GRAY);
+                    item.setBackground(Color.WHITE);
+                    item.setForeground(Color.DARK_GRAY);
                 }
             });
             item.addActionListener(e -> {
@@ -125,15 +223,11 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
                 if (esOrigen) {
                     origenLat = dto.getLatitud();
                     origenLng = dto.getLongitud();
-                    System.out.println("Origen seleccionado: "
-                            + dto.getDescripcion()
-                            + " [" + origenLng + ", " + origenLat + "]");
+                    System.out.println("Origen seleccionado: " + dto.getDescripcion() + " [" + origenLng + ", " + origenLat + "]");
                 } else {
                     destinoLat = dto.getLatitud();
                     destinoLng = dto.getLongitud();
-                    System.out.println("Destino seleccionado: "
-                            + dto.getDescripcion()
-                            + " [" + destinoLng + ", " + destinoLat + "]");
+                    System.out.println("Destino seleccionado: " + dto.getDescripcion() + " [" + destinoLng + ", " + destinoLat + "]");
                 }
             });
 
@@ -160,8 +254,6 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
         txt_origen = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txt_destino = new javax.swing.JTextField();
-        txt_caja_paquete = new javax.swing.JTextField();
-        txt_sobre_doc = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txt_peso = new javax.swing.JTextField();
         btn_solicitar = new javax.swing.JButton();
@@ -200,26 +292,6 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
         txt_destino.setForeground(new java.awt.Color(102, 102, 102));
         txt_destino.setText("Ej. Calle Nainari 316");
 
-        txt_caja_paquete.setEditable(false);
-        txt_caja_paquete.setBackground(new java.awt.Color(255, 247, 237));
-        txt_caja_paquete.setColumns(5);
-        txt_caja_paquete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txt_caja_paquete.setForeground(new java.awt.Color(255, 105, 0));
-        txt_caja_paquete.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_caja_paquete.setText("Caja/Paquete");
-        txt_caja_paquete.setToolTipText("");
-        txt_caja_paquete.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 105, 0)));
-
-        txt_sobre_doc.setEditable(false);
-        txt_sobre_doc.setBackground(new java.awt.Color(255, 247, 237));
-        txt_sobre_doc.setColumns(5);
-        txt_sobre_doc.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txt_sobre_doc.setForeground(new java.awt.Color(255, 105, 0));
-        txt_sobre_doc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_sobre_doc.setText("Sobre/Doc");
-        txt_sobre_doc.setToolTipText("");
-        txt_sobre_doc.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 105, 0)));
-
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setText("PESO APROXIMADO (KG) *");
@@ -247,10 +319,6 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txt_caja_paquete, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(148, 148, 148)
-                        .addComponent(txt_sobre_doc, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_origen, javax.swing.GroupLayout.PREFERRED_SIZE, 912, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,11 +342,7 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addComponent(txt_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_caja_paquete, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_sobre_doc, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txt_peso, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -293,13 +357,48 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_solicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_solicitarActionPerformed
-         
-    RutaRequestDTO request = new RutaRequestDTO(txt_origen.getText(),txt_destino.getText());
 
-    frmConsultarRuta pantalla = new frmConsultarRuta(request);
-    pantalla.setVisible(true);
+        if (txt_origen.getText().isBlank() || txt_destino.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Ingresa origen y destino.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    this.dispose();
+        if (tipoSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona el tipo de paquete.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            double largo = Double.parseDouble(txtLargo.getText().trim());
+            double ancho = Double.parseDouble(txtAncho.getText().trim());
+            double alto = tipoSeleccionado.equals("caja") ? Double.parseDouble(txtAlto.getText().trim()) : 0;
+            double peso = Double.parseDouble(txt_peso.getText().trim());
+
+            if (largo <= 0 || ancho <= 0 || (tipoSeleccionado.equals("caja") && alto <= 0) || peso <= 0) {
+                JOptionPane.showMessageDialog(this, "Las dimensiones y peso deben ser mayores a 0", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            SolicitudEntregaDTO solicitud = new SolicitudEntregaDTO(
+                    txt_origen.getText(),
+                    txt_destino.getText(),
+                    tipoSeleccionado.equals("caja") ? "Caja/Paquete" : "Sobre/Doc",
+                    peso,
+                    "Activo",
+                    0
+            );
+            solicitud.setLargo(largo);
+            solicitud.setAncho(ancho);
+            solicitud.setAlto(alto);
+
+            RutaRequestDTO request = new RutaRequestDTO(txt_origen.getText(), txt_destino.getText());
+            FrmConsultarRutaEmprendedor pantalla = new FrmConsultarRutaEmprendedor(request);
+            pantalla.setVisible(true);
+            this.dispose();
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Ingresa valores numéricos válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btn_solicitarActionPerformed
 
     private void txt_origenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_origenActionPerformed
@@ -319,10 +418,8 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txt_caja_paquete;
     private javax.swing.JTextField txt_destino;
     private javax.swing.JTextField txt_origen;
     private javax.swing.JTextField txt_peso;
-    private javax.swing.JTextField txt_sobre_doc;
     // End of variables declaration//GEN-END:variables
 }
