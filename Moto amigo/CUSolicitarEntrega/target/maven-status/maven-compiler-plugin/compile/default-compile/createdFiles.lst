@@ -1,0 +1,6 @@
+com\mycompany\cusolicitarentrega\BuscarUbicacion.class
+com\mycompany\cusolicitarentrega\FuncionalidadSeguimiento.class
+com\mycompany\cusolicitarentrega\IConsultarRuta.class
+com\mycompany\cusolicitarentrega\ConsultarRuta.class
+com\mycompany\cusolicitarentrega\IBuscarUbicacion.class
+com\mycompany\cusolicitarentrega\IFuncionalidadSeguimiento.class
