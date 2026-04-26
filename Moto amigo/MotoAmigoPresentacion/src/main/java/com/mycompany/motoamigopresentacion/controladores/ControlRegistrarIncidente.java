@@ -13,12 +13,11 @@ import com.mycompany.motoamigopresentacion.FrmSeguimientoEnTiempoReal;
 import javax.swing.JOptionPane;
 
 public class ControlRegistrarIncidente {
-
+    
     // Variables de estado "de mentiritas"
     private EntregaDTO entregaActual;
     private IncidenteDTO incidenteNuevo;
 
-    private FrmSeguimientoEnTiempoReal frmNavegacion;
     private FrmFormularioIncidente frmFormulario;
     private FrmEstadoReporte frmEstado;
 
@@ -38,14 +37,10 @@ public class ControlRegistrarIncidente {
 
     // --- MÉTODOS DE NAVEGACIÓN ---
     // 3. Transición cuando da clic en "Reportar"
-    public void irAFormularioIncidente() {
-        // Validación simulada del diagrama de secuencia
-        if (entregaActual.getEstadoEntrega().equals("EN CURSO")) {
-            frmNavegacion.dispose(); // Cierra ventana 2
-
-            frmFormulario = new FrmFormularioIncidente(this);
-            frmFormulario.setVisible(true); // Abre ventana 3
-        }
+    public void irAFormularioIncidente(FrmSeguimientoEnTiempoReal frmMapa) {
+        FrmFormularioIncidente frm = new FrmFormularioIncidente(this, frmMapa);
+        frm.setVisible(true);
+        frmMapa.setVisible(false);
     }
 
     // 4. Transición y lógica cuando da clic en "Confirmar Reporte"

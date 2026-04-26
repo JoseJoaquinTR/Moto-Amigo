@@ -168,7 +168,7 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
                     desbloquearDestino();
                     timer.start();
                 } else {
-                    control.irAFormularioIncidente();
+                    control.irAFormularioIncidente(this);
                     this.dispose();
                 }
             }
@@ -307,7 +307,7 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
     private void btnReportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportarActionPerformed
-        control.irAFormularioIncidente();
+        control.irAFormularioIncidente(this);
     }//GEN-LAST:event_btnReportarActionPerformed
 
 

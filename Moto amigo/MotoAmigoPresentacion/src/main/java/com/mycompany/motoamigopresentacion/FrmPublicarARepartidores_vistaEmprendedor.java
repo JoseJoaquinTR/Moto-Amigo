@@ -1,5 +1,6 @@
 package com.mycompany.motoamigopresentacion;
 
+import Utilerias.utileriasBotones;
 import com.mycompany.cusolicitarentrega.BuscarUbicacion;
 import com.mycompany.cusolicitarentrega.IBuscarUbicacion;
 import com.mycompany.motoamigodto.RutaRequestDTO;
@@ -41,6 +42,7 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
         iniciarAutocompletado();
         setLayout(new AbsoluteLayout());
         add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
+        utileriasBotones.btnRedondeadoNegro(btn_solicitar);
     }
 
     private void iniciarAutocompletado() {
@@ -168,7 +170,6 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Solicitud de Entrega");
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(1008, 738));
         setMinimumSize(new java.awt.Dimension(1008, 738));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

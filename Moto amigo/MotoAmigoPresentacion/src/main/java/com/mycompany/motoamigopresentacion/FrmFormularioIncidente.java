@@ -4,10 +4,19 @@
  */
 package com.mycompany.motoamigopresentacion;
 
+import Utilerias.utileriasBotones;
 import com.mycompany.motoamigopresentacion.controladores.ControlRegistrarIncidente;
+import java.awt.Font;
+import java.awt.Rectangle;
+import static javax.swing.BorderFactory.createCompoundBorder;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import org.netbeans.lib.awtextra.AbsoluteConstraints;
+import panelesUtilerias.PanelHeader;
 
 /**
  *
@@ -15,43 +24,33 @@ import javax.swing.event.ListSelectionListener;
  */
 public class FrmFormularioIncidente extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmFormularioIncidente.class.getName());
-    private ControlRegistrarIncidente control;
+    private String incidenteSeleccionado = null;
+    private FrmSeguimientoEnTiempoReal frmMapa;
+    private javax.swing.JTextArea txtDescripcionOtro;
+    private javax.swing.JScrollPane scrollOtro;
 
-    public FrmFormularioIncidente(ControlRegistrarIncidente control) {
-        this.control = control;
+    public FrmFormularioIncidente(ControlRegistrarIncidente control, FrmSeguimientoEnTiempoReal frmMapa) {
+        this.frmMapa = frmMapa;
         initComponents();
+        panPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
+        utileriasBotones.btnRedondeadoBlanco(btnPaqueteDañado);
+        utileriasBotones.btnRedondeadoBlanco(btnAccidenteAveria);
+        utileriasBotones.btnRedondeadoBlanco(btnClienteDisponible);
+        utileriasBotones.btnRedondeadoNegro(btnConfirmar);
 
-        // 1. Ocultar el cuadro de texto (jScrollPane2) al iniciar la pantalla
-        jScrollPane2.setVisible(false); // ¡Aquí estaba el error!
-        txtDescripcionOtro.setVisible(false);
+        txtDescripcionOtro = new JTextArea();
+        txtDescripcionOtro.setRows(4);
+        txtDescripcionOtro.setLineWrap(true);
+        txtDescripcionOtro.setWrapStyleWord(true);
+        txtDescripcionOtro.setFont(new Font("Segoe UI", 0, 13));
+        txtDescripcionOtro.setBorder(createCompoundBorder(new LineBorder(new java.awt.Color(232, 234, 240), 1, true), new EmptyBorder(8, 12, 8, 12)));
 
-        // 2. Agregar el "escuchador" a la tabla
-        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Para que no se ejecute dos veces por un solo clic
-                if (!e.getValueIsAdjusting()) {
-                    int filaSeleccionada = jTable1.getSelectedRow();
+        scrollOtro = new JScrollPane(txtDescripcionOtro);
+        scrollOtro.setBorder(null);
+        scrollOtro.setVisible(false);
 
-                    // Si hay una fila seleccionada
-                    if (filaSeleccionada != -1) {
-                        String seleccion = jTable1.getValueAt(filaSeleccionada, 0).toString();
+        panCentral.add(scrollOtro);
 
-                        // Si seleccionó "Otro", mostramos el área de texto
-                        if (seleccion.equals("Otro")) {
-                            jScrollPane2.setVisible(true); // ¡Aquí también se cambia!
-                            txtDescripcionOtro.setVisible(true);
-                        } else {
-                            // Si seleccionó cualquier otra, lo volvemos a ocultar
-                            jScrollPane2.setVisible(false); // ¡Y aquí también!
-                            txtDescripcionOtro.setVisible(false);
-                            txtDescripcionOtro.setText(""); // Limpiamos el texto por si había escrito algo
-                        }
-                    }
-                }
-            }
-        });
     }
 
     /**
@@ -63,61 +62,48 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel14 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtDescripcionOtro = new javax.swing.JTextArea();
+        panPrincipal = new javax.swing.JPanel();
+        panCentral = new javax.swing.JPanel();
+        btnCancelar = new javax.swing.JButton();
+        lblReportarProblema = new javax.swing.JLabel();
+        lblDescripcion = new javax.swing.JLabel();
         btnConfirmar = new javax.swing.JButton();
+        btnPaqueteDañado = new javax.swing.JButton();
+        btnPaqueteExtravido = new javax.swing.JButton();
+        btnClienteDisponible = new javax.swing.JButton();
+        btnAccidenteAveria = new javax.swing.JButton();
+        btnOtro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Incidente");
+        setMaximumSize(new java.awt.Dimension(1008, 738));
+        setMinimumSize(new java.awt.Dimension(1008, 738));
+        setPreferredSize(new java.awt.Dimension(1008, 738));
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel14.setText("Reportar Incidente");
+        panPrincipal.setBackground(new java.awt.Color(255, 255, 255));
+        panPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(204, 102, 0));
-        jLabel13.setText("MotoAmigo");
+        panCentral.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton2.setBackground(new java.awt.Color(51, 51, 51));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("X   Cancelar Reporte");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(102, 102, 102));
+        btnCancelar.setText("X   Cancelar Reporte");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Reportar Un Problema");
+        lblReportarProblema.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblReportarProblema.setText("Reportar un problema");
 
-        jLabel2.setText("Seleccione el incidente que ocurrio durante la entrega.");
+        lblDescripcion.setText("Seleccione el incidente que ocurrio durante la entrega.");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Paquete dañado"},
-                {"Paquete extraviado"},
-                {"Cliente no disponible"},
-                {"Accidente o Avería"},
-                {"Otro"}
-            },
-            new String [] {
-                "Title 1"
-            }
-        ));
-        jTable1.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        txtDescripcionOtro.setColumns(20);
-        txtDescripcionOtro.setRows(5);
-        jScrollPane2.setViewportView(txtDescripcionOtro);
-
+        btnConfirmar.setBackground(new java.awt.Color(0, 0, 0));
+        btnConfirmar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnConfirmar.setForeground(new java.awt.Color(255, 255, 255));
         btnConfirmar.setText("Confirmar Reporte");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,122 +111,222 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(133, Short.MAX_VALUE))
+        btnPaqueteDañado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnPaqueteDañado.setText("Paquete dañado");
+        btnPaqueteDañado.setHideActionText(true);
+        btnPaqueteDañado.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnPaqueteDañado.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnPaqueteDañado.setOpaque(true);
+        btnPaqueteDañado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPaqueteDañadoActionPerformed(evt);
+            }
+        });
+
+        btnPaqueteExtravido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnPaqueteExtravido.setText("Paquete extraviado");
+        btnPaqueteExtravido.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnPaqueteExtravido.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnPaqueteExtravido.setOpaque(true);
+        btnPaqueteExtravido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPaqueteExtravidoActionPerformed(evt);
+            }
+        });
+
+        btnClienteDisponible.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnClienteDisponible.setText("Cliente no disponible");
+        btnClienteDisponible.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnClienteDisponible.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnClienteDisponible.setOpaque(true);
+        btnClienteDisponible.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClienteDisponibleActionPerformed(evt);
+            }
+        });
+
+        btnAccidenteAveria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAccidenteAveria.setText("Accidente o Avería");
+        btnAccidenteAveria.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnAccidenteAveria.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnAccidenteAveria.setOpaque(true);
+        btnAccidenteAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccidenteAveriaActionPerformed(evt);
+            }
+        });
+
+        btnOtro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnOtro.setText("Otro");
+        btnOtro.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnOtro.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnOtro.setOpaque(true);
+        btnOtro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOtroActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panCentralLayout = new javax.swing.GroupLayout(panCentral);
+        panCentral.setLayout(panCentralLayout);
+        panCentralLayout.setHorizontalGroup(
+            panCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panCentralLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(panCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblDescripcion)
+                    .addComponent(lblReportarProblema)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClienteDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPaqueteExtravido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPaqueteDañado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
+                    .addComponent(btnAccidenteAveria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnOtro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panCentralLayout.setVerticalGroup(
+            panCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panCentralLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
+                .addComponent(btnCancelar)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addComponent(lblReportarProblema)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDescripcion)
+                .addGap(50, 50, 50)
+                .addComponent(btnPaqueteDañado, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(btnPaqueteExtravido, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnClienteDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAccidenteAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnOtro, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
                 .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(41, 41, 41))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel14)
-                        .addGap(38, 38, 38))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        panPrincipal.add(panCentral, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 1020, 670));
+
+        getContentPane().add(panPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(-14, 0, 1040, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        frmMapa.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnPaqueteDañadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaqueteDañadoActionPerformed
+        incidenteSeleccionado = "paquete_dañado";
+        marcarSeleccionado(btnPaqueteDañado);
+    }//GEN-LAST:event_btnPaqueteDañadoActionPerformed
+
+    private void btnPaqueteExtravidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaqueteExtravidoActionPerformed
+        incidenteSeleccionado = "paquete_extraviado";
+        marcarSeleccionado(btnPaqueteExtravido);
+    }//GEN-LAST:event_btnPaqueteExtravidoActionPerformed
+
+    private void btnClienteDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteDisponibleActionPerformed
+        incidenteSeleccionado = "cliente_no_disponible";
+
+    }//GEN-LAST:event_btnClienteDisponibleActionPerformed
+
+    private void btnAccidenteAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccidenteAveriaActionPerformed
+        incidenteSeleccionado = "accidente_averia";
+        marcarSeleccionado(btnAccidenteAveria);
+    }//GEN-LAST:event_btnAccidenteAveriaActionPerformed
+
+    private void btnOtroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOtroActionPerformed
+        incidenteSeleccionado = "otro";
+        marcarSeleccionado(btnOtro);
+        boolean visible = !scrollOtro.isVisible();
+        scrollOtro.setVisible(visible);
+
+        if (visible) {
+            Rectangle r = btnOtro.getBounds();
+            scrollOtro.setBounds(r.x, r.y + r.height + 8, r.width, 100);
+            txtDescripcionOtro.requestFocus();
+        }
+
+        panCentral.revalidate();
+        panCentral.repaint();
+    }//GEN-LAST:event_btnOtroActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        int filaSeleccionada = jTable1.getSelectedRow();
-
-        // Que haya seleccionado algo
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Por favor, selecciona un tipo de incidente.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (incidenteSeleccionado == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor selecciona un incidente.",
+                    "Aviso", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        String incidenteSeleccionado = jTable1.getValueAt(filaSeleccionada, 0).toString();
-        String descripcionExtra = "";
+        String titulo, descripcion;
 
-        // Si eligió "Otro", que no deje el texto vacío
-        if (incidenteSeleccionado.equals("Otro")) {
-            descripcionExtra = txtDescripcionOtro.getText().trim();
-            if (descripcionExtra.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Por favor, describe el incidente en el cuadro de texto.", "Falta información", JOptionPane.WARNING_MESSAGE);
-                return;
+        switch (incidenteSeleccionado) {
+            case "paquete_dañado" -> {
+                titulo = "No Completada";
+                descripcion = "El paquete debe ser devuelto al emprendedor. La entrega se marcará como no completada.";
             }
-            // Concatenamos para mandarlo completo al control
-            incidenteSeleccionado = "Otro: " + descripcionExtra;
+            case "paquete_extraviado" -> {
+                titulo = "Incidente - En Revisión";
+                descripcion = "Soporte se pondrá en contacto contigo para ayudarte con el paquete.";
+            }
+            case "cliente_no_disponible" -> {
+                titulo = "No Completada - Cliente no disponible";
+                descripcion = "Debes devolver el paquete. El viaje será pagado de todos modos.";
+            }
+            case "accidente_averia" -> {
+                titulo = "Disponible (Re-publicada)";
+                descripcion = "Otro repartidor recogerá el paquete. Por favor espera al repartidor.";
+            }
+            case "otro" -> {
+                String desc = txtDescripcionOtro.getText().trim();
+                if (desc.isEmpty()) {
+                    JOptionPane.showMessageDialog(this,
+                            "Por favor describe el incidente.",
+                            "Aviso", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                titulo = "Incidente Reportado";
+                descripcion = "Tu reporte: \"" + desc + "\" ha sido enviado correctamente.";
+            }
+            default -> {
+                titulo = "Incidente Reportado";
+                descripcion = "Tu reporte ha sido enviado correctamente.";
+            }
         }
 
-        // Mandamos la información a la clase de Control
-        control.registrarIncidente(incidenteSeleccionado);    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void marcarSeleccionado(JButton btnActivo) {
+        JButton[] todos = {
+            btnPaqueteDañado, btnPaqueteExtravido, btnClienteDisponible,
+            btnAccidenteAveria, btnOtro
+        };
+        for (JButton b : todos) {
+            utileriasBotones.btnRedondeadoBlanco(b);
+        }
+        utileriasBotones.btnRedondeadoSeleccionado(btnActivo);
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAccidenteAveria;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnClienteDisponible;
     private javax.swing.JButton btnConfirmar;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea txtDescripcionOtro;
+    private javax.swing.JButton btnOtro;
+    private javax.swing.JButton btnPaqueteDañado;
+    private javax.swing.JButton btnPaqueteExtravido;
+    private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblReportarProblema;
+    private javax.swing.JPanel panCentral;
+    private javax.swing.JPanel panPrincipal;
     // End of variables declaration//GEN-END:variables
 }
