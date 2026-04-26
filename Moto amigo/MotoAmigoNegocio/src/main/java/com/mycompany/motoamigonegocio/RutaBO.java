@@ -42,7 +42,7 @@ public class RutaBO implements IRutaBO {
             return ruta;
         }
 
-        double costoCalculado = calcularCosto(ruta.getTiempoEstimado());
+        Double costoCalculado = calcularCosto(ruta.getTiempoEstimado());
         ruta.setCosto(costoCalculado);
 
         return ruta;
@@ -53,4 +53,5 @@ public class RutaBO implements IRutaBO {
         double tarifaMinuto = 1.0; 
         return costoBase + (tarifaMinuto * tiempoEstimado);
     }
+    
 }

@@ -14,5 +14,5 @@ import java.util.List;
 public interface IRepartidorDAO {
     
     List <RepartidorDTO> obtenerRepartidoresDisponibles();
-    
+    RepartidorDTO obtenerRepartidorPorId(Long idRepartidor);
 }

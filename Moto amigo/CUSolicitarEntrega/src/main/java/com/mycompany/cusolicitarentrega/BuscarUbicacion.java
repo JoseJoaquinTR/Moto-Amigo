@@ -5,7 +5,8 @@
 package com.mycompany.cusolicitarentrega;
 
 import com.mycompany.motoamigodto.UbicacionDTO;
-import com.mycompany.motoamigopersistencia.UbicacionDAO;
+import com.mycompany.motoamigonegocio.IUbicacionBO;
+import com.mycompany.motoamigonegocio.UbicacionBO;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +15,12 @@ import java.util.List;
  * @author joset
  */
 public class BuscarUbicacion implements IBuscarUbicacion {
-    private final UbicacionDAO dao = UbicacionDAO.getInstancia();
+    private final IUbicacionBO dao = UbicacionBO.getInstancia();
 
     @Override
-    public List<UbicacionDTO> ejecutar(String texto) throws Exception {
+    public List<UbicacionDTO> buscarUbicacion(String texto) throws Exception {
         if (texto == null || texto.trim().length() < 3)
             return new ArrayList<>();
-        return dao.buscarSugerencias(texto.trim());
+        return dao.buscarUbicacion(texto.trim());
     }
 }

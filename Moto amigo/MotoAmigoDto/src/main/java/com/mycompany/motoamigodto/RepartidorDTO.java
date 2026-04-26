@@ -6,14 +6,14 @@ package com.mycompany.motoamigodto;
  */
 public class RepartidorDTO {
     
-    private int idRepartidor;
+    private Long idRepartidor;
     private String nombre;
     private String telefono;
     private String correo;
     private String vehiculo;
     private String estado;
 
-    public RepartidorDTO(int idRepartidor, String nombre, String telefono, String correo,String vehiculo, String estado) {
+    public RepartidorDTO(Long idRepartidor, String nombre, String telefono, String correo,String vehiculo, String estado) {
         this.idRepartidor = idRepartidor;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -25,11 +25,11 @@ public class RepartidorDTO {
     public RepartidorDTO() {
     }
 
-    public int getIdRepartidor() {
+    public Long getIdRepartidor() {
         return idRepartidor;
     }
 
-    public void setIdRepartidor(int idRepartidor) {
+    public void setIdRepartidor(Long idRepartidor) {
         this.idRepartidor = idRepartidor;
     }
 

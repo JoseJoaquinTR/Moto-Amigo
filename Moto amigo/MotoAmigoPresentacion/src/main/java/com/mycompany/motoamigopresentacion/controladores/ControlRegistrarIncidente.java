@@ -13,7 +13,7 @@ import com.mycompany.motoamigopresentacion.FrmSeguimientoEnTiempoReal;
 import javax.swing.JOptionPane;
 
 public class ControlRegistrarIncidente {
-    
+
     private EntregaDTO entregaActual;
     private IncidenteDTO incidenteNuevo;
 
@@ -53,11 +53,17 @@ public class ControlRegistrarIncidente {
         frmFormulario.dispose();
 
         frmEstado = new FrmEstadoReporte(this, entregaActual, incidenteNuevo);
-        frmEstado.setVisible(true); 
+        frmEstado.setVisible(true);
     }
 
-    public void volverAlInicio() {
-        frmEstado.dispose();
-        System.out.println("Regresando al menú principal...");
+    /**
+     * Cancela el pedido cuando el repartidor no pudo recogerlo. El pedido debe
+     * volver a estado DISPONIBLE para todos los usuarios. TODO: Notificar via
+     * observer a los repartidores disponibles cuando se implemente.
+     */
+    public void cancelarPedidoPorNoRecoleccion() {
+        entregaActual.setEstadoEntrega("DISPONIBLE");
+        // TODO: notificarObservers(entregaActual); 
+        System.out.println("Pedido " + entregaActual.getIdEntrega() + " cancelado y puesto como DISPONIBLE");
     }
 }

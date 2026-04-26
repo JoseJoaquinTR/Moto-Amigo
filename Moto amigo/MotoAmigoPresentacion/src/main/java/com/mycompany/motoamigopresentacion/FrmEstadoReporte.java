@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.motoamigopresentacion;
 
 import com.mycompany.motoamigopresentacion.controladores.ControlRegistrarIncidente;
@@ -129,7 +126,7 @@ public class FrmEstadoReporte extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverAlInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAlInicioActionPerformed
-        control.volverAlInicio();
+        
     }//GEN-LAST:event_btnVolverAlInicioActionPerformed
 
 

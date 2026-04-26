@@ -107,7 +107,7 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
         tileFactory.setThreadPoolSize(4);
         mapViewer.setTileFactory(tileFactory);
 
-        org.jxmapviewer.input.PanMouseInputListener mm = new PanMouseInputListener(mapViewer);
+        PanMouseInputListener mm = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mm);
         mapViewer.addMouseMotionListener(mm);
         mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
@@ -139,17 +139,6 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
     }
 
     /**
-     * Agrega zoom con rueda del mouse y desplazamiento con arrastre al mapa.
-     */
-    private void agregarInteraccionMapa() {
-        org.jxmapviewer.input.PanMouseInputListener mm = new PanMouseInputListener(mapViewer);
-        mapViewer.addMouseListener(mm);
-        mapViewer.addMouseMotionListener(mm);
-
-        mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
-    }
-
-    /**
      * Crea temporizador que cada 3 segundos consulta la siguiente ubicación del
      * repartidor usando el modulo de funcionalidad. Actualiza el estado y el
      * historial de texto y mueve el marcador en el mapa usando mover(lat, lng)
@@ -163,7 +152,7 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
             moverMarcador(ubi);
 
             if (ubi.getDescripcion().toLowerCase().contains("llegó al origen") && !pedidoRecolectado) {
-                timer.stop(); 
+                timer.stop();
 
                 int respuesta = JOptionPane.showConfirmDialog(this,
                         "¿Has recibido el pedido correctamente?",
@@ -174,8 +163,18 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
                     desbloquearDestino();
                     timer.start();
                 } else {
-                    control.irAFormularioIncidente(this);
-                    this.dispose();
+                    int confirmarCancelacion = JOptionPane.showConfirmDialog(this,
+                            "¿Deseas cancelar el pedido? El pedido quedará disponible para otros repartidores.",
+                            "Cancelar Pedido",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE);
+
+                    if (confirmarCancelacion == JOptionPane.YES_OPTION) {
+                        control.cancelarPedidoPorNoRecoleccion();
+                        this.dispose();
+                    } else {
+                        timer.start();
+                    }
                 }
             }
         });
@@ -309,7 +308,8 @@ public class FrmSeguimientoEnTiempoReal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-        // TODO add your handling code here:
+    new FrmMenuPrincipal().setVisible(true);
+    dispose();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
     private void btnReportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportarActionPerformed

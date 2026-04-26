@@ -35,5 +35,4 @@ public class ConsultarRuta implements IConsultarRuta {
         }
         return null;
     }
-
 }

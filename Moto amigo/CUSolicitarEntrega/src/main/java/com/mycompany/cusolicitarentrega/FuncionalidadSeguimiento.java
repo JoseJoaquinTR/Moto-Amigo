@@ -2,7 +2,9 @@ package com.mycompany.cusolicitarentrega;
 
 import com.consultarruta.servicios.mapBox.IMapBoxService;
 import com.consultarruta.servicios.mapBox.MapBoxService;
+import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
+import com.mycompany.motoamigonegocio.RepartidorBO;
 
 public class FuncionalidadSeguimiento implements IFuncionalidadSeguimiento {
 
@@ -15,17 +17,23 @@ public class FuncionalidadSeguimiento implements IFuncionalidadSeguimiento {
     }
 
     public static FuncionalidadSeguimiento crear() {
-        return new FuncionalidadSeguimiento( MapBoxService.getInstance());
+        return new FuncionalidadSeguimiento(MapBoxService.getInstance());
     }
 
     @Override
     public boolean haTerminado() {
-        return mapBoxService.comprobarSiFinalizoRuta(); 
-        
+        return mapBoxService.comprobarSiFinalizoRuta();
+
     }
 
     @Override
     public UbicacionDTO obtenerSiguiente() {
         return mapBoxService.obtenerSiguienteUbicacion();
+    }
+
+    @Override
+    public RepartidorDTO obtenerRepartidorAsignado(Long idRepartidor) {
+        RepartidorBO bo = new RepartidorBO();
+        return bo.obtenerRepartidorPorId(idRepartidor);
     }
 }

@@ -48,20 +48,20 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="panelRedondeado1" alignment="0" max="32767" attributes="0"/>
+              <Component id="panelCentral" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
-                  <Component id="panelRedondeado1" min="-2" max="-2" attributes="0"/>
+                  <Component id="panelCentral" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="panelesUtilerias.PanelRedondeado" name="panelRedondeado1">
+        <Container class="panelesUtilerias.PanelRedondeado" name="panelCentral">
           <Properties>
             <Property name="colorBorde" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="fe" green="fe" red="fd" type="rgb"/>

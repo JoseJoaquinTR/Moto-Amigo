@@ -12,5 +12,5 @@ import java.util.List;
  * @author joset
  */
 public interface IUbicacionDAO {
-    List<UbicacionDTO> buscarSugerencias(String ubi) throws Exception;
+    List<UbicacionDTO> buscarUbicacion(String ubi) throws Exception;
 }

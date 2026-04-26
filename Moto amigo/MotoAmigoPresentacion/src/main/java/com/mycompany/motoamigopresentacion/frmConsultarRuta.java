@@ -38,16 +38,16 @@ import panelesUtilerias.PanelHeader;
  *
  * @author calo2
  */
-public class frmConsultarRuta extends javax.swing.JFrame {
+public class FrmConsultarRuta extends javax.swing.JFrame {
 
     private IConsultarRuta casoUso;
     private JXMapViewer mapViewer;
     private WaypointPainter<DefaultWaypoint> waypointPainter;
-    private static final Logger LOGGER = Logger.getLogger(frmConsultarRuta.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FrmConsultarRuta.class.getName());
     private RutaResponseDTO response;
     
     
-    public frmConsultarRuta(RutaRequestDTO request) {
+    public FrmConsultarRuta(RutaRequestDTO request) {
         initComponents();
 
         IRutaBO rutaBO = new RutaBO(MapBoxService.getInstance());

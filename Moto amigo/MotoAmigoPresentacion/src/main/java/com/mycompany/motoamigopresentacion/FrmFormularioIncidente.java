@@ -5,14 +5,16 @@
 package com.mycompany.motoamigopresentacion;
 
 import Utilerias.utileriasBotones;
-import com.mycompany.motoamigopresentacion.controladores.ControlRegistrarIncidente;
+import Utilerias.utileriasMensajes;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Rectangle;
 import static javax.swing.BorderFactory.createCompoundBorder;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
@@ -306,7 +308,15 @@ public class FrmFormularioIncidente extends javax.swing.JFrame {
                 descripcion = "Tu reporte ha sido enviado correctamente.";
             }
         }
-
+        utileriasMensajes.mostrarAlertaIncidente(
+                (Frame) SwingUtilities.getWindowAncestor(this),
+                titulo,
+                descripcion,
+                () -> {
+                    frmMapa.setVisible(true);
+                    dispose();
+                }
+        );
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
 

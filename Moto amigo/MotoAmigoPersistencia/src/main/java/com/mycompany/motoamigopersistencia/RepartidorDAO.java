@@ -16,7 +16,7 @@ import java.util.List;
 public class RepartidorDAO implements IRepartidorDAO {
     private static RepartidorDAO instancia;
 
-    public RepartidorDAO() {
+    private RepartidorDAO() {
     }
     
     public static RepartidorDAO getInstance() {
@@ -30,10 +30,17 @@ public class RepartidorDAO implements IRepartidorDAO {
     @Override
     public List<RepartidorDTO> obtenerRepartidoresDisponibles() {
         List<RepartidorDTO> repartidores = new ArrayList<>();
-        repartidores.add(new RepartidorDTO(1, "Carlos Pérez", "6441234567", "carlos@mail.com", "Moto", "disponible"));
-        repartidores.add(new RepartidorDTO(2, "Ana López", "6449876543", "ana@mail.com", "Bicicleta", "disponible"));
-        repartidores.add(new RepartidorDTO(3, "Luis Ramírez", "6445556677", "luis@mail.com", "Moto", "disponible"));
+        repartidores.add(new RepartidorDTO(1L, "Carlos Pérez", "6441234567", "carlos@mail.com", "Moto", "disponible"));
+        repartidores.add(new RepartidorDTO(2L, "Ana López", "6449876543", "ana@mail.com", "Bicicleta", "disponible"));
+        repartidores.add(new RepartidorDTO(3L, "Luis Ramírez", "6445556677", "luis@mail.com", "Moto", "disponible"));
         return repartidores;
     }
-    
+    @Override
+    public RepartidorDTO obtenerRepartidorPorId(Long idRepartidor) {
+        return obtenerRepartidoresDisponibles()
+            .stream()
+            .filter(r -> r.getIdRepartidor().equals(idRepartidor))
+            .findFirst()
+            .orElse(null);
+    }
 }

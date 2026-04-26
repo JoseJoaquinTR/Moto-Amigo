@@ -16,11 +16,12 @@ public class RutaResponseDTO {
     private Double lngOrigen;
     private Double latDestino;
     private Double lngDestino;
-    private double distancia;       // en km
+    private Double distancia;       // en km
     private int tiempoEstimado;     // en minutos
-    private double costo;
+    private Double costo;
     private boolean exito;          // indica si la llamada al servicio fue exitosa
     private boolean rutaValida;     // indica si la ruta calculada es válida
+    private Long idRepartidorAsignado;
 
     public RutaResponseDTO(String origen, String destino,
             Double latOrigen, Double lngOrigen,
@@ -73,88 +74,97 @@ public class RutaResponseDTO {
         return origen;
     }
 
-    public String getDestino() {
-        return destino;
-    }
-
-    public Double getLatOrigen() {
-        return latOrigen;
-    }
-
-    public Double getLngOrigen() {
-        return lngOrigen;
-    }
-
-    public Double getLatDestino() {
-        return latDestino;
-    }
-
-    public Double getLngDestino() {
-        return lngDestino;
-    }
-
-    public double getDistancia() {
-        return distancia;
-    }
-
-    public int getTiempoEstimado() {
-        return tiempoEstimado;
-    }
-
-    public double getCosto() {
-        return costo;
-    }
-
-    public boolean isExito() {
-        return exito;
-    }
-
-    public boolean isRutaValida() {
-        return rutaValida;
-    }
-
     public void setOrigen(String origen) {
         this.origen = origen;
+    }
+
+    public String getDestino() {
+        return destino;
     }
 
     public void setDestino(String destino) {
         this.destino = destino;
     }
 
+    public Double getLatOrigen() {
+        return latOrigen;
+    }
+
     public void setLatOrigen(Double latOrigen) {
         this.latOrigen = latOrigen;
+    }
+
+    public Double getLngOrigen() {
+        return lngOrigen;
     }
 
     public void setLngOrigen(Double lngOrigen) {
         this.lngOrigen = lngOrigen;
     }
 
+    public Double getLatDestino() {
+        return latDestino;
+    }
+
     public void setLatDestino(Double latDestino) {
         this.latDestino = latDestino;
+    }
+
+    public Double getLngDestino() {
+        return lngDestino;
     }
 
     public void setLngDestino(Double lngDestino) {
         this.lngDestino = lngDestino;
     }
 
-    public void setDistancia(double distancia) {
+    public Double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(Double distancia) {
         this.distancia = distancia;
+    }
+
+    public int getTiempoEstimado() {
+        return tiempoEstimado;
     }
 
     public void setTiempoEstimado(int tiempoEstimado) {
         this.tiempoEstimado = tiempoEstimado;
     }
 
-    public void setCosto(double costo) {
+    public Double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Double costo) {
         this.costo = costo;
+    }
+
+    public boolean isExito() {
+        return exito;
     }
 
     public void setExito(boolean exito) {
         this.exito = exito;
     }
 
+    public boolean isRutaValida() {
+        return rutaValida;
+    }
+
     public void setRutaValida(boolean rutaValida) {
         this.rutaValida = rutaValida;
     }
 
+    public Long getIdRepartidorAsignado() {
+        return idRepartidorAsignado;
+    }
+
+    public void setIdRepartidorAsignado(Long idRepartidorAsignado) {
+        this.idRepartidorAsignado = idRepartidorAsignado;
+    }
+    
+    
 }

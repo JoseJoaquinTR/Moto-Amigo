@@ -26,8 +26,6 @@ import org.apache.hc.core5.http.ParseException;
 
 public class MapBoxService implements IMapBoxService {
 
-    private int paso = 0;
-    private static final int TOTAL_PASOS = 12;
     private ISeguimientoEntregaDAO dao = SeguimientoEntregaDAO.getInstance();
     private static final Logger LOGGER = Logger.getLogger(MapBoxService.class.getName());
     private static final String TOKEN = "pk.eyJ1IjoiY2FybWVuLWxhcmEiLCJhIjoiY21vOWkxdzcxMDl2NDJxcHQzbzhhM3pobSJ9.zMCAIOhXugIWywpDTGS2bQ";
@@ -36,7 +34,7 @@ public class MapBoxService implements IMapBoxService {
     private MapBoxService() {
     }
 
-    public static MapBoxService getInstance() {
+    public static synchronized MapBoxService getInstance() {
         if (instancia == null) {
             instancia = new MapBoxService();
         }

@@ -4,6 +4,7 @@
  */
 package com.mycompany.cusolicitarentrega;
 
+import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
 
 /**
@@ -15,4 +16,6 @@ public interface IFuncionalidadSeguimiento {
     public abstract UbicacionDTO obtenerSiguiente();
 
     boolean haTerminado();
+    
+    RepartidorDTO obtenerRepartidorAsignado(Long idRepartidor);
 }

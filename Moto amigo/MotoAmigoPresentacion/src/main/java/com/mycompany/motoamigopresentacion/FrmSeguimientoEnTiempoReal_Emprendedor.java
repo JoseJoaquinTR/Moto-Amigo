@@ -4,6 +4,7 @@ import Utilerias.OSMTileFactoryCustom;
 import Utilerias.utileriasBotones;
 import com.mycompany.cusolicitarentrega.FuncionalidadSeguimiento;
 import com.mycompany.cusolicitarentrega.IFuncionalidadSeguimiento;
+import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
 import java.awt.BorderLayout;
@@ -31,8 +32,8 @@ public class FrmSeguimientoEnTiempoReal_Emprendedor extends javax.swing.JFrame {
     private JXMapViewer mapViewer;
     private WaypointPainter<DefaultWaypoint> waypointPainter;
     private DefaultWaypoint marcador;
-    
-    private RutaResponseDTO ruta; 
+
+    private RutaResponseDTO ruta;
     private final IFuncionalidadSeguimiento funcionalidad;
 
     /**
@@ -81,23 +82,7 @@ public class FrmSeguimientoEnTiempoReal_Emprendedor extends javax.swing.JFrame {
         panelMapa.setLayout(new BorderLayout());
         panelMapa.add(mapViewer, BorderLayout.CENTER);
 
-        agregarInteraccionMapa();
         iniciarSeguimiento();
-    }
-
-    /**
-     * Agrega zoom con rueda del mouse y desplazamiento con arrastre al mapa.
-     */
-    private void agregarInteraccionMapa() {
-        // Zoom con rueda del mouse
-        mapViewer.addMouseWheelListener(e -> {
-            int zoom = mapViewer.getZoom();
-            if (e.getWheelRotation() < 0) {
-                mapViewer.setZoom(Math.max(1, zoom - 1));
-            } else {
-                mapViewer.setZoom(Math.min(15, zoom + 1));
-            }
-        });
     }
 
     /**
@@ -140,7 +125,9 @@ public class FrmSeguimientoEnTiempoReal_Emprendedor extends javax.swing.JFrame {
      * de cargar.
      */
     private void moverMarcador(UbicacionDTO ubi) {
-        if (mapViewer == null) return;
+        if (mapViewer == null) {
+            return;
+        }
 
         GeoPosition nuevaPos = new GeoPosition(ubi.getLatitud(), ubi.getLongitud());
         marcador = new DefaultWaypoint(nuevaPos);
@@ -150,6 +137,7 @@ public class FrmSeguimientoEnTiempoReal_Emprendedor extends javax.swing.JFrame {
 
         mapViewer.repaint();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -281,16 +269,25 @@ public class FrmSeguimientoEnTiempoReal_Emprendedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnContactarRepaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContactarRepaActionPerformed
-        JOptionPane.showMessageDialog(
-                this,
-                "Contactando con el repartidor",
-                "",
-                javax.swing.JOptionPane.INFORMATION_MESSAGE
-        );
+        RepartidorDTO repartidor = funcionalidad.obtenerRepartidorAsignado(ruta.getIdRepartidorAsignado());
+        
+        if (repartidor == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Error: ",
+                    "Sin repartidor",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this,
+                "Nombre: " + repartidor.getNombre() + "\nTeléfono: " + repartidor.getTelefono(),
+                "Contactar Repartidor",
+                JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnContactarRepaActionPerformed
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-        // TODO add your handling code here:
+        new FrmMenuPrincipal().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
 

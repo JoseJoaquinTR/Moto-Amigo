@@ -75,7 +75,7 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
                     String texto = campo.getText().trim();
                     new Thread(() -> {
                         try {
-                            java.util.List<UbicacionDTO> sugerencias = buscarUbicacion.ejecutar(texto);
+                            java.util.List<UbicacionDTO> sugerencias = buscarUbicacion.buscarUbicacion(texto);
                             SwingUtilities.invokeLater(() -> mostrarPopup(campo, popup, sugerencias, esOrigen));
                         } catch (Exception ex) {
                             ex.printStackTrace();
@@ -296,7 +296,7 @@ public class FrmPublicarARepartidores_vistaEmprendedor extends javax.swing.JFram
          
     RutaRequestDTO request = new RutaRequestDTO(txt_origen.getText(),txt_destino.getText());
 
-    frmConsultarRuta pantalla = new frmConsultarRuta(request);
+    FrmConsultarRuta pantalla = new FrmConsultarRuta(request);
     pantalla.setVisible(true);
 
     this.dispose();

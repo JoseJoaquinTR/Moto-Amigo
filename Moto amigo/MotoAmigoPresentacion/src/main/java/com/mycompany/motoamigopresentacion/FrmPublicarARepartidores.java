@@ -5,7 +5,6 @@
 package com.mycompany.motoamigopresentacion;
 
 import Utilerias.utileriasBotones;
-import com.consultarruta.servicios.mapBox.MapBoxService;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import javax.swing.JOptionPane;
@@ -24,15 +23,11 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
 
     private ControlSolicitarEntrega control = ControlSolicitarEntrega.getInstance();
     private SolicitudEntregaDTO solicitud;
-    PanelRedondeado panelR;
+    
 
     public FrmPublicarARepartidores(SolicitudEntregaDTO solicitud) {
         initComponents();
-        panelR = new PanelRedondeado(30);
-        panelR.setBackground(Color.red);
-        panelR.setBounds(50, 150, 700, 300);
-        setLocationRelativeTo(null);
-        add(panelR);
+        
         utileriasBotones.btnRedondeadoNegro(btn_aceptar);
 
         panPrincipal.setLayout(new AbsoluteLayout());
@@ -63,7 +58,7 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
 
         jMenuItem1 = new javax.swing.JMenuItem();
         panPrincipal = new javax.swing.JPanel();
-        panelRedondeado1 = new panelesUtilerias.PanelRedondeado();
+        panelCentral = new panelesUtilerias.PanelRedondeado();
         jLabel11 = new javax.swing.JLabel();
         txt_distancia = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -90,7 +85,7 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1008, 738));
         setResizable(false);
 
-        panelRedondeado1.setColorBorde(new java.awt.Color(253, 254, 254));
+        panelCentral.setColorBorde(new java.awt.Color(253, 254, 254));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(102, 102, 102));
@@ -248,48 +243,48 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
-        panelRedondeado1.setLayout(panelRedondeado1Layout);
-        panelRedondeado1Layout.setHorizontalGroup(
-            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRedondeado1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelCentralLayout = new javax.swing.GroupLayout(panelCentral);
+        panelCentral.setLayout(panelCentralLayout);
+        panelCentralLayout.setHorizontalGroup(
+            panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCentralLayout.createSequentialGroup()
                 .addGap(130, 130, 130)
                 .addComponent(btn_aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(panelRedondeado1Layout.createSequentialGroup()
+            .addGroup(panelCentralLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRedondeado1Layout.createSequentialGroup()
-                        .addGroup(panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelRedondeado1Layout.createSequentialGroup()
+                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelCentralLayout.createSequentialGroup()
+                        .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelCentralLayout.createSequentialGroup()
                                 .addComponent(panelTipoPaquete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(panelPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(panelDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 942, Short.MAX_VALUE)
                             .addComponent(panelRecoleccion, javax.swing.GroupLayout.DEFAULT_SIZE, 942, Short.MAX_VALUE))
                         .addGap(0, 21, Short.MAX_VALUE))
-                    .addGroup(panelRedondeado1Layout.createSequentialGroup()
-                        .addGroup(panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelRedondeado1Layout.createSequentialGroup()
+                    .addGroup(panelCentralLayout.createSequentialGroup()
+                        .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelCentralLayout.createSequentialGroup()
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel2))
-                            .addGroup(panelRedondeado1Layout.createSequentialGroup()
+                            .addGroup(panelCentralLayout.createSequentialGroup()
                                 .addComponent(txt_distancia, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txt_ganancia, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(97, 97, 97))))
         );
-        panelRedondeado1Layout.setVerticalGroup(
-            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRedondeado1Layout.createSequentialGroup()
+        panelCentralLayout.setVerticalGroup(
+            panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCentralLayout.createSequentialGroup()
                 .addContainerGap(162, Short.MAX_VALUE)
-                .addGroup(panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
+                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCentralLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txt_ganancia, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCentralLayout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txt_distancia, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -298,7 +293,7 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(panelDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelTipoPaquete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelPeso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
@@ -310,13 +305,13 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
         panPrincipal.setLayout(panPrincipalLayout);
         panPrincipalLayout.setHorizontalGroup(
             panPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelRedondeado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelCentral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panPrincipalLayout.setVerticalGroup(
             panPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panPrincipalLayout.createSequentialGroup()
                 .addGap(0, 60, Short.MAX_VALUE)
-                .addComponent(panelRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panelCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getContentPane().add(panPrincipal, java.awt.BorderLayout.CENTER);
@@ -329,9 +324,10 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
         boolean resultado = control.publicarSolicitud(solicitud);
 
         if (resultado) {
-            RutaResponseDTO rutaReal = MapBoxService.getInstance()
-                .obtenerRuta(solicitud.getOrigen(), solicitud.getDestino());
-
+            RutaResponseDTO rutaReal = control.obtenerRuta(
+                solicitud.getOrigen(), 
+                solicitud.getDestino()
+            );
             if (rutaReal != null) {
                 JOptionPane.showMessageDialog(this, "Pedido aceptado. Iniciando navegación.");
 
@@ -359,10 +355,10 @@ public class FrmPublicarARepartidores extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel panPrincipal;
+    private panelesUtilerias.PanelRedondeado panelCentral;
     private panelesUtilerias.PanelRedondeado panelDestino;
     private panelesUtilerias.PanelRedondeado panelPeso;
     private panelesUtilerias.PanelRedondeado panelRecoleccion;
-    private panelesUtilerias.PanelRedondeado panelRedondeado1;
     private panelesUtilerias.PanelRedondeado panelTipoPaquete;
     private javax.swing.JLabel txt_destino;
     private javax.swing.JLabel txt_distancia;
