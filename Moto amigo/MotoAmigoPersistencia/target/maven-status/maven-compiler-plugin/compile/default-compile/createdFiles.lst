@@ -1,0 +1,10 @@
+com\mycompany\motoamigopersistencia\ISeguimientoEntregaDAO.class
+com\mycompany\motoamigopersistencia\IRepartidorDAO.class
+com\mycompany\motoamigopersistencia\IRutaDAO.class
+com\mycompany\motoamigopersistencia\SeguimientoEntregaDAO.class
+com\mycompany\motoamigopersistencia\RutaDAOMock.class
+com\mycompany\motoamigopersistencia\IUbicacionDAO.class
+com\mycompany\motoamigopersistencia\RepartidorDAO.class
+com\mycompany\motoamigopersistencia\Ruta.class
+com\mycompany\motoamigopersistencia\UbicacionDAO.class
+com\mycompany\Entidades\Ubicacion.class
