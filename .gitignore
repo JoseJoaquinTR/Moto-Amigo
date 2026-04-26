@@ -1,16 +1,13 @@
-# Compiled class file
+# Maven
+target/
+
+# Compiled files
 *.class
 
-# Log file
+# Logs
 *.log
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
+# Package files
 *.jar
 *.war
 *.nar
@@ -19,6 +16,53 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# NetBeans
+nbproject/private/
+build/
+dist/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Env
+.env
+*.class
+*.jar
+*.class
+*.class
+Moto amigo/CUSolicitarEntrega/target/classes/com/mycompany/cusolicitarentrega/GestionRepartidores.class
+Moto amigo/CUSolicitarEntrega/target/CUSolicitarEntrega-1.0-SNAPSHOT.jar
+Moto amigo/CUSolicitarEntrega/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+Moto amigo/CUSolicitarEntrega/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Moto amigo/CUSolicitarEntrega/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+Moto amigo/CUSolicitarEntrega/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+Moto amigo/MotoAmigoDto/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+Moto amigo/MotoAmigoDto/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Moto amigo/MotoAmigoDto/target/MotoAmigoDto-1.0-SNAPSHOT.jar
+Moto amigo/MotoAmigoNegocio/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+Moto amigo/MotoAmigoNegocio/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Moto amigo/MotoAmigoNegocio/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+Moto amigo/MotoAmigoNegocio/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+Moto amigo/MotoAmigoNegocio/target/MotoAmigoNegocio-1.0-SNAPSHOT.jar
+Moto amigo/MotoAmigoNegocio/target/surefire-reports/com.consultarruta.servicios.mapBox.MapBoxServiceTest.txt
+Moto amigo/MotoAmigoNegocio/target/surefire-reports/com.mycompany.motoamigonegocio.RutaBOTest.txt
+Moto amigo/MotoAmigoNegocio/target/surefire-reports/TEST-com.consultarruta.servicios.mapBox.MapBoxServiceTest.xml
+Moto amigo/MotoAmigoNegocio/target/surefire-reports/TEST-com.mycompany.motoamigonegocio.RutaBOTest.xml
+Moto amigo/MotoAmigoPersistencia/src/main/java/com/mycompany/motoamigopersistencia/UbicacionDAO.java
+Moto amigo/MotoAmigoPersistencia/target/classes/com/mycompany/motoamigopersistencia/UbicacionDAO.class
+Moto amigo/MotoAmigoPersistencia/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+Moto amigo/MotoAmigoPersistencia/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Moto amigo/MotoAmigoPersistencia/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+Moto amigo/MotoAmigoPersistencia/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+Moto amigo/MotoAmigoPersistencia/target/MotoAmigoPersistencia-1.0-SNAPSHOT.jar
+Moto amigo/MotoAmigoPresentacion/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+Moto amigo/MotoAmigoPresentacion/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Moto amigo/CUSolicitarEntrega/target/classes/com/mycompany/cusolicitarentrega/GestionRepartidores.class
