@@ -63,7 +63,7 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
     }
 
     private void iniciarUI() {
-        utileriasBotones.btnRedondeadoNegro(btn_solicitar);
+        utileriasBotones.btnRedondeado(btn_solicitar, "negro", 30);
 
         Rectangle rCaja = new Rectangle(41, 220, 382, 86);
         Rectangle rSobre = new Rectangle(571, 220, 382, 86);

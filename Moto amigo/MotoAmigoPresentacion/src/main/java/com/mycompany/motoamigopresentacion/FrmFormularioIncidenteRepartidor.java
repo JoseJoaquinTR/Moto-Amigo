@@ -41,12 +41,12 @@ public class FrmFormularioIncidenteRepartidor extends javax.swing.JFrame {
 
     private void inicializarUI() {
         panPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
-        utileriasBotones.btnRedondeadoBlanco(btnPaqueteDañado);
-        utileriasBotones.btnRedondeadoBlanco(btnPaqueteExtravido);
-        utileriasBotones.btnRedondeadoBlanco(btnAccidenteAveria);
-        utileriasBotones.btnRedondeadoBlanco(btnClienteNoDisponible);
-        utileriasBotones.btnRedondeadoBlanco(btnOtro);
-        utileriasBotones.btnRedondeadoNegro(btnConfirmar);
+        utileriasBotones.btnRedondeado(btnPaqueteDañado, "blanco", 30);
+        utileriasBotones.btnRedondeado(btnPaqueteExtravido, "blanco", 30);
+        utileriasBotones.btnRedondeado(btnAccidenteAveria, "blanco", 30);
+        utileriasBotones.btnRedondeado(btnClienteNoDisponible, "blanco", 30);
+        utileriasBotones.btnRedondeado(btnOtro, "blanco", 30);
+        utileriasBotones.btnRedondeado(btnConfirmar, "negro", 30);
 
         txtDescripcionOtro = new JTextArea();
         txtDescripcionOtro.setRows(4);
@@ -326,7 +326,7 @@ public class FrmFormularioIncidenteRepartidor extends javax.swing.JFrame {
             btnAccidenteAveria, btnOtro
         };
         for (JButton b : todos) {
-            utileriasBotones.btnRedondeadoBlanco(b);
+            utileriasBotones.btnRedondeado(b, "blanco", 30);
         }
         utileriasBotones.btnRedondeadoSeleccionado(btnActivo);
     }

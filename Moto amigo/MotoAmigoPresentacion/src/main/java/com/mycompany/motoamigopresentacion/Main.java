@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         FlatLightLaf.setup();
         EventQueue.invokeLater(() -> {
-            new FrmPublicarPedidosEmprendedor().setVisible(true);
+            new FrmMenuPrincipalEmprendedor().setVisible(true);
         });
         EventQueue.invokeLater(() -> {
             new FrmPublicarPedidoRepartidor(new SolicitudEntregaDTO(

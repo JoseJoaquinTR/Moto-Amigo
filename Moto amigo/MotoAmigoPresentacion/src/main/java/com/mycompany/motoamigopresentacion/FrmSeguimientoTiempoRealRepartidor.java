@@ -69,8 +69,8 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
      */
     private void inicializarUI() {
         panPrincipal.setLayout(new AbsoluteLayout());
-        utileriasBotones.btnNaranja(btnVolverMenu);
-        utileriasBotones.btnRojo(btnReportar);
+        utileriasBotones.btnRedondeado(btnVolverMenu, "naranja", 30);
+        utileriasBotones.btnRedondeado(btnReportar, "rojo", 30);
         panPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
 
     }
@@ -308,7 +308,7 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-    new FrmMenuPrincipal().setVisible(true);
+    new FrmMenuPrincipalEmprendedor().setVisible(true);
     dispose();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 

@@ -50,8 +50,8 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame {
 
     private void inicializarUI() {
         panPrincipal.setLayout(new AbsoluteLayout());
-        utileriasBotones.btnNaranja(btnContactarRepa);
-        utileriasBotones.btnNaranja(btnVolverMenu);
+        utileriasBotones.btnRedondeado(btnContactarRepa, "naranja", 30);
+        utileriasBotones.btnRedondeado(btnVolverMenu, "naranja", 30);
         panPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
 
     }
@@ -286,7 +286,7 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnContactarRepaActionPerformed
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-        new FrmMenuPrincipal().setVisible(true);
+        new FrmMenuPrincipalEmprendedor().setVisible(true);
         dispose();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 

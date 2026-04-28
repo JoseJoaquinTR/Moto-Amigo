@@ -28,7 +28,7 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
     public FrmPublicarPedidoRepartidor(SolicitudEntregaDTO solicitud) {
         initComponents();
         
-        utileriasBotones.btnRedondeadoNegro(btn_aceptar);
+        utileriasBotones.btnRedondeado(btn_aceptar, "negro", 30);
 
         panPrincipal.setLayout(new AbsoluteLayout());
         panPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
