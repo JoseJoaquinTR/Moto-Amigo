@@ -6,14 +6,26 @@ package com.mycompany.motoamigodto;
 
 public class EntregaDTO {
 
+    private String direccionOrigen;
     private String direccionDestino;
     private String tipoPaquete;
     private String estadoEntrega;
+    private double pesoAprox;
+    private double costo;
 
-    public EntregaDTO(String direccionDestino, String tipoPaquete, String estadoEntrega) {
+    public EntregaDTO(String direccionOrigen, String direccionDestino,
+            String tipoPaquete, String estadoEntrega,
+            double pesoAprox, double costo) {
+        this.direccionOrigen = direccionOrigen;
         this.direccionDestino = direccionDestino;
         this.tipoPaquete = tipoPaquete;
         this.estadoEntrega = estadoEntrega;
+        this.pesoAprox = pesoAprox;
+        this.costo = costo;
+    }
+
+    public String getDireccionOrigen() {
+        return direccionOrigen;
     }
 
     public String getDireccionDestino() {
@@ -26,5 +38,13 @@ public class EntregaDTO {
 
     public String getEstadoEntrega() {
         return estadoEntrega;
+    }
+
+    public double getPesoAprox() {
+        return pesoAprox;
+    }
+
+    public double getCosto() {
+        return costo;
     }
 }

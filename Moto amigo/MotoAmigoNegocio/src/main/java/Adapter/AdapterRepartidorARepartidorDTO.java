@@ -33,8 +33,6 @@ public class AdapterRepartidorARepartidorDTO {
         if (repartidores == null) {
             return new ArrayList<>();
         }
-        return repartidores.stream()
-                .map(this::adaptar)
-                .collect(Collectors.toList());
+        return repartidores.stream().map(this::adaptar).collect(Collectors.toList());
     }
 }

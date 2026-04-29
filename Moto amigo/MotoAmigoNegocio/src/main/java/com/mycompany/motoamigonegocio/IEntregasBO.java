@@ -4,7 +4,7 @@
  */
 package com.mycompany.motoamigonegocio;
 
-import com.mycompany.Entidades.Entrega;
+import com.mycompany.motoamigodto.EntregaDTO;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IEntregasBO {
     
-    List<Entrega> obtenerEntregasRepartidor(Long id);
-    List<Entrega> obtenerEntregasEmprendedor(Long id);
+    List<EntregaDTO> obtenerEntregasRepartidor(Long id);
+    List<EntregaDTO> obtenerEntregasEmprendedor(Long id);
     
 }

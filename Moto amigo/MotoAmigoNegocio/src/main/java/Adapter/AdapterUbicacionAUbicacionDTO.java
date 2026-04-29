@@ -23,8 +23,6 @@ public class AdapterUbicacionAUbicacionDTO {
 
     public List<UbicacionDTO> adaptarLista(List<Ubicacion> ubicaciones) {
         if (ubicaciones == null) return new ArrayList<>();
-        return ubicaciones.stream()
-                .map(this::adaptar)
-                .collect(Collectors.toList());
+        return ubicaciones.stream().map(this::adaptar).collect(Collectors.toList());
     }
 }

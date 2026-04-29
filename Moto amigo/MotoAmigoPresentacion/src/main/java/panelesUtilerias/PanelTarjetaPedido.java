@@ -5,7 +5,8 @@
 package panelesUtilerias;
 
 import Utilerias.utileriasBotones;
-import com.mycompany.Entidades.Entrega;
+import com.mycompany.motoamigodto.EntregaDTO;
+import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
 import java.awt.Color;
 
 /**
@@ -13,7 +14,7 @@ import java.awt.Color;
  * @author Jesus Omar
  */
 public class PanelTarjetaPedido extends javax.swing.JPanel {
-
+    private EntregaDTO entrega ;
     /**
      * Creates new form PanelTarjetaPedido
      */
@@ -23,7 +24,8 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
         utileriasBotones.panelRedondeado(this, new Color(248, 249, 250), 30);
     }
 
-    public void cargarDatosEnTarjeta(Entrega entrega){
+    public void cargarDatosEnTarjeta(EntregaDTO entrega){
+        this.entrega = entrega;
         String precio = String.valueOf(entrega.getCosto());
         lblDireccionOrigen.setText(entrega.getDireccionOrigen());
         lblDireccionDestino.setText("→"+entrega.getDireccionDestino());
@@ -56,6 +58,11 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
 
         btnVerPedido.setText("Ver pedido");
         btnVerPedido.setOpaque(true);
+        btnVerPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerPedidoActionPerformed(evt);
+            }
+        });
 
         lblPrecio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblPrecio.setForeground(new java.awt.Color(249, 115, 22));
@@ -72,10 +79,8 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblDireccionDestino)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblDireccionOrigen)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(380, 380, 380)
+                    .addComponent(lblDireccionOrigen))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblDistancia)
                     .addComponent(lblPrecio))
@@ -101,6 +106,10 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVerPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPedidoActionPerformed
+        ControlMenuPrincipal.getInstance().mostrarDetallePedido(entrega);
+    }//GEN-LAST:event_btnVerPedidoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
