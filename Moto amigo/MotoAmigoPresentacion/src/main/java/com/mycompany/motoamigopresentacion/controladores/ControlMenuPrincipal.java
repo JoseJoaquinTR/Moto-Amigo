@@ -4,13 +4,14 @@
  */
 package com.mycompany.motoamigopresentacion.controladores;
 
-import Utilerias.utileriasBotones;
-import com.mycompany.Entidades.Entrega;
+import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
+import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigonegocio.EntregasBO;
 import com.mycompany.motoamigonegocio.IEntregasBO;
 import com.mycompany.motoamigonegocio.IRepartidorBO;
 import com.mycompany.motoamigonegocio.RepartidorBO;
+import com.mycompany.motoamigopresentacion.FrmPublicarPedidoRepartidor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.List;
@@ -26,7 +27,7 @@ import panelesUtilerias.PanelTarjetaPedido;
 public class ControlMenuPrincipal {
 
     private final IRepartidorBO repartidorBO = new RepartidorBO();
-    private final IEntregasBO entregasBO = new EntregasBO();
+    private final IEntregasBO entregasBO = EntregasBO.getInstance();
     private static ControlMenuPrincipal instancia;
 
     public static ControlMenuPrincipal getInstance() {
@@ -41,12 +42,13 @@ public class ControlMenuPrincipal {
     }
 
     public void cargarEntregas(JPanel panel, Long id) {
-        List<Entrega> entregas = entregasBO.obtenerEntregasRepartidor(id);
+        List<EntregaDTO> entregas = entregasBO.obtenerEntregasRepartidor(id);
         panel.removeAll();
-        panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 0, 10));
-        for (Entrega e : entregas) {
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 10, 0, 10));
+        for (EntregaDTO entrega : entregas) {
             PanelTarjetaPedido tarjetaPedido = new PanelTarjetaPedido();
-            tarjetaPedido.cargarDatosEnTarjeta(e);
+
+            tarjetaPedido.cargarDatosEnTarjeta(entrega);
 
             tarjetaPedido.setBackground(new Color(248, 249, 250));
             tarjetaPedido.setOpaque(true);
@@ -61,5 +63,17 @@ public class ControlMenuPrincipal {
         }
         panel.revalidate();
         panel.repaint();
+    }
+
+    public void mostrarDetallePedido(EntregaDTO entrega) {
+        SolicitudEntregaDTO solicitud = new SolicitudEntregaDTO(
+                entrega.getDireccionOrigen(),
+                entrega.getDireccionDestino(),
+                entrega.getTipoPaquete(),
+                entrega.getPesoAprox(),
+                entrega.getEstadoEntrega(),
+                0
+        );
+        new FrmPublicarPedidoRepartidor(solicitud).setVisible(true);
     }
 }

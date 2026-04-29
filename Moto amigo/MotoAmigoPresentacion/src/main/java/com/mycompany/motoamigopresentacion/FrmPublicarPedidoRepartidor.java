@@ -7,6 +7,7 @@ package com.mycompany.motoamigopresentacion;
 import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
+import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
 import javax.swing.JOptionPane;
 import com.mycompany.motoamigopresentacion.controladores.ControlSolicitarEntrega;
 import java.awt.Color;
@@ -23,11 +24,10 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
 
     private ControlSolicitarEntrega control = ControlSolicitarEntrega.getInstance();
     private SolicitudEntregaDTO solicitud;
-    
 
     public FrmPublicarPedidoRepartidor(SolicitudEntregaDTO solicitud) {
         initComponents();
-        
+
         utileriasBotones.btnRedondeado(btn_aceptar, "negro", 30);
 
         panPrincipal.setLayout(new AbsoluteLayout());
@@ -321,25 +321,16 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
 
-        boolean resultado = control.publicarSolicitud(solicitud);
+        GestorNotificacionesEntrega.getInstance().notificar("PEDIDO_ACEPTADO", "Carlos Pérez");
 
-        if (resultado) {
-            RutaResponseDTO rutaReal = control.obtenerRuta(
-                solicitud.getOrigen(), 
-                solicitud.getDestino()
-            );
-            if (rutaReal != null) {
-                JOptionPane.showMessageDialog(this, "Pedido aceptado. Iniciando navegación.");
+        RutaResponseDTO rutaReal = control.obtenerRuta(solicitud.getOrigen(),solicitud.getDestino());
 
-                FrmSeguimientoTiempoRealRepartidor seguimiento = new FrmSeguimientoTiempoRealRepartidor(rutaReal);
-                seguimiento.setVisible(true);
-
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al trazar la ruta técnica.");
-            }
+        if (rutaReal != null && rutaReal.isRutaValida()) {
+            JOptionPane.showMessageDialog(this, "Pedido aceptado. Iniciando navegación.");
+            new FrmSeguimientoTiempoRealRepartidor(rutaReal).setVisible(true);
+            this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "No se pudo aceptar el pedido.");
+            JOptionPane.showMessageDialog(this, "Error al trazar la ruta.");
         }
 
     }//GEN-LAST:event_btn_aceptarActionPerformed

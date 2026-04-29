@@ -6,6 +6,7 @@ package com.mycompany.motoamigopresentacion.controladores;
 
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.IncidenteDTO;
+import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
 import com.mycompany.motoamigopresentacion.FrmEstadoReporteRepartidor;
 import com.mycompany.motoamigopresentacion.FrmFormularioIncidenteRepartidor;
 import com.mycompany.motoamigopresentacion.FrmSeguimientoTiempoRealRepartidor;
@@ -23,8 +24,8 @@ public class ControlRegistrarIncidente {
     private static ControlRegistrarIncidente instancia;
 
     private ControlRegistrarIncidente() {
-        entregaActual = new EntregaDTO( "Polanco 45", "Caja", "DISPONIBLE");
-        
+        entregaActual = new EntregaDTO("", "Polanco 45", "Caja", "DISPONIBLE", 0, 0);
+
     }
 
     public static ControlRegistrarIncidente getInstance() {
@@ -48,9 +49,13 @@ public class ControlRegistrarIncidente {
         incidenteNuevo = new IncidenteDTO(tipoIncidenteSeleccionado,"");
 
         entregaActual = new EntregaDTO(
+            entregaActual.getDireccionOrigen(),
             entregaActual.getDireccionDestino(),
             entregaActual.getTipoPaquete(),
-            "NO COMPLETADA"
+            "NO COMPLETADA",
+            45,
+            150
+                
         );
         frmFormulario.dispose();
 
@@ -65,11 +70,14 @@ public class ControlRegistrarIncidente {
      */
     public void cancelarPedidoPorNoRecoleccion() {
         entregaActual = new EntregaDTO(
+            entregaActual.getDireccionOrigen(),
             entregaActual.getDireccionDestino(),
             entregaActual.getTipoPaquete(),
-            "DISPONIBLE"
+            "DISPONIBLE",
+            0,
+            0
         );
-        // TODO: notificarObservers(entregaActual); 
+        GestorNotificacionesEntrega.getInstance().notificar("PEDIDO_CANCELADO", entregaActual);
         System.out.println("Pedido " + idEntregaActual + " cancelado y puesto como DISPONIBLE");
     }
 }

@@ -391,9 +391,11 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
             solicitud.setAncho(ancho);
             solicitud.setAlto(alto);
 
+            control.registrarObservers(solicitud);
+            control.publicarSolicitud(solicitud);
+
             RutaRequestDTO request = new RutaRequestDTO(txt_origen.getText(), txt_destino.getText());
-            FrmConsultarRutaEmprendedor pantalla = new FrmConsultarRutaEmprendedor(request);
-            pantalla.setVisible(true);
+            new FrmConsultarRutaEmprendedor(request).setVisible(true);
             this.dispose();
 
         } catch (NumberFormatException ex) {
