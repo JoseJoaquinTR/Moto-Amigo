@@ -5,10 +5,13 @@
 package com.mycompany.motoamigopresentacion;
 
 import Utilerias.utileriasBotones;
+import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
+import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
 import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
 import javax.swing.JOptionPane;
+import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
 import com.mycompany.motoamigopresentacion.controladores.ControlSolicitarEntrega;
 import java.awt.Color;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
@@ -42,9 +45,9 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
         txt_origen.setText(solicitud.getOrigen());
         txt_destino.setText(solicitud.getDestino());
         txt_tipoPaquete.setText(solicitud.getTipoPaquete());
-        txt_peso.setText(String.valueOf(solicitud.getPesoAprox()));
-        txt_ganancia.setText(String.valueOf(solicitud.getDistancia()));
-        txt_ganancia.setText(String.valueOf(solicitud.getDistancia() * 10));
+        txt_peso.setText(String.format("%.2f kg", solicitud.getPesoAprox()));
+        txt_distancia.setText(String.format("%.2f km", solicitud.getDistancia()));
+        txt_ganancia.setText(String.format("$%.2f MXN", solicitud.getDistancia() * 10));
     }
 
     /**
@@ -321,9 +324,15 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
 
-        GestorNotificacionesEntrega.getInstance().notificar("PEDIDO_ACEPTADO", "Carlos Pérez");
+        RepartidorDTO repartidor = ControlMenuPrincipal.getInstance().buscarRepartidorPorId(1L);
+        String nombreRepartidor = repartidor != null ? repartidor.getNombre() : "Repartidor";
 
-        RutaResponseDTO rutaReal = control.obtenerRuta(solicitud.getOrigen(),solicitud.getDestino());
+        GestorNotificacionesEntrega.getInstance().notificar(
+                EventoEntrega.PEDIDO_ACEPTADO,
+                nombreRepartidor
+        );
+
+        RutaResponseDTO rutaReal = control.obtenerRuta(solicitud.getOrigen(), solicitud.getDestino());
 
         if (rutaReal != null && rutaReal.isRutaValida()) {
             JOptionPane.showMessageDialog(this, "Pedido aceptado. Iniciando navegación.");

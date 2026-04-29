@@ -6,14 +6,20 @@ package com.mycompany.motoamigopresentacion;
 
 import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.RepartidorDTO;
+import com.mycompany.motoamigodto.SolicitudEntregaDTO;
+import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
+import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
+import com.mycompany.motoamigonegocio.Observer.INotificacionPedido;
 import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Jesus Omar
  */
-public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame {
+public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements INotificacionPedido {
 
     /**
      * Creates new form FrmMenuPrincipalRepartidor
@@ -21,6 +27,7 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame {
     public FrmMenuPrincipalRepartidor() {
         initComponents();
         iniciarUI();
+        GestorNotificacionesEntrega.getInstance().agregarObserver(this);
         setLocationRelativeTo(null);
     }
 
@@ -29,7 +36,6 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame {
         pnlListaEnvios.setBorder(null);
         utileriasBotones.panelRedondeado(panelRepartidor, new Color(29, 38, 59), 30);
         panelRepartidor.setPanel(this.pnlListaEnvios);
-        // Cargar los datos del repartidor
         RepartidorDTO repartidor = ControlMenuPrincipal.getInstance().buscarRepartidorPorId(1L);
         panelRepartidor.cargarDatosRepartidor(repartidor);
     }
@@ -92,6 +98,29 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+
+    @Override
+    public void actualizar(String evento, Object datos) {
+        if (!EventoEntrega.PEDIDO_DISPONIBLE.name().equals(evento)
+                || !(datos instanceof SolicitudEntregaDTO solicitud)) {
+            return;
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(this,
+                    "Nueva solicitud disponible para repartir.",
+                    "Pedido disponible",
+                    JOptionPane.INFORMATION_MESSAGE);
+            new FrmPublicarPedidoRepartidor(solicitud).setVisible(true);
+        });
+    }
+
+    @Override
+    public void dispose() {
+        GestorNotificacionesEntrega.getInstance().eliminarObserver(this);
+        super.dispose();
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -11,6 +11,8 @@ import com.mycompany.cusolicitarentrega.FuncionalidadSeguimiento;
 import com.mycompany.cusolicitarentrega.IFuncionalidadSeguimiento;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
+import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
+import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
 import com.mycompany.motoamigopresentacion.controladores.ControlRegistrarIncidente;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -149,7 +151,20 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
         timer.addActionListener(e -> {
             UbicacionDTO ubi = funcionalidad.obtenerSiguiente();
 
+            if (ubi == null) {
+                timer.stop();
+                JOptionPane.showMessageDialog(this,
+                        "No hay puntos de ruta para mostrar.",
+                        "Ruta no disponible",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             moverMarcador(ubi);
+            GestorNotificacionesEntrega.getInstance().notificar(
+                    EventoEntrega.UBICACION_ACTUALIZADA,
+                    ubi
+            );
 
             if (ubi.getDescripcion().toLowerCase().contains("llegó al origen") && !pedidoRecolectado) {
                 timer.stop();
@@ -176,6 +191,19 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
                         timer.start();
                     }
                 }
+                return;
+            }
+
+            if (funcionalidad.haTerminado()) {
+                timer.stop();
+                GestorNotificacionesEntrega.getInstance().notificar(
+                        EventoEntrega.PEDIDO_ENTREGADO,
+                        ruta
+                );
+                JOptionPane.showMessageDialog(this,
+                        "Entrega finalizada correctamente.",
+                        "Pedido entregado",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
         timer.start();
@@ -209,7 +237,7 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
      * de cargar.
      */
     private void moverMarcador(UbicacionDTO ubi) {
-        if (mapViewer == null) {
+        if (mapViewer == null || ubi == null) {
             return;
         }
 

@@ -1,7 +1,6 @@
 package com.mycompany.motoamigopresentacion;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import java.awt.EventQueue;
 
 /**
@@ -16,14 +15,7 @@ public class Main {
             new FrmMenuPrincipalRepartidor().setVisible(true);
         });
         EventQueue.invokeLater(() -> {
-            new FrmPublicarPedidoRepartidor(new SolicitudEntregaDTO(
-                    "calle amberes 314",
-                    "calle tabasco 322",
-                    "Caja",
-                    10.5,
-                    "Activo",
-                    10
-            )).setVisible(true);
+            new FrmPublicarPedidosEmprendedor().setVisible(true);
         });
 
     }

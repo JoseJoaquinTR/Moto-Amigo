@@ -10,25 +10,25 @@ import com.mycompany.motoamigonegocio.GestionRepartidores;
 import com.mycompany.motoamigonegocio.IGestionRepartidores;
 import com.mycompany.motoamigonegocio.Observer.EmprendedorObserver;
 import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
-import com.mycompany.motoamigonegocio.Observer.RepartidorObserver;
 import java.util.List;
 import javax.swing.Timer;
 
+/**
+ * Controlador del flujo: emprendedor publica solicitud y espera a que
+ * algún repartidor la acepte mediante Observer.
+ */
 public class ControlSolicitarEntrega {
 
     private static ControlSolicitarEntrega instancia;
 
-    private IGestionRepartidores gestionRepartidores;
-
-    private boolean pedidoAceptado = false;
-
+    private final IGestionRepartidores gestionRepartidores;
     private EmprendedorObserver emprendedorObserver;
 
     private ControlSolicitarEntrega() {
         this.gestionRepartidores = GestionRepartidores.getInstance();
     }
 
-    public static ControlSolicitarEntrega getInstance() {
+    public static synchronized ControlSolicitarEntrega getInstance() {
         if (instancia == null) {
             instancia = new ControlSolicitarEntrega();
         }
@@ -49,39 +49,47 @@ public class ControlSolicitarEntrega {
         return cu.consultarRuta(request);
     }
 
+    /**
+     * Publica la solicitud y ejecuta el callback cuando un repartidor acepta.
+     * El evento PEDIDO_ACEPTADO lo emite la pantalla del repartidor al aceptar.
+     */
     public void publicarYEsperarAceptacion(SolicitudEntregaDTO solicitud, Runnable alAceptar) {
-        emprendedorObserver = configurarObservers();
+        emprendedorObserver = configurarObserverEmprendedor();
 
-        publicarSolicitud(solicitud);
+        boolean publicado = publicarSolicitud(solicitud);
+        if (!publicado) {
+            return;
+        }
 
-        Timer timer = new Timer(3000, null);
+        Timer timer = new Timer(1000, null);
         timer.addActionListener(e -> {
             if (emprendedorObserver.isPedidoAceptado()) {
                 timer.stop();
-                GestorNotificacionesEntrega.getInstance().notificar(
-                        "PEDIDO_ACEPTADO",
-                        emprendedorObserver.getNombreRepartidorAsignado()
-                );
-                alAceptar.run();
+                GestorNotificacionesEntrega.getInstance().eliminarObserver(emprendedorObserver);
+                if (alAceptar != null) {
+                    alAceptar.run();
+                }
             }
         });
         timer.start();
     }
 
-    private EmprendedorObserver configurarObservers() {
-        EmprendedorObserver emprendedorObserver = new EmprendedorObserver("Emprendedor");
+    private EmprendedorObserver configurarObserverEmprendedor() {
         GestorNotificacionesEntrega gestor = GestorNotificacionesEntrega.getInstance();
 
-        gestor.agregarObserver(emprendedorObserver);
-
-        List<RepartidorDTO> disponibles = obtenerRepartidoresDisponibles();
-        for (RepartidorDTO r : disponibles) {
-            gestor.agregarObserver(new RepartidorObserver(r.getNombre()));
+        if (emprendedorObserver != null) {
+            gestor.eliminarObserver(emprendedorObserver);
         }
 
-        return emprendedorObserver;
+        EmprendedorObserver nuevoObserver = new EmprendedorObserver("Emprendedor");
+        gestor.agregarObserver(nuevoObserver);
+        return nuevoObserver;
     }
+
+    /**
+     * Se conserva por compatibilidad con pantallas existentes.
+     */
     public void registrarObservers(SolicitudEntregaDTO solicitud) {
-        configurarObservers();
+        configurarObserverEmprendedor();
     }
 }

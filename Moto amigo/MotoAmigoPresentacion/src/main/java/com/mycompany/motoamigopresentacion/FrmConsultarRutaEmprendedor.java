@@ -47,9 +47,8 @@ public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
     public FrmConsultarRutaEmprendedor(RutaRequestDTO request) {
         initComponents();
 
-        casoUso = new ConsultarRuta(); // en el constructor de consultarRuta ya se crea la fachada
+        casoUso = new ConsultarRuta();
 
-        // Tamaño predeterminado y centrado
         this.setSize(1008, 738);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -62,10 +61,10 @@ public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
     }
     private void consultarRuta(RutaRequestDTO request){
         try {
-            // Consultar ruta con direcciones en texto
             this.response = casoUso.consultarRuta(request);
 
             if (response != null && response.isRutaValida()) {
+                response.setIdRepartidorAsignado(1L);
                 inicializarPanelMapa(response);
 
                 lblDistancia.setText(String.format("%.2f km", response.getDistancia()));

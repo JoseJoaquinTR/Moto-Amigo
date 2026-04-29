@@ -6,6 +6,9 @@ package com.mycompany.motoamigopresentacion;
 
 import Utilerias.utileriasBotones;
 import Utilerias.utileriasMensajes;
+import com.mycompany.motoamigodto.IncidenteDTO;
+import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
+import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Rectangle;
@@ -308,6 +311,11 @@ public class FrmFormularioIncidenteRepartidor extends javax.swing.JFrame {
                 descripcion = "Tu reporte ha sido enviado correctamente.";
             }
         }
+        GestorNotificacionesEntrega.getInstance().notificar(
+                EventoEntrega.PEDIDO_NO_COMPLETADO,
+                new IncidenteDTO(incidenteSeleccionado, descripcion)
+        );
+
         utileriasMensajes.mostrarAlertaIncidente(
                 (Frame) SwingUtilities.getWindowAncestor(this),
                 titulo,

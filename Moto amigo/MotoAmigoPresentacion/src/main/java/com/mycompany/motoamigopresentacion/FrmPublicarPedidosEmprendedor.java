@@ -68,7 +68,6 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
         Rectangle rCaja = new Rectangle(41, 220, 382, 86);
         Rectangle rSobre = new Rectangle(571, 220, 382, 86);
 
-        // Botón Caja/Paquete
         btnCajaPaquete = new JButton("Caja/Paquete");
         btnCajaPaquete.setBackground(new Color(255, 247, 237));
         btnCajaPaquete.setForeground(new Color(255, 105, 0));
@@ -79,7 +78,6 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
         btnCajaPaquete.setBounds(rCaja);
         btnCajaPaquete.addActionListener(e -> seleccionarTipo("caja"));
 
-        // Botón Sobre/Doc
         btnSobreDoc = new JButton("Sobre/Doc");
         btnSobreDoc.setBackground(new Color(255, 247, 237));
         btnSobreDoc.setForeground(new Color(255, 105, 0));
@@ -90,7 +88,6 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
         btnSobreDoc.setBounds(rSobre);
         btnSobreDoc.addActionListener(e -> seleccionarTipo("sobre"));
 
-        // Panel de dimensiones
         panelDimensiones = new JPanel(null);
         panelDimensiones.setBackground(Color.WHITE);
         panelDimensiones.setBounds(rCaja.x, rCaja.y + rCaja.height + 10, rSobre.x + rSobre.width - rCaja.x, 120);
@@ -234,7 +231,6 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
             popup.add(item);
         }
 
-        // Mostrar el popup justo debajo del JTextArea
         popup.show(campo, 0, campo.getHeight());
     }
 
@@ -391,12 +387,16 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
             solicitud.setAncho(ancho);
             solicitud.setAlto(alto);
 
-            control.registrarObservers(solicitud);
-            control.publicarSolicitud(solicitud);
+            JOptionPane.showMessageDialog(this,
+                    "Solicitud publicada. Esperando a que un repartidor la acepte.",
+                    "Solicitud enviada",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-            RutaRequestDTO request = new RutaRequestDTO(txt_origen.getText(), txt_destino.getText());
-            new FrmConsultarRutaEmprendedor(request).setVisible(true);
-            this.dispose();
+            control.publicarYEsperarAceptacion(solicitud, () -> {
+                RutaRequestDTO request = new RutaRequestDTO(txt_origen.getText(), txt_destino.getText());
+                new FrmConsultarRutaEmprendedor(request).setVisible(true);
+                this.dispose();
+            });
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Ingresa valores numéricos válidos.", "Error", JOptionPane.ERROR_MESSAGE);

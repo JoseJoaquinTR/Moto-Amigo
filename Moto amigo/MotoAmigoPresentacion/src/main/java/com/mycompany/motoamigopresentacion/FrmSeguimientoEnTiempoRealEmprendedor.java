@@ -7,12 +7,15 @@ import com.mycompany.cusolicitarentrega.IFuncionalidadSeguimiento;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
+import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
+import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
+import com.mycompany.motoamigonegocio.Observer.INotificacionPedido;
 import java.awt.BorderLayout;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import javax.swing.JOptionPane;
-import javax.swing.Timer;
+import javax.swing.SwingUtilities;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCenter;
@@ -27,7 +30,7 @@ import panelesUtilerias.PanelHeader;
  *
  * @author joset
  */
-public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame {
+public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame implements INotificacionPedido {
 
     private JXMapViewer mapViewer;
     private WaypointPainter<DefaultWaypoint> waypointPainter;
@@ -43,6 +46,7 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame {
         this.ruta = ruta;
         this.funcionalidad = FuncionalidadSeguimiento.crear();
         initComponents();
+        GestorNotificacionesEntrega.getInstance().agregarObserver(this);
         inicializarUI();
         inicializarMapa();
         setLocationRelativeTo(null);
@@ -92,32 +96,70 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame {
      *
      */
     private void iniciarSeguimiento() {
-        Timer timer = new Timer(1000, null);
+        lblEstado.setText("Estado: Esperando actualización del repartidor");
+        txtSeguimiento.append("[" + LocalTime.now().withNano(0)
+                + "] Esperando ubicación del repartidor...\n");
+        txtSeguimiento.setCaretPosition(txtSeguimiento.getDocument().getLength());
+    }
 
-        timer.addActionListener(e -> {
-            if (funcionalidad.haTerminado()) {
-                timer.stop();
-                lblEstado.setText("Estado: Entrega Finalizada");
-                txtSeguimiento.append("[" + LocalTime.now().withNano(0) + "] El pedido ha sido entregado con éxito.\n");
+    @Override
+    public void actualizar(String evento, Object datos) {
+        EventoEntrega eventoEntrega = convertirEvento(evento);
+        if (eventoEntrega == null) {
+            return;
+        }
 
-                JOptionPane.showMessageDialog(this,
-                        "¡El repartidor ha llegado al destino! El pedido se marca como entregado.",
-                        "Pedido Completado",
-                        JOptionPane.INFORMATION_MESSAGE);
-                return;
+        SwingUtilities.invokeLater(() -> {
+            switch (eventoEntrega) {
+                case UBICACION_ACTUALIZADA -> {
+                    if (datos instanceof UbicacionDTO ubi) {
+                        lblEstado.setText("Estado: " + ubi.getDescripcion());
+                        txtSeguimiento.append("[" + LocalTime.now().withNano(0)
+                                + "] " + ubi.getDescripcion() + "\n");
+                        txtSeguimiento.setCaretPosition(txtSeguimiento.getDocument().getLength());
+                        moverMarcador(ubi);
+                    }
+                }
+                case PEDIDO_ENTREGADO -> {
+                    lblEstado.setText("Estado: Entrega Finalizada");
+                    txtSeguimiento.append("[" + LocalTime.now().withNano(0)
+                            + "] El pedido ha sido entregado con éxito.\n");
+                    txtSeguimiento.setCaretPosition(txtSeguimiento.getDocument().getLength());
+                    JOptionPane.showMessageDialog(this,
+                            "¡El repartidor ha llegado al destino! El pedido se marca como entregado.",
+                            "Pedido Completado",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+                case PEDIDO_CANCELADO -> {
+                    lblEstado.setText("Estado: Pedido cancelado");
+                    txtSeguimiento.append("[" + LocalTime.now().withNano(0)
+                            + "] El pedido fue cancelado y volvió a quedar disponible.\n");
+                    txtSeguimiento.setCaretPosition(txtSeguimiento.getDocument().getLength());
+                }
+                case PEDIDO_NO_COMPLETADO -> {
+                    lblEstado.setText("Estado: Pedido no completado");
+                    txtSeguimiento.append("[" + LocalTime.now().withNano(0)
+                            + "] El repartidor reportó un incidente.\n");
+                    txtSeguimiento.setCaretPosition(txtSeguimiento.getDocument().getLength());
+                }
+                default -> {
+                }
             }
-
-            UbicacionDTO ubi = funcionalidad.obtenerSiguiente();
-
-            lblEstado.setText("Estado: " + ubi.getDescripcion());
-            txtSeguimiento.append("[" + LocalTime.now().withNano(0) + "] " + ubi.getDescripcion() + "\n");
-
-            txtSeguimiento.setCaretPosition(txtSeguimiento.getDocument().getLength());
-
-            moverMarcador(ubi);
         });
+    }
 
-        timer.start();
+    private EventoEntrega convertirEvento(String evento) {
+        try {
+            return EventoEntrega.valueOf(evento);
+        } catch (IllegalArgumentException | NullPointerException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public void dispose() {
+        GestorNotificacionesEntrega.getInstance().eliminarObserver(this);
+        super.dispose();
     }
 
     /**
@@ -125,7 +167,7 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame {
      * de cargar.
      */
     private void moverMarcador(UbicacionDTO ubi) {
-        if (mapViewer == null) {
+        if (mapViewer == null || ubi == null) {
             return;
         }
 
@@ -273,7 +315,7 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame {
         
         if (repartidor == null) {
             JOptionPane.showMessageDialog(this,
-                    "Error: ",
+                    "No se encontró información del repartidor asignado.",
                     "Sin repartidor",
                     JOptionPane.WARNING_MESSAGE);
             return;

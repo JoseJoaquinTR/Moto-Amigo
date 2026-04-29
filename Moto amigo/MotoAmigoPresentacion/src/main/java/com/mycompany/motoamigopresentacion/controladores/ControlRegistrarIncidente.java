@@ -6,6 +6,7 @@ package com.mycompany.motoamigopresentacion.controladores;
 
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.IncidenteDTO;
+import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
 import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
 import com.mycompany.motoamigopresentacion.FrmEstadoReporteRepartidor;
 import com.mycompany.motoamigopresentacion.FrmFormularioIncidenteRepartidor;
@@ -36,8 +37,8 @@ public class ControlRegistrarIncidente {
     }
 
     public void irAFormularioIncidente(FrmSeguimientoTiempoRealRepartidor frmMapa) {
-        FrmFormularioIncidenteRepartidor frm = new FrmFormularioIncidenteRepartidor(frmMapa);
-        frm.setVisible(true);
+        frmFormulario = new FrmFormularioIncidenteRepartidor(frmMapa);
+        frmFormulario.setVisible(true);
         frmMapa.setVisible(false);
     }
 
@@ -57,7 +58,14 @@ public class ControlRegistrarIncidente {
             150
                 
         );
-        frmFormulario.dispose();
+        GestorNotificacionesEntrega.getInstance().notificar(
+                EventoEntrega.PEDIDO_NO_COMPLETADO,
+                incidenteNuevo
+        );
+
+        if (frmFormulario != null) {
+            frmFormulario.dispose();
+        }
 
         frmEstado = new FrmEstadoReporteRepartidor(this, entregaActual, incidenteNuevo);
         frmEstado.setVisible(true);
@@ -65,8 +73,8 @@ public class ControlRegistrarIncidente {
 
     /**
      * Cancela el pedido cuando el repartidor no pudo recogerlo. El pedido debe
-     * volver a estado DISPONIBLE para todos los usuarios. TODO: Notificar via
-     * observer a los repartidores disponibles cuando se implemente.
+     * volver a estado DISPONIBLE para todos los usuarios.
+     * Se notifica por Observer para que las pantallas se actualicen.
      */
     public void cancelarPedidoPorNoRecoleccion() {
         entregaActual = new EntregaDTO(
@@ -77,7 +85,7 @@ public class ControlRegistrarIncidente {
             0,
             0
         );
-        GestorNotificacionesEntrega.getInstance().notificar("PEDIDO_CANCELADO", entregaActual);
+        GestorNotificacionesEntrega.getInstance().notificar(EventoEntrega.PEDIDO_CANCELADO, entregaActual);
         System.out.println("Pedido " + idEntregaActual + " cancelado y puesto como DISPONIBLE");
     }
 }

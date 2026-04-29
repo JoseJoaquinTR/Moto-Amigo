@@ -1,18 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.motoamigonegocio.Observer;
 
 /**
- *
- * @author joset
+ * Subject del patrón Observer para los eventos de entrega.
  */
 public interface IGestorNotificacionesEntrega {
 
-    public void agregarObserver(INotificacionPedido observer);
+    void agregarObserver(INotificacionPedido observer);
 
-    public void eliminarObserver(INotificacionPedido observer);
+    void eliminarObserver(INotificacionPedido observer);
 
-    public void notificar(String evento, Object datos);
+    void notificar(String evento, Object datos);
+
+    void limpiarObservers();
+
+    int contarObservers();
 }

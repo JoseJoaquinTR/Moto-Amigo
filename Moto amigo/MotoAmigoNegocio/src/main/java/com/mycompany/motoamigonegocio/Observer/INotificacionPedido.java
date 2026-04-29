@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.motoamigonegocio.Observer;
 
 /**
- *
- * @author joset
+ * Observer que reacciona a eventos relacionados con una entrega.
  */
 public interface INotificacionPedido {
 
-   public void actualizar(String evento, Object datos);
+    void actualizar(String evento, Object datos);
 }

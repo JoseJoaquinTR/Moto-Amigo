@@ -1,19 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.motoamigonegocio.Observer;
 
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 
 /**
- *
- * @author joset
+ * Observer de apoyo para repartidores.
  */
 public class RepartidorObserver implements INotificacionPedido {
 
-    private String nombreRepartidor;
-    private boolean pedidoDisponible = false;
+    private final String nombreRepartidor;
+    private boolean pedidoDisponible;
     private SolicitudEntregaDTO ultimoPedido;
 
     public RepartidorObserver(String nombreRepartidor) {
@@ -22,17 +17,38 @@ public class RepartidorObserver implements INotificacionPedido {
 
     @Override
     public void actualizar(String evento, Object datos) {
-        switch (evento) {
-            case "PEDIDO_DISPONIBLE" -> {
-                pedidoDisponible = true;
-                ultimoPedido = (SolicitudEntregaDTO) datos;
-                System.out.println("Repartidor " + nombreRepartidor+ " notificado: nuevo pedido disponible de "+ ultimoPedido.getOrigen() + " a " + ultimoPedido.getDestino());
+        EventoEntrega eventoEntrega = convertirEvento(evento);
+        if (eventoEntrega == null) {
+            return;
+        }
+
+        switch (eventoEntrega) {
+            case PEDIDO_DISPONIBLE -> {
+                if (datos instanceof SolicitudEntregaDTO solicitud) {
+                    pedidoDisponible = true;
+                    ultimoPedido = solicitud;
+                    System.out.println("Repartidor " + nombreRepartidor
+                            + " notificado: nuevo pedido disponible de "
+                            + ultimoPedido.getOrigen() + " a " + ultimoPedido.getDestino());
+                }
             }
-            case "PEDIDO_CANCELADO" -> {
+            case PEDIDO_CANCELADO -> {
                 pedidoDisponible = false;
                 ultimoPedido = null;
-                System.out.println("Repartidor " + nombreRepartidor+ " notificado: pedido cancelado");
+                System.out.println("Repartidor " + nombreRepartidor
+                        + " notificado: pedido cancelado");
             }
+            default -> {
+                // Este observer no necesita reaccionar a todos los eventos.
+            }
+        }
+    }
+
+    private EventoEntrega convertirEvento(String evento) {
+        try {
+            return EventoEntrega.valueOf(evento);
+        } catch (IllegalArgumentException | NullPointerException ex) {
+            return null;
         }
     }
 

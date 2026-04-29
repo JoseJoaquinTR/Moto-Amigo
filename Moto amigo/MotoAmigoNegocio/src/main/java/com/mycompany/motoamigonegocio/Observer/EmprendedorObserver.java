@@ -1,17 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.motoamigonegocio.Observer;
 
 /**
- *
- * @author joset
+ * Observer de apoyo para el emprendedor.
+ * Sirve para saber cuándo un repartidor aceptó la solicitud.
  */
 public class EmprendedorObserver implements INotificacionPedido {
 
-    private String nombreEmprendedor;
-    private boolean pedidoAceptado = false;
+    private final String nombreEmprendedor;
+    private boolean pedidoAceptado;
     private String nombreRepartidorAsignado;
 
     public EmprendedorObserver(String nombreEmprendedor) {
@@ -20,18 +16,41 @@ public class EmprendedorObserver implements INotificacionPedido {
 
     @Override
     public void actualizar(String evento, Object datos) {
-        switch (evento) {
-            case "PEDIDO_ACEPTADO" -> {
+        EventoEntrega eventoEntrega = convertirEvento(evento);
+        if (eventoEntrega == null) {
+            return;
+        }
+
+        switch (eventoEntrega) {
+            case PEDIDO_ACEPTADO -> {
                 pedidoAceptado = true;
-                nombreRepartidorAsignado = (String) datos;
-                System.out.println("Emprendedor " + nombreEmprendedor+ " notificado: pedido aceptado por " + nombreRepartidorAsignado);
+                nombreRepartidorAsignado = datos != null ? datos.toString() : "Repartidor";
+                System.out.println("Emprendedor " + nombreEmprendedor
+                        + " notificado: pedido aceptado por " + nombreRepartidorAsignado);
             }
-            case "PEDIDO_ENTREGADO" -> {
-                System.out.println("Emprendedor " + nombreEmprendedor+ " notificado: pedido entregado exitosamente");
+            case PEDIDO_ENTREGADO ->
+                System.out.println("Emprendedor " + nombreEmprendedor
+                        + " notificado: pedido entregado exitosamente");
+            case PEDIDO_NO_COMPLETADO ->
+                System.out.println("Emprendedor " + nombreEmprendedor
+                        + " notificado: pedido no completado");
+            case PEDIDO_CANCELADO -> {
+                pedidoAceptado = false;
+                nombreRepartidorAsignado = null;
+                System.out.println("Emprendedor " + nombreEmprendedor
+                        + " notificado: pedido cancelado");
             }
-            case "PEDIDO_NO_COMPLETADO" -> {
-                System.out.println("Emprendedor " + nombreEmprendedor+ " notificado: pedido no completado");
+            default -> {
+                // Este observer no necesita reaccionar a todos los eventos.
             }
+        }
+    }
+
+    private EventoEntrega convertirEvento(String evento) {
+        try {
+            return EventoEntrega.valueOf(evento);
+        } catch (IllegalArgumentException | NullPointerException ex) {
+            return null;
         }
     }
 
