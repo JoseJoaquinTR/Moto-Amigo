@@ -77,6 +77,11 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
 
         btnNuevoEnvio.setForeground(new java.awt.Color(232, 100, 10));
         btnNuevoEnvio.setText("Nuevo Envio");
+        btnNuevoEnvio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoEnvioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlNuevoEnvioLayout = new javax.swing.GroupLayout(pnlNuevoEnvio);
         pnlNuevoEnvio.setLayout(pnlNuevoEnvioLayout);
@@ -103,7 +108,6 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
         );
 
         lblEnviosActivos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblEnviosActivos.setForeground(new java.awt.Color(0, 0, 0));
         lblEnviosActivos.setText("Envíos Activos");
 
         jScrollPane1.setBorder(null);
@@ -146,6 +150,10 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevoEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoEnvioActionPerformed
+        ControlMenuPrincipal.getInstance().abrirPantallaEnvioEmpr();
+    }//GEN-LAST:event_btnNuevoEnvioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

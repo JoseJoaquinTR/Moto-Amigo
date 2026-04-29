@@ -50,8 +50,9 @@ public class ControlSolicitarEntrega {
     }
 
     /**
-     * Publica la solicitud y ejecuta el callback cuando un repartidor acepta.
-     * El evento PEDIDO_ACEPTADO lo emite la pantalla del repartidor al aceptar.
+     * Publica la solicitud y ejecuta el callback cuando un repartidor acepta.El evento PEDIDO_ACEPTADO lo emite la pantalla del repartidor al aceptar.
+     * @param solicitud
+     * @param alAceptar
      */
     public void publicarYEsperarAceptacion(SolicitudEntregaDTO solicitud, Runnable alAceptar) {
         emprendedorObserver = configurarObserverEmprendedor();

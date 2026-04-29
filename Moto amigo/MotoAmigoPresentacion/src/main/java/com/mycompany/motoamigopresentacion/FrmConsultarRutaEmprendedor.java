@@ -9,6 +9,8 @@ import com.mycompany.cusolicitarentrega.ConsultarRuta;
 import com.mycompany.cusolicitarentrega.IConsultarRuta;
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
+import com.mycompany.motoamigodto.SolicitudEntregaDTO;
+import com.mycompany.motoamigopresentacion.controladores.ControlSolicitarEntrega;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,6 +23,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.CompoundPainter;
@@ -37,14 +40,15 @@ import panelesUtilerias.PanelHeader;
  */
 public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
 
+    private SolicitudEntregaDTO solicitud;
+    private ControlSolicitarEntrega control = ControlSolicitarEntrega.getInstance();
     private IConsultarRuta casoUso;
     private JXMapViewer mapViewer;
     private WaypointPainter<DefaultWaypoint> waypointPainter;
     private static final Logger LOGGER = Logger.getLogger(FrmConsultarRutaEmprendedor.class.getName());
     private RutaResponseDTO response;
-    
-    
-    public FrmConsultarRutaEmprendedor(RutaRequestDTO request) {
+
+    public FrmConsultarRutaEmprendedor(RutaRequestDTO request, SolicitudEntregaDTO solicitud) {
         initComponents();
 
         casoUso = new ConsultarRuta();
@@ -54,12 +58,14 @@ public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
         this.setResizable(false);
 
         consultarRuta(request);
-        
+
         setLocationRelativeTo(null);
         panelPrincipal.setLayout(new AbsoluteLayout());
         panelPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
+        this.solicitud = solicitud;
     }
-    private void consultarRuta(RutaRequestDTO request){
+
+    private void consultarRuta(RutaRequestDTO request) {
         try {
             this.response = casoUso.consultarRuta(request);
 
@@ -74,20 +80,19 @@ public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
                 mostrarErrorEnLabels("No se pudo calcular la ruta");
             }
         } catch (Exception e) {
-            LOGGER.severe("Error al consultar ruta: " + e.getMessage());
-            mostrarErrorEnLabels("Error al consultar ruta");
+            mostrarErrorEnLabels("Error al consultar ruta "+e.getMessage());
         }
     }
-        
+
     /**
      * Inicializa el mapa usando las coordenadas ya calculadas en el response.
      */
     private void inicializarPanelMapa(RutaResponseDTO response) {
         mapViewer = new JXMapViewer();
         org.jxmapviewer.input.PanMouseInputListener mm = new org.jxmapviewer.input.PanMouseInputListener(mapViewer);
-            mapViewer.addMouseListener(mm);
-            mapViewer.addMouseMotionListener(mm);
-            mapViewer.addMouseWheelListener(new org.jxmapviewer.input.ZoomMouseWheelListenerCenter(mapViewer));
+        mapViewer.addMouseListener(mm);
+        mapViewer.addMouseMotionListener(mm);
+        mapViewer.addMouseWheelListener(new org.jxmapviewer.input.ZoomMouseWheelListenerCenter(mapViewer));
         OSMTileFactoryCustom tileFactory = new OSMTileFactoryCustom();
         tileFactory.setThreadPoolSize(4);
         mapViewer.setTileFactory(tileFactory);
@@ -117,7 +122,7 @@ public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
         mapViewer.setOverlayPainter(compoundPainter);
 
         mapViewer.calculateZoomFrom(new HashSet<>(rutaPuntos));
-        mapViewer.setZoom(mapViewer.getZoom() - 1); 
+        mapViewer.setZoom(mapViewer.getZoom() - 1);
         panelMapa.removeAll();
         panelMapa.setLayout(new BorderLayout());
         panelMapa.add(mapViewer, BorderLayout.CENTER);
@@ -297,8 +302,15 @@ public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
         };
     }
     private void btnEnviarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarSolicitudActionPerformed
-        new FrmSeguimientoEnTiempoRealEmprendedor(this.response).setVisible(true);
-        this.dispose();
+
+        JOptionPane.showMessageDialog(this,
+                "Solicitud publicada. Esperando a que un repartidor la acepte.",
+                "Solicitud enviada",
+                JOptionPane.INFORMATION_MESSAGE);
+        control.publicarYEsperarAceptacion(solicitud, () -> {
+            new FrmSeguimientoEnTiempoRealEmprendedor(this.response).setVisible(true);
+            this.dispose();
+        });
     }//GEN-LAST:event_btnEnviarSolicitudActionPerformed
 
     private void btnCancelarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarSolicitudActionPerformed

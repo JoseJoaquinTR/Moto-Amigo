@@ -8,8 +8,6 @@ import com.mycompany.Entidades.Emprendedor;
 import com.mycompany.motoamigodto.EmprendedorDTO;
 import com.mycompany.motoamigopersistencia.EmprendedoresDAO;
 import com.mycompany.motoamigopersistencia.IEmprendedoresDAO;
-import com.mycompany.motoamigopersistencia.IRepartidorDAO;
-import com.mycompany.motoamigopersistencia.RepartidorDAO;
 
 /**
  *

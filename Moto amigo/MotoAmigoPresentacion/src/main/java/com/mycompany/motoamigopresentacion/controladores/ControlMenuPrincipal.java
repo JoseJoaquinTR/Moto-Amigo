@@ -18,6 +18,7 @@ import com.mycompany.motoamigonegocio.IEntregasBO;
 import com.mycompany.motoamigonegocio.IRepartidorBO;
 import com.mycompany.motoamigonegocio.RepartidorBO;
 import com.mycompany.motoamigopresentacion.FrmPublicarPedidoRepartidor;
+import com.mycompany.motoamigopresentacion.FrmPublicarPedidosEmprendedor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -81,7 +82,9 @@ public class ControlMenuPrincipal {
         panel.revalidate();
         panel.repaint();
     }
-
+    public void abrirPantallaEnvioEmpr(){
+        new FrmPublicarPedidosEmprendedor().setVisible(true);
+    }
     public void mostrarDetallePedido(EntregaDTO entrega) {
         SolicitudEntregaDTO solicitud = new SolicitudEntregaDTO(
                 entrega.getDireccionOrigen(),

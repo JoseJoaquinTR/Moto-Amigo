@@ -13,11 +13,9 @@ import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
 import javax.swing.JOptionPane;
 import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
 import com.mycompany.motoamigopresentacion.controladores.ControlSolicitarEntrega;
-import java.awt.Color;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 import panelesUtilerias.PanelHeader;
-import panelesUtilerias.PanelRedondeado;
 
 /**
  *
@@ -41,13 +39,13 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
 
     public void cargarSolicitud(SolicitudEntregaDTO solicitud) {
         this.solicitud = solicitud;
-
         txt_origen.setText(solicitud.getOrigen());
         txt_destino.setText(solicitud.getDestino());
         txt_tipoPaquete.setText(solicitud.getTipoPaquete());
         txt_peso.setText(String.format("%.2f kg", solicitud.getPesoAprox()));
         txt_distancia.setText(String.format("%.2f km", solicitud.getDistancia()));
-        txt_ganancia.setText(String.format("$%.2f MXN", solicitud.getDistancia() * 10));
+        txt_ganancia.setText(String.format("$%.2f MXN", solicitud.getCosto()));
+        
     }
 
     /**

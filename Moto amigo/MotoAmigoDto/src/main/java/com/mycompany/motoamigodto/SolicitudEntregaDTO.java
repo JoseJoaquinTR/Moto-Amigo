@@ -19,6 +19,7 @@ public class SolicitudEntregaDTO {
     private double largo;
     private double ancho;
     private double alto;
+    private Double costo;
 
     public SolicitudEntregaDTO(String origen, String destino, String tipoPaquete, double pesoAprox, String estado, double distancia) {
         this.origen = origen;
@@ -41,7 +42,7 @@ public class SolicitudEntregaDTO {
         return tipoPaquete;
     }
 
-    public double getPesoAprox() {
+    public Double getPesoAprox() {
         return pesoAprox;
     }
 
@@ -49,19 +50,19 @@ public class SolicitudEntregaDTO {
         return estado;
     }
 
-    public double getDistancia() {
+    public Double getDistancia() {
         return distancia;
     }
 
-    public double getLargo() {
+    public Double getLargo() {
         return largo;
     }
 
-    public double getAncho() {
+    public Double getAncho() {
         return ancho;
     }
 
-    public double getAlto() {
+    public Double getAlto() {
         return alto;
     }
 
@@ -69,18 +70,28 @@ public class SolicitudEntregaDTO {
         this.tipoPaquete = tipoPaquete;
     }
 
-    public void setLargo(double largo) {
+    public void setLargo(Double largo) {
         this.largo = largo;
     }
 
-    public void setAncho(double ancho) {
+    public void setAncho(Double ancho) {
         this.ancho = ancho;
     }
 
-    public void setAlto(double alto) {
+    public void setAlto(Double alto) {
         this.alto = alto;
     }
 
-    
+    public Double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Double costo) {
+        this.costo = costo;
+    }
+
+    public void setDistancia(Double distancia) {
+        this.distancia = distancia;
+    }
     
 }

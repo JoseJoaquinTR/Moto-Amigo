@@ -386,17 +386,9 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
             solicitud.setLargo(largo);
             solicitud.setAncho(ancho);
             solicitud.setAlto(alto);
-
-            JOptionPane.showMessageDialog(this,
-                    "Solicitud publicada. Esperando a que un repartidor la acepte.",
-                    "Solicitud enviada",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-            control.publicarYEsperarAceptacion(solicitud, () -> {
-                RutaRequestDTO request = new RutaRequestDTO(txt_origen.getText(), txt_destino.getText());
-                new FrmConsultarRutaEmprendedor(request).setVisible(true);
-                this.dispose();
-            });
+            RutaRequestDTO request = new RutaRequestDTO(txt_origen.getText(), txt_destino.getText());
+            new FrmConsultarRutaEmprendedor(request, solicitud).setVisible(true);
+            this.dispose();
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Ingresa valores numéricos válidos.", "Error", JOptionPane.ERROR_MESSAGE);
