@@ -1,5 +1,6 @@
 package com.mycompany.motoamigonegocio;
 
+import com.mycompany.Entidades.Emprendedor;
 import com.mycompany.motoamigodto.EmprendedorDTO;
 import com.mycompany.motoamigodto.IncidenteDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
@@ -20,9 +21,10 @@ public interface IFachadaNegocio {
      * Registra un nuevo emprendedor en el sistema.
      *
      * @param emprendedorDTO datos del emprendedor a registrar.
+     * @return 
      * @throws NegocioException si ocurre un error durante el registro.
      */
-    void registrarEmprendedor(EmprendedorDTO emprendedorDTO) throws NegocioException;
+    Emprendedor registrarEmprendedor(EmprendedorDTO emprendedorDTO) throws NegocioException;
 
     /**
      * Registra un incidente en el sistema.

@@ -4,6 +4,7 @@
  */
 package com.mycompany.motoamigonegocio;
 
+import com.mycompany.Entidades.Emprendedor;
 import com.mycompany.infraestructura.MapBoxService;
 import com.mycompany.motoamigodto.EmprendedorDTO;
 import com.mycompany.motoamigodto.IncidenteDTO;
@@ -18,6 +19,7 @@ public class FachadaNegocio implements IFachadaNegocio {
      * Lógica de negocio para rutas.
      */
     private final IRutaBO rutaBO;
+    private final IEmprendedoresBO emprendedorBO;
 
     /**
      * Construye una nueva fachada con sus dependencias de negocio.
@@ -26,13 +28,15 @@ public class FachadaNegocio implements IFachadaNegocio {
      */
     public FachadaNegocio(IRutaBO rutaBO) {
         this.rutaBO = rutaBO;
+        this.emprendedorBO = new EmprendedorBO();
+        
     }
     public static FachadaNegocio crear() {
         return new FachadaNegocio(new RutaBO(MapBoxService.getInstance()));
     }
     @Override
-    public void registrarEmprendedor(EmprendedorDTO emprendedorDTO) throws NegocioException {
-        EmprendedorBO.registrarEmprendedor(emprendedorDTO);
+    public Emprendedor registrarEmprendedor(EmprendedorDTO emprendedorDTO) throws NegocioException {
+        return emprendedorBO.registrarEmprendedor(emprendedorDTO);
     }
 
     @Override

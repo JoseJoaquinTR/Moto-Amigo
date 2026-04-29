@@ -42,9 +42,9 @@ public class EntregasDAO implements IEntregasDAO{
     @Override
     public List<Entrega> obtenerTodasLasEntregas() {
         List<Entrega> listaEntregas = new ArrayList<>();
-        listaEntregas.add(new Entrega(1L, 1L, 1L, "Cananea 456", "Norte 322", "Caja", "En camino", 0, 45));
-        listaEntregas.add(new Entrega(2L, 1L, 1L, "Amberes 111", "Antonio Ocaso 782", "Caja", "En camino", 0, 10));
-        listaEntregas.add(new Entrega(3L, 1L, 1L, "Morelos 834", "Michoacan 567", "Caja", "En camino", 0, 100));
+        listaEntregas.add(new Entrega(1L, 2L, 1L, "Cananea 456", "Norte 322", "Caja", "En camino", 0, 45));
+        listaEntregas.add(new Entrega(2L, 2L, 1L, "Amberes 111", "Antonio Ocaso 782", "Caja", "En camino", 0, 10));
+        listaEntregas.add(new Entrega(3L, 2L, 1L, "Morelos 834", "Michoacan 567", "Caja", "En camino", 0, 100));
         return listaEntregas;
     }
 

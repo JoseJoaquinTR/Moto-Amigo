@@ -102,7 +102,7 @@ public class panelRepartidor extends javax.swing.JPanel {
             lblConexion.setText("Conectado");
             lblConexion.setForeground(Color.GREEN);
             if(panelDestino != null){
-                ControlMenuPrincipal.getInstance().cargarEntregas(panelDestino, 1L);
+                ControlMenuPrincipal.getInstance().cargarEntregas(panelDestino, 1L, "repartidor");
             }
         }else{
             lblConexion.setText("Desconectado");
