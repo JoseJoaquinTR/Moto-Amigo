@@ -36,7 +36,7 @@ public class RepartidorDAO implements IRepartidorDAO {
     public Repartidor obtenerRepartidorPorId(Long idRepartidor) {
         return obtenerRepartidoresDisponibles()
             .stream()
-            .filter(r -> r.getIdRepartidor().equals(idRepartidor))
+            .filter(repa -> repa.getIdRepartidor().equals(idRepartidor))
             .findFirst()
             .orElse(null);
     }

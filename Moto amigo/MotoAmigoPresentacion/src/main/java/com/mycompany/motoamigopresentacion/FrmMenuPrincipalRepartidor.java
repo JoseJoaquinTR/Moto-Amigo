@@ -5,9 +5,11 @@
 package com.mycompany.motoamigopresentacion;
 
 import Utilerias.utileriasBotones;
+import com.mycompany.motoamigodto.RepartidorDTO;
+import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
 import java.awt.Color;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import panelesUtilerias.PanelHeader;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 
 /**
  *
@@ -21,11 +23,17 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame {
     public FrmMenuPrincipalRepartidor() {
         initComponents();
         iniciarUI();
-        jPanel1.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
+        setLocationRelativeTo(null);
     }
 
-    private void iniciarUI(){
-        utileriasBotones.panelRedondeado(pnlRepartidor, new Color(29, 38, 59), 30);
+    private void iniciarUI() {
+        jScrollPane1.setBorder(null);
+        pnlListaEnvios.setBorder(null);
+        utileriasBotones.panelRedondeado(panelRepartidor, new Color(29, 38, 59), 30);
+        panelRepartidor.setPanel(this.pnlListaEnvios);
+        // Cargar los datos del repartidor
+        RepartidorDTO repartidor = ControlMenuPrincipal.getInstance().buscarRepartidorPorId(1L);
+        panelRepartidor.cargarDatosRepartidor(repartidor);
     }
     
     /**
@@ -37,67 +45,52 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        pnlPrincipal = new javax.swing.JPanel();
-        pnlRepartidor = new javax.swing.JPanel();
+        panelHeader1 = new panelesUtilerias.PanelHeader();
+        pnlMenuInferior = new javax.swing.JPanel();
+        panelHeader2 = new panelesUtilerias.PanelHeader();
+        pnlCentral = new javax.swing.JPanel();
+        panelRepartidor = new panelesUtilerias.panelRepartidor();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        pnlListaEnvios = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1008, 738));
+        setMinimumSize(new java.awt.Dimension(1008, 738));
+        setResizable(false);
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlMenuInferior.setBackground(new java.awt.Color(255, 255, 255));
 
-        pnlPrincipal.setBackground(new java.awt.Color(255, 255, 255));
-        pnlPrincipal.setPreferredSize(new java.awt.Dimension(1010, 680));
-
-        javax.swing.GroupLayout pnlRepartidorLayout = new javax.swing.GroupLayout(pnlRepartidor);
-        pnlRepartidor.setLayout(pnlRepartidorLayout);
-        pnlRepartidorLayout.setHorizontalGroup(
-            pnlRepartidorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 998, Short.MAX_VALUE)
-        );
-        pnlRepartidorLayout.setVerticalGroup(
-            pnlRepartidorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 149, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
-        pnlPrincipal.setLayout(pnlPrincipalLayout);
-        pnlPrincipalLayout.setHorizontalGroup(
-            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlRepartidor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlPrincipalLayout.setVerticalGroup(
-            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(pnlRepartidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(503, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(pnlPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1010, 680));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnlMenuInferiorLayout = new javax.swing.GroupLayout(pnlMenuInferior);
+        pnlMenuInferior.setLayout(pnlMenuInferiorLayout);
+        pnlMenuInferiorLayout.setHorizontalGroup(
+            pnlMenuInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1010, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 740, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+        pnlMenuInferiorLayout.setVerticalGroup(
+            pnlMenuInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
+
+        getContentPane().add(pnlMenuInferior, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(panelHeader2, java.awt.BorderLayout.PAGE_START);
+
+        pnlCentral.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCentral.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        pnlCentral.setLayout(new javax.swing.BoxLayout(pnlCentral, javax.swing.BoxLayout.Y_AXIS));
+
+        panelRepartidor.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        pnlCentral.add(panelRepartidor);
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        pnlListaEnvios.setBackground(new java.awt.Color(255, 255, 255));
+        pnlListaEnvios.setMinimumSize(new java.awt.Dimension(100, 100));
+        pnlListaEnvios.setLayout(new javax.swing.BoxLayout(pnlListaEnvios, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane1.setViewportView(pnlListaEnvios);
+
+        pnlCentral.add(jScrollPane1);
+
+        getContentPane().add(pnlCentral, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -138,8 +131,12 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel pnlPrincipal;
-    private javax.swing.JPanel pnlRepartidor;
+    private javax.swing.JScrollPane jScrollPane1;
+    private panelesUtilerias.PanelHeader panelHeader1;
+    private panelesUtilerias.PanelHeader panelHeader2;
+    private panelesUtilerias.panelRepartidor panelRepartidor;
+    private javax.swing.JPanel pnlCentral;
+    private javax.swing.JPanel pnlListaEnvios;
+    private javax.swing.JPanel pnlMenuInferior;
     // End of variables declaration//GEN-END:variables
 }

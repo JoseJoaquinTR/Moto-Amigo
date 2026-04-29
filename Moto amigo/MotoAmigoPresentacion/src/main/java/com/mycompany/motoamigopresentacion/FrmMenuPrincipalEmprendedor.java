@@ -49,6 +49,7 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
         pnlEnvios = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -96,7 +97,7 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(null);
 
-        pnlEnvios.setLayout(new javax.swing.BoxLayout(pnlEnvios, javax.swing.BoxLayout.LINE_AXIS));
+        pnlEnvios.setLayout(new javax.swing.BoxLayout(pnlEnvios, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(pnlEnvios);
 
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
