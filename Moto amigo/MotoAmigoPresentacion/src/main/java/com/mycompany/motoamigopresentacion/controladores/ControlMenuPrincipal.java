@@ -6,8 +6,11 @@ package com.mycompany.motoamigopresentacion.controladores;
 
 import Utilerias.utileriasBotones;
 import com.mycompany.Entidades.Entrega;
+import com.mycompany.motoamigodto.EmprendedorDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
+import com.mycompany.motoamigonegocio.EmprendedorBO;
 import com.mycompany.motoamigonegocio.EntregasBO;
+import com.mycompany.motoamigonegocio.IEmprendedoresBO;
 import com.mycompany.motoamigonegocio.IEntregasBO;
 import com.mycompany.motoamigonegocio.IRepartidorBO;
 import com.mycompany.motoamigonegocio.RepartidorBO;
@@ -27,6 +30,7 @@ public class ControlMenuPrincipal {
 
     private final IRepartidorBO repartidorBO = new RepartidorBO();
     private final IEntregasBO entregasBO = new EntregasBO();
+    private final IEmprendedoresBO emprendedoresBO = new EmprendedorBO();
     private static ControlMenuPrincipal instancia;
 
     public static ControlMenuPrincipal getInstance() {
@@ -39,7 +43,11 @@ public class ControlMenuPrincipal {
     public RepartidorDTO buscarRepartidorPorId(Long id) {
         return repartidorBO.obtenerRepartidorPorId(id);
     }
-
+    
+    public EmprendedorDTO buscarEmprendedorPorId(Long id){
+        return emprendedoresBO.obtenerEmprendedorPorId(id);
+    }
+    
     public void cargarEntregas(JPanel panel, Long id) {
         List<Entrega> entregas = entregasBO.obtenerEntregasRepartidor(id);
         panel.removeAll();
