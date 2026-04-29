@@ -28,11 +28,16 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
     }
 
     private void iniciarUI(){
+        // Formato de los componentes del frame
         utileriasBotones.panelRedondeado(pnlNuevoEnvio, new Color(232, 100, 10), 30);
         utileriasBotones.btnRedondeado(btnNuevoEnvio, "blanco", 30);
+        jScrollPane1.setBorder(null);
+        pnlEnvios.setBorder(null);
         // Cargar datos del emprendedor
         EmprendedorDTO e = ControlMenuPrincipal.getInstance().buscarEmprendedorPorId(2L);
         lblEmprendedor.setText("¡Hola, "+e.getNombre()+"!");
+        // Cargar entregas del emprendedor
+        ControlMenuPrincipal.getInstance().cargarEntregas(this.pnlEnvios, 2L, "emprendedor");
     }
     
     /**

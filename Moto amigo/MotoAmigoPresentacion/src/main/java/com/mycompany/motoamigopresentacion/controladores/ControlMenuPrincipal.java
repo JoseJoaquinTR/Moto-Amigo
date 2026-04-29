@@ -20,6 +20,7 @@ import com.mycompany.motoamigonegocio.RepartidorBO;
 import com.mycompany.motoamigopresentacion.FrmPublicarPedidoRepartidor;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -52,8 +53,13 @@ public class ControlMenuPrincipal {
         return emprendedoresBO.obtenerEmprendedorPorId(id);
     }
     
-    public void cargarEntregas(JPanel panel, Long id) {
-        List<EntregaDTO> entregas = entregasBO.obtenerEntregasRepartidor(id);
+    public void cargarEntregas(JPanel panel, Long id, String filtro) {
+        List<EntregaDTO> entregas = new ArrayList<>();
+        if(filtro.equals("repartidor")){
+            entregas = entregasBO.obtenerEntregasRepartidor(id);
+        }else{
+            entregas = entregasBO.obtenerEntregasEmprendedor(id);
+        }
         panel.removeAll();
         panel.setBorder(BorderFactory.createEmptyBorder(20, 10, 0, 10));
         for (EntregaDTO entrega : entregas) {

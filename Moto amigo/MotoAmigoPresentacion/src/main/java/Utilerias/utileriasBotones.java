@@ -52,26 +52,32 @@ public class utileriasBotones {
                 btn.setBackground(naranja);
                 btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
                 btn.setForeground(Color.WHITE);
+                break;
             case "negro":
                 btn.setBackground(negro);
                 btn.setFont(new Font("Segoe UI", Font.BOLD, 20));
                 btn.setForeground(Color.WHITE);
+                break;
             case "rojo":
                 btn.setBackground(rojo);
                 btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
                 btn.setForeground(Color.WHITE);
+                break;
             case "verde":
                 btn.setBackground(verde);
                 btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
                 btn.setForeground(Color.WHITE);
+                break;
             case "blanco":
                 btn.setBackground(blanco);
                 btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
                 btn.setForeground(naranja);
+                break;
             case "azulOscuro":
                 btn.setBackground(azulOscuro);
                 btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
                 btn.setForeground(Color.WHITE);
+                break;
         }
 
         btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
