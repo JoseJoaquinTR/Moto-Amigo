@@ -11,6 +11,10 @@
         <module>../Infraestructura</module> 
         <module>../MotoAmigoNegocio</module>
         <module>../CUSolicitarEntrega</module>
+        <module>../CUEmprendedor</module>
+        <module>../CURepartidor</module>
+        <module>../CUIncidente</module>
+        <module>../CUPaquetes</module>
         <module>../MotoAmigoPresentacion</module>
     </modules>
     <properties>

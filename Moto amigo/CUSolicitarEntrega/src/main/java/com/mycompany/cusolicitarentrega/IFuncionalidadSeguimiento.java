@@ -1,21 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.mycompany.cusolicitarentrega;
 
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
+import com.mycompany.motoamigonegocio.NegocioException;
 
 /**
+ * Caso de uso de seguimiento de entrega en tiempo real.
  *
  * @author joset
  */
 public interface IFuncionalidadSeguimiento {
 
-    public abstract UbicacionDTO obtenerSiguiente();
+    /**
+     * Obtiene la siguiente ubicación a recorrer en la ruta de seguimiento.
+     *
+     * @return siguiente ubicación.
+     * @throws NegocioException si ocurre un error durante la consulta.
+     */
+    UbicacionDTO obtenerSiguiente() throws NegocioException;
 
-    boolean haTerminado();
-    
-    RepartidorDTO obtenerRepartidorAsignado(Long idRepartidor);
+    /**
+     * Indica si la ruta de seguimiento ha terminado.
+     *
+     * @return true si la ruta ha terminado.
+     * @throws NegocioException si ocurre un error durante la consulta.
+     */
+    boolean haTerminado() throws NegocioException;
+
+    /**
+     * Obtiene los datos del repartidor asignado a la entrega.
+     *
+     * @param idRepartidor identificador del repartidor.
+     * @return datos del repartidor.
+     * @throws NegocioException si ocurre un error durante la consulta.
+     */
+    RepartidorDTO obtenerRepartidorAsignado(Long idRepartidor) throws NegocioException;
 }

@@ -1,17 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.mycompany.cusolicitarentrega;
 
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
+import com.mycompany.motoamigonegocio.NegocioException;
 
 /**
+ * Caso de uso para calcular una ruta entre dos puntos.
  *
  * @author calo2
  */
 public interface IConsultarRuta {
-    
-    public abstract RutaResponseDTO consultarRuta(RutaRequestDTO rutaDTO );
+
+    /**
+     * Calcula la ruta correspondiente a la solicitud indicada.
+     *
+     * @param rutaDTO datos de origen y destino para el cálculo.
+     * @return ruta calculada.
+     * @throws NegocioException si ocurre un error durante el cálculo.
+     */
+    RutaResponseDTO consultarRuta(RutaRequestDTO rutaDTO) throws NegocioException;
 }

@@ -1,15 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.mycompany.motoamigonegocio;
 
 import com.mycompany.motoamigodto.RepartidorDTO;
 
 /**
+ * Operaciones de negocio relacionadas con repartidores.
  *
  * @author joset
  */
 public interface IRepartidorBO {
-    public RepartidorDTO obtenerRepartidorPorId(Long idRepartidor);
+
+    /**
+     * Obtiene los datos de un repartidor a partir de su identificador.
+     *
+     * @param idRepartidor identificador del repartidor.
+     * @return datos del repartidor; null si no se encuentra.
+     * @throws NegocioException si ocurre un error durante la consulta.
+     */
+    RepartidorDTO obtenerRepartidorPorId(Long idRepartidor) throws NegocioException;
 }

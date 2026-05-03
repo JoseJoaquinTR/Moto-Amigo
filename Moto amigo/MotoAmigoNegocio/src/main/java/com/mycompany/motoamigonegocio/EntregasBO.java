@@ -1,41 +1,50 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.motoamigonegocio;
 
 import Adapter.AdapterEntregaAEntregaDTO;
-import com.mycompany.Entidades.Entrega;
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigopersistencia.EntregasDAO;
 import com.mycompany.motoamigopersistencia.IEntregasDAO;
 import java.util.List;
 
 /**
+ * Implementación de la lógica de negocio para entregas.
  *
  * @author Jesus Omar
  */
-public class EntregasBO implements IEntregasBO{
+public class EntregasBO implements IEntregasBO {
 
-    private IEntregasDAO dao = EntregasDAO.getInstancia();
-    
+    private final IEntregasDAO dao = EntregasDAO.getInstancia();
+
     private static EntregasBO instancia;
 
-    public static EntregasBO getInstance() {
+    private EntregasBO() {
+    }
+
+    /**
+     * Obtiene la instancia única del BO.
+     *
+     * @return instancia de EntregasBO.
+     */
+    public static synchronized EntregasBO getInstance() {
         if (instancia == null) {
             instancia = new EntregasBO();
         }
         return instancia;
     }
-    
+
     @Override
-    public List<EntregaDTO>obtenerEntregasRepartidor(Long id){
+    public List<EntregaDTO> obtenerEntregasRepartidor(Long id) throws NegocioException {
+        if (id == null) {
+            throw new NegocioException("El identificador del repartidor no puede ser nulo.");
+        }
         return new AdapterEntregaAEntregaDTO().adaptarLista(dao.obtenerEntregasRepartidor(id));
     }
 
     @Override
-    public List<EntregaDTO> obtenerEntregasEmprendedor(Long id) {
+    public List<EntregaDTO> obtenerEntregasEmprendedor(Long id) throws NegocioException {
+        if (id == null) {
+            throw new NegocioException("El identificador del emprendedor no puede ser nulo.");
+        }
         return new AdapterEntregaAEntregaDTO().adaptarLista(dao.obtenerEntregasEmprendedor(id));
     }
-    
 }

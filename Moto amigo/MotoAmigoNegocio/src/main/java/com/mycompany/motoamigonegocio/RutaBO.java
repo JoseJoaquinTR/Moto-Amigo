@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.motoamigonegocio;
 
 import com.mycompany.infraestructura.IMapBoxService;
@@ -10,19 +6,30 @@ import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
 
 /**
+ * Implementación de la lógica de negocio para rutas.
  *
  * @author Carmen Andrea Lara Osuna
  */
 public class RutaBO implements IRutaBO {
 
-    private IMapBoxService mapbox;
-    private CalculadoraDistanciasManager calculadora;
+    private final IMapBoxService mapbox;
+    private final CalculadoraDistanciasManager calculadora;
 
+    /**
+     * Construye el BO con el servicio de mapas indicado.
+     *
+     * @param mapbox servicio de mapas a utilizar.
+     */
     public RutaBO(IMapBoxService mapbox) {
         this.mapbox = mapbox;
         this.calculadora = new CalculadoraDistanciasManager(new DistanciaAutomovilStrategy());
     }
 
+    /**
+     * Configura la estrategia de cálculo de distancia según el tipo de transporte.
+     *
+     * @param tipoTransporte tipo de transporte ("bicicleta" u otro valor).
+     */
     public void setTipoTransporte(String tipoTransporte) {
         if (tipoTransporte != null && tipoTransporte.equalsIgnoreCase("bicicleta")) {
             calculadora.setStrategy(new DistanciaBicicletaStrategy());
@@ -32,12 +39,13 @@ public class RutaBO implements IRutaBO {
     }
 
     @Override
-    public RutaResponseDTO calcularRuta(RutaRequestDTO dto) {
-        if (dto.getDireccionRecoleccion() == null || dto.getDireccionRecoleccion().isEmpty()
+    public RutaResponseDTO calcularRuta(RutaRequestDTO dto) throws NegocioException {
+        if (dto == null
+                || dto.getDireccionRecoleccion() == null || dto.getDireccionRecoleccion().isEmpty()
                 || dto.getDireccionEntrega() == null || dto.getDireccionEntrega().isEmpty()) {
             return new RutaResponseDTO(
-                    dto.getDireccionRecoleccion(),
-                    dto.getDireccionEntrega(),
+                    dto == null ? null : dto.getDireccionRecoleccion(),
+                    dto == null ? null : dto.getDireccionEntrega(),
                     false,
                     false
             );
@@ -49,13 +57,12 @@ public class RutaBO implements IRutaBO {
     }
 
     @Override
-    public boolean haTerminadoRuta() {
+    public boolean haTerminadoRuta() throws NegocioException {
         return mapbox.comprobarSiFinalizoRuta();
     }
 
     @Override
-    public UbicacionDTO obtenerSiguienteUbicacion() {
+    public UbicacionDTO obtenerSiguienteUbicacion() throws NegocioException {
         return mapbox.obtenerSiguienteUbicacion();
     }
 }
-

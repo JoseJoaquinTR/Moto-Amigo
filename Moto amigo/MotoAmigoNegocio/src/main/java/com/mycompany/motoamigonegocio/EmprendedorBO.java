@@ -1,31 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.motoamigonegocio;
 
+import Adapter.AdapterEmprendedorAEmprendedorDTO;
 import com.mycompany.Entidades.Emprendedor;
 import com.mycompany.motoamigodto.EmprendedorDTO;
 import com.mycompany.motoamigopersistencia.EmprendedoresDAO;
 import com.mycompany.motoamigopersistencia.IEmprendedoresDAO;
 
 /**
+ * Implementación de la lógica de negocio para emprendedores.
  *
  * @author joset
  */
-public class EmprendedorBO implements IEmprendedoresBO{
-    
-    private IEmprendedoresDAO dao = EmprendedoresDAO.getInstance();
-    
+public class EmprendedorBO implements IEmprendedoresBO {
+
+    private final IEmprendedoresDAO dao = EmprendedoresDAO.getInstance();
+
     @Override
-    public EmprendedorDTO obtenerEmprendedorPorId(Long id) {
+    public EmprendedorDTO obtenerEmprendedorPorId(Long id) throws NegocioException {
+        if (id == null) {
+            throw new NegocioException("El identificador del emprendedor no puede ser nulo.");
+        }
         Emprendedor emprendedor = dao.obtenerEmprendedorPorId(id);
-        return new Adapter.AdapterEmprendedorAEmprendedorDTO().adaptar(emprendedor);
+        return new AdapterEmprendedorAEmprendedorDTO().adaptar(emprendedor);
     }
 
     @Override
-    public Emprendedor registrarEmprendedor(EmprendedorDTO emprendedorDTO) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Emprendedor registrarEmprendedor(EmprendedorDTO emprendedorDTO) throws NegocioException {
+        if (emprendedorDTO == null) {
+            throw new NegocioException("Los datos del emprendedor no pueden ser nulos.");
+        }
+        if (emprendedorDTO.getNombre() == null || emprendedorDTO.getNombre().isEmpty()) {
+            throw new NegocioException("El nombre del emprendedor es obligatorio.");
+        }
+        return new Emprendedor(
+                null,
+                emprendedorDTO.getNombre(),
+                emprendedorDTO.getCorreo(),
+                emprendedorDTO.getTelefono(),
+                emprendedorDTO.getNombreNegocio()
+        );
     }
-
 }

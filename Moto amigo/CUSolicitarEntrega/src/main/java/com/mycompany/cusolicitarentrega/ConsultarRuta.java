@@ -1,33 +1,36 @@
-
 package com.mycompany.cusolicitarentrega;
 
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
-import com.mycompany.motoamigonegocio.FachadaNegocio;
-import com.mycompany.motoamigonegocio.IFachadaNegocio;
 import com.mycompany.motoamigonegocio.NegocioException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.mycompany.motoamigonegocio.fachada.FachadaNegocio;
+import com.mycompany.motoamigonegocio.fachada.IFachadaNegocio;
 
 /**
+ * Implementación del caso de uso para consultar una ruta.
+ * Delega el cálculo a la fachada de negocio.
  *
  * @author Carmen Andrea Lara Osuna
  */
 public class ConsultarRuta implements IConsultarRuta {
 
-    private IFachadaNegocio fachada;
+    private final IFachadaNegocio fachada;
 
-    public ConsultarRuta() {
-        this.fachada = FachadaNegocio.crear();
+    private ConsultarRuta(IFachadaNegocio fachada) {
+        this.fachada = fachada;
+    }
+
+    /**
+     * Crea una nueva instancia del caso de uso usando la fachada por defecto.
+     *
+     * @return instancia lista para usarse.
+     */
+    public static ConsultarRuta crear() {
+        return new ConsultarRuta(FachadaNegocio.crear());
     }
 
     @Override
-    public RutaResponseDTO consultarRuta(RutaRequestDTO rutaDTO) {
-        try {
-            return fachada.calcularRuta(rutaDTO);
-        } catch (NegocioException ex) {
-            Logger.getLogger(ConsultarRuta.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public RutaResponseDTO consultarRuta(RutaRequestDTO rutaDTO) throws NegocioException {
+        return fachada.calcularRuta(rutaDTO);
     }
 }

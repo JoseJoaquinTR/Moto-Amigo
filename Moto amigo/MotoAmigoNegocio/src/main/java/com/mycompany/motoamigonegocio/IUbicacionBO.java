@@ -1,16 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.mycompany.motoamigonegocio;
 
 import com.mycompany.motoamigodto.UbicacionDTO;
 import java.util.List;
 
 /**
+ * Operaciones de negocio relacionadas con la búsqueda de ubicaciones.
  *
  * @author joset
  */
 public interface IUbicacionBO {
-    public List<UbicacionDTO> buscarUbicacion(String texto) throws NegocioException;
+
+    /**
+     * Busca ubicaciones que coincidan con el texto proporcionado.
+     *
+     * @param texto cadena de búsqueda.
+     * @return lista de ubicaciones coincidentes.
+     * @throws NegocioException si ocurre un error durante la búsqueda.
+     */
+    List<UbicacionDTO> buscarUbicacion(String texto) throws NegocioException;
 }
