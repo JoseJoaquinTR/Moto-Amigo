@@ -1,5 +1,8 @@
 package com.mycompany.motoamigonegocio;
 
+import com.mycompany.motoamigonegocio.strategy.CalculadoraDistanciasManager;
+import com.mycompany.motoamigonegocio.strategy.DistanciaAutomovilStrategy;
+import com.mycompany.motoamigonegocio.strategy.DistanciaBicicletaStrategy;
 import com.mycompany.infraestructura.IMapBoxService;
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
