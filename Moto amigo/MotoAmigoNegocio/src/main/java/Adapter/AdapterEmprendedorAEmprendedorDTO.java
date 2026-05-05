@@ -6,7 +6,6 @@ package Adapter;
 
 import com.mycompany.Entidades.Emprendedor;
 import com.mycompany.motoamigodto.EmprendedorDTO;
-import com.mycompany.motoamigodto.RepartidorDTO;
 
 /**
  *
