@@ -26,51 +26,29 @@ public class PanelHeader extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelSuperior2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(0, 0, 0));
+        setMinimumSize(new java.awt.Dimension(1008, 80));
+        setPreferredSize(new java.awt.Dimension(1008, 80));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        panelSuperior2.setBackground(new java.awt.Color(0, 0, 0));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("MotoAmigo");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 102, 0));
         jLabel7.setText("Usuario");
-
-        javax.swing.GroupLayout panelSuperior2Layout = new javax.swing.GroupLayout(panelSuperior2);
-        panelSuperior2.setLayout(panelSuperior2Layout);
-        panelSuperior2Layout.setHorizontalGroup(
-            panelSuperior2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSuperior2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 821, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(14, 14, 14))
-        );
-        panelSuperior2Layout.setVerticalGroup(
-            panelSuperior2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSuperior2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(panelSuperior2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-
-        add(panelSuperior2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, -1));
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 30, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel panelSuperior2;
     // End of variables declaration//GEN-END:variables
 }

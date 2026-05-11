@@ -30,7 +30,7 @@ public class ControlSeguimiento {
      *
      * @return instancia de ControlSeguimiento.
      */
-    public static synchronized ControlSeguimiento getInstance() {
+    public static ControlSeguimiento getInstance() {
         if (instancia == null) {
             instancia = new ControlSeguimiento();
         }

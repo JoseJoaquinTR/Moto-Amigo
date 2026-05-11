@@ -41,7 +41,7 @@ public class ControlRegistrarIncidente {
      *
      * @return instancia de ControlRegistrarIncidente.
      */
-    public static synchronized ControlRegistrarIncidente getInstance() {
+    public static ControlRegistrarIncidente getInstance() {
         if (instancia == null) {
             instancia = new ControlRegistrarIncidente();
         }

@@ -58,6 +58,7 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
         this.ruta = ruta;
         this.control = ControlSeguimiento.getInstance();
         this.controlIncidente = ControlRegistrarIncidente.getInstance();
+        
         initComponents();
         inicializarUI();
         inicializarMapa();
@@ -260,7 +261,6 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
         btnVolverMenu = new javax.swing.JButton();
         btnReportar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1008, 738));
         setResizable(false);
 
@@ -334,7 +334,6 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-    new FrmMenuPrincipalEmprendedor().setVisible(true);
     dispose();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 

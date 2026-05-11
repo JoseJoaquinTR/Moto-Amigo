@@ -149,7 +149,7 @@ public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
         btnEnviarSolicitud = new javax.swing.JButton();
         btnCancelarSolicitud = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1008, 738));
         setResizable(false);

@@ -53,7 +53,7 @@ public class ControlMenuPrincipal {
      *
      * @return instancia de ControlMenuPrincipal.
      */
-    public static synchronized ControlMenuPrincipal getInstance() {
+    public static ControlMenuPrincipal getInstance() {
         if (instancia == null) {
             instancia = new ControlMenuPrincipal();
         }

@@ -13,8 +13,10 @@
         <module>../CUSolicitarEntrega</module>
         <module>../CURepartidor</module>
         <module>../CUIncidente</module>
-        <module>../MotoAmigoPresentacion</module>
         <module>../CUPaquetes</module>
+        <module>../CUEmprendedor</module>
+        <module>../CUProductos</module>
+        <module>../MotoAmigoPresentacion</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -197,7 +197,6 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame im
         btnContactarRepa = new javax.swing.JButton();
         btnVolverMenu = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1008, 738));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

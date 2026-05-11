@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 /**
- * JPanel con esquinas redondeadas - Reutilizable en NetBeans
+ * JPanel con esquinas redondeadas 
  * @author xiomi
  */
 public class PanelRedondeado extends JPanel {
@@ -19,11 +19,11 @@ public class PanelRedondeado extends JPanel {
     
     /**
      * Constructor con radio personalizado
-     * @param radio - Radio de las esquinas (ej: 15, 20, 30)
+     * @param radio - Radio de las esquinas
      */
     public PanelRedondeado(int radio) {
         this.radio = radio;
-        this.colorFondo = new Color(255, 255, 255); // Blanco
+        this.colorFondo = new Color(255, 255, 255);
         configurarPanel();
     }
     
@@ -38,16 +38,12 @@ public class PanelRedondeado extends JPanel {
      * Configuración inicial del panel
      */
     private void configurarPanel() {
-        // ✅ IMPORTANTE: BorderLayout para que funcione en el diseñador
         setLayout(new java.awt.BorderLayout());
         
-        // ✅ IMPORTANTE: setOpaque(true) para que se pinte
         setOpaque(true);
         
-        // Usar el color de fondo
         setBackground(colorFondo);
         
-        // Padding interno
         setBorder(new EmptyBorder(10, 10, 10, 10));
     }
     
@@ -56,18 +52,15 @@ public class PanelRedondeado extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        // Permitir que se pinten los componentes hijos
         super.paintComponent(g);
         
         Graphics2D g2 = (Graphics2D) g;
         
-        // Anti-aliasing para suavidad
         g2.setRenderingHint(
             RenderingHints.KEY_ANTIALIASING, 
             RenderingHints.VALUE_ANTIALIAS_ON
         );
         
-        // Pintar el fondo redondeado
         g2.setColor(getBackground());
         g2.fillRoundRect(
             0, 0, 
@@ -77,7 +70,6 @@ public class PanelRedondeado extends JPanel {
             radio
         );
         
-        // Pintar un borde (opcional pero se ve mejor)
         g2.setColor(colorBorde);
         g2.setStroke(new java.awt.BasicStroke(1f));
         g2.drawRoundRect(
@@ -89,7 +81,6 @@ public class PanelRedondeado extends JPanel {
         );
     }
     
-    // GETTERS Y SETTERS (para que funcione en el diseñador de NetBeans)
     
     public Color getColorBorde() {
     return colorBorde;

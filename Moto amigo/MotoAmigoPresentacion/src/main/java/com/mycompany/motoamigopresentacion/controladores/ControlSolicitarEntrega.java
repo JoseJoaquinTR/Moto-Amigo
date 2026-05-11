@@ -50,7 +50,7 @@ public class ControlSolicitarEntrega {
      *
      * @return instancia de ControlSolicitarEntrega.
      */
-    public static synchronized ControlSolicitarEntrega getInstance() {
+    public static ControlSolicitarEntrega getInstance() {
         if (instancia == null) {
             instancia = new ControlSolicitarEntrega();
         }

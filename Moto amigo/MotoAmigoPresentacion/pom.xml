@@ -19,11 +19,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>MotoAmigoNegocio</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>MotoAmigoDto</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -55,6 +50,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>CUEmprendedor</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CUProductos</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

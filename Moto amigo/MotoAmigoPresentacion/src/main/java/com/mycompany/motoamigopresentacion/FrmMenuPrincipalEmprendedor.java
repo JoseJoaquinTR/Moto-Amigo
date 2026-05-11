@@ -1,15 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.motoamigopresentacion;
 
+import Utilerias.utileriaHeaderSidebar;
 import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.EmprendedorDTO;
 import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
+import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
 import java.awt.Color;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import panelesUtilerias.PanelHeader;
 
 /**
  *
@@ -22,9 +19,11 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
      */
     public FrmMenuPrincipalEmprendedor() {
         initComponents();
+        
+        ControlNavegacionEmprendedor.getInstancia().registrarMenuActivo(this);
         setLocationRelativeTo(null);
         iniciarUI();
-        jPanel1.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
+        utileriaHeaderSidebar.aplicarHeaderYSidebar(jPanel1, "INICIO");
     }
 
     private void iniciarUI(){
@@ -60,20 +59,31 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
         pnlEnvios = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu Emprendedor");
+        setMaximumSize(new java.awt.Dimension(1020, 740));
+        setMinimumSize(new java.awt.Dimension(1020, 740));
+        setPreferredSize(new java.awt.Dimension(1020, 740));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlPrincipal.setBackground(new java.awt.Color(255, 255, 255));
-        pnlPrincipal.setPreferredSize(new java.awt.Dimension(1010, 680));
+        pnlPrincipal.setMaximumSize(new java.awt.Dimension(860, 660));
+        pnlPrincipal.setMinimumSize(new java.awt.Dimension(860, 660));
+        pnlPrincipal.setPreferredSize(new java.awt.Dimension(860, 660));
+
+        pnlNuevoEnvio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblEmprendedor.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblEmprendedor.setForeground(new java.awt.Color(255, 255, 255));
         lblEmprendedor.setText("¡Hola, Emprendedor!");
+        pnlNuevoEnvio.add(lblEmprendedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 19, -1, -1));
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("¿Qué enviamos hoy?");
+        pnlNuevoEnvio.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 56, -1, -1));
 
         btnNuevoEnvio.setForeground(new java.awt.Color(232, 100, 10));
         btnNuevoEnvio.setText("Nuevo Envio");
@@ -82,30 +92,7 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
                 btnNuevoEnvioActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout pnlNuevoEnvioLayout = new javax.swing.GroupLayout(pnlNuevoEnvio);
-        pnlNuevoEnvio.setLayout(pnlNuevoEnvioLayout);
-        pnlNuevoEnvioLayout.setHorizontalGroup(
-            pnlNuevoEnvioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlNuevoEnvioLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(pnlNuevoEnvioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblEmprendedor)
-                    .addComponent(jLabel1)
-                    .addComponent(btnNuevoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 972, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        pnlNuevoEnvioLayout.setVerticalGroup(
-            pnlNuevoEnvioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlNuevoEnvioLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(lblEmprendedor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(btnNuevoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
-        );
+        pnlNuevoEnvio.add(btnNuevoEnvio, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 98, 800, 35));
 
         lblEnviosActivos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblEnviosActivos.setText("Envíos Activos");
@@ -120,31 +107,29 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
         pnlPrincipalLayout.setHorizontalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(lblEnviosActivos)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(lblEnviosActivos))
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlNuevoEnvio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pnlNuevoEnvio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(31, 31, 31))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(pnlNuevoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlNuevoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
                 .addComponent(lblEnviosActivos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(pnlPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1010, 680));
+        jPanel1.add(pnlPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 840, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 740));
 

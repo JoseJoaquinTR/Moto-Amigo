@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.plaf.basic.BasicLabelUI;
 
 /**
  *
@@ -80,7 +82,7 @@ public class utileriasBotones {
                 break;
         }
 
-        btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
+        btn.setUI(new BasicButtonUI() {
             @Override
             public void paint(Graphics g, JComponent c) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -125,7 +127,7 @@ public class utileriasBotones {
 
         label.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
 
-        label.setUI(new javax.swing.plaf.basic.BasicLabelUI() {
+        label.setUI(new BasicLabelUI() {
             @Override
             public void paint(Graphics g, JComponent c) {
                 Graphics2D g2 = (Graphics2D) g.create();

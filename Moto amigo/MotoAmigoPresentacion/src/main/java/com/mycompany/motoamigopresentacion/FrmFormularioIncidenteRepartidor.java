@@ -86,7 +86,7 @@ public class FrmFormularioIncidenteRepartidor extends javax.swing.JFrame {
         btnAccidenteAveria = new javax.swing.JButton();
         btnOtro = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Incidente");
         setMinimumSize(new java.awt.Dimension(1008, 738));
         setResizable(false);
