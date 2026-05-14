@@ -23,7 +23,7 @@ import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
 public class ManejadorConexiones {
 
     private static final String CADENA_CONEXION = "mongodb://localhost:27017";
-    private static final String BASE_DATOS = "MotoAmigoDB";
+    public static final String BASE_DATOS = "MotoAmigoDB";
 
     private static ManejadorConexiones instancia;
 
