@@ -4,9 +4,11 @@
  */
 package com.mycompany.Entidades;
 
+import Enums.EstatusEmprendedor;
+
 /**
  *
- * @author joset
+ * @author Jesus Omar
  */
 public class Emprendedor {
 
@@ -14,14 +16,16 @@ public class Emprendedor {
     private String nombre;
     private String correo;
     private String telefono;
-    private String nombreNegocio;
+    private String rfc;
+    private EstatusEmprendedor estatus;
 
-    public Emprendedor(Long idEmprendedor, String nombre, String correo, String telefono, String nombreNegocio) {
+    public Emprendedor(Long idEmprendedor, String nombre, String correo, String telefono,String rfc, EstatusEmprendedor estatus) {
         this.idEmprendedor = idEmprendedor;
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
-        this.nombreNegocio = nombreNegocio;
+        this.rfc = rfc;
+        this.estatus = estatus;
     }
 
     public Long getIdEmprendedor() {
@@ -56,12 +60,20 @@ public class Emprendedor {
         this.telefono = telefono;
     }
 
-    public String getNombreNegocio() {
-        return nombreNegocio;
+    public EstatusEmprendedor getEstatus() {
+        return estatus;
     }
 
-    public void setNombreNegocio(String nombreNegocio) {
-        this.nombreNegocio = nombreNegocio;
+    public void setEstatus(EstatusEmprendedor estatus) {
+        this.estatus = estatus;
+    }
+
+    public String getRfc() {
+        return rfc;
+    }
+
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
     }
 
 }

@@ -32,12 +32,6 @@ public class EmprendedorBO implements IEmprendedoresBO {
         if (emprendedorDTO.getNombre() == null || emprendedorDTO.getNombre().isEmpty()) {
             throw new NegocioException("El nombre del emprendedor es obligatorio.");
         }
-        return new Emprendedor(
-                null,
-                emprendedorDTO.getNombre(),
-                emprendedorDTO.getCorreo(),
-                emprendedorDTO.getTelefono(),
-                emprendedorDTO.getNombreNegocio()
-        );
+        return null;
     }
 }

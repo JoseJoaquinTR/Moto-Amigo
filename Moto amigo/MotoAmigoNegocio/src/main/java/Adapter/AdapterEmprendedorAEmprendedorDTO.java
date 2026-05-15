@@ -18,10 +18,11 @@ public class AdapterEmprendedorAEmprendedorDTO {
             return null;
         }
         return new EmprendedorDTO(
+                emprendedor.getIdEmprendedor(),
                 emprendedor.getNombre(), 
                 emprendedor.getCorreo(), 
                 emprendedor.getTelefono(), 
-                emprendedor.getNombreNegocio()
+                emprendedor.getRfc()
         );
     }
     
