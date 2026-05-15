@@ -4,15 +4,25 @@
  */
 package com.mycompany.motoamigopersistencia;
 
+import com.mycompany.Entidades.Estado;
 import com.mycompany.Entidades.Repartidor;
+import com.mycompany.motoamigodto.FiltrosDTO;
+import com.mycompany.motoamigodto.RepartidorDTO;
 import java.util.List;
 
 /**
  *
- * @author xiomi
+ * @author Carmen
  */
 public interface IRepartidorDAO {
+
+    List<Repartidor> obtenerActivos() throws PersistenciaException;
+
+    Repartidor cambiarEstado(RepartidorDTO dto, Estado estado)throws PersistenciaException;
+
+    List<Repartidor> consultarTodos()throws PersistenciaException;
+
+    List<Repartidor> buscarPorNombre(String nombreParcial)throws PersistenciaException;
     
-    List <Repartidor> obtenerRepartidoresDisponibles();
-    Repartidor obtenerRepartidorPorId(Long idRepartidor);
+    Repartidor consultarPorId(String id)throws PersistenciaException;
 }
