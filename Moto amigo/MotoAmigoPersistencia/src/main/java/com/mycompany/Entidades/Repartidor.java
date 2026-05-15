@@ -4,11 +4,18 @@
  */
 package com.mycompany.Entidades;
 
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
+
 /**
  *
  * @author joset
  */
 public class Repartidor {
+
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
     private String idRepartidor;
     private String nombre;
     private String telefono;
@@ -20,7 +27,6 @@ public class Repartidor {
     public Repartidor() {
     }
 
-    
     public Repartidor(String idRepartidor, String nombre, String telefono, String correo, String vehiculo, Estado estado, int numBloqueos) {
         this.idRepartidor = idRepartidor;
         this.nombre = nombre;
@@ -39,7 +45,7 @@ public class Repartidor {
         this.estado = estado;
         this.numBloqueos = numBloqueos;
     }
-    
+
     public Repartidor(String idRepartidor, String nombre, String telefono, String correo, String vehiculo, Estado estado) {
         this.idRepartidor = idRepartidor;
         this.nombre = nombre;
@@ -104,6 +110,5 @@ public class Repartidor {
     public void setNumBloqueos(int numBloqueos) {
         this.numBloqueos = numBloqueos;
     }
-    
-    
+
 }

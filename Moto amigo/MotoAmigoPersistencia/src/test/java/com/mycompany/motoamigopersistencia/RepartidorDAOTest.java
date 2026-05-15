@@ -8,6 +8,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mycompany.Entidades.Estado;
 import com.mycompany.Entidades.Repartidor;
+import com.mycompany.motoamigodto.RepartidorDTO;
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -18,17 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
  *
  * @author Carmen Andrea Lara Osuna
  */
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mycompany.motoamigodto.RepartidorDTO;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 public class RepartidorDAOTest {
 
     private RepartidorDAO repartidorDAO;
@@ -44,22 +34,20 @@ public class RepartidorDAOTest {
 
         coleccion = baseDatos.getCollection("repartidores", Repartidor.class);
 
-        // Limpiar colección antes de cada prueba
         coleccion.deleteMany(new org.bson.Document());
 
-        // Insertar datos de prueba con id como String
         Repartidor repartidor1 = new Repartidor();
-        repartidor1.setIdRepartidor("R1");
+        repartidor1.setIdRepartidor(new ObjectId().toHexString());
         repartidor1.setNombre("Juan Pérez");
         repartidor1.setEstado(Estado.ACTIVO);
 
         Repartidor repartidor2 = new Repartidor();
-        repartidor2.setIdRepartidor("R2");
+        repartidor2.setIdRepartidor(new ObjectId().toHexString());
         repartidor2.setNombre("Carlos López");
         repartidor2.setEstado(Estado.BLOQUEADO);
 
         Repartidor repartidor3 = new Repartidor();
-        repartidor3.setIdRepartidor("R3");
+        repartidor3.setIdRepartidor(new ObjectId().toHexString());
         repartidor3.setNombre("Juana Martínez");
         repartidor3.setEstado(Estado.ACTIVO);
 
@@ -74,9 +62,7 @@ public class RepartidorDAOTest {
             List<Repartidor> repartidoresActivos = repartidorDAO.obtenerActivos();
             assertNotNull(repartidoresActivos);
             assertEquals(2, repartidoresActivos.size());
-            for (Repartidor repartidor : repartidoresActivos) {
-                assertEquals(Estado.ACTIVO, repartidor.getEstado());
-            }
+            repartidoresActivos.forEach(r -> assertEquals(Estado.ACTIVO, r.getEstado()));
         });
     }
 
@@ -95,9 +81,7 @@ public class RepartidorDAOTest {
             List<Repartidor> repartidores = repartidorDAO.buscarPorNombre("Juan");
             assertNotNull(repartidores);
             assertFalse(repartidores.isEmpty());
-            for (Repartidor repartidor : repartidores) {
-                assertTrue(repartidor.getNombre().toLowerCase().contains("juan"));
-            }
+            repartidores.forEach(r -> assertTrue(r.getNombre().toLowerCase().contains("juan")));
         });
     }
 
@@ -118,10 +102,7 @@ public class RepartidorDAOTest {
                     repartidorGuardado.getIdRepartidor()
             );
             assertNotNull(repartidorConsultado);
-            assertEquals(
-                    repartidorGuardado.getIdRepartidor(),
-                    repartidorConsultado.getIdRepartidor()
-            );
+            assertEquals(repartidorGuardado.getIdRepartidor(), repartidorConsultado.getIdRepartidor());
         });
     }
 
@@ -130,11 +111,11 @@ public class RepartidorDAOTest {
         assertDoesNotThrow(() -> {
             Repartidor repartidor = coleccion.find().first();
             RepartidorDTO dto = new RepartidorDTO();
-            dto.setIdRepartidor(repartidor.getIdRepartidor());
+            dto.setId(repartidor.getIdRepartidor());
 
-            Repartidor repartidorActualizado = repartidorDAO.cambiarEstado(dto, Estado.BLOQUEADO);
-            assertNotNull(repartidorActualizado);
-            assertEquals(Estado.BLOQUEADO, repartidorActualizado.getEstado());
+            Repartidor actualizado = repartidorDAO.cambiarEstado(dto, Estado.BLOQUEADO);
+            assertNotNull(actualizado);
+            assertEquals(Estado.BLOQUEADO, actualizado.getEstado());
         });
     }
 
@@ -142,7 +123,7 @@ public class RepartidorDAOTest {
     public void testCambiarEstadoRepartidorInexistente() {
         assertDoesNotThrow(() -> {
             RepartidorDTO dto = new RepartidorDTO();
-            dto.setId("R999"); // id inexistente
+            dto.setId(new ObjectId().toHexString()); 
 
             Repartidor resultado = repartidorDAO.cambiarEstado(dto, Estado.BLOQUEADO);
             assertNull(resultado);

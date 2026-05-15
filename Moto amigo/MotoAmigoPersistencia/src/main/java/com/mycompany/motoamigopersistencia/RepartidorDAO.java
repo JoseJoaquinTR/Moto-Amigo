@@ -1,5 +1,6 @@
 package com.mycompany.motoamigopersistencia;
 
+import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
@@ -39,7 +40,7 @@ public class RepartidorDAO implements IRepartidorDAO {
             List<Repartidor> repartidores = new LinkedList<>();
             coleccion.find(eq("estado", Estado.ACTIVO)).into(repartidores);
             return repartidores;
-        } catch (Exception ex) {
+        } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar repartidores activos.", ex);
         }
     }
@@ -54,7 +55,7 @@ public class RepartidorDAO implements IRepartidorDAO {
                 return null;
             }
             return coleccion.find(eq("_id", new ObjectId(dto.getId()))).first();
-        } catch (Exception ex) {
+        } catch (MongoException ex) {
             throw new PersistenciaException("Error al cambiar estado del repartidor.", ex);
         }
     }
@@ -66,7 +67,7 @@ public class RepartidorDAO implements IRepartidorDAO {
             List<Repartidor> repartidores = new LinkedList<>();
             coleccion.find().into(repartidores);
             return repartidores;
-        } catch (Exception ex) {
+        } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar repartidores.", ex);
         }
     }
@@ -83,7 +84,7 @@ public class RepartidorDAO implements IRepartidorDAO {
             String patron = Pattern.quote(nombreParcial);
             coleccion.find(regex("nombre", patron, "i")).into(repartidores);
             return repartidores;
-        } catch (Exception ex) {
+        } catch (MongoException ex) {
             throw new PersistenciaException("Error al buscar repartidores por nombre.", ex);
         }
     }
@@ -94,7 +95,7 @@ public class RepartidorDAO implements IRepartidorDAO {
             MongoCollection<Repartidor> coleccion = obtenercColeccion(obtenerBaseDatos());
             Document filtros = new Document().append("_id", new ObjectId(id));
             return coleccion.find(filtros).first();
-        } catch (Exception ex) {
+        } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar repartidor por id.", ex);
         }
     }

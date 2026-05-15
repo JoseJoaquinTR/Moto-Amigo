@@ -5,6 +5,9 @@
 package com.mycompany.Entidades;
 
 import java.time.LocalDateTime;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  *
@@ -12,6 +15,8 @@ import java.time.LocalDateTime;
  */
 public abstract class Reporte {
 
+    @BsonId
+    @BsonRepresentation( BsonType.OBJECT_ID)
     private String idReporte;
     private LocalDateTime fechaHora;
     private Motivo motivo;
