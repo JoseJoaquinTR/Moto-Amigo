@@ -7,6 +7,7 @@ import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
 import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
 import com.mycompany.motoamigopersistencia.IRepartidorDAO;
+import com.mycompany.motoamigopersistencia.PersistenciaException;
 import com.mycompany.motoamigopersistencia.RepartidorDAO;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class GestionRepartidores implements IGestionRepartidores {
     private final IRepartidorDAO repartidorDAO;
 
     private GestionRepartidores() {
-        this.repartidorDAO = RepartidorDAO.getInstance();
+        this.repartidorDAO = new RepartidorDAO();
     }
 
     /**
@@ -39,8 +40,12 @@ public class GestionRepartidores implements IGestionRepartidores {
 
     @Override
     public List<RepartidorDTO> obtenerRepartidoresDisponibles() throws NegocioException {
-        List<Repartidor> lista = repartidorDAO.obtenerRepartidoresDisponibles();
-        return new AdapterRepartidorARepartidorDTO().adaptarLista(lista);
+        try {
+            List<Repartidor> lista = repartidorDAO.obtenerActivos();
+            return new AdapterRepartidorARepartidorDTO().adaptarLista(lista);
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al obtener repartidores disponibles.", ex);
+        }
     }
 
     @Override
