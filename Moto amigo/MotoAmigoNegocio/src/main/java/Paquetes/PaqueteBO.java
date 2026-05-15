@@ -80,6 +80,9 @@ public class PaqueteBO implements IPaqueteBO,IClientePaqueteBO {
         if (datosNuevos == null) {
             throw new NegocioException("Los datos del paquete a editar no pueden ser nulos.");
         }
+        if (datosNuevos.getProductos() != null && datosNuevos.getProductos().isEmpty()) {
+            throw new NegocioException("El paquete debe tener al menos un producto.");
+        }
         try {
             Paquete actualizado = fachada.actualizarPaquete(id, datosNuevos);
             PaqueteDTO dto = adapterPaquete.adaptar(actualizado);
@@ -267,33 +270,36 @@ public class PaqueteBO implements IPaqueteBO,IClientePaqueteBO {
         if (nuevo.getTamaño() == null) {
             throw new NegocioException("El tamaño del paquete es obligatorio.");
         }
+         if (nuevo.getProductos() == null || nuevo.getProductos().isEmpty()) {
+            throw new NegocioException("El paquete debe tener al menos un producto.");
+        }
     }
 
-    private synchronized void notificarPaqueteCreado(PaqueteDTO paquete) {
+    private void notificarPaqueteCreado(PaqueteDTO paquete) {
         for (IObservadorPaqueteBO obs : new ArrayList<>(observadores)) {
             obs.paqueteCreado(paquete);
         }
     }
 
-    private synchronized void notificarPaqueteEditado(PaqueteDTO paquete) {
+    private void notificarPaqueteEditado(PaqueteDTO paquete) {
         for (IObservadorPaqueteBO obs : new ArrayList<>(observadores)) {
             obs.paqueteEditado(paquete);
         }
     }
 
-    private synchronized void notificarPaqueteEliminado(String idPaquete) {
+    private void notificarPaqueteEliminado(String idPaquete) {
         for (IObservadorPaqueteBO obs : new ArrayList<>(observadores)) {
             obs.paqueteEliminado(idPaquete);
         }
     }
 
-    private synchronized void notificarProductoAgregadoAPaquete(String idPaquete, ProductoDTO producto) {
+    private void notificarProductoAgregadoAPaquete(String idPaquete, ProductoDTO producto) {
         for (IObservadorPaqueteBO obs : new ArrayList<>(observadores)) {
             obs.productoAgregadoAPaquete(idPaquete, producto);
         }
     }
 
-    private synchronized void notificarProductoQuitadoDePaquete(String idPaquete, ProductoDTO producto) {
+    private void notificarProductoQuitadoDePaquete(String idPaquete, ProductoDTO producto) {
         for (IObservadorPaqueteBO obs : new ArrayList<>(observadores)) {
             obs.productoQuitadoDePaquete(idPaquete, producto);
         }

@@ -13,6 +13,7 @@ import com.mycompany.motoamigodto.ProductosPaqueteDTO;
 import Paquete.EditarPaquete;
 import Paquete.IEditarPaquete;
 import Paquete.PaqueteException;
+import Utilerias.UtileriaImagen;
 import enums.TamañoPaqueteDTO;
 import java.awt.Color;
 import java.awt.Font;
@@ -70,6 +71,16 @@ public class FrmEditarPaquete extends JFrame {
             productosAgregados.addAll(paquete.getProductos());
             refrescarTablaProductos();
         }
+        this.imagenSeleccionada = paquete.getImagen();
+        if (this.imagenSeleccionada != null) {
+            lblPreview.setIcon(UtileriaImagen.bytesAImageIcon(
+                    this.imagenSeleccionada,
+                    lblPreview.getWidth(),
+                    lblPreview.getHeight()
+            ));
+            lblPreview.setText("");
+        }
+
     }
 
     private void configurarTamanios() {
@@ -112,7 +123,7 @@ public class FrmEditarPaquete extends JFrame {
 
     private void configurarTabla() {
         DefaultTableModel modelo = new DefaultTableModel(
-                new Object[]{"Nombre", "Cantidad", "Peso total"},
+                new Object[]{"Nombre", "Cantidad", "Precio total", "Peso total"},
                 0
         ) {
             @Override
@@ -133,15 +144,16 @@ public class FrmEditarPaquete extends JFrame {
 
             String nombre = producto != null ? producto.getNombre() : "Sin producto";
 
-            float total = producto != null
-                    ? producto.getPrecio() * productoPaquete.getCantidad()
-                    : 0f;
+            float precioTotal = 0f;
+            if (productoPaquete.getProducto() != null) {
+                precioTotal = productoPaquete.getProducto().getPrecio() * productoPaquete.getCantidad();
+            }
 
             modelo.addRow(new Object[]{
                 nombre,
-                String.format("%.2f $", total),
-                String.format("%.2f kg", productoPaquete.getPesoTotal()),
-                productoPaquete.getCantidad()
+                productoPaquete.getCantidad(),
+                String.format("$ %.2f", precioTotal),
+                String.format("%.2f kg", productoPaquete.getPesoTotal())
             });
         }
 
@@ -161,7 +173,6 @@ public class FrmEditarPaquete extends JFrame {
         lblTamanio = new javax.swing.JLabel();
         cmbTamanio = new javax.swing.JComboBox();
         lblImagen = new javax.swing.JLabel();
-        txtImagen = new javax.swing.JTextField();
         panelPesoCalc = new javax.swing.JPanel();
         lblPesoTitulo = new javax.swing.JLabel();
         lblPesoCalculado = new javax.swing.JLabel();
@@ -175,6 +186,9 @@ public class FrmEditarPaquete extends JFrame {
         tblProductos = new javax.swing.JTable();
         btnCancelar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        btnSeleccionarImagen = new javax.swing.JButton();
+        lblPreview = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MotoAmigo - Editar Paquete");
@@ -218,9 +232,6 @@ public class FrmEditarPaquete extends JFrame {
         lblImagen.setText("IMAGEN ");
         panelTarjeta.add(lblImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 161, 140, 18));
 
-        txtImagen.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        panelTarjeta.add(txtImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 185, 950, 32));
-
         panelPesoCalc.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblPesoTitulo.setText("PESO CALCULADO");
@@ -231,7 +242,7 @@ public class FrmEditarPaquete extends JFrame {
         lblPesoCalculado.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         panelPesoCalc.add(lblPesoCalculado, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 36, 150, 35));
 
-        panelTarjeta.add(panelPesoCalc, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 237, 220, 85));
+        panelTarjeta.add(panelPesoCalc, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 220, 85));
 
         panelPrecioCalc.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -243,7 +254,7 @@ public class FrmEditarPaquete extends JFrame {
         lblPrecioCalculado.setText("$0.00");
         panelPrecioCalc.add(lblPrecioCalculado, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 36, 150, 35));
 
-        panelTarjeta.add(panelPrecioCalc, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 237, 220, 85));
+        panelTarjeta.add(panelPrecioCalc, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 220, 85));
 
         lblProductosTitulo.setText("PRODUCTOS DEL PAQUETE");
         lblProductosTitulo.setForeground(new java.awt.Color(115, 128, 135));
@@ -301,6 +312,25 @@ public class FrmEditarPaquete extends JFrame {
         });
         panelTarjeta.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 510, 280, 50));
 
+        btnSeleccionarImagen.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnSeleccionarImagen.setText("Seleccionar imagen ");
+        btnSeleccionarImagen.setBorderPainted(false);
+        btnSeleccionarImagen.setFocusPainted(false);
+        btnSeleccionarImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarImagenActionPerformed(evt);
+            }
+        });
+        panelTarjeta.add(btnSeleccionarImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 190, 35));
+
+        lblPreview.setText("Preview ");
+        panelTarjeta.add(lblPreview, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 450, 170));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(115, 128, 135));
+        jLabel1.setText("La imagen puede aparecer recortada para llenar el espacio");
+        panelTarjeta.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 340, -1));
+
         jPanel1.add(panelTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 1000, 580));
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -315,6 +345,12 @@ public class FrmEditarPaquete extends JFrame {
         }
         if (cmbTamanio.getSelectedIndex() <= 0) {
             JOptionPane.showMessageDialog(this, "Selecciona un tamaño.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (productosAgregados.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "El paquete debe tener al menos un producto. Agrega productos antes de guardar.",
+                    "Validación", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -374,14 +410,33 @@ public class FrmEditarPaquete extends JFrame {
             return;
         }
 
-        ProductosPaqueteDTO productoPaquete = new ProductosPaqueteDTO();
-        productoPaquete.setProducto(productoSeleccionado);
-        productoPaquete.setCantidad(cantidad);
-        productoPaquete.setPesoTotal(productoSeleccionado.getPeso() * cantidad);
+        ProductosPaqueteDTO existente = buscarProductoExistente(productoSeleccionado.getId());
+        if (existente != null) {
+            int nuevaCantidad = existente.getCantidad() + cantidad;
+            existente.setCantidad(nuevaCantidad);
+            existente.setPesoTotal(productoSeleccionado.getPeso() * nuevaCantidad);
+        } else {
+            ProductosPaqueteDTO productoPaquete = new ProductosPaqueteDTO();
+            productoPaquete.setProducto(productoSeleccionado);
+            productoPaquete.setCantidad(cantidad);
+            productoPaquete.setPesoTotal(productoSeleccionado.getPeso() * cantidad);
+            productosAgregados.add(productoPaquete);
+        }
 
-        productosAgregados.add(productoPaquete);
         refrescarTablaProductos();
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
+    private ProductosPaqueteDTO buscarProductoExistente(String idProducto) {
+        if (idProducto == null) {
+            return null;
+        }
+        for (ProductosPaqueteDTO pp : productosAgregados) {
+            if (pp.getProducto() != null && idProducto.equals(pp.getProducto().getId())) {
+                return pp;
+            }
+        }
+        return null;
+    }
+
     private int solicitarCantidadProducto() {
         String cantidadTexto = JOptionPane.showInputDialog(
                 this,
@@ -438,10 +493,25 @@ public class FrmEditarPaquete extends JFrame {
                     "Información", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
+
+        if (productosAgregados.size() == 1) {
+            JOptionPane.showMessageDialog(this,
+                    "No puede existir un paquete sin productos. Si desea eliminar este producto, debe eliminar el paquete completo.",
+                    "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         int filaModelo = tblProductos.convertRowIndexToModel(fila);
         productosAgregados.remove(filaModelo);
         refrescarTablaProductos();
     }//GEN-LAST:event_btnQuitarProductoActionPerformed
+
+    private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
+        byte[] datos = UtileriaImagen.seleccionarYPrevisualizar(this, lblPreview);
+        if (datos != null) {
+            this.imagenSeleccionada = datos;
+        }
+    }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -449,7 +519,9 @@ public class FrmEditarPaquete extends JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnQuitarProducto;
+    private javax.swing.JButton btnSeleccionarImagen;
     private javax.swing.JComboBox cmbTamanio;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblDescripcion;
     private javax.swing.JLabel lblImagen;
@@ -458,6 +530,7 @@ public class FrmEditarPaquete extends JFrame {
     private javax.swing.JLabel lblPesoTitulo;
     private javax.swing.JLabel lblPrecioCalculado;
     private javax.swing.JLabel lblPrecioTitulo;
+    private javax.swing.JLabel lblPreview;
     private javax.swing.JLabel lblProductosTitulo;
     private javax.swing.JLabel lblTamanio;
     private javax.swing.JLabel lblTitulo;
@@ -466,7 +539,6 @@ public class FrmEditarPaquete extends JFrame {
     private javax.swing.JPanel panelTarjeta;
     private javax.swing.JScrollPane scrollProductos;
     private javax.swing.JTable tblProductos;
-    private javax.swing.JTextField txtImagen;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

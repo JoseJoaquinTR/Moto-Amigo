@@ -11,6 +11,7 @@ import com.mycompany.motoamigodto.ProductoDTO;
 import Producto.CrearProducto;
 import Producto.ICrearProducto;
 import Producto.ProductoException;
+import Utilerias.UtileriaImagen;
 import enums.TipoUnidadProductoDTO;
 import java.awt.Color;
 import java.awt.Font;
@@ -23,6 +24,7 @@ import javax.swing.JOptionPane;
 public class FrmCrearProducto extends JFrame {
 
     private final ICrearProducto cuCrearProducto;
+    private byte[] imagenSeleccionada;
 
     public FrmCrearProducto() {
         this.cuCrearProducto = new CrearProducto();
@@ -70,9 +72,11 @@ public class FrmCrearProducto extends JFrame {
         lblPrecio = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
         lblImagen = new javax.swing.JLabel();
-        txtImagen = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        btnSeleccionarImagen = new javax.swing.JButton();
+        lblPreview = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MotoAmigo - Crear Producto");
@@ -100,7 +104,7 @@ public class FrmCrearProducto extends JFrame {
         panelTarjeta.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 96, 120, 18));
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        panelTarjeta.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 900, 32));
+        panelTarjeta.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 950, 32));
 
         lblPeso.setText("PESO (KG)");
         lblPeso.setForeground(new java.awt.Color(115, 128, 135));
@@ -116,7 +120,7 @@ public class FrmCrearProducto extends JFrame {
         panelTarjeta.add(lblUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 167, 120, 18));
 
         cmbUnidad.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        panelTarjeta.add(cmbUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 191, 500, 32));
+        panelTarjeta.add(cmbUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 191, 550, 32));
 
         lblPrecio.setText("PRECIO (MXN)");
         lblPrecio.setForeground(new java.awt.Color(115, 128, 135));
@@ -126,13 +130,10 @@ public class FrmCrearProducto extends JFrame {
         txtPrecio.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         panelTarjeta.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 262, 370, 32));
 
-        lblImagen.setText("IMAGEN (URL)");
-        lblImagen.setForeground(new java.awt.Color(115, 128, 135));
         lblImagen.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblImagen.setForeground(new java.awt.Color(115, 128, 135));
+        lblImagen.setText("IMAGEN ");
         panelTarjeta.add(lblImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 309, 140, 18));
-
-        txtImagen.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        panelTarjeta.add(txtImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 333, 900, 32));
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnCancelar.setForeground(new java.awt.Color(96, 96, 96));
@@ -144,7 +145,7 @@ public class FrmCrearProducto extends JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        panelTarjeta.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 395, 200, 50));
+        panelTarjeta.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 200, 50));
 
         btnGuardar.setBackground(new java.awt.Color(0, 0, 0));
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -156,7 +157,26 @@ public class FrmCrearProducto extends JFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        panelTarjeta.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 380, 280, 50));
+        panelTarjeta.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 450, 280, 50));
+
+        btnSeleccionarImagen.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnSeleccionarImagen.setText("Seleccionar imagen ");
+        btnSeleccionarImagen.setBorderPainted(false);
+        btnSeleccionarImagen.setFocusPainted(false);
+        btnSeleccionarImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarImagenActionPerformed(evt);
+            }
+        });
+        panelTarjeta.add(btnSeleccionarImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 190, 35));
+
+        lblPreview.setText("Preview ");
+        panelTarjeta.add(lblPreview, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 230, 550, 150));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(115, 128, 135));
+        jLabel1.setText("La imagen puede aparecer recortada para llenar el espacio");
+        panelTarjeta.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 340, -1));
 
         jPanel1.add(panelTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 990, 580));
 
@@ -200,7 +220,7 @@ public class FrmCrearProducto extends JFrame {
                 peso,
                 unidad,
                 precio,
-                null,
+                imagenSeleccionada,
                 null
         );
         try {
@@ -215,8 +235,8 @@ public class FrmCrearProducto extends JFrame {
             }
         } catch (ProductoException ex) {
             JOptionPane.showMessageDialog(this,
-                        "Error al crear el producto",
-                        "Error", JOptionPane.INFORMATION_MESSAGE);
+                    "Error al crear el producto",
+                    "Error", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -225,21 +245,30 @@ public class FrmCrearProducto extends JFrame {
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
+        byte[] datos = UtileriaImagen.seleccionarYPrevisualizar(this, lblPreview);
+        if (datos != null) {
+            this.imagenSeleccionada = datos;
+        }
+    }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnSeleccionarImagen;
     private javax.swing.JComboBox cmbUnidad;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblDescripcion;
     private javax.swing.JLabel lblImagen;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPeso;
     private javax.swing.JLabel lblPrecio;
+    private javax.swing.JLabel lblPreview;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblUnidad;
     private javax.swing.JPanel panelTarjeta;
-    private javax.swing.JTextField txtImagen;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPeso;
     private javax.swing.JTextField txtPrecio;
