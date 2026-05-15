@@ -1,6 +1,7 @@
 
 package com.mycompany.motoamigopersistencia;
 
+import Adapter.AdapterPaquete;
 import Adapter.AdapterProducto;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
@@ -86,11 +87,11 @@ public class ProductoDAO implements IProductoDAO {
             }
 
             if (cambios.isEmpty()) {
-                return coleccion.find(Filters.eq("_id", id)).first();
+                return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
             }
 
             UpdateResult resultado = coleccion.updateOne(
-                    Filters.eq("_id", id),
+                    Filters.eq("_id", AdapterPaquete.aObjectId(id)),
                     Updates.combine(cambios)
             );
 
@@ -98,7 +99,7 @@ public class ProductoDAO implements IProductoDAO {
                 return null;
             }
 
-            return coleccion.find(Filters.eq("_id", id)).first();
+            return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al actualizar el producto con id " + id, ex);
         }
@@ -110,7 +111,7 @@ public class ProductoDAO implements IProductoDAO {
             throw new PersistenciaException("El id del producto a eliminar no puede ser nulo.");
         }
         try {
-            DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", id));
+            DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", AdapterPaquete.aObjectId(id)));
             return resultado.getDeletedCount() > 0;
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al eliminar el producto con id " + id, ex);
@@ -123,7 +124,7 @@ public class ProductoDAO implements IProductoDAO {
             throw new PersistenciaException("El id a consultar no puede ser nulo.");
         }
         try {
-            return coleccion.find(Filters.eq("_id", id)).first();
+            return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar el producto con id " + id, ex);
         }
@@ -156,7 +157,7 @@ public class ProductoDAO implements IProductoDAO {
         }
         try {
             List<Producto> resultado = new ArrayList<>();
-            for (Producto p : coleccion.find(Filters.eq("idEmprendedor", idEmprendedor))) {
+            for (Producto p : coleccion.find(Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor)))) {
                 resultado.add(p);
             }
             return resultado;

@@ -4,6 +4,7 @@
  */
 package Adapter;
 
+import com.mycompany.Entidades.Estado;
 import com.mycompany.Entidades.Repartidor;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import java.util.ArrayList;
@@ -21,11 +22,12 @@ public class AdapterRepartidorARepartidorDTO {
             return null;
         }
         return new RepartidorDTO(
+                repartidor.getIdRepartidor(),
                 repartidor.getNombre(),
                 repartidor.getTelefono(),
                 repartidor.getCorreo(),
                 repartidor.getVehiculo(),
-                repartidor.getEstado()
+                estadoATexto(repartidor.getEstado())
         );
     }
 
@@ -34,5 +36,9 @@ public class AdapterRepartidorARepartidorDTO {
             return new ArrayList<>();
         }
         return repartidores.stream().map(this::adaptar).collect(Collectors.toList());
+    }
+
+    private String estadoATexto(Estado estado) {
+        return estado != null ? estado.name() : null;
     }
 }

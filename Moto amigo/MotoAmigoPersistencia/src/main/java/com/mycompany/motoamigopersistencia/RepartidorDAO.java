@@ -1,43 +1,101 @@
-
 package com.mycompany.motoamigopersistencia;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.eq;
+import com.mycompany.Entidades.Estado;
 import com.mycompany.Entidades.Repartidor;
-import java.util.ArrayList;
-import java.util.List;
+import com.mycompany.motoamigodto.RepartidorDTO;
+import com.mongodb.client.result.UpdateResult;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Updates.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  *
- * @author xiomi
+ * @author Carmen
  */
 public class RepartidorDAO implements IRepartidorDAO {
-    private static RepartidorDAO instancia;
 
-    private RepartidorDAO() {
+    private static final String NOMBRE_COLECCION = "repartidores";
+
+    private MongoDatabase obtenerBaseDatos() {
+        return ManejadorConexiones.getInstancia().obtenerBaseDatos();
     }
-    
-    public static RepartidorDAO getInstance() {
-        if (instancia == null) {
-            instancia = new RepartidorDAO();
+
+    private MongoCollection<Repartidor> obtenercColeccion(MongoDatabase baseDatos) {
+        return baseDatos.getCollection(NOMBRE_COLECCION, Repartidor.class);
+    }
+
+    @Override
+    public List<Repartidor> obtenerActivos() throws PersistenciaException {
+        try {
+            MongoCollection<Repartidor> coleccion = obtenercColeccion(obtenerBaseDatos());
+            List<Repartidor> repartidores = new LinkedList<>();
+            coleccion.find(eq("estado", Estado.ACTIVO)).into(repartidores);
+            return repartidores;
+        } catch (Exception ex) {
+            throw new PersistenciaException("Error al consultar repartidores activos.", ex);
         }
-        return instancia;
     }
 
-    
     @Override
-    public List<Repartidor> obtenerRepartidoresDisponibles() {
-        List<Repartidor> repartidores = new ArrayList<>();
-        repartidores.add(new Repartidor(1L, "Carlos Pérez", "6441234567", "carlos@mail.com", "Moto", "disponible"));
-        repartidores.add(new Repartidor(2L, "Ana López", "6449876543", "ana@mail.com", "Bicicleta", "disponible"));
-        repartidores.add(new Repartidor(3L, "Luis Ramírez", "6445556677", "luis@mail.com", "Moto", "disponible"));
-        return repartidores;
+    public Repartidor cambiarEstado(RepartidorDTO dto, Estado estado) throws PersistenciaException {
+        try {
+            MongoCollection<Repartidor> coleccion = obtenercColeccion(obtenerBaseDatos());
+            UpdateResult resultado = coleccion.updateOne(eq("_id", new ObjectId(dto.getId())),
+                    set("estado", estado));
+            if (resultado.getMatchedCount() == 0) {
+                return null;
+            }
+            return coleccion.find(eq("_id", new ObjectId(dto.getId()))).first();
+        } catch (Exception ex) {
+            throw new PersistenciaException("Error al cambiar estado del repartidor.", ex);
+        }
     }
+
     @Override
-    public Repartidor obtenerRepartidorPorId(Long idRepartidor) {
-        return obtenerRepartidoresDisponibles()
-            .stream()
-            .filter(repa -> repa.getIdRepartidor().equals(idRepartidor))
-            .findFirst()
-            .orElse(null);
+    public List<Repartidor> consultarTodos() throws PersistenciaException {
+        try {
+            MongoCollection<Repartidor> coleccion = obtenercColeccion(obtenerBaseDatos());
+            List<Repartidor> repartidores = new LinkedList<>();
+            coleccion.find().into(repartidores);
+            return repartidores;
+        } catch (Exception ex) {
+            throw new PersistenciaException("Error al consultar repartidores.", ex);
+        }
+    }
+
+    @Override
+    public List<Repartidor> buscarPorNombre(String nombreParcial) throws PersistenciaException {
+        try {
+            MongoCollection<Repartidor> coleccion = obtenercColeccion(obtenerBaseDatos());
+            List<Repartidor> repartidores = new LinkedList<>();
+            if (nombreParcial == null || nombreParcial.isBlank()) {
+                coleccion.find().into(repartidores);
+                return repartidores;
+            }
+            String patron = Pattern.quote(nombreParcial);
+            coleccion.find(regex("nombre", patron, "i")).into(repartidores);
+            return repartidores;
+        } catch (Exception ex) {
+            throw new PersistenciaException("Error al buscar repartidores por nombre.", ex);
+        }
+    }
+
+    @Override
+    public Repartidor consultarPorId(String id) throws PersistenciaException {
+        try {
+            MongoCollection<Repartidor> coleccion = obtenercColeccion(obtenerBaseDatos());
+            Document filtros = new Document().append("_id", new ObjectId(id));
+            return coleccion.find(filtros).first();
+        } catch (Exception ex) {
+            throw new PersistenciaException("Error al consultar repartidor por id.", ex);
+        }
     }
 }

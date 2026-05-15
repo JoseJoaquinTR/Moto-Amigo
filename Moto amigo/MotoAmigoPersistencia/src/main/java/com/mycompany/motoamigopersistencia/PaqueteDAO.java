@@ -88,11 +88,11 @@ public class PaqueteDAO implements IPaqueteDAO {
             }
 
             if (cambios.isEmpty()) {
-                return coleccion.find(Filters.eq("_id", id)).first();
+                return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
             }
 
             UpdateResult resultado = coleccion.updateOne(
-                    Filters.eq("_id", id),
+                    Filters.eq("_id", AdapterPaquete.aObjectId(id)),
                     Updates.combine(cambios)
             );
 
@@ -100,7 +100,7 @@ public class PaqueteDAO implements IPaqueteDAO {
                 return null;
             }
 
-            return coleccion.find(Filters.eq("_id", id)).first();
+            return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al actualizar el paquete con id " + id, ex);
         }
@@ -112,7 +112,7 @@ public class PaqueteDAO implements IPaqueteDAO {
             throw new PersistenciaException("El id del paquete a eliminar no puede ser nulo.");
         }
         try {
-            DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", id));
+            DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", AdapterPaquete.aObjectId(id)));
             return resultado.getDeletedCount() > 0;
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al eliminar el paquete con id " + id, ex);
@@ -125,7 +125,7 @@ public class PaqueteDAO implements IPaqueteDAO {
             throw new PersistenciaException("El id a consultar no puede ser nulo.");
         }
         try {
-            return coleccion.find(Filters.eq("_id", id)).first();
+            return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar el paquete con id " + id, ex);
         }
@@ -158,7 +158,7 @@ public class PaqueteDAO implements IPaqueteDAO {
         }
         try {
             List<Paquete> resultado = new ArrayList<>();
-            for (Paquete p : coleccion.find(Filters.eq("idEmprendedor", idEmprendedor))) {
+            for (Paquete p : coleccion.find(Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor)))) {
                 resultado.add(p);
             }
             return resultado;

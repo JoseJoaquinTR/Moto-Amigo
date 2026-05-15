@@ -31,7 +31,7 @@ public class FrmEliminarPaquete extends JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("MotoAmigo - Eliminar Paquete");
-        utileriaHeaderSidebar.aplicarHeaderYSidebar(jPanel1, "PAQUETES");
+        utileriaHeaderSidebar.aplicarHeader(jPanel1);
         estilarComponentes();
         cargarPaquete(paquete);
     }

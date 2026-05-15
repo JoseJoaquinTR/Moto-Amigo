@@ -31,7 +31,7 @@ public class FrmEliminarProducto extends JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("MotoAmigo - Eliminar Producto");
-        utileriaHeaderSidebar.aplicarHeaderYSidebar(jPanel1, "PRODUCTOS");
+        utileriaHeaderSidebar.aplicarHeader(jPanel1);
         estilarComponentes();
         cargarProducto(producto);
     }

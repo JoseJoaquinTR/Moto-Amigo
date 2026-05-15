@@ -9,14 +9,38 @@ package com.mycompany.Entidades;
  * @author joset
  */
 public class Repartidor {
-    private Long idRepartidor;
+    private String idRepartidor;
     private String nombre;
     private String telefono;
     private String correo;
     private String vehiculo;
-    private String estado;
+    private Estado estado;
+    private int numBloqueos;
 
-    public Repartidor(Long idRepartidor, String nombre, String telefono, String correo, String vehiculo, String estado) {
+    public Repartidor() {
+    }
+
+    
+    public Repartidor(String idRepartidor, String nombre, String telefono, String correo, String vehiculo, Estado estado, int numBloqueos) {
+        this.idRepartidor = idRepartidor;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.vehiculo = vehiculo;
+        this.estado = estado;
+        this.numBloqueos = numBloqueos;
+    }
+
+    public Repartidor(String nombre, String telefono, String correo, String vehiculo, Estado estado, int numBloqueos) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.vehiculo = vehiculo;
+        this.estado = estado;
+        this.numBloqueos = numBloqueos;
+    }
+    
+    public Repartidor(String idRepartidor, String nombre, String telefono, String correo, String vehiculo, Estado estado) {
         this.idRepartidor = idRepartidor;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -25,11 +49,11 @@ public class Repartidor {
         this.estado = estado;
     }
 
-    public Long getIdRepartidor() {
+    public String getIdRepartidor() {
         return idRepartidor;
     }
 
-    public void setIdRepartidor(Long idRepartidor) {
+    public void setIdRepartidor(String idRepartidor) {
         this.idRepartidor = idRepartidor;
     }
 
@@ -65,12 +89,20 @@ public class Repartidor {
         this.vehiculo = vehiculo;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public int getNumBloqueos() {
+        return numBloqueos;
+    }
+
+    public void setNumBloqueos(int numBloqueos) {
+        this.numBloqueos = numBloqueos;
     }
     
     
