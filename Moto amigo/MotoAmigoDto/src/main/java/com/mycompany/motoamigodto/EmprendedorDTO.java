@@ -5,23 +5,29 @@
 package com.mycompany.motoamigodto;
 
 /**
- *
- * @author joset
+ * Esta clase es la DTO para mostrar los datos
+ * del emprendedor en las pantallas
+ * @author Jesus Omar
  */
 public class EmprendedorDTO {
 
+    private Long idEmprendedor;
     private String nombre;
     private String correo;
     private String telefono;
-    private String nombreNegocio;
+    private String rfc;
 
-    public EmprendedorDTO(String nombre, String correo, String telefono, String nombreNegocio) {
+    public EmprendedorDTO(Long idEmprendedor, String nombre, String correo, String telefono, String nombreNegocio) {
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
-        this.nombreNegocio = nombreNegocio;
+        this.rfc = nombreNegocio;
     }
 
+    public Long getIdEmprendedor() {
+        return idEmprendedor;
+    }
+    
     public String getNombre() {
         return nombre;
     }
@@ -34,7 +40,7 @@ public class EmprendedorDTO {
         return telefono;
     }
 
-    public String getNombreNegocio() {
-        return nombreNegocio;
+    public String getRfc() {
+        return rfc;
     }
 }

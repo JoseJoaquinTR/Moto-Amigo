@@ -37,11 +37,7 @@ public class EmprendedoresDAO implements IEmprendedoresDAO{
 
     @Override
     public List<Emprendedor> obtenerEmprendedores() {
-        List<Emprendedor> emprendedores = new ArrayList<>();
-        emprendedores.add(new Emprendedor(1L, "Jose", "Josetrista@gmail.com", "6578435621", "StockX"));
-        emprendedores.add(new Emprendedor(2L, "Omar", "JesusOmar@gmail.com", "6441569012", "Nvidia"));
-        emprendedores.add(new Emprendedor(3L, "Oscar", "Oscar@gmail.com", "6578435643", "Intel"));
-        return emprendedores;
+        return null;
     }
     
 }
