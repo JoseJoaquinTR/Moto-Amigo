@@ -31,7 +31,7 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
     private static final String NOMBRE_COLECCION = "reportesBloqueo";
 
     @Override
-    public ReporteBloqueo crear(NuevoReporteBloqueoDTO dto) throws PersistenciaException {
+    public ReporteBloqueo guardarReporte(NuevoReporteBloqueoDTO dto) throws PersistenciaException {
         try {
             MongoDatabase bd = ManejadorConexiones.getInstancia().obtenerBaseDatos();
             MongoCollection<ReporteBloqueo> coleccion = bd.getCollection(NOMBRE_COLECCION, ReporteBloqueo.class);

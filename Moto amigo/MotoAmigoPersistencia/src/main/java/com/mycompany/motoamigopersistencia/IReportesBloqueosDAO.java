@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface IReportesBloqueosDAO {
 
-    ReporteBloqueo crear(NuevoReporteBloqueoDTO dto) throws PersistenciaException;
+    ReporteBloqueo guardarReporte(NuevoReporteBloqueoDTO dto) throws PersistenciaException;
 
     List<ReporteBloqueo> consultarTodos() throws PersistenciaException;
 
