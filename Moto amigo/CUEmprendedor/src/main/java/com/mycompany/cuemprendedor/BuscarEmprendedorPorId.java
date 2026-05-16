@@ -1,6 +1,6 @@
 package com.mycompany.cuemprendedor;
 
-import com.mycompany.motoamigodto.EmprendedorDTO;
+import com.mycompany.emprendedoresdto.EmprendedorDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigonegocio.fachada.FachadaNegocio;
 import com.mycompany.motoamigonegocio.fachada.IFachadaNegocio;

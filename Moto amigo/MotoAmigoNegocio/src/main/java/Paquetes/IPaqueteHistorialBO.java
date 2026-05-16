@@ -1,7 +1,7 @@
 
 package Paquetes;
 
-import com.mycompany.motoamigodto.ReporteHistorialPaquetePDFDTO;
+import com.mycompany.paquetesdto.ReporteHistorialPaquetePDFDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 
 /**

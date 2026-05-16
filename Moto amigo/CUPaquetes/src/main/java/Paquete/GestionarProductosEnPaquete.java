@@ -1,7 +1,7 @@
 
 package Paquete;
 
-import com.mycompany.motoamigodto.ProductoDTO;
+import com.mycompany.productosdto.ProductoDTO;
 
 /**
  *

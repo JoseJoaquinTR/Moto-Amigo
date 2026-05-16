@@ -1,10 +1,10 @@
 
 package Paquetes;
 
-import com.mycompany.motoamigodto.EditarPaqueteDTO;
-import com.mycompany.motoamigodto.NuevoPaqueteDTO;
-import com.mycompany.motoamigodto.PaqueteDTO;
-import com.mycompany.motoamigodto.ProductoDTO;
+import com.mycompany.paquetesdto.EditarPaqueteDTO;
+import com.mycompany.paquetesdto.NuevoPaqueteDTO;
+import com.mycompany.paquetesdto.PaqueteDTO;
+import com.mycompany.productosdto.ProductoDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import java.util.List;
 

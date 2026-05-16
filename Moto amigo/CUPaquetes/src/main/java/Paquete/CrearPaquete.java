@@ -2,8 +2,8 @@ package Paquete;
 
 import Paquetes.IPaqueteBO;
 import Paquetes.PaqueteBO;
-import com.mycompany.motoamigodto.NuevoPaqueteDTO;
-import com.mycompany.motoamigodto.PaqueteDTO;
+import com.mycompany.paquetesdto.NuevoPaqueteDTO;
+import com.mycompany.paquetesdto.PaqueteDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 
 /**

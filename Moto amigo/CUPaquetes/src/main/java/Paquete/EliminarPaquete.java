@@ -2,7 +2,7 @@ package Paquete;
 
 import Paquetes.IPaqueteBO;
 import Paquetes.PaqueteBO;
-import com.mycompany.motoamigodto.EliminarPaqueteDTO;
+import com.mycompany.paquetesdto.EliminarPaqueteDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 
 /**

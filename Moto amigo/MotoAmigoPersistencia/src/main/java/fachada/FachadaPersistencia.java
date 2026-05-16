@@ -3,15 +3,15 @@ package fachada;
 
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.Entidades.Producto;
-import com.mycompany.motoamigodto.EditarPaqueteDTO;
-import com.mycompany.motoamigodto.EditarProductoDTO;
-import com.mycompany.motoamigodto.NuevoPaqueteDTO;
-import com.mycompany.motoamigodto.NuevoProductoDTO;
-import com.mycompany.motoamigopersistencia.IPaqueteDAO;
-import com.mycompany.motoamigopersistencia.IProductoDAO;
-import com.mycompany.motoamigopersistencia.PaqueteDAO;
+import com.mycompany.paquetesdto.EditarPaqueteDTO;
+import com.mycompany.productosdto.EditarProductoDTO;
+import com.mycompany.paquetesdto.NuevoPaqueteDTO;
+import com.mycompany.productosdto.NuevoProductoDTO;
+import com.mycompany.paquetesdao.IPaqueteDAO;
+import com.mycompany.productosdao.IProductoDAO;
+import com.mycompany.paquetesdao.PaqueteDAO;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
-import com.mycompany.motoamigopersistencia.ProductoDAO;
+import com.mycompany.productosdao.ProductoDAO;
 import java.util.List;
 
 /**

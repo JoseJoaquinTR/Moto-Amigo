@@ -1,7 +1,9 @@
 
 package Producto;
-import com.mycompany.motoamigodto.EditarProductoDTO;
-import com.mycompany.motoamigodto.ProductoDTO;
+
+import com.mycompany.productosdto.EditarProductoDTO;
+import com.mycompany.productosdto.ProductoDTO;
+
 
 /**
  *

@@ -2,8 +2,8 @@ package Producto;
 
 import Productos.IProductoBO;
 import Productos.ProductoBO;
-import com.mycompany.motoamigodto.EliminarProductoDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
+import com.mycompany.productosdto.EliminarProductoDTO;
 
 
 /**

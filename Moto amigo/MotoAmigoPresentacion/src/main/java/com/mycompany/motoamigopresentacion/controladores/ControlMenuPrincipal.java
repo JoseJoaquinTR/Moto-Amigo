@@ -8,13 +8,12 @@ import com.mycompany.cusolicitarentrega.IListarEntregasEmprendedor;
 import com.mycompany.cusolicitarentrega.IListarEntregasRepartidor;
 import com.mycompany.cusolicitarentrega.ListarEntregasEmprendedor;
 import com.mycompany.cusolicitarentrega.ListarEntregasRepartidor;
-import com.mycompany.motoamigodto.EmprendedorDTO;
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
-import com.mycompany.motoamigopresentacion.FrmPublicarPedidoRepartidor;
-import com.mycompany.motoamigopresentacion.FrmPublicarPedidosEmprendedor;
+import com.mycompany.emprendedorpresentacion.FrmPublicarPedidoRepartidor;
+import com.mycompany.emprendedorpresentacion.FrmPublicarPedidosEmprendedor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Collections;
@@ -81,14 +80,14 @@ public class ControlMenuPrincipal {
      * @param id identificador del emprendedor.
      * @return datos del emprendedor; null si no se encuentra o si ocurre un error.
      */
-    public EmprendedorDTO buscarEmprendedorPorId(Long id) {
-        try {
-            return cuBuscarEmprendedor.buscarEmprendedorPorId(id);
-        } catch (NegocioException ex) {
-            Logger.getLogger(ControlMenuPrincipal.class.getName()).log(Level.SEVERE, "Error buscando emprendedor", ex);
-            return null;
-        }
-    }
+//    public EmprendedorDTO buscarEmprendedorPorId(Long id) {
+//        try {
+//            return cuBuscarEmprendedor.buscarEmprendedorPorId(id);
+//        } catch (NegocioException ex) {
+//            Logger.getLogger(ControlMenuPrincipal.class.getName()).log(Level.SEVERE, "Error buscando emprendedor", ex);
+//            return null;
+//        }
+//    }
 
     /**
      * Obtiene la lista de entregas según el filtro indicado.

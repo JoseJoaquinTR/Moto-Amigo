@@ -4,8 +4,8 @@
  */
 package Producto;
 
-import com.mycompany.motoamigodto.NuevoProductoDTO;
-import com.mycompany.motoamigodto.ProductoDTO;
+import com.mycompany.productosdto.NuevoProductoDTO;
+import com.mycompany.productosdto.ProductoDTO;
 
 /**
  * @author joset

@@ -3,10 +3,10 @@ package fachada;
 
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.Entidades.Producto;
-import com.mycompany.motoamigodto.EditarPaqueteDTO;
-import com.mycompany.motoamigodto.EditarProductoDTO;
-import com.mycompany.motoamigodto.NuevoPaqueteDTO;
-import com.mycompany.motoamigodto.NuevoProductoDTO;
+import com.mycompany.paquetesdto.EditarPaqueteDTO;
+import com.mycompany.productosdto.EditarProductoDTO;
+import com.mycompany.paquetesdto.NuevoPaqueteDTO;
+import com.mycompany.productosdto.NuevoProductoDTO;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 import java.util.List;
 

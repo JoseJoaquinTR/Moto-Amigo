@@ -4,8 +4,8 @@
  */
 package Paquete;
 
-import com.mycompany.motoamigodto.EditarPaqueteDTO;
-import com.mycompany.motoamigodto.PaqueteDTO;
+import com.mycompany.paquetesdto.EditarPaqueteDTO;
+import com.mycompany.paquetesdto.PaqueteDTO;
 
 /**
  *

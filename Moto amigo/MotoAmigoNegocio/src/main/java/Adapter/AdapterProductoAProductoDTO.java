@@ -2,7 +2,7 @@
 package Adapter;
 
 import com.mycompany.Entidades.Producto;
-import com.mycompany.motoamigodto.ProductoDTO;
+import com.mycompany.productosdto.ProductoDTO;
 import enums.TipoUnidadProductoDTO;
 
 /**

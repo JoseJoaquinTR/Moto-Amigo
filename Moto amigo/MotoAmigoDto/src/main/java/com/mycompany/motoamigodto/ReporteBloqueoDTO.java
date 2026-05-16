@@ -4,6 +4,7 @@
  */
 package com.mycompany.motoamigodto;
 
+import com.mycompany.bloqueorepartidores.MotivoDTO;
 import java.time.LocalDateTime;
 
 /**

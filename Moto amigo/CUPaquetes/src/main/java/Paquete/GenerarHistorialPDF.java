@@ -3,7 +3,7 @@ package Paquete;
 
 import Paquetes.IPaqueteHistorialBO;
 import Paquetes.PaqueteHistorialBO;
-import com.mycompany.motoamigodto.ReporteHistorialPaquetePDFDTO;
+import com.mycompany.paquetesdto.ReporteHistorialPaquetePDFDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 
 /**

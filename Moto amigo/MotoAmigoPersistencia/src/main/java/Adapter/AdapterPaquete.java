@@ -3,7 +3,7 @@ package Adapter;
 import static Adapter.AdapterProducto.aProductosPaquete;
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.Entidades.TamañoPaquete;
-import com.mycompany.motoamigodto.NuevoPaqueteDTO;
+import com.mycompany.paquetesdto.NuevoPaqueteDTO;
 import enums.TamañoPaqueteDTO;
 import org.bson.types.ObjectId;
 
