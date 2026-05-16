@@ -31,7 +31,6 @@ public class NuevoReporteBloqueoDTO {
         this.fechaHora = fechaHora;
     }
 
-    // Getters y Setters
     public RepartidorDTO getRepartidor() {
         return repartidor;
     }

@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
  */
-package com.mycompany.Entidades;
+package enums;
 
 /**
  *
  * @author calo2
  */
 public enum Estado {
-    ACTIVO, INACTIVO, BLOQUEADO;
+    ACTIVO,INACTIVO, BLOQUEADO;
 }
