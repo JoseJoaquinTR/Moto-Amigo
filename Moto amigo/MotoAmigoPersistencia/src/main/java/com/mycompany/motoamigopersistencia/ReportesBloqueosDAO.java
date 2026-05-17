@@ -2,24 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.mycompany.motoamigopersistencia;
 
 import Adapter.AdapterMotivo;
 import Adapter.AdapterRepartidor;
 import builder.ReporteFiltroBuilder;
 import com.mongodb.MongoException;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import com.mycompany.Entidades.Motivo;
 import com.mycompany.Entidades.Repartidor;
 import com.mycompany.Entidades.ReporteBloqueo;
 import com.mycompany.motoamigodto.FiltrosDTO;
 import com.mycompany.motoamigodto.NuevoReporteBloqueoDTO;
+import enums.Estado;
 import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**
@@ -91,5 +95,93 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
             throw new PersistenciaException("Error al consultar reportes de bloqueo con filtros.", ex);
         }
     }
-}
 
+    @Override
+    public List<Repartidor> obtenerRepartidoresParaDesbloqueoMasivo(FiltrosDTO filtros)
+            throws PersistenciaException {
+        try {
+            MongoDatabase bd = ManejadorConexiones.getInstancia().obtenerBaseDatos();
+            MongoCollection<ReporteBloqueo> coleccion = bd.getCollection(NOMBRE_COLECCION, ReporteBloqueo.class);
+
+            List<Bson> pipeline = new LinkedList<>();
+            List<Bson> filtrosReporteBloqueo = new LinkedList<>();
+
+            if (filtros.getFechaDesde() != null) {
+                filtrosReporteBloqueo.add(
+                        Filters.gte("fechaHora", filtros.getFechaDesde())
+                );
+            }
+
+            if (filtros.getFechaHasta() != null) {
+                filtrosReporteBloqueo.add(
+                        Filters.lte("fechaHora", filtros.getFechaHasta())
+                );
+            }
+
+            if (filtros.getMotivo() != null) {
+                filtrosReporteBloqueo.add(
+                        Filters.eq("motivo.motivo", filtros.getMotivo().getMotivo())
+                );
+            }
+
+            if (!filtrosReporteBloqueo.isEmpty()) {
+                pipeline.add(
+                        Aggregates.match(Filters.and(filtrosReporteBloqueo))
+                );
+            }
+
+            pipeline.add(
+                    Aggregates.group("$repartidor._id")
+            );
+
+            pipeline.add(
+                    Aggregates.lookup(
+                            "repartidores",
+                            "_id",
+                            "_id",
+                            "repartidor"
+                    )
+            );
+
+            pipeline.add(
+                    Aggregates.unwind("$repartidor")
+            );
+
+            List<Bson> filtrosRepartidor = new LinkedList<>();
+
+            filtrosRepartidor.add(
+                    Filters.eq("repartidor.estado", Estado.BLOQUEADO)
+            );
+
+            if (filtros.getNumBloqueos() > 0) {
+                filtrosRepartidor.add(
+                        Filters.gte("repartidor.numeroBloqueos", filtros.getNumBloqueos())
+                );
+            }
+
+            pipeline.add(
+                    Aggregates.match(Filters.and(filtrosRepartidor))
+            );
+
+            pipeline.add(
+                    Aggregates.replaceRoot("$repartidor")
+            );
+
+            List<Repartidor> repartidores = new LinkedList<>();
+
+            AggregateIterable<Repartidor> resultado
+                    = coleccion.aggregate(pipeline, Repartidor.class);
+
+            for (Repartidor repartidor : resultado) {
+                repartidores.add(repartidor);
+            }
+
+            return repartidores;
+
+        } catch (MongoException e) {
+            throw new PersistenciaException(
+                    "Error al obtener repartidores para desbloqueo masivo.", e
+            );
+        }
+    }
+}

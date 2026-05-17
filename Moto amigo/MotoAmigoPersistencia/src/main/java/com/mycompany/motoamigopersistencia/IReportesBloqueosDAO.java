@@ -4,6 +4,7 @@
  */
 package com.mycompany.motoamigopersistencia;
 
+import com.mycompany.Entidades.Repartidor;
 import com.mycompany.Entidades.ReporteBloqueo;
 import com.mycompany.motoamigodto.FiltrosDTO;
 import com.mycompany.motoamigodto.NuevoReporteBloqueoDTO;
@@ -20,4 +21,6 @@ public interface IReportesBloqueosDAO {
     List<ReporteBloqueo> consultarTodos() throws PersistenciaException;
 
     List<ReporteBloqueo> consultarConFiltros(FiltrosDTO filtrosDTO) throws PersistenciaException;
+    
+    List<Repartidor> obtenerRepartidoresParaDesbloqueoMasivo(FiltrosDTO filtrosDTO) throws PersistenciaException;
 }

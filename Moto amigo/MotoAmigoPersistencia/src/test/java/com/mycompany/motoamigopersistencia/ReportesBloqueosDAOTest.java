@@ -5,7 +5,9 @@
 
 package com.mycompany.motoamigopersistencia;
 
+import com.mycompany.Entidades.Repartidor;
 import com.mycompany.Entidades.ReporteBloqueo;
+import com.mycompany.motoamigodto.FiltrosDTO;
 import enums.*;
 import com.mycompany.motoamigodto.MotivoDTO;
 import com.mycompany.motoamigodto.NuevoReporteBloqueoDTO;
@@ -81,11 +83,30 @@ public class ReportesBloqueosDAOTest {
     @Test
     public void testConsultarConFiltros() {
         assertDoesNotThrow(() -> {
-            com.mycompany.motoamigodto.FiltrosDTO filtros = new com.mycompany.motoamigodto.FiltrosDTO();
+            FiltrosDTO filtros = new FiltrosDTO();
             filtros.setMotivo(new MotivoDTO("Incumplimiento", Tipo.BLOQUEO));
 
             List<ReporteBloqueo> resultados = dao.consultarConFiltros(filtros);
             assertNotNull(resultados);
+        });
+    }
+    
+    @Test
+    public void testObtenerRepartidoresParaDesbloqueoMasivo() {
+        assertDoesNotThrow(() -> {
+            FiltrosDTO filtros = new FiltrosDTO();
+            filtros.setFechaDesde(LocalDateTime.now().minusDays(10));
+            filtros.setFechaHasta(LocalDateTime.now());
+            filtros.setNumBloqueos(1);
+
+            List<Repartidor> repartidores = dao.obtenerRepartidoresParaDesbloqueoMasivo(filtros);
+
+            assertNotNull(repartidores);
+            assertTrue(repartidores.size() >= 0);
+            for (Repartidor r : repartidores) {
+                assertEquals(com.mycompany.Entidades.Estado.BLOQUEADO, r.getEstado());
+                assertTrue(r.getNumBloqueos()>= filtros.getNumBloqueos());
+            }
         });
     }
 }
