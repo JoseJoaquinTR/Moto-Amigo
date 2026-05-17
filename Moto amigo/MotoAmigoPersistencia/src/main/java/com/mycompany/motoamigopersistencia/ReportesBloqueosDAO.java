@@ -25,7 +25,6 @@ import java.util.List;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-
 /**
  *
  * @author Carmen Andrea Lara Osuna
@@ -33,6 +32,18 @@ import org.bson.conversions.Bson;
 public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
 
     private static final String NOMBRE_COLECCION = "reportesBloqueo";
+
+    private static ReportesBloqueosDAO instancia;
+
+    private ReportesBloqueosDAO() {
+    }
+
+    public static synchronized ReportesBloqueosDAO getInstancia() {
+        if (instancia == null) {
+            instancia = new ReportesBloqueosDAO();
+        }
+        return instancia;
+    }
 
     @Override
     public ReporteBloqueo guardarReporte(NuevoReporteBloqueoDTO dto) throws PersistenciaException {

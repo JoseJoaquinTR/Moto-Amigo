@@ -13,7 +13,19 @@ import java.util.List;
  *
  * @author Carmen Andrea Lara Osuna
  */
-public class MotivosDAO implements IMotivosDAO{
+public class MotivosDAO implements IMotivosDAO {
+
+    private static MotivosDAO instancia;
+
+    private MotivosDAO() {
+    }
+
+    public static synchronized MotivosDAO getInstancia() {
+        if (instancia == null) {
+            instancia = new MotivosDAO();
+        }
+        return instancia;
+    }
 
     @Override
     public List<Motivo> obtenerMotivos(Tipo tipo) {

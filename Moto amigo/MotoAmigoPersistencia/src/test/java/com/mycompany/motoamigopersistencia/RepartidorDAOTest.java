@@ -26,7 +26,7 @@ public class RepartidorDAOTest {
 
     @BeforeEach
     public void setUp() {
-        repartidorDAO = new RepartidorDAO();
+        repartidorDAO = RepartidorDAO.getInstancia();
 
         MongoDatabase baseDatos = ManejadorConexiones
                 .getInstancia()
@@ -113,7 +113,7 @@ public class RepartidorDAOTest {
             RepartidorDTO dto = new RepartidorDTO();
             dto.setId(repartidor.getIdRepartidor());
 
-            Repartidor actualizado = repartidorDAO.cambiarEstado(dto, Estado.BLOQUEADO);
+            Repartidor actualizado = repartidorDAO.cambiarEstado(dto.getId(), Estado.BLOQUEADO);
             assertNotNull(actualizado);
             assertEquals(Estado.BLOQUEADO, actualizado.getEstado());
         });
@@ -125,7 +125,7 @@ public class RepartidorDAOTest {
             RepartidorDTO dto = new RepartidorDTO();
             dto.setId(new ObjectId().toHexString()); 
 
-            Repartidor resultado = repartidorDAO.cambiarEstado(dto, Estado.BLOQUEADO);
+            Repartidor resultado = repartidorDAO.cambiarEstado(dto.getId(), Estado.BLOQUEADO);
             assertNull(resultado);
         });
     }

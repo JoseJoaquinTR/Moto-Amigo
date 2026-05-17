@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.mycompany.motoamigopersistencia;
 
 import Adapter.AdapterMotivo;
@@ -17,7 +16,6 @@ import java.util.List;
 import org.bson.Document;
 import com.mycompany.bloqueorepartidores.*;
 
-
 /**
  *
  * @author Carmen Andrea Lara Osuna
@@ -26,6 +24,18 @@ public class ReportesDesbloqueosDAO implements IReportesDesbloqueosDAO {
 
     private static final String NOMBRE_COLECCION = "reportesDesbloqueo";
 
+    private static ReportesDesbloqueosDAO instancia;
+
+    private ReportesDesbloqueosDAO() {
+    }
+
+    public static synchronized ReportesDesbloqueosDAO getInstancia() {
+        if (instancia == null) {
+            instancia = new ReportesDesbloqueosDAO();
+        }
+        return instancia;
+    }
+
     @Override
     public ReporteDesbloqueo guardarReporte(NuevoReporteDesbloqueoDTO dto) throws PersistenciaException {
         try {
@@ -33,7 +43,7 @@ public class ReportesDesbloqueosDAO implements IReportesDesbloqueosDAO {
             MongoCollection<ReporteDesbloqueo> coleccion = bd.getCollection(NOMBRE_COLECCION, ReporteDesbloqueo.class);
 
             Motivo motivo = AdapterMotivo.toEntity(dto.getMotivo());
-            
+
             ReporteDesbloqueo reporte = new ReporteDesbloqueo();
             reporte.setMotivo(motivo);
             reporte.setDetalles(dto.getDetalles());

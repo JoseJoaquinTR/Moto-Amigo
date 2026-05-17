@@ -1,8 +1,20 @@
-
 package fachada;
 
+import com.mycompany.Entidades.Estado;
+import com.mycompany.Entidades.Motivo;
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.Entidades.Producto;
+import com.mycompany.Entidades.Repartidor;
+import com.mycompany.Entidades.ReporteBloqueo;
+import com.mycompany.Entidades.ReporteDesbloqueo;
+import com.mycompany.Entidades.Tipo;
+import com.mycompany.bloqueorepartidores.FiltrosDTO;
+import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
+import com.mycompany.motoamigodto.NuevoReporteDesbloqueoDTO;
+import com.mycompany.motoamigopersistencia.IMotivosDAO;
+import com.mycompany.motoamigopersistencia.IRepartidorDAO;
+import com.mycompany.motoamigopersistencia.IReportesBloqueosDAO;
+import com.mycompany.motoamigopersistencia.IReportesDesbloqueosDAO;
 import com.mycompany.paquetesdto.EditarPaqueteDTO;
 import com.mycompany.productosdto.EditarProductoDTO;
 import com.mycompany.paquetesdto.NuevoPaqueteDTO;
@@ -12,10 +24,11 @@ import com.mycompany.productosdao.IProductoDAO;
 import com.mycompany.paquetesdao.PaqueteDAO;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 import com.mycompany.productosdao.ProductoDAO;
+import com.mycompany.motoamigopersistencia.*;
 import java.util.List;
 
 /**
- * 
+ *
  * @author joset
  */
 public class FachadaPersistencia implements IFachadaPersistencia {
@@ -24,10 +37,18 @@ public class FachadaPersistencia implements IFachadaPersistencia {
 
     private final IProductoDAO productoDAO;
     private final IPaqueteDAO paqueteDAO;
+    private final IRepartidorDAO repartidorDAO;
+    private final IReportesBloqueosDAO bloqueosDAO;
+    private final IReportesDesbloqueosDAO desbloqueosDAO;
+    private final IMotivosDAO motivosDAO;
 
     private FachadaPersistencia() {
         this.productoDAO = ProductoDAO.getInstancia();
         this.paqueteDAO = PaqueteDAO.getInstancia();
+        this.repartidorDAO = RepartidorDAO.getInstancia();
+        this.bloqueosDAO = ReportesBloqueosDAO.getInstancia();
+        this.desbloqueosDAO = ReportesDesbloqueosDAO.getInstancia();
+        this.motivosDAO = MotivosDAO.getInstancia();
     }
 
     public static synchronized FachadaPersistencia getInstancia() {
@@ -97,4 +118,66 @@ public class FachadaPersistencia implements IFachadaPersistencia {
         return paqueteDAO.obtenerPorEmprendedor(idEmprendedor);
     }
 
+    //CU bloquear repartidores
+    @Override
+    public List<Repartidor> obtenerRepartidoresActivos() throws PersistenciaException {
+        return repartidorDAO.obtenerActivos();
+    }
+
+    @Override
+    public Repartidor cambiarEstadoRepartidor(String id, Estado estado)
+            throws PersistenciaException {
+        return repartidorDAO.cambiarEstado(id, estado);
+    }
+
+    @Override
+    public ReporteBloqueo guardarReporteBloqueo(NuevoReporteBloqueoDTO dto)
+            throws PersistenciaException {
+        return bloqueosDAO.guardarReporte(dto);
+    }
+
+    @Override
+    public ReporteDesbloqueo guardarReporteDesbloqueo(NuevoReporteDesbloqueoDTO dto)
+            throws PersistenciaException {
+        return desbloqueosDAO.guardarReporte(dto);
+    }
+
+    @Override
+    public List<ReporteBloqueo> consultarReportesBloqueos()
+            throws PersistenciaException {
+        return bloqueosDAO.consultarTodos();
+    }
+
+    @Override
+    public List<ReporteDesbloqueo> consultarReportesDesbloqueos()
+            throws PersistenciaException {
+        return desbloqueosDAO.consultarTodos();
+    }
+
+    @Override
+    public List<Motivo> obtenerMotivos(Tipo tipo) {
+        return motivosDAO.obtenerMotivos(tipo);
+    }
+
+    @Override
+    public List<Repartidor> obtenerRepartidores()
+            throws PersistenciaException {
+        return repartidorDAO.consultarTodos();
+    }
+
+    @Override
+    public List<Repartidor> obtenerRepartidores(FiltrosDTO filtros)
+            throws PersistenciaException {
+        return bloqueosDAO.obtenerRepartidoresParaDesbloqueoMasivo(filtros);
+    }
+
+    @Override
+    public List<ReporteBloqueo> consultarReportesBloqueos(FiltrosDTO filtros) throws PersistenciaException {
+        return bloqueosDAO.consultarConFiltros(filtros);
+    }
+
+    @Override
+    public List<ReporteDesbloqueo> consultarReportesDesbloqueos(FiltrosDTO filtros) throws PersistenciaException {
+        return desbloqueosDAO.consultarConFiltros(filtros);
+    }
 }

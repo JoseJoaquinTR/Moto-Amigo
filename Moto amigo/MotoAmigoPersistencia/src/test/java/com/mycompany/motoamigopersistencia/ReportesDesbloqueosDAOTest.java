@@ -27,7 +27,7 @@ public class ReportesDesbloqueosDAOTest {
 
     @BeforeEach
     public void setUp() {
-        dao = new ReportesDesbloqueosDAO();
+        dao = ReportesDesbloqueosDAO.getInstancia();
     }
 
     @Test

@@ -6,8 +6,6 @@ package com.mycompany.motoamigopersistencia;
 
 import com.mycompany.Entidades.Estado;
 import com.mycompany.Entidades.Repartidor;
-import com.mycompany.bloqueorepartidores.FiltrosDTO;
-import com.mycompany.motoamigodto.RepartidorDTO;
 import java.util.List;
 
 /**
@@ -18,7 +16,7 @@ public interface IRepartidorDAO {
 
     List<Repartidor> obtenerActivos() throws PersistenciaException;
 
-    Repartidor cambiarEstado(RepartidorDTO dto, Estado estado)throws PersistenciaException;
+    Repartidor cambiarEstado( String id, Estado estado)throws PersistenciaException;
 
     List<Repartidor> consultarTodos()throws PersistenciaException;
 

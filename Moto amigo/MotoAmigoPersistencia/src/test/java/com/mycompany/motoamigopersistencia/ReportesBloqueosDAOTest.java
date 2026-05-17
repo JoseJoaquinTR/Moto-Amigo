@@ -32,7 +32,7 @@ public class ReportesBloqueosDAOTest {
 
     @BeforeEach
     public void setUp() {
-        dao = new ReportesBloqueosDAO();
+        dao = ReportesBloqueosDAO.getInstancia();
     }
 
     @Test
