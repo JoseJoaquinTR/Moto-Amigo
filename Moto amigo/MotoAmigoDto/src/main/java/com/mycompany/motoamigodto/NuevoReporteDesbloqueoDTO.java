@@ -6,6 +6,7 @@
 package com.mycompany.motoamigodto;
 
 import java.time.LocalDateTime;
+import com.mycompany.bloqueorepartidores.*;
 
 /**
  *
