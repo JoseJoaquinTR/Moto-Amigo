@@ -14,17 +14,17 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
+import com.mycompany.Entidades.Estado;
 import com.mycompany.Entidades.Motivo;
 import com.mycompany.Entidades.Repartidor;
 import com.mycompany.Entidades.ReporteBloqueo;
-import com.mycompany.motoamigodto.FiltrosDTO;
-import com.mycompany.motoamigodto.NuevoReporteBloqueoDTO;
-import enums.Estado;
+import com.mycompany.bloqueorepartidores.FiltrosDTO;
+import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
+
 
 /**
  *

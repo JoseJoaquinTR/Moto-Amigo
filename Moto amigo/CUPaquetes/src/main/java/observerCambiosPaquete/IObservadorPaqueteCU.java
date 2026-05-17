@@ -1,8 +1,8 @@
 
 package observerCambiosPaquete;
 
-import com.mycompany.motoamigodto.PaqueteDTO;
-import com.mycompany.motoamigodto.ProductoDTO;
+import com.mycompany.paquetesdto.PaqueteDTO;
+import com.mycompany.productosdto.ProductoDTO;
 
 /**
  * 

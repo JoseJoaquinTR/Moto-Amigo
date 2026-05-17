@@ -5,7 +5,7 @@
 package Adapter;
 
 import com.mycompany.Entidades.Motivo;
-import com.mycompany.motoamigodto.MotivoDTO;
+import com.mycompany.bloqueorepartidores.MotivoDTO;
 import enums.Tipo;
 
 /**

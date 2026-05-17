@@ -1,5 +1,6 @@
 package com.mycompany.motoamigopresentacion;
 
+import com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.EventQueue;
 

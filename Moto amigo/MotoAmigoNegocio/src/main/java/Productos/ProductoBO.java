@@ -3,9 +3,9 @@ package Productos;
 
 import Adapter.AdapterProductoAProductoDTO;
 import com.mycompany.Entidades.Producto;
-import com.mycompany.motoamigodto.EditarProductoDTO;
-import com.mycompany.motoamigodto.NuevoProductoDTO;
-import com.mycompany.motoamigodto.ProductoDTO;
+import com.mycompany.productosdto.EditarProductoDTO;
+import com.mycompany.productosdto.NuevoProductoDTO;
+import com.mycompany.productosdto.ProductoDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 import fachada.FachadaPersistencia;

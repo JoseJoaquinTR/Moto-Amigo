@@ -1,7 +1,7 @@
 package com.mycompany.motoamigonegocio.fachada;
 
 import com.mycompany.Entidades.Emprendedor;
-import com.mycompany.motoamigodto.EmprendedorDTO;
+import com.mycompany.emprendedoresdto.EmprendedorDTO;
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.IncidenteDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;

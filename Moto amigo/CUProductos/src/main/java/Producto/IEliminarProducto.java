@@ -1,6 +1,6 @@
 package Producto;
 
-import com.mycompany.motoamigodto.EliminarProductoDTO;
+import com.mycompany.productosdto.EliminarProductoDTO;
 
 /**
  * @author joset

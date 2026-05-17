@@ -4,7 +4,7 @@
  */
 package Paquete;
 
-import com.mycompany.motoamigodto.PaqueteDTO;
+import com.mycompany.paquetesdto.PaqueteDTO;
 import java.util.List;
 
 /**

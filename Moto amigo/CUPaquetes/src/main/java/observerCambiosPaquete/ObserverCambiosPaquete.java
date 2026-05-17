@@ -2,8 +2,8 @@
 package observerCambiosPaquete;
 
 import Paquetes.IObservadorPaqueteBO;
-import com.mycompany.motoamigodto.PaqueteDTO;
-import com.mycompany.motoamigodto.ProductoDTO;
+import com.mycompany.paquetesdto.PaqueteDTO;
+import com.mycompany.productosdto.ProductoDTO;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.mycompany.motoamigopresentacion.controladores;
 
-import com.mycompany.motoamigopresentacion.FrmMenuPaquetes;
-import com.mycompany.motoamigopresentacion.FrmMenuPrincipalEmprendedor;
-import com.mycompany.motoamigopresentacion.FrmMenuProductos;
+import com.mycompany.paquetespresentacion.FrmMenuPaquetes;
+import com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor;
+import com.mycompany.productospresentacion.FrmMenuProductos;
 import javax.swing.JFrame;
 
 /**

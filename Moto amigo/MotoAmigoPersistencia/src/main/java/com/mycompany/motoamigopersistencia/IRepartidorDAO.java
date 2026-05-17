@@ -6,7 +6,7 @@ package com.mycompany.motoamigopersistencia;
 
 import com.mycompany.Entidades.Estado;
 import com.mycompany.Entidades.Repartidor;
-import com.mycompany.motoamigodto.FiltrosDTO;
+import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import java.util.List;
 

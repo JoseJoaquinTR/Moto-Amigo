@@ -7,10 +7,10 @@ package com.mycompany.motoamigopersistencia;
 
 import com.mycompany.Entidades.Repartidor;
 import com.mycompany.Entidades.ReporteBloqueo;
-import com.mycompany.motoamigodto.FiltrosDTO;
+import com.mycompany.bloqueorepartidores.FiltrosDTO;
+import com.mycompany.bloqueorepartidores.MotivoDTO;
+import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import enums.*;
-import com.mycompany.motoamigodto.MotivoDTO;
-import com.mycompany.motoamigodto.NuevoReporteBloqueoDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -109,4 +109,5 @@ public class ReportesBloqueosDAOTest {
             }
         });
     }
+
 }

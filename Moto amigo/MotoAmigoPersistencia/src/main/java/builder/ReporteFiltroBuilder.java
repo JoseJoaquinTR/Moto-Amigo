@@ -4,7 +4,7 @@
  */
 package builder;
 
-import com.mycompany.motoamigodto.MotivoDTO;
+import com.mycompany.bloqueorepartidores.MotivoDTO;
 import org.bson.Document;
 import java.time.LocalDateTime;
 

@@ -1,6 +1,6 @@
 package Producto;
 
-import com.mycompany.motoamigodto.ProductoDTO;
+import com.mycompany.productosdto.ProductoDTO;
 import java.util.List;
 
 /**

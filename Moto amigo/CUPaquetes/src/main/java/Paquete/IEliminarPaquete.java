@@ -1,7 +1,7 @@
 
 package Paquete;
 
-import com.mycompany.motoamigodto.EliminarPaqueteDTO;
+import com.mycompany.paquetesdto.EliminarPaqueteDTO;
 
 /**
  *

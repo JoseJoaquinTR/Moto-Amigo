@@ -1,11 +1,11 @@
 
 package Utilerias;
 
-import com.mycompany.motoamigodto.PaqueteDTO;
-import com.mycompany.motoamigodto.PaqueteHistorialDTO;
-import com.mycompany.motoamigodto.ProductoDTO;
-import com.mycompany.motoamigodto.ProductosPaqueteDTO;
-import com.mycompany.motoamigodto.ReporteHistorialPaquetePDFDTO;
+import com.mycompany.paquetesdto.PaqueteDTO;
+import com.mycompany.paquetesdto.PaqueteHistorialDTO;
+import com.mycompany.productosdto.ProductoDTO;
+import com.mycompany.paquetesdto.ProductosPaqueteDTO;
+import com.mycompany.paquetesdto.ReporteHistorialPaquetePDFDTO;
 import java.awt.Component;
 import java.awt.Image;
 import java.time.format.DateTimeFormatter;

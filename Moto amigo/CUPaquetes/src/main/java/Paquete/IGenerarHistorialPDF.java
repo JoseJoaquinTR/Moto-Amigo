@@ -1,7 +1,7 @@
 
 package Paquete;
 
-import com.mycompany.motoamigodto.ReporteHistorialPaquetePDFDTO;
+import com.mycompany.paquetesdto.ReporteHistorialPaquetePDFDTO;
 
 /**
  *

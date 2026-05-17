@@ -2,8 +2,8 @@ package Producto;
 
 import Productos.IProductoBO;
 import Productos.ProductoBO;
-import com.mycompany.motoamigodto.ProductoDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
+import com.mycompany.productosdto.ProductoDTO;
 import java.util.List;
 
 /**
