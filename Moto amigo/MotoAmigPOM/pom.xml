@@ -17,6 +17,7 @@
         <module>../CUEmprendedor</module>
         <module>../CUProductos</module>
         <module>../MotoAmigoPresentacion</module>
+        <module>CUBloqueos</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

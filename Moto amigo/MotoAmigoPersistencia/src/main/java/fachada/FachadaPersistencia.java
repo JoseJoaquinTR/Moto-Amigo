@@ -1,18 +1,17 @@
 package fachada;
 
-import com.mycompany.Entidades.Estado;
+import enums.Estado;
 import com.mycompany.Entidades.Motivo;
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.Entidades.Producto;
 import com.mycompany.Entidades.Repartidor;
 import com.mycompany.Entidades.ReporteBloqueo;
 import com.mycompany.Entidades.ReporteDesbloqueo;
-import com.mycompany.Entidades.Tipo;
+import enums.Tipo;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
-import com.mycompany.motoamigodto.NuevoReporteDesbloqueoDTO;
+import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import com.mycompany.motoamigopersistencia.IMotivosDAO;
-import com.mycompany.motoamigopersistencia.IRepartidorDAO;
 import com.mycompany.motoamigopersistencia.IReportesBloqueosDAO;
 import com.mycompany.motoamigopersistencia.IReportesDesbloqueosDAO;
 import com.mycompany.paquetesdto.EditarPaqueteDTO;
@@ -26,6 +25,7 @@ import com.mycompany.motoamigopersistencia.PersistenciaException;
 import com.mycompany.productosdao.ProductoDAO;
 import com.mycompany.motoamigopersistencia.*;
 import java.util.List;
+import com.mycompany.motoamigopersistencia.IRepartidoresDAO;
 
 /**
  *
@@ -37,7 +37,7 @@ public class FachadaPersistencia implements IFachadaPersistencia {
 
     private final IProductoDAO productoDAO;
     private final IPaqueteDAO paqueteDAO;
-    private final IRepartidorDAO repartidorDAO;
+    private final IRepartidoresDAO repartidoresDAO;
     private final IReportesBloqueosDAO bloqueosDAO;
     private final IReportesDesbloqueosDAO desbloqueosDAO;
     private final IMotivosDAO motivosDAO;
@@ -45,7 +45,7 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     private FachadaPersistencia() {
         this.productoDAO = ProductoDAO.getInstancia();
         this.paqueteDAO = PaqueteDAO.getInstancia();
-        this.repartidorDAO = RepartidorDAO.getInstancia();
+        this.repartidoresDAO = RepartidoresDAO.getInstancia();
         this.bloqueosDAO = ReportesBloqueosDAO.getInstancia();
         this.desbloqueosDAO = ReportesDesbloqueosDAO.getInstancia();
         this.motivosDAO = MotivosDAO.getInstancia();
@@ -121,13 +121,13 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     //CU bloquear repartidores
     @Override
     public List<Repartidor> obtenerRepartidoresActivos() throws PersistenciaException {
-        return repartidorDAO.obtenerActivos();
+        return repartidoresDAO.obtenerActivos();
     }
 
     @Override
     public Repartidor cambiarEstadoRepartidor(String id, Estado estado)
             throws PersistenciaException {
-        return repartidorDAO.cambiarEstado(id, estado);
+        return repartidoresDAO.cambiarEstado(id, estado);
     }
 
     @Override
@@ -162,11 +162,11 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     @Override
     public List<Repartidor> obtenerRepartidores()
             throws PersistenciaException {
-        return repartidorDAO.consultarTodos();
+        return repartidoresDAO.consultarTodos();
     }
 
     @Override
-    public List<Repartidor> obtenerRepartidores(FiltrosDTO filtros)
+    public List<Repartidor> obtenerRepartidoresParaDesbloqueo(FiltrosDTO filtros)
             throws PersistenciaException {
         return bloqueosDAO.obtenerRepartidoresParaDesbloqueoMasivo(filtros);
     }
@@ -180,4 +180,16 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     public List<ReporteDesbloqueo> consultarReportesDesbloqueos(FiltrosDTO filtros) throws PersistenciaException {
         return desbloqueosDAO.consultarConFiltros(filtros);
     }
+
+    @Override
+    public List<Repartidor> buscarRepartidor(String nombre) throws PersistenciaException {
+        return repartidoresDAO.buscarPorNombre(nombre);
+    }
+
+    @Override
+    public Repartidor consultarRepartidorPorId(String id) throws PersistenciaException {
+        return repartidoresDAO.consultarPorId(id);
+    }
+    
+    
 }

@@ -21,12 +21,12 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class RepartidorDAOTest {
 
-    private RepartidorDAO repartidorDAO;
+    private RepartidoresDAO repartidorDAO;
     private MongoCollection<Repartidor> coleccion;
 
     @BeforeEach
     public void setUp() {
-        repartidorDAO = RepartidorDAO.getInstancia();
+        repartidorDAO = RepartidoresDAO.getInstancia();
 
         MongoDatabase baseDatos = ManejadorConexiones
                 .getInstancia()
@@ -113,7 +113,7 @@ public class RepartidorDAOTest {
             RepartidorDTO dto = new RepartidorDTO();
             dto.setId(repartidor.getIdRepartidor());
 
-            Repartidor actualizado = repartidorDAO.cambiarEstado(dto.getId(), Estado.BLOQUEADO);
+            Repartidor actualizado = repartidorDAO.cambiarEstado(dto.getId(), enums.Estado.BLOQUEADO);
             assertNotNull(actualizado);
             assertEquals(Estado.BLOQUEADO, actualizado.getEstado());
         });
@@ -125,7 +125,7 @@ public class RepartidorDAOTest {
             RepartidorDTO dto = new RepartidorDTO();
             dto.setId(new ObjectId().toHexString()); 
 
-            Repartidor resultado = repartidorDAO.cambiarEstado(dto.getId(), Estado.BLOQUEADO);
+            Repartidor resultado = repartidorDAO.cambiarEstado(dto.getId(), enums.Estado.BLOQUEADO);
             assertNull(resultado);
         });
     }

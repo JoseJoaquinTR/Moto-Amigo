@@ -4,6 +4,7 @@
  */
 package Utilerias;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -19,11 +20,15 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicLabelUI;
+import javax.swing.plaf.basic.BasicPasswordFieldUI;
+import javax.swing.plaf.basic.BasicTextFieldUI;
 
 /**
  *
@@ -141,9 +146,9 @@ public class utileriasBotones {
     }
 
     /**
-     * Convierte un JToggleButton en un boton circular y cambia de 
-     * color, cuando esta apagado esta en gris, y cuando se prende
-     * se pone de color verde
+     * Convierte un JToggleButton en un boton circular y cambia de color, cuando
+     * esta apagado esta en gris, y cuando se prende se pone de color verde
+     *
      * @param boton el boton que se quiere convertir
      * @param diametro el diametro del circulo
      */
@@ -193,6 +198,48 @@ public class utileriasBotones {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(c.getBackground());
                 g2.fillRoundRect(x, y, width - 1, height - 1, radio, radio);
+                g2.dispose();
+            }
+        });
+    }
+
+    public static void txtRedondeado(JTextField txt, Color colorFondo, Color colorBorde) {
+        txt.setOpaque(false);
+        txt.setBackground(colorFondo);
+        txt.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        txt.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+
+        txt.setUI(new BasicTextFieldUI() {
+            @Override
+            protected void paintBackground(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(txt.getBackground());
+                g2.fillRoundRect(0, 0, txt.getWidth(), txt.getHeight(), 30, 30);
+                g2.setColor(colorBorde);
+                g2.setStroke(new BasicStroke(2));
+                g2.drawRoundRect(0, 0, txt.getWidth() - 1, txt.getHeight() - 1, 30, 30);
+                g2.dispose();
+            }
+        });
+    }
+
+    public static void passRedondeado(JPasswordField pass, Color colorFondo, Color colorBorde) {
+        pass.setOpaque(false);
+        pass.setBackground(colorFondo);
+        pass.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        pass.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+
+        pass.setUI(new BasicPasswordFieldUI() {
+            @Override
+            protected void paintBackground(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(pass.getBackground());
+                g2.fillRoundRect(0, 0, pass.getWidth(), pass.getHeight(), 30, 30);
+                g2.setColor(colorBorde);
+                g2.setStroke(new BasicStroke(2));
+                g2.drawRoundRect(0, 0, pass.getWidth() - 1, pass.getHeight() - 1, 30, 30);
                 g2.dispose();
             }
         });

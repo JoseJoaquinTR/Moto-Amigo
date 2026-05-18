@@ -84,7 +84,7 @@
         <Property name="axis" type="int" value="1"/>
       </Layout>
       <SubComponents>
-        <Component class="panelesUtilerias.panelRepartidor" name="panelRepartidor">
+        <Component class="com.mycompany.emprendedorpresentacion.panelRepartidor" name="panelRepartidor">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
