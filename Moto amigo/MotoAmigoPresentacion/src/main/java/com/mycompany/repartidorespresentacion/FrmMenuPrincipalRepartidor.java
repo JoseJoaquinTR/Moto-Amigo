@@ -54,7 +54,7 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements IN
         pnlMenuInferior = new javax.swing.JPanel();
         panelHeader2 = new panelesUtilerias.PanelHeader();
         pnlCentral = new javax.swing.JPanel();
-        panelRepartidor = new panelesUtilerias.panelRepartidor();
+        panelRepartidor = new com.mycompany.emprendedorpresentacion.panelRepartidor();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlListaEnvios = new javax.swing.JPanel();
 
@@ -127,7 +127,7 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements IN
     private javax.swing.JScrollPane jScrollPane1;
     private panelesUtilerias.PanelHeader panelHeader1;
     private panelesUtilerias.PanelHeader panelHeader2;
-    private panelesUtilerias.panelRepartidor panelRepartidor;
+    private com.mycompany.emprendedorpresentacion.panelRepartidor panelRepartidor;
     private javax.swing.JPanel pnlCentral;
     private javax.swing.JPanel pnlListaEnvios;
     private javax.swing.JPanel pnlMenuInferior;

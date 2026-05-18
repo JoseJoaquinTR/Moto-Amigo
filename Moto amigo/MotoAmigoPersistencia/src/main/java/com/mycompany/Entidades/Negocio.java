@@ -1,38 +1,45 @@
 package com.mycompany.Entidades;
 
 import Enums.TipoNegocio;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  *
  * @author Jesus Omar
  */
 public class Negocio {
-    
-    private Long idNegocio;
-    private Long idEmprendedor;
+
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idNegocio;
+    private String idEmprendedor;
     private String nombre;
     private TipoNegocio tipoNegocio;
+    private Direccion direccion;
 
-    public Negocio(Long idNegocio, Long idEmprendedor, String nombre, TipoNegocio tipoNegocio) {
+    public Negocio(String idNegocio, String idEmprendedor, String nombre, TipoNegocio tipoNegocio, Direccion direccion) {
         this.idNegocio = idNegocio;
         this.idEmprendedor = idEmprendedor;
         this.nombre = nombre;
         this.tipoNegocio = tipoNegocio;
+        this.direccion = direccion;
     }
 
-    public Long getIdNegocio() {
+    public String getIdNegocio() {
         return idNegocio;
     }
 
-    public void setIdNegocio(Long idNegocio) {
+    public void setIdNegocio(String idNegocio) {
         this.idNegocio = idNegocio;
     }
 
-    public Long getIdEmprendedor() {
+    public String getIdEmprendedor() {
         return idEmprendedor;
     }
 
-    public void setIdEmprendedor(Long idEmprendedor) {
+    public void setIdEmprendedor(String idEmprendedor) {
         this.idEmprendedor = idEmprendedor;
     }
 
@@ -51,5 +58,13 @@ public class Negocio {
     public void setTipoNegocio(TipoNegocio tipoNegocio) {
         this.tipoNegocio = tipoNegocio;
     }
-    
+
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
+    }
+
 }

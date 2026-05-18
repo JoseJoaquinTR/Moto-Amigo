@@ -5,37 +5,27 @@ package com.mycompany.Entidades;
  * @author Jesus Omar
  */
 public class Direccion {
-    
-    private Long idDireccion;
-    private Long idNegocio;
+
+    private String idDireccion;
     private String calle;
     private String numero;
     private String colonia;
     private String codigoPostal;
 
-    public Direccion(Long idDireccion, Long idNegocio, String calle, String numero, String colonia, String codigoPostal) {
+    public Direccion(String idDireccion, String calle, String numero, String colonia, String codigoPostal) {
         this.idDireccion = idDireccion;
-        this.idNegocio = idNegocio;
         this.calle = calle;
         this.numero = numero;
         this.colonia = colonia;
         this.codigoPostal = codigoPostal;
     }
 
-    public Long getIdDireccion() {
+    public String getIdDireccion() {
         return idDireccion;
     }
 
-    public void setIdDireccion(Long idDireccion) {
+    public void setIdDireccion(String idDireccion) {
         this.idDireccion = idDireccion;
-    }
-
-    public Long getIdNegocio() {
-        return idNegocio;
-    }
-
-    public void setIdNegocio(Long idNegocio) {
-        this.idNegocio = idNegocio;
     }
 
     public String getCalle() {
@@ -69,5 +59,5 @@ public class Direccion {
     public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
-    
+
 }
