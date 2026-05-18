@@ -73,7 +73,7 @@ public class ControlSeguimiento {
      * @param idRepartidor identificador del repartidor.
      * @return datos del repartidor; null si ocurre un error o no se encuentra.
      */
-    public RepartidorDTO obtenerRepartidorAsignado(Long idRepartidor) {
+    public RepartidorDTO obtenerRepartidorAsignado(String idRepartidor) {
         try {
             return funcionalidad.obtenerRepartidorAsignado(idRepartidor);
         } catch (NegocioException ex) {

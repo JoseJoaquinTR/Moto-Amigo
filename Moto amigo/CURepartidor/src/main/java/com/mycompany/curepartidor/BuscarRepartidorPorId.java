@@ -29,7 +29,7 @@ public class BuscarRepartidorPorId implements IBuscarRepartidorPorId {
     }
 
     @Override
-    public RepartidorDTO buscarRepartidorPorId(Long id) throws NegocioException {
+    public RepartidorDTO buscarRepartidorPorId(String id) throws NegocioException {
         return fachada.obtenerRepartidorPorId(id);
     }
 }

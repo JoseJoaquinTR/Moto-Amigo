@@ -17,5 +17,5 @@ public interface IBuscarRepartidorPorId {
      * @return datos del repartidor; null si no se encuentra.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    RepartidorDTO buscarRepartidorPorId(Long id) throws NegocioException;
+    RepartidorDTO buscarRepartidorPorId(String id) throws NegocioException;
 }
