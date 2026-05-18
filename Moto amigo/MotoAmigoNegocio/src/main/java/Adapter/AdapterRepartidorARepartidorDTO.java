@@ -18,22 +18,19 @@ import java.util.stream.Collectors;
 public class AdapterRepartidorARepartidorDTO {
 
     public static RepartidorDTO toDTO(Repartidor repartidor) {
-
         if (repartidor == null) {
             return null;
         }
 
         RepartidorDTO dto = new RepartidorDTO();
-
         Estado estado = Estado.INACTIVO;
-        
-        if(repartidor.getEstado() == com.mycompany.Entidades.Estado.ACTIVO){
-            estado = Estado.ACTIVO;
 
-        }else if(repartidor.getEstado() == com.mycompany.Entidades.Estado.BLOQUEADO){
-            estado= Estado.BLOQUEADO;
+        if (repartidor.getEstado() == com.mycompany.Entidades.Estado.ACTIVO) {
+            estado = Estado.ACTIVO;
+        } else if (repartidor.getEstado() == com.mycompany.Entidades.Estado.BLOQUEADO) {
+            estado = Estado.BLOQUEADO;
         }
-        
+
         dto.setId(repartidor.getIdRepartidor());
         dto.setNombre(repartidor.getNombre());
         dto.setTelefono(repartidor.getTelefono());
@@ -43,18 +40,13 @@ public class AdapterRepartidorARepartidorDTO {
         dto.setNumBloqueos(repartidor.getNumBloqueos());
 
         return dto;
-
     }
 
     public static List<RepartidorDTO> adaptarLista(List<Repartidor> repartidores) {
-         if (repartidores == null) {
-        return new LinkedList<>();
-    }
+        if (repartidores == null) {
+            return new LinkedList<>();
+        }
 
-    return repartidores.stream()
-            .map(AdapterRepartidorARepartidorDTO::toDTO)
-            .collect(Collectors.toList());
+        return repartidores.stream().map(AdapterRepartidorARepartidorDTO::toDTO).collect(Collectors.toList());
     }
-
-    
 }

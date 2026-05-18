@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
-
 package com.mycompany.motoamigopersistencia;
 
 import com.mycompany.Entidades.Repartidor;
@@ -19,13 +18,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 
- 
 /**
  *
  * @author Carmen Andrea Lara Osuna
  */
-
-
 public class ReportesBloqueosDAOTest {
 
     private ReportesBloqueosDAO dao;
@@ -40,8 +36,10 @@ public class ReportesBloqueosDAOTest {
         assertDoesNotThrow(() -> {
             MotivoDTO motivoDTO = new MotivoDTO("Incumplimiento de reglas", Tipo.BLOQUEO);
 
+            String idRepartidor = new ObjectId().toHexString();
+
             RepartidorDTO repartidorDTO = new RepartidorDTO();
-            repartidorDTO.setId(new ObjectId().toHexString());
+            repartidorDTO.setId(idRepartidor);
             repartidorDTO.setNombre("Juan Pérez");
             repartidorDTO.setTelefono("6441234567");
             repartidorDTO.setVehiculo("Moto");
@@ -60,14 +58,14 @@ public class ReportesBloqueosDAOTest {
             ReporteBloqueo reporte = dao.guardarReporte(nuevoReporte);
 
             assertNotNull(reporte);
-            assertEquals("Incumplimiento de reglas", reporte.getMotivo().getMotivo());
-            assertEquals("Juan Pérez", reporte.getRepartidor().getNombre());
-            assertEquals("Moto", reporte.getRepartidor().getVehiculo());
-            assertArrayEquals(evidencia, reporte.getImagenEvidencia());
-
             assertNotNull(reporte.getIdReporte());
             assertEquals(24, reporte.getIdReporte().length());
             assertTrue(reporte.getIdReporte().matches("^[a-fA-F0-9]{24}$"));
+
+            assertNotNull(reporte.getIdRepartidor());
+            assertEquals(idRepartidor, reporte.getIdRepartidor());
+            assertEquals("Incumplimiento de reglas", reporte.getMotivo().getMotivo());
+            assertArrayEquals(evidencia, reporte.getImagenEvidencia());
         });
     }
 
@@ -90,7 +88,7 @@ public class ReportesBloqueosDAOTest {
             assertNotNull(resultados);
         });
     }
-    
+
     @Test
     public void testObtenerRepartidoresParaDesbloqueoMasivo() {
         assertDoesNotThrow(() -> {
@@ -105,7 +103,7 @@ public class ReportesBloqueosDAOTest {
             assertTrue(repartidores.size() >= 0);
             for (Repartidor r : repartidores) {
                 assertEquals(com.mycompany.Entidades.Estado.BLOQUEADO, r.getEstado());
-                assertTrue(r.getNumBloqueos()>= filtros.getNumBloqueos());
+                assertTrue(r.getNumBloqueos() >= filtros.getNumBloqueos());
             }
         });
     }

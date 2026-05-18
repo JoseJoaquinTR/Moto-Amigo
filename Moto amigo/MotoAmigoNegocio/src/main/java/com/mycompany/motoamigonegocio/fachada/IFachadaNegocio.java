@@ -267,4 +267,24 @@ public interface IFachadaNegocio {
      * @throws NegocioException si ocurre un error durante la consulta.
      */
     List<InformacionReporteDesbloqueoDTO> consultarReportesDesbloqueoParaPDF(FiltrosDTO filtros) throws NegocioException;
+
+    /**
+     * Valida que el motivo exista
+     *
+     * @param motivo motivo a validar
+     * @param tipo tipo del motivo
+     * @return true si existe o false en caso contrario
+     * @throws NegocioException si ocurre un error durante la validacion.
+     */
+    boolean existeMotivo(MotivoDTO motivo, Tipo tipo) throws NegocioException;
+
+    /**
+     * Incrementa en uno el número de bloqueos de un repartidor.
+     *
+     * @param id identificador del repartidor.
+     * @return repartidor actualizado.
+     * @throws NegocioException si ocurre un error durante la actualización.
+     */
+    RepartidorDTO incrementarNumeroBloqueos(String id) throws NegocioException;
+
 }

@@ -23,4 +23,6 @@ public interface IRepartidoresDAO {
     List<Repartidor> buscarPorNombre(String nombreParcial)throws PersistenciaException;
     
     Repartidor consultarPorId(String id)throws PersistenciaException;
+    
+    Repartidor incrementarNumeroBloqueos(String id) throws PersistenciaException;
 }

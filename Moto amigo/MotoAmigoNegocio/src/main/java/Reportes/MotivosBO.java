@@ -8,10 +8,13 @@ import static Adapter.AdapterMotivoToDTO.adaptarLista;
 import com.mycompany.Entidades.Motivo;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
+import com.mycompany.motoamigopersistencia.PersistenciaException;
 import enums.Tipo;
 import fachada.FachadaPersistencia;
 import fachada.IFachadaPersistencia;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -43,4 +46,17 @@ public class MotivosBO implements IMotivosBO {
         return adaptarLista(motivos);
     }
 
+    @Override
+    public boolean existeMotivo(MotivoDTO motivo, Tipo tipo) throws NegocioException {
+
+        try {
+            if (motivo == null || tipo == null) {
+                return false;
+            }
+            
+            return persistencia.existeMotivo(motivo, tipo);
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al validar motivo");
+        }
+    }
 }

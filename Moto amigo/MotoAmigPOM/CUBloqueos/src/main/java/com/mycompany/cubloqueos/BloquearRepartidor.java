@@ -16,6 +16,9 @@ import com.mycompany.bloqueorepartidores.ReporteBloqueoDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import enums.Estado;
+import enums.Tipo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,12 +30,12 @@ public class BloquearRepartidor implements IBloquearRepartidor {
 
     private final IRepartidoresBO repartidoresBO;
     private final IReportesBloqueoBO bloqueoBO;
-    private final IMotivosBO motivoBO;
+    private final IMotivosBO motivosBO;
 
     public BloquearRepartidor() {
         this.repartidoresBO = RepartidoresBO.getInstancia();
         this.bloqueoBO = ReportesBloqueoBO.getInstancia();
-        this.motivoBO = MotivosBO.getInstancia();
+        this.motivosBO = MotivosBO.getInstancia();
     }
 
     public static synchronized BloquearRepartidor getInstancia() {
@@ -57,13 +60,19 @@ public class BloquearRepartidor implements IBloquearRepartidor {
             throw new NegocioException("Debe seleccionar un motivo válido.");
         }
 
-        RepartidorDTO repartidorBloqueado = repartidoresBO.cambiarEstadoRepartidor(dto.getRepartidor().getId(), Estado.BLOQUEADO);
+        RepartidorDTO repartidorBloqueado
+                = repartidoresBO.cambiarEstadoRepartidor(
+                        dto.getRepartidor().getId(),
+                        Estado.BLOQUEADO
+                );
 
         if (repartidorBloqueado == null) {
             throw new NegocioException("No se pudo bloquear el repartidor.");
         }
 
-        dto.setRepartidor(repartidorBloqueado);
+        RepartidorDTO repartidorActualizado = repartidoresBO.incrementarNumeroBloqueos(repartidorBloqueado.getId());
+
+        dto.setRepartidor(repartidorActualizado);
 
         return bloqueoBO.guardarReporteBloqueo(dto);
     }
@@ -85,17 +94,22 @@ public class BloquearRepartidor implements IBloquearRepartidor {
     }
 
     @Override
-    public boolean validarMotivoSeleccionado(MotivoDTO motivo) {
+    public boolean validarMotivoSeleccionado(MotivoDTO motivo) throws NegocioException {
 
-        if (motivo == null) {
-            return false;
+        try {
+            if (motivo == null) {
+                return false;
+            }
+
+            if (motivo.getMotivo() == null || motivo.getMotivo().isBlank()) {
+                return false;
+            }
+
+            return motivosBO.existeMotivo(motivo, motivo.getTipo());
+
+        } catch (NegocioException ex) {
+            throw new NegocioException("Error al valdiar motivo");
         }
-
-        if (motivo.getMotivo() == null || motivo.getMotivo().isBlank()) {
-            return false;
-        }
-
-        return motivo.getTipo() != null;
     }
 
 }

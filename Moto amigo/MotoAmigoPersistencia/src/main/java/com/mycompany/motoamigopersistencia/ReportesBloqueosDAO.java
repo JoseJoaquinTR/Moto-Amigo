@@ -51,25 +51,28 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
             MongoDatabase bd = ManejadorConexiones.getInstancia().obtenerBaseDatos();
             MongoCollection<ReporteBloqueo> coleccion = bd.getCollection(NOMBRE_COLECCION, ReporteBloqueo.class);
 
-            // Adaptar DTOs a entidades
             Motivo motivo = AdapterMotivo.toEntity(dto.getMotivo());
-            Repartidor repartidor = AdapterRepartidor.toEntity(dto.getRepartidor());
 
             ReporteBloqueo reporte = new ReporteBloqueo();
             reporte.setMotivo(motivo);
-            reporte.setRepartidor(repartidor);
+            reporte.setIdRepartidor(dto.getRepartidor().getId());
             reporte.setDetalles(dto.getDetalles());
             reporte.setFechaHora(dto.getFechaHora());
             reporte.setImagenEvidencia(dto.getImagenEvidencia());
 
             InsertOneResult resultado = coleccion.insertOne(reporte);
+
             if (!resultado.wasAcknowledged()) {
                 throw new PersistenciaException("No se pudo insertar el reporte de bloqueo.");
             }
 
+            if (resultado.getInsertedId() != null && resultado.getInsertedId().isObjectId()) {
+                reporte.setIdReporte(resultado.getInsertedId().asObjectId().getValue().toHexString());
+            }
+
             return reporte;
         } catch (MongoException ex) {
-            throw new PersistenciaException("Error al crear reporte de bloqueo en MongoDB.", ex);
+            throw new PersistenciaException("Error al crear reporte de bloqueo", ex);
         }
     }
 
@@ -108,11 +111,14 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
     }
 
     @Override
-    public List<Repartidor> obtenerRepartidoresParaDesbloqueoMasivo(FiltrosDTO filtros)
-            throws PersistenciaException {
+    public List<Repartidor> obtenerRepartidoresParaDesbloqueoMasivo(FiltrosDTO filtros) throws PersistenciaException {
+
         try {
+
             MongoDatabase bd = ManejadorConexiones.getInstancia().obtenerBaseDatos();
-            MongoCollection<ReporteBloqueo> coleccion = bd.getCollection(NOMBRE_COLECCION, ReporteBloqueo.class);
+
+            MongoCollection<ReporteBloqueo> coleccion
+                    = bd.getCollection(NOMBRE_COLECCION, ReporteBloqueo.class);
 
             List<Bson> pipeline = new LinkedList<>();
             List<Bson> filtrosReporteBloqueo = new LinkedList<>();
@@ -131,18 +137,23 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
 
             if (filtros.getMotivo() != null) {
                 filtrosReporteBloqueo.add(
-                        Filters.eq("motivo.motivo", filtros.getMotivo().getMotivo())
+                        Filters.eq(
+                                "motivo.motivo",
+                                filtros.getMotivo().getMotivo()
+                        )
                 );
             }
 
             if (!filtrosReporteBloqueo.isEmpty()) {
                 pipeline.add(
-                        Aggregates.match(Filters.and(filtrosReporteBloqueo))
+                        Aggregates.match(
+                                Filters.and(filtrosReporteBloqueo)
+                        )
                 );
             }
 
             pipeline.add(
-                    Aggregates.group("$repartidor._id")
+                    Aggregates.group("$idRepartidor")
             );
 
             pipeline.add(
@@ -161,17 +172,25 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
             List<Bson> filtrosRepartidor = new LinkedList<>();
 
             filtrosRepartidor.add(
-                    Filters.eq("repartidor.estado", Estado.BLOQUEADO)
+                    Filters.eq(
+                            "repartidor.estado",
+                            Estado.BLOQUEADO
+                    )
             );
 
             if (filtros.getNumBloqueos() > 0) {
                 filtrosRepartidor.add(
-                        Filters.gte("repartidor.numeroBloqueos", filtros.getNumBloqueos())
+                        Filters.gte(
+                                "repartidor.numBloqueos",
+                                filtros.getNumBloqueos()
+                        )
                 );
             }
 
             pipeline.add(
-                    Aggregates.match(Filters.and(filtrosRepartidor))
+                    Aggregates.match(
+                            Filters.and(filtrosRepartidor)
+                    )
             );
 
             pipeline.add(
@@ -181,7 +200,10 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
             List<Repartidor> repartidores = new LinkedList<>();
 
             AggregateIterable<Repartidor> resultado
-                    = coleccion.aggregate(pipeline, Repartidor.class);
+                    = coleccion.aggregate(
+                            pipeline,
+                            Repartidor.class
+                    );
 
             for (Repartidor repartidor : resultado) {
                 repartidores.add(repartidor);
@@ -189,9 +211,11 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
 
             return repartidores;
 
-        } catch (MongoException e) {
+        } catch (MongoException ex) {
+
             throw new PersistenciaException(
-                    "Error al obtener repartidores para desbloqueo masivo.", e
+                    "Error al obtener repartidores para desbloqueo masivo.",
+                    ex
             );
         }
     }
