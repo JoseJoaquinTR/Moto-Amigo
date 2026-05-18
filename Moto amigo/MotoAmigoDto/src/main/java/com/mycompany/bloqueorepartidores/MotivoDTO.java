@@ -31,6 +31,14 @@ public class MotivoDTO {
         return tipo;
     }
 
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
     
    
 }

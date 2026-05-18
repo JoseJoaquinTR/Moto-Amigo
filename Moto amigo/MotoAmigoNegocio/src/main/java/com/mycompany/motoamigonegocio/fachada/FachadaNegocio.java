@@ -1,5 +1,7 @@
 package com.mycompany.motoamigonegocio.fachada;
 
+import Repartidores.IRepartidoresBO;
+import Repartidores.RepartidoresBO;
 import com.mycompany.Entidades.Emprendedor;
 import com.mycompany.infraestructura.MapBoxService;
 import com.mycompany.emprendedoresdto.EmprendedorDTO;
@@ -17,12 +19,10 @@ import com.mycompany.emprendedoresbo.IEmprendedoresBO;
 import com.mycompany.motoamigonegocio.IEntregasBO;
 import com.mycompany.motoamigonegocio.IGestionRepartidores;
 import com.mycompany.motoamigonegocio.IIncidenteBO;
-import com.mycompany.motoamigonegocio.IRepartidorBO;
 import com.mycompany.motoamigonegocio.IRutaBO;
 import com.mycompany.motoamigonegocio.IUbicacionBO;
 import com.mycompany.motoamigonegocio.IncidenteBO;
 import com.mycompany.motoamigonegocio.NegocioException;
-import com.mycompany.motoamigonegocio.RepartidorBO;
 import com.mycompany.motoamigonegocio.RutaBO;
 import com.mycompany.motoamigonegocio.UbicacionBO;
 import java.util.List;
@@ -37,7 +37,7 @@ public class FachadaNegocio implements IFachadaNegocio {
 
     private final IRutaBO rutaBO;
     private final IEmprendedoresBO emprendedorBO;
-    private final IRepartidorBO repartidorBO;
+    private final IRepartidoresBO repartidoresBO;
     private final IEntregasBO entregasBO;
     private final IUbicacionBO ubicacionBO;
     private final IGestionRepartidores gestionRepartidores;
@@ -48,7 +48,7 @@ public class FachadaNegocio implements IFachadaNegocio {
      *
      * @param rutaBO BO de rutas.
      * @param emprendedorBO BO de emprendedores.
-     * @param repartidorBO BO de repartidores.
+     * @param repartidoresBO BO de repartidores.
      * @param entregasBO BO de entregas.
      * @param ubicacionBO BO de ubicaciones.
      * @param gestionRepartidores BO de gestión de repartidores y solicitudes.
@@ -56,14 +56,14 @@ public class FachadaNegocio implements IFachadaNegocio {
      */
     public FachadaNegocio(IRutaBO rutaBO,
                           IEmprendedoresBO emprendedorBO,
-                          IRepartidorBO repartidorBO,
+                          IRepartidoresBO repartidoresBO,
                           IEntregasBO entregasBO,
                           IUbicacionBO ubicacionBO,
                           IGestionRepartidores gestionRepartidores,
                           IIncidenteBO incidenteBO) {
         this.rutaBO = rutaBO;
         this.emprendedorBO = emprendedorBO;
-        this.repartidorBO = repartidorBO;
+        this.repartidoresBO = repartidoresBO;
         this.entregasBO = entregasBO;
         this.ubicacionBO = ubicacionBO;
         this.gestionRepartidores = gestionRepartidores;
@@ -79,7 +79,7 @@ public class FachadaNegocio implements IFachadaNegocio {
         return new FachadaNegocio(
                 new RutaBO(MapBoxService.getInstance()),
                 new EmprendedorBO(),
-                new RepartidorBO(),
+                new RepartidoresBO(),
                 EntregasBO.getInstance(),
                 UbicacionBO.getInstancia(),
                 GestionRepartidores.getInstance(),
@@ -113,8 +113,8 @@ public class FachadaNegocio implements IFachadaNegocio {
     }
 
     @Override
-    public RepartidorDTO obtenerRepartidorPorId(Long idRepartidor) throws NegocioException {
-        return repartidorBO.obtenerRepartidorPorId(idRepartidor);
+    public RepartidorDTO obtenerRepartidorPorId(String idRepartidor) throws NegocioException {
+        return repartidoresBO.consultarRepartidorPorId(idRepartidor);
     }
 
     @Override

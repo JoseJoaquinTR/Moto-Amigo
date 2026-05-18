@@ -4,7 +4,7 @@ import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
-import com.mycompany.Entidades.Estado;
+import enums.*;
 import com.mycompany.Entidades.Repartidor;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
@@ -20,16 +20,16 @@ import java.util.regex.Pattern;
  *
  * @author Carmen
  */
-public class RepartidorDAO implements IRepartidorDAO {
+public class RepartidoresDAO implements IRepartidoresDAO {
 
-    private static RepartidorDAO instancia;
+    private static RepartidoresDAO instancia;
 
-    private RepartidorDAO() {
+    private RepartidoresDAO() {
     }
 
-    public static synchronized RepartidorDAO getInstancia() {
+    public static synchronized RepartidoresDAO getInstancia() {
         if (instancia == null) {
-            instancia = new RepartidorDAO();
+            instancia = new RepartidoresDAO();
         }
         return instancia;
     }
@@ -93,15 +93,15 @@ public class RepartidorDAO implements IRepartidorDAO {
     }
 
     @Override
-    public List<Repartidor> buscarPorNombre(String nombreParcial) throws PersistenciaException {
+    public List<Repartidor> buscarPorNombre(String nombre) throws PersistenciaException {
         try {
             MongoCollection<Repartidor> coleccion = obtenercColeccion(obtenerBaseDatos());
             List<Repartidor> repartidores = new LinkedList<>();
-            if (nombreParcial == null || nombreParcial.isBlank()) {
+            if (nombre == null || nombre.isBlank()) {
                 coleccion.find().into(repartidores);
                 return repartidores;
             }
-            String patron = Pattern.quote(nombreParcial);
+            String patron = Pattern.quote(nombre);
             coleccion.find(regex("nombre", patron, "i")).into(repartidores);
             return repartidores;
         } catch (MongoException ex) {

@@ -70,7 +70,7 @@ public interface IFachadaNegocio {
      * @return datos del repartidor; null si no se encuentra.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    RepartidorDTO obtenerRepartidorPorId(Long idRepartidor) throws NegocioException;
+    RepartidorDTO obtenerRepartidorPorId(String idRepartidor) throws NegocioException;
 
     /**
      * Obtiene la lista de repartidores actualmente disponibles.

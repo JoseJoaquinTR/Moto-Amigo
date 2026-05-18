@@ -5,7 +5,7 @@
 package com.mycompany.motoamigopersistencia;
 
 import com.mycompany.Entidades.Motivo;
-import com.mycompany.Entidades.Tipo;
+import enums.Tipo;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,7 +57,13 @@ public class MotivosDAO implements IMotivosDAO {
         Motivo motivo = new Motivo();
 
         motivo.setMotivo(descripcion);
-        motivo.setTipo(tipo);
+        
+        if(tipo == Tipo.BLOQUEO){
+            motivo.setTipo(com.mycompany.Entidades.Tipo.BLOQUEO);
+        }else if (tipo == tipo.DESBLOQUEO ){
+            motivo.setTipo(com.mycompany.Entidades.Tipo.DESBLOQUEO);
+        }
+        
 
         return motivo;
     }

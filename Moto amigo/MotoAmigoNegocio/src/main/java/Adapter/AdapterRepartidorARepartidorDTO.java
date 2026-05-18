@@ -4,10 +4,10 @@
  */
 package Adapter;
 
-import com.mycompany.Entidades.Estado;
+import enums.Estado;
 import com.mycompany.Entidades.Repartidor;
 import com.mycompany.motoamigodto.RepartidorDTO;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,28 +17,44 @@ import java.util.stream.Collectors;
  */
 public class AdapterRepartidorARepartidorDTO {
 
-    public RepartidorDTO adaptar(Repartidor repartidor) {
+    public static RepartidorDTO toDTO(Repartidor repartidor) {
+
         if (repartidor == null) {
             return null;
         }
-        return new RepartidorDTO(
-                repartidor.getIdRepartidor(),
-                repartidor.getNombre(),
-                repartidor.getTelefono(),
-                repartidor.getCorreo(),
-                repartidor.getVehiculo(),
-                estadoATexto(repartidor.getEstado())
-        );
-    }
 
-    public List<RepartidorDTO> adaptarLista(List<Repartidor> repartidores) {
-        if (repartidores == null) {
-            return new ArrayList<>();
+        RepartidorDTO dto = new RepartidorDTO();
+
+        Estado estado = Estado.INACTIVO;
+        
+        if(repartidor.getEstado() == com.mycompany.Entidades.Estado.ACTIVO){
+            estado = Estado.ACTIVO;
+
+        }else if(repartidor.getEstado() == com.mycompany.Entidades.Estado.BLOQUEADO){
+            estado= Estado.BLOQUEADO;
         }
-        return repartidores.stream().map(this::adaptar).collect(Collectors.toList());
+        
+        dto.setId(repartidor.getIdRepartidor());
+        dto.setNombre(repartidor.getNombre());
+        dto.setTelefono(repartidor.getTelefono());
+        dto.setCorreo(repartidor.getCorreo());
+        dto.setVehiculo(repartidor.getVehiculo());
+        dto.setEstado(estado);
+        dto.setNumBloqueos(repartidor.getNumBloqueos());
+
+        return dto;
+
     }
 
-    private String estadoATexto(Estado estado) {
-        return estado != null ? estado.name() : null;
+    public static List<RepartidorDTO> adaptarLista(List<Repartidor> repartidores) {
+         if (repartidores == null) {
+        return new LinkedList<>();
     }
+
+    return repartidores.stream()
+            .map(AdapterRepartidorARepartidorDTO::toDTO)
+            .collect(Collectors.toList());
+    }
+
+    
 }

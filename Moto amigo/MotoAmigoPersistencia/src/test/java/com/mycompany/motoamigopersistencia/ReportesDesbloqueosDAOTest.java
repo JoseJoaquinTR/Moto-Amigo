@@ -5,6 +5,7 @@
 
 package com.mycompany.motoamigopersistencia;
 
+import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import com.mycompany.Entidades.ReporteDesbloqueo;
 import com.mycompany.motoamigodto.*;
 import enums.Tipo;

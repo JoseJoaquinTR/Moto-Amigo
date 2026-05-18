@@ -6,7 +6,7 @@
 package com.mycompany.motoamigopersistencia;
 
 import com.mycompany.Entidades.Motivo;
-import com.mycompany.Entidades.Tipo;
+import enums.Tipo;
 import java.util.List;
 
 /**

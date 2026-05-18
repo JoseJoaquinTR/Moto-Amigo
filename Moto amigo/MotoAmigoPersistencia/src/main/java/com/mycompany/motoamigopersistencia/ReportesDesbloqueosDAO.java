@@ -4,6 +4,7 @@
  */
 package com.mycompany.motoamigopersistencia;
 
+import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import Adapter.AdapterMotivo;
 import builder.ReporteFiltroBuilder;
 import com.mongodb.MongoException;
