@@ -1,4 +1,3 @@
-
 package observerCambiosPaquete;
 
 import Paquetes.IObservadorPaqueteBO;
@@ -13,10 +12,19 @@ import java.util.List;
  */
 public class ObserverCambiosPaquete implements IObservadorPaqueteBO, IObserverCambiosPaquete {
 
+    private static ObserverCambiosPaquete instancia;
+
     private final List<IObservadorPaqueteCU> observadores;
 
-    public ObserverCambiosPaquete() {
+    private ObserverCambiosPaquete() {
         this.observadores = new ArrayList<>();
+    }
+
+    public static synchronized ObserverCambiosPaquete getInstancia() {
+        if (instancia == null) {
+            instancia = new ObserverCambiosPaquete();
+        }
+        return instancia;
     }
 
     @Override
@@ -33,35 +41,35 @@ public class ObserverCambiosPaquete implements IObservadorPaqueteBO, IObserverCa
 
     @Override
     public void paqueteCreado(PaqueteDTO paquete) {
-        for (IObservadorPaqueteCU observer : observadores) {
+        for (IObservadorPaqueteCU observer : new ArrayList<>(observadores)) {
             observer.paqueteCreado(paquete);
         }
     }
 
     @Override
     public void paqueteEditado(PaqueteDTO paquete) {
-        for (IObservadorPaqueteCU observer : observadores) {
+        for (IObservadorPaqueteCU observer : new ArrayList<>(observadores)) {
             observer.paqueteEditado(paquete);
         }
     }
 
     @Override
     public void paqueteEliminado(String idPaquete) {
-        for (IObservadorPaqueteCU observer : observadores) {
+        for (IObservadorPaqueteCU observer : new ArrayList<>(observadores)) {
             observer.paqueteEliminado(idPaquete);
         }
     }
 
     @Override
     public void productoAgregadoAPaquete(String idPaquete, ProductoDTO producto) {
-        for (IObservadorPaqueteCU observer : observadores) {
+        for (IObservadorPaqueteCU observer : new ArrayList<>(observadores)) {
             observer.productoAgregadoAPaquete(idPaquete, producto);
         }
     }
 
     @Override
     public void productoQuitadoDePaquete(String idPaquete, ProductoDTO producto) {
-        for (IObservadorPaqueteCU observer : observadores) {
+        for (IObservadorPaqueteCU observer : new ArrayList<>(observadores)) {
             observer.productoQuitadoDePaquete(idPaquete, producto);
         }
     }

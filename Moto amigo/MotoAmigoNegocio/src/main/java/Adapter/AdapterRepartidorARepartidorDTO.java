@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Adapter;
 
-import com.mycompany.Entidades.Estado;
 import com.mycompany.Entidades.Repartidor;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import java.util.ArrayList;
@@ -21,14 +17,15 @@ public class AdapterRepartidorARepartidorDTO {
         if (repartidor == null) {
             return null;
         }
-        return new RepartidorDTO(
-                repartidor.getIdRepartidor(),
-                repartidor.getNombre(),
-                repartidor.getTelefono(),
-                repartidor.getCorreo(),
-                repartidor.getVehiculo(),
-                estadoATexto(repartidor.getEstado())
-        );
+//        return new RepartidorDTO(
+//                repartidor.getIdRepartidor(),
+//                repartidor.getNombre(),
+//                repartidor.getTelefono(),
+//                repartidor.getCorreo(),
+//                repartidor.getVehiculo(),
+//                repartidor.getEstado()
+//        );
+return null;
     }
 
     public List<RepartidorDTO> adaptarLista(List<Repartidor> repartidores) {
@@ -36,9 +33,5 @@ public class AdapterRepartidorARepartidorDTO {
             return new ArrayList<>();
         }
         return repartidores.stream().map(this::adaptar).collect(Collectors.toList());
-    }
-
-    private String estadoATexto(Estado estado) {
-        return estado != null ? estado.name() : null;
     }
 }

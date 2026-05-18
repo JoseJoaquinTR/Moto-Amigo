@@ -20,10 +20,10 @@ public class GestionRepartidores implements IGestionRepartidores {
 
     private static GestionRepartidores instancia;
 
-    private final IRepartidorDAO repartidorDAO;
+//    private final IRepartidorDAO repartidorDAO;
 
     private GestionRepartidores() {
-        this.repartidorDAO = new RepartidorDAO();
+//        this.repartidorDAO = new RepartidorDAO();
     }
 
     /**
@@ -40,12 +40,19 @@ public class GestionRepartidores implements IGestionRepartidores {
 
     @Override
     public List<RepartidorDTO> obtenerRepartidoresDisponibles() throws NegocioException {
-        try {
-            List<Repartidor> lista = repartidorDAO.obtenerActivos();
-            return new AdapterRepartidorARepartidorDTO().adaptarLista(lista);
-        } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al obtener repartidores disponibles.", ex);
-        }
+//        try {
+//            List<Repartidor> lista = repartidorDAO.obtenerActivos();
+//            return new AdapterRepartidorARepartidorDTO().adaptarLista(lista);
+//        } catch (PersistenciaException ex) {
+//            throw new NegocioException("Error al obtener repartidores disponibles.", ex);
+//        }
+        return null;
+//        try {
+//            List<Repartidor> lista = repartidorDAO.obtenerActivos();
+//            return new AdapterRepartidorARepartidorDTO().adaptarLista(lista);
+//        } catch (PersistenciaException ex) {
+//            throw new NegocioException("Error al obtener repartidores disponibles.", ex);
+//        }
     }
 
     @Override

@@ -21,8 +21,7 @@ import java.util.List;
  * @author joset
  */
 public interface IFachadaPersistencia {
-    
-    
+
     //CU Productos y Paquetes
     Producto agregarProducto(NuevoProductoDTO producto) throws PersistenciaException;
 
@@ -48,28 +47,27 @@ public interface IFachadaPersistencia {
 
     List<Paquete> obtenerPaquetesPorEmprendedor(String idEmprendedor) throws PersistenciaException;
 
-    
     //CU Bloquear Repartidores
     List<Repartidor> obtenerRepartidoresActivos() throws PersistenciaException;
 
-    Repartidor cambiarEstadoRepartidor(String id, Estado estado)throws PersistenciaException;
+    Repartidor cambiarEstadoRepartidor(String id, Estado estado) throws PersistenciaException;
 
     ReporteBloqueo guardarReporteBloqueo(NuevoReporteBloqueoDTO dto) throws PersistenciaException;
 
-    ReporteDesbloqueo guardarReporteDesbloqueo(NuevoReporteDesbloqueoDTO dto)throws PersistenciaException;
+    ReporteDesbloqueo guardarReporteDesbloqueo(NuevoReporteDesbloqueoDTO dto) throws PersistenciaException;
 
-    List<ReporteBloqueo> consultarReportesBloqueos()throws PersistenciaException;
-    
-    List<ReporteBloqueo> consultarReportesBloqueos(FiltrosDTO filtros)throws PersistenciaException;
+    List<ReporteBloqueo> consultarReportesBloqueos() throws PersistenciaException;
 
-    List<ReporteDesbloqueo> consultarReportesDesbloqueos()throws PersistenciaException;
-    
-    List<ReporteDesbloqueo> consultarReportesDesbloqueos(FiltrosDTO filtros)throws PersistenciaException;
+    List<ReporteBloqueo> consultarReportesBloqueos(FiltrosDTO filtros) throws PersistenciaException;
+
+    List<ReporteDesbloqueo> consultarReportesDesbloqueos() throws PersistenciaException;
+
+    List<ReporteDesbloqueo> consultarReportesDesbloqueos(FiltrosDTO filtros) throws PersistenciaException;
 
     List<Motivo> obtenerMotivos(Tipo tipo);
 
-    List<Repartidor> obtenerRepartidores()throws PersistenciaException;
+    List<Repartidor> obtenerRepartidores() throws PersistenciaException;
 
-    List<Repartidor> obtenerRepartidores(FiltrosDTO filtros)throws PersistenciaException;
+    List<Repartidor> obtenerRepartidores(FiltrosDTO filtros) throws PersistenciaException;
 
 }

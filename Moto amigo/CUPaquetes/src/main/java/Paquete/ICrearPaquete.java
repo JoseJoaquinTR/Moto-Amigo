@@ -13,6 +13,7 @@ public interface ICrearPaquete {
      *
      * @param paquete datos del paquete a crear.
      * @return el paquete creado con su id asignado, o null si ocurre un error.
+     * @throws Paquete.PaqueteException
      */
     public abstract PaqueteDTO crear(NuevoPaqueteDTO paquete)throws PaqueteException;
 }

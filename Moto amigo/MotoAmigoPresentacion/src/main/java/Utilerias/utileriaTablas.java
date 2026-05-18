@@ -1,4 +1,3 @@
-
 package Utilerias;
 
 import com.mycompany.paquetesdto.PaqueteDTO;
@@ -88,11 +87,11 @@ public final class utileriaTablas {
         tabla.setDefaultRenderer(ImageIcon.class, new RenderImagenTabla());
     }
 
-    public static void configurarTablaPaquetes(JTable tabla) {
+    public static void configurarTablaPaquetes(JTable tabla, int tamaño) {
         tabla.setModel(crearModeloPaquetes());
-        tabla.setRowHeight(65);
+        tabla.setRowHeight(tamaño);
 
-        tabla.getColumnModel().getColumn(0).setPreferredWidth(70);
+        tabla.getColumnModel().getColumn(0).setPreferredWidth(120);
         tabla.getColumnModel().getColumn(1).setPreferredWidth(180);
         tabla.getColumnModel().getColumn(2).setPreferredWidth(90);
         tabla.getColumnModel().getColumn(3).setPreferredWidth(90);
@@ -120,9 +119,11 @@ public final class utileriaTablas {
             return;
         }
 
+        int tamañoImagen = Math.max(20, tabla.getRowHeight() - 10);
+
         for (ProductoDTO producto : productos) {
             modelo.addRow(new Object[]{
-                crearIcono(producto.getImagen()),
+                crearIcono(producto.getImagen(), tamañoImagen),
                 obtenerTextoSeguro(producto.getNombre()),
                 producto.getUnidad() != null ? producto.getUnidad().toString() : "",
                 formatoPeso(producto.getPeso()),
@@ -139,9 +140,11 @@ public final class utileriaTablas {
             return;
         }
 
+        int tamañoImagen = Math.max(20, tabla.getRowHeight() - 10);
+
         for (PaqueteDTO paquete : paquetes) {
             modelo.addRow(new Object[]{
-                crearIcono(paquete.getImagen()),
+                crearIcono(paquete.getImagen(), tamañoImagen),
                 obtenerTextoSeguro(paquete.getNombre()),
                 paquete.getTamaño() != null ? paquete.getTamaño().toString() : "",
                 formatoMoneda(paquete.getPrecio()),
@@ -244,19 +247,8 @@ public final class utileriaTablas {
         return resumen.toString();
     }
 
-    private static ImageIcon crearIcono(byte[] imagenBytes) {
-        if (imagenBytes == null || imagenBytes.length == 0) {
-            return null;
-        }
-
-        ImageIcon iconoOriginal = new ImageIcon(imagenBytes);
-        Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(
-                ANCHO_IMAGEN,
-                ALTO_IMAGEN,
-                Image.SCALE_SMOOTH
-        );
-
-        return new ImageIcon(imagenEscalada);
+    private static ImageIcon crearIcono(byte[] imagenBytes, int tamaño) {
+        return UtileriaImagen.bytesAImageIcon(imagenBytes, tamaño, tamaño);
     }
 
     private static String formatoMoneda(double precio) {

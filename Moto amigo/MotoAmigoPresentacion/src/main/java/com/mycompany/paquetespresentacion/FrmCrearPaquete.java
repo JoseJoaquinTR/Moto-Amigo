@@ -338,20 +338,17 @@ public class FrmCrearPaquete extends JFrame {
                 imagenSeleccionada,
                 null
         );
-
-        PaqueteDTO creado;
         try {
-            creado = cuCrearPaquete.crear(nuevo);
+            PaqueteDTO creado = cuCrearPaquete.crear(nuevo);
             if (creado != null) {
                 JOptionPane.showMessageDialog(this, "Paquete creado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "El módulo de negocio aún no está implementado.\nLa información se mantiene en pantalla.",
-                        "Pendiente", JOptionPane.INFORMATION_MESSAGE);
-            }
+            } 
         } catch (PaqueteException ex) {
-
+            JOptionPane.showMessageDialog(this,
+                    ex.getMessage(),
+                    "Error al crear paquete",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnGuardarActionPerformed

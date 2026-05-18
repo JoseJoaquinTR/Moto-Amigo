@@ -1,4 +1,3 @@
-
 package Adapter;
 
 import com.mycompany.Entidades.Producto;

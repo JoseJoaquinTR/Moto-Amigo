@@ -14,18 +14,28 @@ import com.mycompany.motoamigopersistencia.RepartidorDAO;
  */
 public class RepartidorBO implements IRepartidorBO {
 
-    private final IRepartidorDAO dao = new RepartidorDAO();
+//    private final IRepartidorDAO dao;
 
     @Override
     public RepartidorDTO obtenerRepartidorPorId(Long idRepartidor) throws NegocioException {
-        if (idRepartidor == null) {
-            throw new NegocioException("El identificador del repartidor no puede ser nulo.");
-        }
-        try {
-            Repartidor repa = dao.consultarPorId(String.valueOf(idRepartidor));
-            return new AdapterRepartidorARepartidorDTO().adaptar(repa);
-        } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al consultar repartidor.", ex);
-        }
+//        if (idRepartidor == null) {
+//            throw new NegocioException("El identificador del repartidor no puede ser nulo.");
+//        }
+//        try {
+//            Repartidor repa = dao.consultarPorId(String.valueOf(idRepartidor));
+//            return new AdapterRepartidorARepartidorDTO().adaptar(repa);
+//        } catch (PersistenciaException ex) {
+//            throw new NegocioException("Error al consultar repartidor.", ex);
+//        }
+        return null;
+//        if (idRepartidor == null) {
+//            throw new NegocioException("El identificador del repartidor no puede ser nulo.");
+//        }
+//        try {
+//            Repartidor repa = dao.consultarPorId(String.valueOf(idRepartidor));
+//            return new AdapterRepartidorARepartidorDTO().adaptar(repa);
+//        } catch (PersistenciaException ex) {
+//            throw new NegocioException("Error al consultar repartidor.", ex);
+//        }
     }
 }
