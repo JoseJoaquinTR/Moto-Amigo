@@ -7,7 +7,7 @@ package com.mycompany.motoamigopersistencia;
 
 import com.mycompany.Entidades.ReporteDesbloqueo;
 import com.mycompany.bloqueorepartidores.*;
-import com.mycompany.motoamigodto.NuevoReporteDesbloqueoDTO;
+import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import java.util.List;
 
 /**

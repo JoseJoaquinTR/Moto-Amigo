@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 
-package com.mycompany.motoamigopersistencia;
+package Reportes;
 
-import com.mycompany.Entidades.Motivo;
+import com.mycompany.bloqueorepartidores.MotivoDTO;
+import com.mycompany.motoamigonegocio.NegocioException;
 import enums.Tipo;
 import java.util.List;
 
@@ -13,8 +14,7 @@ import java.util.List;
  *
  * @author Carmen Andrea Lara
  */
-public interface IMotivosDAO {
+public interface IMotivosBO {
 
-    List<Motivo> obtenerMotivos(Tipo tipoMotivo);
-
+    List<MotivoDTO> obetnerMotivos(Tipo tipo) throws NegocioException;
 }

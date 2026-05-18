@@ -1,14 +1,11 @@
 package fachada;
 
+import enums.Estado;
+import enums.Tipo;
 import com.mycompany.Entidades.*;
-import com.mycompany.Entidades.Paquete;
-import com.mycompany.Entidades.Producto;
-import com.mycompany.Entidades.Repartidor;
-import com.mycompany.Entidades.ReporteBloqueo;
-import com.mycompany.Entidades.ReporteDesbloqueo;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
-import com.mycompany.motoamigodto.NuevoReporteDesbloqueoDTO;
+import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import com.mycompany.paquetesdto.EditarPaqueteDTO;
 import com.mycompany.productosdto.EditarProductoDTO;
 import com.mycompany.paquetesdto.NuevoPaqueteDTO;
@@ -70,6 +67,10 @@ public interface IFachadaPersistencia {
 
     List<Repartidor> obtenerRepartidores()throws PersistenciaException;
 
-    List<Repartidor> obtenerRepartidores(FiltrosDTO filtros)throws PersistenciaException;
+    List<Repartidor> obtenerRepartidoresParaDesbloqueo(FiltrosDTO filtros)throws PersistenciaException;
+    
+    List<Repartidor> buscarRepartidor(String nombre) throws PersistenciaException;
+    
+    Repartidor consultarRepartidorPorId(String id) throws PersistenciaException;
 
 }

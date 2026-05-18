@@ -4,7 +4,7 @@
  */
 package com.mycompany.motoamigopersistencia;
 
-import com.mycompany.Entidades.Estado;
+import enums.*;
 import com.mycompany.Entidades.Repartidor;
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Carmen
  */
-public interface IRepartidorDAO {
+public interface IRepartidoresDAO {
 
     List<Repartidor> obtenerActivos() throws PersistenciaException;
 
