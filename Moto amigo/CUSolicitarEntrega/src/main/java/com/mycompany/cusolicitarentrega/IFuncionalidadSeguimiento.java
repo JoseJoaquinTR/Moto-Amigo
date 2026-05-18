@@ -34,5 +34,5 @@ public interface IFuncionalidadSeguimiento {
      * @return datos del repartidor.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    RepartidorDTO obtenerRepartidorAsignado(Long idRepartidor) throws NegocioException;
+    RepartidorDTO obtenerRepartidorAsignado(String idRepartidor) throws NegocioException;
 }

@@ -323,7 +323,7 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
 
-        RepartidorDTO repartidor = ControlMenuPrincipal.getInstance().buscarRepartidorPorId(1L);
+        RepartidorDTO repartidor = ControlMenuPrincipal.getInstance().buscarRepartidorPorId("1L");
         String nombreRepartidor = repartidor != null ? repartidor.getNombre() : "Repartidor";
 
         GestorNotificacionesEntrega.getInstance().notificar(

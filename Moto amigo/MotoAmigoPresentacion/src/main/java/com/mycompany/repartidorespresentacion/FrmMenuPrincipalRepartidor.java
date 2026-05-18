@@ -37,7 +37,7 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements IN
         pnlListaEnvios.setBorder(null);
         utileriasBotones.panelRedondeado(panelRepartidor, new Color(29, 38, 59), 30);
         panelRepartidor.setPanel(this.pnlListaEnvios);
-        RepartidorDTO repartidor = ControlMenuPrincipal.getInstance().buscarRepartidorPorId(1L);
+        RepartidorDTO repartidor = ControlMenuPrincipal.getInstance().buscarRepartidorPorId("1L");
         panelRepartidor.cargarDatosRepartidor(repartidor);
     }
     
@@ -50,11 +50,9 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements IN
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelHeader1 = new panelesUtilerias.PanelHeader();
         pnlMenuInferior = new javax.swing.JPanel();
-        panelHeader2 = new panelesUtilerias.PanelHeader();
         pnlCentral = new javax.swing.JPanel();
-        panelRepartidor = new panelesUtilerias.panelRepartidor();
+        panelRepartidor = new com.mycompany.emprendedorpresentacion.panelRepartidor();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlListaEnvios = new javax.swing.JPanel();
 
@@ -76,7 +74,6 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements IN
         );
 
         getContentPane().add(pnlMenuInferior, java.awt.BorderLayout.PAGE_END);
-        getContentPane().add(panelHeader2, java.awt.BorderLayout.PAGE_START);
 
         pnlCentral.setBackground(new java.awt.Color(255, 255, 255));
         pnlCentral.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -125,9 +122,7 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements IN
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private panelesUtilerias.PanelHeader panelHeader1;
-    private panelesUtilerias.PanelHeader panelHeader2;
-    private panelesUtilerias.panelRepartidor panelRepartidor;
+    private com.mycompany.emprendedorpresentacion.panelRepartidor panelRepartidor;
     private javax.swing.JPanel pnlCentral;
     private javax.swing.JPanel pnlListaEnvios;
     private javax.swing.JPanel pnlMenuInferior;

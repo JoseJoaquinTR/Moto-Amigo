@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
@@ -22,6 +23,9 @@ public class Paquete {
     private List<ProductosPaquete> productos;
     private float precio;
     private byte[] imagen;
+    
+    @BsonIgnore 
+    private List<Producto> productosResueltos;
 
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String idEmprendedor;
@@ -106,6 +110,14 @@ public class Paquete {
 
     public void setIdEmprendedor(String idEmprendedor) {
         this.idEmprendedor = idEmprendedor;
+    }
+
+    public List<Producto> getProductosResueltos() {
+        return productosResueltos;
+    }
+
+    public void setProductosResueltos(List<Producto> productosResueltos) {
+        this.productosResueltos = productosResueltos;
     }
 
 }

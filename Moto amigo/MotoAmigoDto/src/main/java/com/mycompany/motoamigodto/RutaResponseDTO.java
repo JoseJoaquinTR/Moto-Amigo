@@ -17,7 +17,7 @@ public class RutaResponseDTO {
     private Double costo;
     private boolean exito;
     private boolean rutaValida;
-    private Long idRepartidorAsignado;
+    private String idRepartidorAsignado;
     public RutaResponseDTO(String origen, String destino, Double latOrigen, Double lngOrigen, Double latDestino, Double lngDestino, Double distancia, int tiempoEstimado, Double costo, boolean exito, boolean rutaValida) {
         this.origen = origen;
         this.destino = destino;
@@ -88,11 +88,11 @@ public class RutaResponseDTO {
         return rutaValida;
     }
 
-    public Long getIdRepartidorAsignado() {
+    public String getIdRepartidorAsignado() {
         return idRepartidorAsignado;
     }
 
-    public void setIdRepartidorAsignado(Long idRepartidorAsignado) {
+    public void setIdRepartidorAsignado(String idRepartidorAsignado) {
         this.idRepartidorAsignado = idRepartidorAsignado;
     }
 

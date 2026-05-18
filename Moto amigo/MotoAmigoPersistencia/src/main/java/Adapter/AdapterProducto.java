@@ -1,13 +1,9 @@
 package Adapter;
 
 import com.mycompany.Entidades.Producto;
-import com.mycompany.Entidades.ProductosPaquete;
 import com.mycompany.Entidades.TipoUnidadProducto;
 import com.mycompany.productosdto.NuevoProductoDTO;
-import com.mycompany.paquetesdto.ProductosPaqueteDTO;
 import enums.TipoUnidadProductoDTO;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -37,20 +33,6 @@ public class AdapterProducto {
             return null;
         }
         return TipoUnidadProducto.valueOf(dto.name());
-    }
-
-    public static List<ProductosPaquete> aProductosPaquete(List<ProductosPaqueteDTO> dtos) {
-        List<ProductosPaquete> resultado = new ArrayList<>();
-        if (dtos == null) {
-            return resultado;
-        }
-        for (ProductosPaqueteDTO ppDTO : dtos) {
-            if (ppDTO == null || ppDTO.getProducto() == null || ppDTO.getProducto().getId() == null) {
-                continue;
-            }
-            resultado.add(new ProductosPaquete(ppDTO.getProducto().getId(), ppDTO.getCantidad(), ppDTO.getPesoTotal()));
-        }
-        return resultado;
     }
 
 }

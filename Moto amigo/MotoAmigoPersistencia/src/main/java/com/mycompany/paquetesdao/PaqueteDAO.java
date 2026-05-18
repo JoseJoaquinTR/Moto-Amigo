@@ -1,13 +1,14 @@
-
 package com.mycompany.paquetesdao;
 
-import com.mycompany.paquetesdao.IPaqueteDAO;
 import Adapter.AdapterPaquete;
 import Adapter.AdapterProducto;
 import com.mongodb.MongoException;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -17,6 +18,7 @@ import com.mycompany.motoamigopersistencia.PersistenciaException;
 import com.mycompany.paquetesdto.EditarPaqueteDTO;
 import com.mycompany.paquetesdto.NuevoPaqueteDTO;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.bson.conversions.Bson;
@@ -78,7 +80,7 @@ public class PaqueteDAO implements IPaqueteDAO {
             }
             if (datosNuevos.getProductos() != null) {
                 cambios.add(Updates.set("productos",
-                        AdapterProducto.aProductosPaquete(datosNuevos.getProductos())));
+                        AdapterPaquete.aProductosPaquete(datosNuevos.getProductos())));
             }
             if (datosNuevos.getPrecio() > 0) {
                 cambios.add(Updates.set("precio", datosNuevos.getPrecio()));
@@ -128,7 +130,16 @@ public class PaqueteDAO implements IPaqueteDAO {
             throw new PersistenciaException("El id a consultar no puede ser nulo.");
         }
         try {
-            return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
+            AggregateIterable<Paquete> resultado = coleccion.aggregate(Arrays.asList(
+                    Aggregates.match(Filters.eq("_id", AdapterPaquete.aObjectId(id))),
+                    Aggregates.lookup(
+                            "productos",
+                            "productos.idProducto",
+                            "_id",
+                            "productosResueltos"
+                    )
+            ));
+            return resultado.first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar el paquete con id " + id, ex);
         }
@@ -137,15 +148,23 @@ public class PaqueteDAO implements IPaqueteDAO {
     @Override
     public List<Paquete> consultarPorNombre(String nombre) throws PersistenciaException {
         try {
-            List<Paquete> resultado = new ArrayList<>();
-            if (nombre == null || nombre.isBlank()) {
-                for (Paquete p : coleccion.find()) {
-                    resultado.add(p);
-                }
-                return resultado;
+            List<Bson> pipeline = new ArrayList<>();
+
+            if (nombre != null && !nombre.isBlank()) {
+                String patron = Pattern.quote(nombre);
+                pipeline.add(Aggregates.match(Filters.regex("nombre", patron, "i")));
             }
-            String patron = Pattern.quote(nombre);
-            for (Paquete p : coleccion.find(Filters.regex("nombre", patron, "i"))) {
+
+            pipeline.add(Aggregates.lookup(
+                    "productos",
+                    "productos.idProducto",
+                    "_id",
+                    "productosResueltos"
+            ));
+            pipeline.add(Aggregates.sort(Sorts.ascending("nombre")));
+
+            List<Paquete> resultado = new ArrayList<>();
+            for (Paquete p : coleccion.aggregate(pipeline)) {
                 resultado.add(p);
             }
             return resultado;
@@ -160,8 +179,19 @@ public class PaqueteDAO implements IPaqueteDAO {
             throw new PersistenciaException("El id del emprendedor no puede ser nulo.");
         }
         try {
+            AggregateIterable<Paquete> resultadoAgg = coleccion.aggregate(Arrays.asList(
+                    Aggregates.match(Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor))),
+                    Aggregates.lookup(
+                            "productos",
+                            "productos.idProducto",
+                            "_id",
+                            "productosResueltos"
+                    ),
+                    Aggregates.sort(Sorts.ascending("nombre"))
+            ));
+
             List<Paquete> resultado = new ArrayList<>();
-            for (Paquete p : coleccion.find(Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor)))) {
+            for (Paquete p : resultadoAgg) {
                 resultado.add(p);
             }
             return resultado;

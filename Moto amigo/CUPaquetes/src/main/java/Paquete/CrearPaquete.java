@@ -23,7 +23,7 @@ public class CrearPaquete implements ICrearPaquete {
         try {
             return paqueteBO.crearPaquete(paquete);
         } catch (NegocioException ex) {
-            throw new PaqueteException("Error al crear producto" ,ex);
+            throw new PaqueteException(ex.getMessage(),ex);
         }
     }
 }

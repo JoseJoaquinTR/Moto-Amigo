@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.mycompany.emprendedoresdao;
 
+import Enums.EstatusEmprendedor;
 import com.mycompany.Entidades.Emprendedor;
+import com.mycompany.motoamigopersistencia.PersistenciaException;
 import java.util.List;
 
 /**
@@ -12,8 +10,8 @@ import java.util.List;
  * @author Jesus Omar
  */
 public interface IEmprendedoresDAO {
-    
-    List<Emprendedor> obtenerEmprendedores();
-    Emprendedor obtenerEmprendedorPorId(Long id);
-    
+    Emprendedor registrarEmprendedor(Emprendedor emprendedor)throws PersistenciaException;
+    Emprendedor actualizarEmprendedor(String idEmprendedor, EstatusEmprendedor estatus)throws PersistenciaException;
+    Emprendedor obtenerEmprendedorPorID(String idEmprendedor)throws PersistenciaException;
+    List<Emprendedor> consultarEmprendedores()throws PersistenciaException;
 }

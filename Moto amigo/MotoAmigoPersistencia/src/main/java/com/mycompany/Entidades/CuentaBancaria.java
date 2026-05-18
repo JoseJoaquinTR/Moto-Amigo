@@ -8,34 +8,24 @@ import Enums.Banco;
  */
 public class CuentaBancaria {
 
-    private Long idCuentaBancaria;
-    private Long idEmprendedor;
+    private String idCuentaBancaria;
     private String numeroCuenta;
     private String nombreTitular;
     private Banco institucionBancaria;
 
-    public CuentaBancaria(Long idCuentaBancaria, Long idEmprendedor, String numeroCuenta, String nombreTitular, Banco institucionBancaria) {
+    public CuentaBancaria(String idCuentaBancaria, String numeroCuenta, String nombreTitular, Banco institucionBancaria) {
         this.idCuentaBancaria = idCuentaBancaria;
-        this.idEmprendedor = idEmprendedor;
         this.numeroCuenta = numeroCuenta;
         this.nombreTitular = nombreTitular;
         this.institucionBancaria = institucionBancaria;
     }
 
-    public Long getIdCuentaBancaria() {
+    public String getIdCuentaBancaria() {
         return idCuentaBancaria;
     }
 
-    public void setIdCuentaBancaria(Long idCuentaBancaria) {
+    public void setIdCuentaBancaria(String idCuentaBancaria) {
         this.idCuentaBancaria = idCuentaBancaria;
-    }
-
-    public Long getIdEmprendedor() {
-        return idEmprendedor;
-    }
-
-    public void setIdEmprendedor(Long idEmprendedor) {
-        this.idEmprendedor = idEmprendedor;
     }
 
     public String getNumeroCuenta() {
@@ -61,5 +51,5 @@ public class CuentaBancaria {
     public void setInstitucionBancaria(Banco institucionBancaria) {
         this.institucionBancaria = institucionBancaria;
     }
-  
+
 }

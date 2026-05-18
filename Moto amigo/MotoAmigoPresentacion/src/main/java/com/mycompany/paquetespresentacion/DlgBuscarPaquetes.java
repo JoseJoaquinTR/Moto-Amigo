@@ -31,20 +31,11 @@ public class DlgBuscarPaquetes extends JDialog {
         super(parent, modal);
         this.cuBuscarPaquete = new BuscarPaquete();
         initComponents();
-        utileriaTablas.configurarTablaPaquetes(tblPaquetes);
+        utileriaTablas.configurarTablaPaquetes(tblPaquetes,65);
         setLocationRelativeTo(parent);
         setTitle("MotoAmigo - Buscar Paquete");
         estilarComponentes();
-        try {
-            buscar();
-        } catch (PaqueteException ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    ex.getMessage(),
-                    "Sin resultados",
-                    JOptionPane.WARNING_MESSAGE
-            );
-        }
+        buscar();
     }
 
     /**
@@ -69,10 +60,19 @@ public class DlgBuscarPaquetes extends JDialog {
         btnCancelar.setFont(fontBoton);
     }
 
-    private void buscar() throws PaqueteException {
-        String criterio = txtBuscar.getText().trim();
-        paquetes = cuBuscarPaquete.buscar(criterio);
-        utileriaTablas.cargarPaquetes(tblPaquetes, paquetes);
+    private void buscar() {
+        try {
+            String criterio = txtBuscar.getText().trim();
+            paquetes = cuBuscarPaquete.buscar(criterio);
+            utileriaTablas.cargarPaquetes(tblPaquetes, paquetes);
+        } catch (PaqueteException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    ex.getMessage(),
+                    "Sin resultados",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -171,16 +171,9 @@ public class DlgBuscarPaquetes extends JDialog {
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        try {
-            buscar();
-        } catch (PaqueteException ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    ex.getMessage(),
-                    "Sin resultados",
-                    JOptionPane.WARNING_MESSAGE
-            );
-        }
+
+        buscar();
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

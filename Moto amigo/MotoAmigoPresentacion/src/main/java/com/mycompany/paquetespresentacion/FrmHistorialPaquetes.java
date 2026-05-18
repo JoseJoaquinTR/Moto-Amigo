@@ -6,7 +6,6 @@ package com.mycompany.paquetespresentacion;
 
 import Utilerias.utileriaHeaderSidebar;
 import Utilerias.utileriasBotones;
-import com.mycompany.paquetesdto.PaqueteHistorialDTO;
 import com.mycompany.paquetesdto.ReporteHistorialPaquetePDFDTO;
 import Paquete.GenerarHistorialPDF;
 import Paquete.IGenerarHistorialPDF;
@@ -14,11 +13,8 @@ import Paquete.PaqueteException;
 import Utilerias.utileriaTablas;
 import java.awt.Color;
 import java.awt.Font;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * Sub-pantalla del CU PaqueteProducto: muestra el historial de uso de los
@@ -38,7 +34,7 @@ public class FrmHistorialPaquetes extends JFrame {
         setTitle("MotoAmigo - Historial de Paquetes");
         utileriaHeaderSidebar.aplicarHeader(jPanel1);
         utileriaTablas.configurarTablaPaquetesHistorial(tblHistorial);
-        
+
         estilarComponentes();
         try {
             cargarHistorial();
@@ -60,12 +56,13 @@ public class FrmHistorialPaquetes extends JFrame {
         btnGenerarPDF.setForeground(Color.WHITE);
         btnDescargarPDF.setForeground(Color.WHITE);
     }
+
     private void cargarHistorial() throws PaqueteException {
         reporteActual = cuHistorial.generar();
 
         utileriaTablas.cargarPaquetesHistorial(tblHistorial, reporteActual);
     }
-  
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -168,8 +165,8 @@ public class FrmHistorialPaquetes extends JFrame {
             }
         } catch (PaqueteException ex) {
             JOptionPane.showMessageDialog(this,
-                        "Error al descargar el pdf",
-                        "Error", JOptionPane.INFORMATION_MESSAGE);
+                    "Error al descargar el pdf",
+                    "Error", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }//GEN-LAST:event_btnDescargarPDFActionPerformed

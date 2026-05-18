@@ -63,7 +63,7 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     public Producto agregarProducto(NuevoProductoDTO producto) throws PersistenciaException {
         return productoDAO.agregar(producto);
     }
-
+    
     @Override
     public Producto actualizarProducto(String id, EditarProductoDTO datosNuevos) throws PersistenciaException {
         return productoDAO.actualizar(id, datosNuevos);

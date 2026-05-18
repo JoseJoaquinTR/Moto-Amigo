@@ -1,10 +1,13 @@
 package Adapter;
 
-import static Adapter.AdapterProducto.aProductosPaquete;
 import com.mycompany.Entidades.Paquete;
+import com.mycompany.Entidades.ProductosPaquete;
 import com.mycompany.Entidades.TamañoPaquete;
 import com.mycompany.paquetesdto.NuevoPaqueteDTO;
+import com.mycompany.paquetesdto.ProductosPaqueteDTO;
 import enums.TamañoPaqueteDTO;
+import java.util.ArrayList;
+import java.util.List;
 import org.bson.types.ObjectId;
 
 /**
@@ -29,16 +32,32 @@ public class AdapterPaquete {
         entidad.setIdEmprendedor(dto.getIdEmprendedor());
         return entidad;
     }
+
     public static TamañoPaquete aTamañoPaquete(TamañoPaqueteDTO dto) {
         if (dto == null) {
             return null;
         }
         return TamañoPaquete.valueOf(dto.name());
     }
+
     public static ObjectId aObjectId(String id) {
         if (id == null || !ObjectId.isValid(id)) {
             return null;
         }
         return new ObjectId(id);
+    }
+
+    public static List<ProductosPaquete> aProductosPaquete(List<ProductosPaqueteDTO> dtos) {
+        List<ProductosPaquete> resultado = new ArrayList<>();
+        if (dtos == null) {
+            return resultado;
+        }
+        for (ProductosPaqueteDTO ppDTO : dtos) {
+            if (ppDTO == null || ppDTO.getProducto() == null || ppDTO.getProducto().getId() == null) {
+                continue;
+            }
+            resultado.add(new ProductosPaquete(ppDTO.getProducto().getId(), ppDTO.getCantidad(), ppDTO.getPesoTotal()));
+        }
+        return resultado;
     }
 }
