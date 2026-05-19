@@ -6,12 +6,12 @@ package com.mycompany.cubloqueos;
 
 import Repartidores.IRepartidoresBO;
 import Repartidores.RepartidoresBO;
-import Reportes.IMotivosBO;
-import Reportes.MotivosBO;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteBloqueoDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
+import com.mycompany.motoamigonegocio.IMotivosBO;
+import com.mycompany.motoamigonegocio.MotivosBO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import enums.Estado;
 import enums.Tipo;

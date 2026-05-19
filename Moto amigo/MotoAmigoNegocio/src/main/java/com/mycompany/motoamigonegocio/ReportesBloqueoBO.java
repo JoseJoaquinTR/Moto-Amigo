@@ -2,7 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Reportes;
+package com.mycompany.motoamigonegocio;
+
 
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteBloqueoDTO;

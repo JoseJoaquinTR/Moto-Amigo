@@ -4,17 +4,17 @@
  */
 package com.mycompany.cubloqueos;
 
-import Reportes.IMotivosBO;
-import Reportes.IReportesBloqueoBO;
-import Reportes.IReportesDesbloqueosBO;
-import Reportes.MotivosBO;
-import Reportes.ReportesBloqueoBO;
-import Reportes.ReportesDesbloqueosBO;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.bloqueorepartidores.ReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteDesbloqueoDTO;
+import com.mycompany.motoamigonegocio.IMotivosBO;
+import com.mycompany.motoamigonegocio.IReportesBloqueoBO;
+import com.mycompany.motoamigonegocio.IReportesDesbloqueosBO;
+import com.mycompany.motoamigonegocio.MotivosBO;
 import com.mycompany.motoamigonegocio.NegocioException;
+import com.mycompany.motoamigonegocio.ReportesBloqueoBO;
+import com.mycompany.motoamigonegocio.ReportesDesbloqueosBO;
 import java.time.LocalDateTime;
 import java.util.List;
 

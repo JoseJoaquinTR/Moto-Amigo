@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package Reportes;
+package com.mycompany.motoamigonegocio;
 
 import static Adapter.AdapterInformacionReporte.adaptarListaDesbloqueos;
 import static Adapter.AdapterReporteDesbloqueoToDTO.adaptarLista;

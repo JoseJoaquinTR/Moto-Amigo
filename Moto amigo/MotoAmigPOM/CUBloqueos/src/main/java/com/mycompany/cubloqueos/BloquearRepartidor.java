@@ -6,19 +6,16 @@ package com.mycompany.cubloqueos;
 
 import Repartidores.IRepartidoresBO;
 import Repartidores.RepartidoresBO;
-import Reportes.IMotivosBO;
-import Reportes.IReportesBloqueoBO;
-import Reportes.MotivosBO;
-import Reportes.ReportesBloqueoBO;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteBloqueoDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
+import com.mycompany.motoamigonegocio.IMotivosBO;
+import com.mycompany.motoamigonegocio.IReportesBloqueoBO;
+import com.mycompany.motoamigonegocio.MotivosBO;
 import com.mycompany.motoamigonegocio.NegocioException;
+import com.mycompany.motoamigonegocio.ReportesBloqueoBO;
 import enums.Estado;
-import enums.Tipo;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
