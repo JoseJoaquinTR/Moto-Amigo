@@ -20,7 +20,7 @@ public class GenerarHistorialPDF implements IGenerarHistorialPDF {
     }
 
     @Override
-    public ReporteHistorialPaquetePDFDTO generar() throws PaqueteException {
+    public ReporteHistorialPaquetePDFDTO generar(String idEmprendedor) throws PaqueteException {
         try {
             return paqueteHistorialBO.generarHistorial(null);
         } catch (NegocioException ex) {
@@ -29,9 +29,9 @@ public class GenerarHistorialPDF implements IGenerarHistorialPDF {
     }
 
     @Override
-    public boolean descargar(ReporteHistorialPaquetePDFDTO reporte) throws PaqueteException {
+    public boolean descargar(ReporteHistorialPaquetePDFDTO reporte, String rutaDestino) throws PaqueteException {
         try {
-            return paqueteHistorialBO.descargarPDF(reporte);
+            return paqueteHistorialBO.descargarPDF(reporte, rutaDestino);
         } catch (NegocioException ex) {
             throw new PaqueteException("Error al descargar el PDF del historial.", ex);
         }

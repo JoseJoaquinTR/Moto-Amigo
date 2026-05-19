@@ -11,10 +11,14 @@ import Paquete.GenerarHistorialPDF;
 import Paquete.IGenerarHistorialPDF;
 import Paquete.PaqueteException;
 import Utilerias.utileriaTablas;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Sub-pantalla del CU PaqueteProducto: muestra el historial de uso de los
@@ -58,7 +62,8 @@ public class FrmHistorialPaquetes extends JFrame {
     }
 
     private void cargarHistorial() throws PaqueteException {
-        reporteActual = cuHistorial.generar();
+        String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
+        reporteActual = cuHistorial.generar(idEmprendedor);
 
         utileriaTablas.cargarPaquetesHistorial(tblHistorial, reporteActual);
     }
@@ -146,29 +151,45 @@ public class FrmHistorialPaquetes extends JFrame {
     }//GEN-LAST:event_btnGenerarPDFActionPerformed
 
     private void btnDescargarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarPDFActionPerformed
-
         if (reporteActual == null) {
             JOptionPane.showMessageDialog(this, "Primero genera el historial.",
                     "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        boolean ok;
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Guardar PDF como");
+        chooser.setSelectedFile(new File("historial_paquetes.pdf"));
+        chooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF (*.pdf)", "pdf"));
+
+        int resultado = chooser.showSaveDialog(this);
+        if (resultado != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        File archivo = chooser.getSelectedFile();
+        String ruta = archivo.getAbsolutePath();
+        if (!ruta.toLowerCase().endsWith(".pdf")) {
+            ruta += ".pdf";
+        }
+
         try {
-            ok = cuHistorial.descargar(reporteActual);
+            boolean ok = cuHistorial.descargar(reporteActual, ruta);
             if (ok) {
-                JOptionPane.showMessageDialog(this, "PDF descargado correctamente.",
+                JOptionPane.showMessageDialog(this,
+                        "PDF guardado correctamente en:\n" + ruta,
                         "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "No se pudo generar el pdf",
-                        "Error", JOptionPane.INFORMATION_MESSAGE);
+                        "No se pudo generar el PDF.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (PaqueteException ex) {
             JOptionPane.showMessageDialog(this,
-                    "Error al descargar el pdf",
-                    "Error", JOptionPane.INFORMATION_MESSAGE);
+                    ex.getMessage(),
+                    "Error al descargar el PDF",
+                    JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_btnDescargarPDFActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

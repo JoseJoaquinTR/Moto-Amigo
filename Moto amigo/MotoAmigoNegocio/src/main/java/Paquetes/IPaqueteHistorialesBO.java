@@ -1,4 +1,3 @@
-
 package Paquetes;
 
 import com.mycompany.paquetesdto.ReporteHistorialPaquetePDFDTO;
@@ -28,6 +27,6 @@ public interface IPaqueteHistorialesBO {
      * @return true si el PDF se generó correctamente, false en caso contrario.
      * @throws NegocioException si ocurre un error al generar el PDF.
      */
-    boolean descargarPDF(ReporteHistorialPaquetePDFDTO reporte) throws NegocioException;
+    boolean descargarPDF(ReporteHistorialPaquetePDFDTO reporte, String rutaDestino) throws NegocioException;
 
 }
