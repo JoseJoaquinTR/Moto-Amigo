@@ -26,4 +26,5 @@ public interface IRepartidoresBO {
 
     List<RepartidorDTO> buscarRepartidoresPorNombre(String nombre) throws NegocioException;
 
+    RepartidorDTO incrementarNumeroBloqueos(String id) throws NegocioException;
 }

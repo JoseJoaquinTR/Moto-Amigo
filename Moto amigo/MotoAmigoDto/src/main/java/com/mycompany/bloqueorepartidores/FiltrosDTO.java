@@ -16,7 +16,7 @@ public class FiltrosDTO {
     private LocalDateTime fechaDesde;
     private LocalDateTime fechaHasta;
     private MotivoDTO motivo;
-    private int numBloqueos;
+    private Integer numBloqueos;
 
     public FiltrosDTO() {
     }
@@ -52,11 +52,11 @@ public class FiltrosDTO {
         this.motivo = motivo;
     }
 
-    public int getNumBloqueos() {
+    public Integer getNumBloqueos() {
         return numBloqueos;
     }
 
-    public void setNumBloqueos(int numBloqueos) {
+    public void setNumBloqueos(Integer numBloqueos) {
         this.numBloqueos = numBloqueos;
     }
 }

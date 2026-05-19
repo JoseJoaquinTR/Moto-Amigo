@@ -13,6 +13,9 @@ public class Documento {
     private String idDocumento;
     private byte[] documento;
 
+    public Documento() {
+    }
+
     public Documento(String idDocumento, byte[] documento) {
         this.idDocumento = idDocumento;
         this.documento = documento;

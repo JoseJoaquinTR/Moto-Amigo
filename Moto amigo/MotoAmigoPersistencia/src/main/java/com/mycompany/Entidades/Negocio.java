@@ -14,10 +14,14 @@ public class Negocio {
     @BsonId
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String idNegocio;
+    @BsonRepresentation(BsonType.OBJECT_ID)
     private String idEmprendedor;
     private String nombre;
     private TipoNegocio tipoNegocio;
     private Direccion direccion;
+
+    public Negocio() {
+    }
 
     public Negocio(String idNegocio, String idEmprendedor, String nombre, TipoNegocio tipoNegocio, Direccion direccion) {
         this.idNegocio = idNegocio;

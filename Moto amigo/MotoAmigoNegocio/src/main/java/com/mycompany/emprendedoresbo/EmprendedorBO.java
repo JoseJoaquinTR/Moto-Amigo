@@ -14,15 +14,14 @@ import com.mycompany.emprendedoresdao.IEmprendedoresDAO;
  */
 public class EmprendedorBO implements IEmprendedoresBO {
 
-//    private final IEmprendedoresDAO dao = EmprendedoresDAO.getInstance();
+    private final IEmprendedoresDAO dao = EmprendedoresDAO.getInstancia();
 
     @Override
     public EmprendedorDTO obtenerEmprendedorPorId(Long id) throws NegocioException {
         if (id == null) {
             throw new NegocioException("El identificador del emprendedor no puede ser nulo.");
         }
-        Emprendedor emprendedor =null;
-        return new AdapterEmprendedorAEmprendedorDTO().adaptar(emprendedor);
+        return null;
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.mycompany.Entidades.ReporteBloqueo;
 import com.mycompany.Entidades.ReporteDesbloqueo;
 import enums.Tipo;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
+import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import com.mycompany.motoamigopersistencia.IMotivosDAO;
@@ -190,6 +191,15 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     public Repartidor consultarRepartidorPorId(String id) throws PersistenciaException {
         return repartidoresDAO.consultarPorId(id);
     }
-    
-    
+
+    @Override
+    public boolean existeMotivo(MotivoDTO motivo, Tipo tipo) throws PersistenciaException {
+        return motivosDAO.existeMotivo(motivo, tipo);
+    }
+
+    @Override
+    public Repartidor incrementarNumeroBloqueos(String id) throws PersistenciaException {
+        return repartidoresDAO.incrementarNumeroBloqueos(id);
+    }
+
 }

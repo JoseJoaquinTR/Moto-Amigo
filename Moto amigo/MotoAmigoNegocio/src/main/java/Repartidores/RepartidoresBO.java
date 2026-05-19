@@ -5,6 +5,7 @@
 package Repartidores;
 
 import static Adapter.AdapterRepartidorARepartidorDTO.*;
+import com.mycompany.Entidades.Repartidor;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
@@ -46,7 +47,7 @@ public class RepartidoresBO implements IRepartidoresBO {
     @Override
     public RepartidorDTO cambiarEstadoRepartidor(String id, Estado estado) throws NegocioException {
         try {
-            return toDTO( persistencia.cambiarEstadoRepartidor(id, estado));
+            return toDTO(persistencia.cambiarEstadoRepartidor(id, estado));
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al cambiar estado del repartidor.", ex);
         }
@@ -79,6 +80,17 @@ public class RepartidoresBO implements IRepartidoresBO {
         }
     }
 
-    
-}
+    @Override
+    public RepartidorDTO incrementarNumeroBloqueos(String id) throws NegocioException {
 
+        try {
+
+            Repartidor repartidor = persistencia.incrementarNumeroBloqueos(id);
+            return toDTO(repartidor);
+
+        } catch (PersistenciaException ex) {
+
+            throw new NegocioException("Error al incrementar número de bloqueos del repartidor.", ex);
+        }
+    }
+}

@@ -18,6 +18,7 @@ public class NuevoReporteDesbloqueoDTO {
     private String detalles;
     private LocalDateTime fechaHora;
     private FiltrosDTO filtros;
+    private int NumRepartidoresDesbloqueados;
 
     public NuevoReporteDesbloqueoDTO() {
     }
@@ -28,6 +29,16 @@ public class NuevoReporteDesbloqueoDTO {
         this.fechaHora = fechaHora;
         this.filtros = filtros;
     }
+
+    public NuevoReporteDesbloqueoDTO(MotivoDTO motivo, String detalles, LocalDateTime fechaHora, FiltrosDTO filtros, int NumRepartidoresDesbloqueados) {
+        this.motivo = motivo;
+        this.detalles = detalles;
+        this.fechaHora = fechaHora;
+        this.filtros = filtros;
+        this.NumRepartidoresDesbloqueados = NumRepartidoresDesbloqueados;
+    }
+    
+    
 
     public MotivoDTO getMotivo() {
         return motivo;
@@ -59,6 +70,14 @@ public class NuevoReporteDesbloqueoDTO {
 
     public void setFiltros(FiltrosDTO filtros) {
         this.filtros = filtros;
+    }
+
+    public int getNumRepartidoresDesbloqueados() {
+        return NumRepartidoresDesbloqueados;
+    }
+
+    public void setNumRepartidoresDesbloqueados(int NumRepartidoresDesbloqueados) {
+        this.NumRepartidoresDesbloqueados = NumRepartidoresDesbloqueados;
     }
     
     

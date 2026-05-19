@@ -5,6 +5,8 @@
 package com.mycompany.Entidades;
 
 import java.time.LocalDateTime;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  *
@@ -12,7 +14,9 @@ import java.time.LocalDateTime;
  */
 public class ReporteBloqueo extends Reporte {
 
-    private Repartidor repartidor;
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idRepartidor;
+    
     private byte[] imagenEvidencia;
 
     public ReporteBloqueo() {
@@ -20,27 +24,28 @@ public class ReporteBloqueo extends Reporte {
     }
 
     public ReporteBloqueo(String idReporte, LocalDateTime fechaHora, Motivo motivo, String detalles,
-                          Repartidor repartidor,Tipo tipo, byte[] imagenEvidencia) {
+                          String idRepartidor,Tipo tipo, byte[] imagenEvidencia) {
         super(idReporte, fechaHora, motivo, detalles, tipo);
-        this.repartidor = repartidor;
+        this.idRepartidor = idRepartidor;
         this.imagenEvidencia = imagenEvidencia;
     }
 
      public ReporteBloqueo( LocalDateTime fechaHora, Motivo motivo, String detalles,
-                          Repartidor repartidor,Tipo tipo, byte[] imagenEvidencia) {
+                          String idRepartidor,Tipo tipo, byte[] imagenEvidencia) {
         super(fechaHora, motivo, detalles, tipo);
-        this.repartidor = repartidor;
+        this.idRepartidor = idRepartidor;
         this.imagenEvidencia = imagenEvidencia;
     }
 
-    public Repartidor getRepartidor() {
-        return repartidor;
+    public String getIdRepartidor() {
+        return idRepartidor;
     }
 
-    public void setRepartidor(Repartidor repartidor) {
-        this.repartidor = repartidor;
+    public void setIdRepartidor(String idRepartidor) {
+        this.idRepartidor = idRepartidor;
     }
 
+    
     public byte[] getImagenEvidencia() {
         return imagenEvidencia;
     }

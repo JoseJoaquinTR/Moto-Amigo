@@ -11,6 +11,9 @@ public class CuentaUsuario {
     private String contrasenia;
     private boolean activa;
 
+    public CuentaUsuario() {
+    }
+
     public CuentaUsuario(String idCuenta, String correo, String contrasenia, boolean activa) {
         this.idCuenta = idCuenta;
         this.correo = correo;

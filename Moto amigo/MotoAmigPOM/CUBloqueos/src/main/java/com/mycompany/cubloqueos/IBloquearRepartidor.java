@@ -22,5 +22,5 @@ public interface IBloquearRepartidor {
 
     boolean validarRepartidorSeleccionado(RepartidorDTO repartidor)throws NegocioException ;
 
-    boolean validarMotivoSeleccionado(MotivoDTO motivo);
+    boolean validarMotivoSeleccionado(MotivoDTO motivo)throws NegocioException ;
 }

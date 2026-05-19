@@ -30,6 +30,12 @@ public class Emprendedor {
     private Documento documento;
 
     /**
+     * Constructor vacio
+     */
+    public Emprendedor() {
+    }
+    
+    /**
      * Constructor de Emprendedor
      *
      * @param idEmprendedor

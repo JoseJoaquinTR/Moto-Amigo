@@ -13,6 +13,9 @@ public class CuentaBancaria {
     private String nombreTitular;
     private Banco institucionBancaria;
 
+    public CuentaBancaria() {
+    }
+
     public CuentaBancaria(String idCuentaBancaria, String numeroCuenta, String nombreTitular, Banco institucionBancaria) {
         this.idCuentaBancaria = idCuentaBancaria;
         this.numeroCuenta = numeroCuenta;
