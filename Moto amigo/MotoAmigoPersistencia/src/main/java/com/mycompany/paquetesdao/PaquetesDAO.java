@@ -1,6 +1,6 @@
 package com.mycompany.paquetesdao;
 
-import Adapter.AdapterPaquete;
+import Adapter.AdapterStringAObjectID;
 import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
@@ -14,8 +14,6 @@ import com.mongodb.client.result.UpdateResult;
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.motoamigopersistencia.ManejadorConexiones;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
-import com.mycompany.paquetesdto.EditarPaqueteDTO;
-import com.mycompany.paquetesdto.NuevoPaqueteDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,30 +45,27 @@ public class PaquetesDAO implements IPaquetesDAO {
     }
 
     @Override
-    public Paquete agregar(NuevoPaqueteDTO paquete) throws PersistenciaException {
+    public Paquete agregar(Paquete paquete) throws PersistenciaException {
         try {
-            Paquete entidad = AdapterPaquete.aPaqueteDTO(paquete);
-            coleccion.insertOne(entidad);
-            return entidad;
+            coleccion.insertOne(paquete);
+            return paquete;
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al agregar el paquete.", ex);
         }
     }
 
     @Override
-    public Paquete actualizar(String id, EditarPaqueteDTO datosNuevos) throws PersistenciaException {
-
+    public Paquete actualizar(String id, Paquete datosNuevos) throws PersistenciaException {
         try {
             List<Bson> cambios = new ArrayList<>();
             if (datosNuevos.getNombre() != null) {
                 cambios.add(Updates.set("nombre", datosNuevos.getNombre()));
             }
             if (datosNuevos.getTamaño() != null) {
-                cambios.add(Updates.set("tamaño", AdapterPaquete.aTamañoPaquete(datosNuevos.getTamaño())));
+                cambios.add(Updates.set("tamaño", datosNuevos.getTamaño()));
             }
             if (datosNuevos.getProductos() != null) {
-                cambios.add(Updates.set("productos",
-                        AdapterPaquete.aProductosPaquete(datosNuevos.getProductos())));
+                cambios.add(Updates.set("productos", datosNuevos.getProductos()));
             }
             if (datosNuevos.getPrecio() > 0) {
                 cambios.add(Updates.set("precio", datosNuevos.getPrecio()));
@@ -80,11 +75,11 @@ public class PaquetesDAO implements IPaquetesDAO {
             }
 
             if (cambios.isEmpty()) {
-                return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
+                return coleccion.find(Filters.eq("_id", AdapterStringAObjectID.aObjectId(id))).first();
             }
 
             UpdateResult resultado = coleccion.updateOne(
-                    Filters.eq("_id", AdapterPaquete.aObjectId(id)),
+                    Filters.eq("_id", AdapterStringAObjectID.aObjectId(id)),
                     Updates.combine(cambios)
             );
 
@@ -92,7 +87,7 @@ public class PaquetesDAO implements IPaquetesDAO {
                 return null;
             }
 
-            return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
+            return coleccion.find(Filters.eq("_id", AdapterStringAObjectID.aObjectId(id))).first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al actualizar el paquete con id " + id, ex);
         }
@@ -101,7 +96,7 @@ public class PaquetesDAO implements IPaquetesDAO {
     @Override
     public boolean eliminar(String id) throws PersistenciaException {
         try {
-            DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", AdapterPaquete.aObjectId(id)));
+            DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", AdapterStringAObjectID.aObjectId(id)));
             return resultado.getDeletedCount() > 0;
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al eliminar el paquete con id " + id, ex);
@@ -111,8 +106,7 @@ public class PaquetesDAO implements IPaquetesDAO {
     @Override
     public Paquete consultarPorId(String id) throws PersistenciaException {
         try {
-            AggregateIterable<Paquete> resultado = coleccion.aggregate(Arrays.asList(
-                    Aggregates.match(Filters.eq("_id", AdapterPaquete.aObjectId(id))),
+            AggregateIterable<Paquete> resultado = coleccion.aggregate(Arrays.asList(Aggregates.match(Filters.eq("_id", AdapterStringAObjectID.aObjectId(id))),
                     Aggregates.lookup(
                             "productos",
                             "productos.idProducto",
@@ -132,13 +126,11 @@ public class PaquetesDAO implements IPaquetesDAO {
             List<Bson> pipeline = new ArrayList<>();
 
             if (criterio != null && !criterio.isBlank()) {
-                pipeline.add(Aggregates.match(Filters.and(
-                        Filters.regex("nombre", Pattern.quote(criterio), "i"),
-                        Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor))
+                pipeline.add(Aggregates.match(Filters.and(Filters.regex("nombre", Pattern.quote(criterio), "i"),
+                        Filters.eq("idEmprendedor", AdapterStringAObjectID.aObjectId(idEmprendedor))
                 )));
             } else {
-                pipeline.add(Aggregates.match(
-                        Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor))
+                pipeline.add(Aggregates.match(Filters.eq("idEmprendedor", AdapterStringAObjectID.aObjectId(idEmprendedor))
                 ));
             }
 
@@ -163,8 +155,7 @@ public class PaquetesDAO implements IPaquetesDAO {
     @Override
     public List<Paquete> obtenerPorEmprendedor(String idEmprendedor) throws PersistenciaException {
         try {
-            AggregateIterable<Paquete> resultadoAgg = coleccion.aggregate(Arrays.asList(
-                    Aggregates.match(Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor))),
+            AggregateIterable<Paquete> resultadoAgg = coleccion.aggregate(Arrays.asList(Aggregates.match(Filters.eq("idEmprendedor", AdapterStringAObjectID.aObjectId(idEmprendedor))),
                     Aggregates.lookup(
                             "productos",
                             "productos.idProducto",

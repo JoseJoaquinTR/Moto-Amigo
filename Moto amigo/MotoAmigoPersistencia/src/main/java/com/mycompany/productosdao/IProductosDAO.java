@@ -19,7 +19,7 @@ public interface IProductosDAO {
      * @return producto con el id asignado por la base de datos.
      * @throws PersistenciaException si ocurre un error.
      */
-    Producto agregar(NuevoProductoDTO producto) throws PersistenciaException;
+    Producto agregar(Producto producto) throws PersistenciaException;
 
     /**
      * Actualiza los campos de un producto existente. 
@@ -29,7 +29,7 @@ public interface IProductosDAO {
      * @return el producto actualizado, o null.
      * @throws PersistenciaException si ocurre un error.
      */
-    Producto actualizar(String id, EditarProductoDTO datosNuevos) throws PersistenciaException;
+    Producto actualizar(String id, Producto datosNuevos) throws PersistenciaException;
 
     /**
      * Elimina un producto por su id.

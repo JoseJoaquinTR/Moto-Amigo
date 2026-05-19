@@ -3,8 +3,6 @@ package com.mycompany.paquetesdao;
 
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
-import com.mycompany.paquetesdto.EditarPaqueteDTO;
-import com.mycompany.paquetesdto.NuevoPaqueteDTO;
 import java.util.List;
 
 /**
@@ -13,10 +11,10 @@ import java.util.List;
 public interface IPaquetesDAO {
 
 
-    Paquete agregar(NuevoPaqueteDTO paquete) throws PersistenciaException;
+    Paquete agregar(Paquete paquete) throws PersistenciaException;
 
 
-    Paquete actualizar(String id, EditarPaqueteDTO datosNuevos) throws PersistenciaException;
+    Paquete actualizar(String id, Paquete datosNuevos) throws PersistenciaException;
 
     boolean eliminar(String id) throws PersistenciaException;
 

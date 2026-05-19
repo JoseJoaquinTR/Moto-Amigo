@@ -60,8 +60,8 @@ public class PaquetesBO implements IPaquetesBO, IClientePaquetesBO {
     @Override
     public PaqueteDTO crearPaquete(NuevoPaqueteDTO nuevoPaquete) throws NegocioException {
         try {
-            Paquete creado = fachada.agregarPaquete(nuevoPaquete);
-            PaqueteDTO dto = adapterPaquete.adaptar(creado);
+            Paquete creado = fachada.agregarPaquete(adapterPaquete.adaptarAEntidad(nuevoPaquete));
+            PaqueteDTO dto = adapterPaquete.adaptarADTO(creado);
             notificarPaqueteCreado(dto);
             return dto;
         } catch (PersistenciaException ex) {
@@ -72,8 +72,8 @@ public class PaquetesBO implements IPaquetesBO, IClientePaquetesBO {
     @Override
     public PaqueteDTO editarPaquete(String id, EditarPaqueteDTO datosNuevos) throws NegocioException {
         try {
-            Paquete actualizado = fachada.actualizarPaquete(id, datosNuevos);
-            PaqueteDTO dto = adapterPaquete.adaptar(actualizado);
+            Paquete actualizado = fachada.actualizarPaquete(id, adapterPaquete.EditarPaqueteAdaptarAEntidad(datosNuevos));
+            PaqueteDTO dto = adapterPaquete.adaptarADTO(actualizado);
             if (dto != null) {
                 notificarPaqueteEditado(dto);
             }
@@ -103,7 +103,7 @@ public class PaquetesBO implements IPaquetesBO, IClientePaquetesBO {
         }
         try {
             Paquete encontrado = fachada.consultarPaquetePorId(id);
-            return adapterPaquete.adaptar(encontrado);
+            return adapterPaquete.adaptarADTO(encontrado);
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al consultar el paquete.", ex);
         }
@@ -115,7 +115,7 @@ public class PaquetesBO implements IPaquetesBO, IClientePaquetesBO {
             List<Paquete> entidades = fachada.consultarPaquetesPorNombre(criterio, idEmprendedor);
             List<PaqueteDTO> resultado = new ArrayList<>();
             for (Paquete p : entidades) {
-                resultado.add(adapterPaquete.adaptar(p));
+                resultado.add(adapterPaquete.adaptarADTO(p));
             }
             return resultado;
         } catch (PersistenciaException ex) {
@@ -132,7 +132,7 @@ public class PaquetesBO implements IPaquetesBO, IClientePaquetesBO {
             List<Paquete> entidades = fachada.obtenerPaquetesPorEmprendedor(idEmprendedor);
             List<PaqueteDTO> resultado = new ArrayList<>();
             for (Paquete p : entidades) {
-                resultado.add(adapterPaquete.adaptar(p));
+                resultado.add(adapterPaquete.adaptarADTO(p));
             }
             return resultado;
         } catch (PersistenciaException ex) {
@@ -172,8 +172,8 @@ public class PaquetesBO implements IPaquetesBO, IClientePaquetesBO {
             EditarPaqueteDTO edicion = new EditarPaqueteDTO();
             edicion.setProductos(adapterPaquete.crearProductoDTOID(nuevaLista));
 
-            Paquete actualizado = fachada.actualizarPaquete(idPaquete, edicion);
-            PaqueteDTO dto = adapterPaquete.adaptar(actualizado);
+            Paquete actualizado = fachada.actualizarPaquete(idPaquete, adapterPaquete.EditarPaqueteAdaptarAEntidad(edicion));
+            PaqueteDTO dto = adapterPaquete.adaptarADTO(actualizado);
 
             notificarProductoAgregadoAPaquete(idPaquete, producto);
             if (dto != null) {
@@ -204,7 +204,7 @@ public class PaquetesBO implements IPaquetesBO, IClientePaquetesBO {
             ProductoDTO productoQuitado = null;
             Producto encontrado = fachada.consultarProductoPorId(idProducto);
             if (encontrado != null) {
-                productoQuitado = adapterProducto.adaptar(encontrado);
+                productoQuitado = adapterProducto.adaptarADTO(encontrado);
             }
 
             List<ProductosPaquete> nuevaLista = new ArrayList<>();
@@ -217,8 +217,8 @@ public class PaquetesBO implements IPaquetesBO, IClientePaquetesBO {
             EditarPaqueteDTO edicion = new EditarPaqueteDTO();
             edicion.setProductos(adapterPaquete.crearProductoDTOID(nuevaLista));
 
-            Paquete actualizado = fachada.actualizarPaquete(idPaquete, edicion);
-            PaqueteDTO dto = adapterPaquete.adaptar(actualizado);
+            Paquete actualizado = fachada.actualizarPaquete(idPaquete, adapterPaquete.EditarPaqueteAdaptarAEntidad(edicion));
+            PaqueteDTO dto = adapterPaquete.adaptarADTO(actualizado);
 
             if (productoQuitado != null) {
                 notificarProductoQuitadoDePaquete(idPaquete, productoQuitado);

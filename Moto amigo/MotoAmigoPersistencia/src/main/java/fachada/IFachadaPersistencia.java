@@ -21,9 +21,9 @@ import java.util.List;
 public interface IFachadaPersistencia {
 
     //CU Productos y Paquetes
-    Producto agregarProducto(NuevoProductoDTO producto) throws PersistenciaException;
+    Producto agregarProducto(Producto producto) throws PersistenciaException;
 
-    Producto actualizarProducto(String id, EditarProductoDTO datosNuevos) throws PersistenciaException;
+    Producto actualizarProducto(String id, Producto datosNuevos) throws PersistenciaException;
 
     boolean eliminarProducto(String id) throws PersistenciaException;
 
@@ -33,9 +33,9 @@ public interface IFachadaPersistencia {
 
     List<Producto> obtenerProductosPorEmprendedor(String idEmprendedor) throws PersistenciaException;
 
-    Paquete agregarPaquete(NuevoPaqueteDTO paquete) throws PersistenciaException;
+    Paquete agregarPaquete(Paquete paquete) throws PersistenciaException;
 
-    Paquete actualizarPaquete(String id, EditarPaqueteDTO datosNuevos) throws PersistenciaException;
+    Paquete actualizarPaquete(String id, Paquete datosNuevos) throws PersistenciaException;
 
     boolean eliminarPaquete(String id) throws PersistenciaException;
 

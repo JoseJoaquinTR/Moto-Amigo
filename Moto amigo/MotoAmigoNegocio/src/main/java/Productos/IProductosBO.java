@@ -1,10 +1,10 @@
 
 package Productos;
 
-import com.mycompany.productosdto.EditarProductoDTO;
-import com.mycompany.productosdto.NuevoProductoDTO;
 import com.mycompany.productosdto.ProductoDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
+import com.mycompany.productosdto.EditarProductoDTO;
+import com.mycompany.productosdto.NuevoProductoDTO;
 import java.util.List;
 
 /**

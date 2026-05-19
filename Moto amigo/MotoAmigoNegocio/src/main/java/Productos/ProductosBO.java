@@ -3,11 +3,11 @@ package Productos;
 
 import Adapter.AdapterProductoAProductoDTO;
 import com.mycompany.Entidades.Producto;
-import com.mycompany.productosdto.EditarProductoDTO;
-import com.mycompany.productosdto.NuevoProductoDTO;
 import com.mycompany.productosdto.ProductoDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
+import com.mycompany.productosdto.EditarProductoDTO;
+import com.mycompany.productosdto.NuevoProductoDTO;
 import fachada.FachadaPersistencia;
 import fachada.IFachadaPersistencia;
 import java.util.ArrayList;
@@ -39,8 +39,8 @@ public class ProductosBO implements IProductosBO {
     @Override
     public ProductoDTO crearProducto(NuevoProductoDTO nuevoProducto) throws NegocioException {
         try {
-            Producto creado = fachada.agregarProducto(nuevoProducto);
-            return adapter.adaptar(creado);
+            Producto creado = fachada.agregarProducto(adapter.adaptarAProductoEntidad(nuevoProducto));
+            return adapter.adaptarADTO(creado);
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al crear el producto.", ex);
         }
@@ -49,8 +49,8 @@ public class ProductosBO implements IProductosBO {
     @Override
     public ProductoDTO editarProducto(String id, EditarProductoDTO datosNuevos) throws NegocioException {
         try {
-            Producto actualizado = fachada.actualizarProducto(id, datosNuevos);
-            return adapter.adaptar(actualizado);
+            Producto actualizado = fachada.actualizarProducto(id, adapter.EditarProductoAdaptarAProductoEntidad(datosNuevos));
+            return adapter.adaptarADTO(actualizado);
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al editar el producto.", ex);
         }
@@ -69,7 +69,7 @@ public class ProductosBO implements IProductosBO {
     public ProductoDTO consultarProductoPorId(String id) throws NegocioException {
         try {
             Producto encontrado = fachada.consultarProductoPorId(id);
-            return adapter.adaptar(encontrado);
+            return adapter.adaptarADTO(encontrado);
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al consultar el producto.", ex);
         }
@@ -81,7 +81,7 @@ public class ProductosBO implements IProductosBO {
             List<Producto> entidades = fachada.consultarProductosPorNombre(criterio,idEmprendedor);
             List<ProductoDTO> resultado = new ArrayList<>();
             for (Producto p : entidades) {
-                resultado.add(adapter.adaptar(p));
+                resultado.add(adapter.adaptarADTO(p));
             }
             return resultado;
         } catch (PersistenciaException ex) {
@@ -98,7 +98,7 @@ public class ProductosBO implements IProductosBO {
             List<Producto> entidades = fachada.obtenerProductosPorEmprendedor(idEmprendedor);
             List<ProductoDTO> resultado = new ArrayList<>();
             for (Producto p : entidades) {
-                resultado.add(adapter.adaptar(p));
+                resultado.add(adapter.adaptarADTO(p));
             }
             return resultado;
         } catch (PersistenciaException ex) {

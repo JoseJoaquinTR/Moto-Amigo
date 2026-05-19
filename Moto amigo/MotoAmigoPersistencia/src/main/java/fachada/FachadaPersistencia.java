@@ -60,12 +60,12 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     }
 
     @Override
-    public Producto agregarProducto(NuevoProductoDTO producto) throws PersistenciaException {
+    public Producto agregarProducto(Producto producto) throws PersistenciaException {
         return productoDAO.agregar(producto);
     }
     
     @Override
-    public Producto actualizarProducto(String id, EditarProductoDTO datosNuevos) throws PersistenciaException {
+    public Producto actualizarProducto(String id, Producto datosNuevos) throws PersistenciaException {
         return productoDAO.actualizar(id, datosNuevos);
     }
 
@@ -90,12 +90,12 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     }
 
     @Override
-    public Paquete agregarPaquete(NuevoPaqueteDTO paquete) throws PersistenciaException {
+    public Paquete agregarPaquete(Paquete paquete) throws PersistenciaException {
         return paqueteDAO.agregar(paquete);
     }
 
     @Override
-    public Paquete actualizarPaquete(String id, EditarPaqueteDTO datosNuevos) throws PersistenciaException {
+    public Paquete actualizarPaquete(String id, Paquete datosNuevos) throws PersistenciaException {
         return paqueteDAO.actualizar(id, datosNuevos);
     }
 

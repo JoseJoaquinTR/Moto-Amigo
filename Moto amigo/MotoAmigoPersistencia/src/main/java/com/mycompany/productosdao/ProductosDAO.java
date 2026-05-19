@@ -1,8 +1,6 @@
-
 package com.mycompany.productosdao;
 
-import Adapter.AdapterPaquete;
-import Adapter.AdapterProducto;
+import Adapter.AdapterStringAObjectID;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -13,8 +11,6 @@ import com.mongodb.client.result.UpdateResult;
 import com.mycompany.Entidades.Producto;
 import com.mycompany.motoamigopersistencia.ManejadorConexiones;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
-import com.mycompany.productosdto.EditarProductoDTO;
-import com.mycompany.productosdto.NuevoProductoDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -45,20 +41,18 @@ public class ProductosDAO implements IProductosDAO {
     }
 
     @Override
-    public Producto agregar(NuevoProductoDTO producto) throws PersistenciaException {
+    public Producto agregar(Producto producto) throws PersistenciaException {
 
         try {
-            Producto entidad = AdapterProducto.aProductoDTO(producto);
-            coleccion.insertOne(entidad);
-            return entidad;
+            coleccion.insertOne(producto);
+            return producto;
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al agregar el producto.", ex);
         }
     }
 
     @Override
-    public Producto actualizar(String id, EditarProductoDTO datosNuevos) throws PersistenciaException {
-
+    public Producto actualizar(String id, Producto datosNuevos) throws PersistenciaException {
 
         try {
             List<Bson> cambios = new ArrayList<>();
@@ -69,7 +63,7 @@ public class ProductosDAO implements IProductosDAO {
                 cambios.add(Updates.set("peso", datosNuevos.getPeso()));
             }
             if (datosNuevos.getUnidad() != null) {
-                cambios.add(Updates.set("unidad", AdapterProducto.aTipoUnidad(datosNuevos.getUnidad())));
+                cambios.add(Updates.set("unidad", datosNuevos.getUnidad()));
             }
             if (datosNuevos.getPrecio() > 0) {
                 cambios.add(Updates.set("precio", datosNuevos.getPrecio()));
@@ -79,11 +73,10 @@ public class ProductosDAO implements IProductosDAO {
             }
 
             if (cambios.isEmpty()) {
-                return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
+                return coleccion.find(Filters.eq("_id", AdapterStringAObjectID.aObjectId(id))).first();
             }
 
-            UpdateResult resultado = coleccion.updateOne(
-                    Filters.eq("_id", AdapterPaquete.aObjectId(id)),
+            UpdateResult resultado = coleccion.updateOne(Filters.eq("_id", AdapterStringAObjectID.aObjectId(id)),
                     Updates.combine(cambios)
             );
 
@@ -91,7 +84,7 @@ public class ProductosDAO implements IProductosDAO {
                 return null;
             }
 
-            return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
+            return coleccion.find(Filters.eq("_id", AdapterStringAObjectID.aObjectId(id))).first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al actualizar el producto con id " + id, ex);
         }
@@ -101,7 +94,7 @@ public class ProductosDAO implements IProductosDAO {
     public boolean eliminar(String id) throws PersistenciaException {
 
         try {
-            DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", AdapterPaquete.aObjectId(id)));
+            DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", AdapterStringAObjectID.aObjectId(id)));
             return resultado.getDeletedCount() > 0;
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al eliminar el producto con id " + id, ex);
@@ -112,40 +105,41 @@ public class ProductosDAO implements IProductosDAO {
     public Producto consultarPorId(String id) throws PersistenciaException {
 
         try {
-            return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
+            return coleccion.find(Filters.eq("_id", AdapterStringAObjectID.aObjectId(id))).first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar el producto con id " + id, ex);
         }
     }
 
     @Override
-    public List<Producto> consultarPorNombre(String criterio,String idEmprendedor) throws PersistenciaException {
+    public List<Producto> consultarPorNombre(String criterio, String idEmprendedor) throws PersistenciaException {
         try {
             List<Producto> resultado = new ArrayList<>();
-            if (criterio == null || criterio.isBlank()) {
-                for (Producto p : coleccion.find()) {
-                    resultado.add(p);
-                }
-                return resultado;
+
+            Bson filtro;
+            if (criterio != null && !criterio.isBlank()) {
+                filtro = Filters.and(Filters.regex("nombre", Pattern.quote(criterio), "i"),
+                        Filters.eq("idEmprendedor", AdapterStringAObjectID.aObjectId(idEmprendedor))
+                );
+            } else {
+                filtro = Filters.eq("idEmprendedor", AdapterStringAObjectID.aObjectId(idEmprendedor));
             }
-            String patron = Pattern.quote(criterio);
-            for (Producto p : coleccion.find(Filters.regex("nombre", patron, "i"))) {
+
+            for (Producto p : coleccion.find(filtro)) {
                 resultado.add(p);
             }
             return resultado;
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar productos por nombre.", ex);
         }
-         
     }
-    
 
     @Override
     public List<Producto> obtenerPorEmprendedor(String idEmprendedor) throws PersistenciaException {
 
         try {
             List<Producto> resultado = new ArrayList<>();
-            for (Producto p : coleccion.find(Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor)))) {
+            for (Producto p : coleccion.find(Filters.eq("idEmprendedor", AdapterStringAObjectID.aObjectId(idEmprendedor)))) {
                 resultado.add(p);
             }
             return resultado;
