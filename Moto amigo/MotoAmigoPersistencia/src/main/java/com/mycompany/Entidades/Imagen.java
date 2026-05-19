@@ -13,6 +13,9 @@ public class Imagen {
     private String idImagen;
     private byte[] imagen;
 
+    public Imagen() {
+    }
+
     public Imagen(String idImagen, byte[] imagen) {
         this.idImagen = idImagen;
         this.imagen = imagen;

@@ -40,7 +40,7 @@ public class FuncionalidadSeguimiento implements IFuncionalidadSeguimiento {
     }
 
     @Override
-    public RepartidorDTO obtenerRepartidorAsignado(Long idRepartidor) throws NegocioException {
+    public RepartidorDTO obtenerRepartidorAsignado(String idRepartidor) throws NegocioException {
         return fachada.obtenerRepartidorPorId(idRepartidor);
     }
 }
