@@ -12,13 +12,13 @@ public class PaqueteHistorialDTO {
     private int numeroUsos;
     private String nombre;
     private LocalDate ultimoUso;
-    private int pesoPaquete;
+    private Float pesoPaquete;
 
     public PaqueteHistorialDTO() {
     }
 
     public PaqueteHistorialDTO(int numeroUsos, String nombre,
-            LocalDate ultimoUso, int pesoPaquete) {
+            LocalDate ultimoUso, Float pesoPaquete) {
         this.numeroUsos = numeroUsos;
         this.nombre = nombre;
         this.ultimoUso = ultimoUso;
@@ -49,11 +49,11 @@ public class PaqueteHistorialDTO {
         this.ultimoUso = ultimoUso;
     }
 
-    public int getPesoPaquete() {
+    public Float getPesoPaquete() {
         return pesoPaquete;
     }
 
-    public void setPesoPaquete(int pesoPaquete) {
+    public void setPesoPaquete(Float pesoPaquete) {
         this.pesoPaquete = pesoPaquete;
     }
 }

@@ -4,7 +4,6 @@
  */
 package com.mycompany.paquetesdto;
 
-import com.mycompany.paquetesdto.PaqueteHistorialDTO;
 import java.time.LocalDate;
 import java.util.List;
 

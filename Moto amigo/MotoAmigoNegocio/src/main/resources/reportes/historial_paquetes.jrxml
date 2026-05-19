@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="historial_paquetes"
+              pageWidth="595" pageHeight="842"
+              columnWidth="555" leftMargin="20" rightMargin="20"
+              topMargin="20" bottomMargin="20">
+
+    <parameter name="TITULO" class="java.lang.String"/>
+    <parameter name="FECHA" class="java.lang.String"/>
+    <parameter name="PAQUETES_REGISTRADOS" class="java.lang.Integer"/>
+    <parameter name="USOS_TOTAL" class="java.lang.Integer"/>
+    <parameter name="PESO_PROMEDIO" class="java.lang.String"/>
+
+    <field name="nombre" class="java.lang.String"/>
+    <field name="numeroUsos" class="java.lang.Integer"/>
+    <field name="ultimoUso" class="java.lang.String"/>
+    <field name="pesoPaquete" class="java.lang.Float"/>
+
+    <title>
+        <band height="90">
+            <!-- Header negro -->
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="80" backcolor="#1A1A1A"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+
+            <!-- Título motoAmigo en naranja -->
+            <textField>
+                <reportElement x="20" y="15" width="300" height="35" forecolor="#FF6B35"/>
+                <textElement>
+                    <font fontName="SansSerif" size="24" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{TITULO}]]></textFieldExpression>
+            </textField>
+
+            <!-- Fecha en naranja claro -->
+            <textField>
+                <reportElement x="20" y="50" width="300" height="20" forecolor="#FFB089"/>
+                <textElement>
+                    <font fontName="SansSerif" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Historial generado el " + $P{FECHA}]]></textFieldExpression>
+            </textField>
+
+            <!-- Recuadro blanco "PAQUETES" -->
+            <rectangle>
+                <reportElement x="410" y="25" width="125" height="32" backcolor="#FFFFFF"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="410" y="25" width="125" height="32" forecolor="#1A1A1A"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[PAQUETES]]></text>
+            </staticText>
+
+            <!-- Banda naranja debajo del header -->
+            <rectangle>
+                <reportElement x="0" y="80" width="555" height="5" backcolor="#FF6B35"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="100">
+            <!-- Resumen general -->
+            <rectangle>
+                <reportElement x="0" y="10" width="555" height="80" backcolor="#F2F4F7"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+
+            <!-- Barra naranja izquierda -->
+            <rectangle>
+                <reportElement x="0" y="10" width="6" height="80" backcolor="#FF6B35"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+
+            <staticText>
+                <reportElement x="20" y="20" width="300" height="20" forecolor="#1A1A1A"/>
+                <textElement>
+                    <font fontName="SansSerif" size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Resumen general]]></text>
+            </staticText>
+
+            <!-- Paquetes registrados -->
+            <textField>
+                <reportElement x="20" y="50" width="180" height="20" forecolor="#404040"/>
+                <textElement>
+                    <font fontName="SansSerif" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Paquetes registrados: " + $P{PAQUETES_REGISTRADOS}]]></textFieldExpression>
+            </textField>
+
+            <!-- Usos acumulados -->
+            <textField>
+                <reportElement x="210" y="50" width="180" height="20" forecolor="#404040"/>
+                <textElement>
+                    <font fontName="SansSerif" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Usos acumulados: " + $P{USOS_TOTAL}]]></textFieldExpression>
+            </textField>
+
+            <!-- Peso promedio -->
+            <textField>
+                <reportElement x="395" y="50" width="160" height="20" forecolor="#404040"/>
+                <textElement>
+                    <font fontName="SansSerif" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Peso promedio: " + $P{PESO_PROMEDIO}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="55">
+            <staticText>
+                <reportElement x="0" y="20" width="300" height="20" forecolor="#1A1A1A"/>
+                <textElement>
+                    <font fontName="SansSerif" size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Historial de paquetes frecuentes]]></text>
+            </staticText>
+
+            <!-- Encabezado oscuro de la tabla -->
+            <rectangle>
+                <reportElement x="0" y="45" width="555" height="10" backcolor="#1F2937"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="0"/>
+    </detail>
+
+    <summary>
+        <band height="35">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="0"/>
+                <text><![CDATA[]]></text>
+            </staticText>
+        </band>
+    </summary>
+
+</jasperReport>
