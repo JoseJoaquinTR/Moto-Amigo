@@ -1,5 +1,6 @@
 package fachada;
 
+import Enums.EstatusEmprendedor;
 import enums.Estado;
 import enums.Tipo;
 import com.mycompany.Entidades.*;
@@ -29,7 +30,7 @@ public interface IFachadaPersistencia {
 
     Producto consultarProductoPorId(String id) throws PersistenciaException;
 
-    List<Producto> consultarProductosPorNombre(String criterio,String idEmprendedor) throws PersistenciaException;
+    List<Producto> consultarProductosPorNombre(String criterio, String idEmprendedor) throws PersistenciaException;
 
     List<Producto> obtenerProductosPorEmprendedor(String idEmprendedor) throws PersistenciaException;
 
@@ -73,6 +74,39 @@ public interface IFachadaPersistencia {
     Repartidor consultarRepartidorPorId(String id) throws PersistenciaException;
 
     boolean existeMotivo(MotivoDTO motivo, Tipo tipo) throws PersistenciaException;
-    
+
     Repartidor incrementarNumeroBloqueos(String id) throws PersistenciaException;
+
+    // CU Registrar Emprendedores
+    Emprendedor registrarEmprendedor(Emprendedor emprendedor) throws PersistenciaException;
+
+    Emprendedor actualizarEstatusEmprendedor(String idEmprendedor, EstatusEmprendedor estatus) throws PersistenciaException;
+
+    Emprendedor obtenerEmprendedorPorID(String idEmprendedor) throws PersistenciaException;
+
+    List<Emprendedor> consultarEmprendedores() throws PersistenciaException;
+
+    Negocio registrarNegocio(Negocio negocio) throws PersistenciaException;
+
+    Negocio obtenerNegocioPorIdEmprendedor(String idEmprendedor) throws PersistenciaException;
+
+    CuentaUsuario buscarCuentaPorCorreo(String correo) throws PersistenciaException;
+
+    void activarCuenta(String idEmprendedor) throws PersistenciaException;
+
+    void desactivarCuenta(String idEmprendedor) throws PersistenciaException;
+
+    CuentaBancaria obtenerCuentaBancariaPorIdEmprendedor(String idEmprendedor) throws PersistenciaException;
+
+    Imagen actualizarImagen(String idEmprendedor, Imagen imagen) throws PersistenciaException;
+
+    Imagen obtenerImagenPorIdEmprendedor(String idEmprendedor) throws PersistenciaException;
+
+    Documento actualizarDocumento(String idEmprendedor, Documento documento) throws PersistenciaException;
+
+    Documento obtenerDocumentoPorIdEmprendedor(String idEmprendedor) throws PersistenciaException;
+
+    Direccion actualizarDireccion(String idNegocio, Direccion direccion) throws PersistenciaException;
+
+    Direccion obtenerDireccionPorIdNegocio(String idNegocio) throws PersistenciaException;
 }
