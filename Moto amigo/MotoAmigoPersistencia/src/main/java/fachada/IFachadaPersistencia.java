@@ -4,6 +4,7 @@ import enums.Estado;
 import enums.Tipo;
 import com.mycompany.Entidades.*;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
+import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import com.mycompany.paquetesdto.EditarPaqueteDTO;
@@ -73,4 +74,7 @@ public interface IFachadaPersistencia {
     
     Repartidor consultarRepartidorPorId(String id) throws PersistenciaException;
 
+    boolean existeMotivo(MotivoDTO motivo, Tipo tipo) throws PersistenciaException;
+    
+    Repartidor incrementarNumeroBloqueos(String id) throws PersistenciaException;
 }

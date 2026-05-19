@@ -18,6 +18,7 @@ public class AdapterRepartidor {
         if (dto == null) {
             return null;
         }
+
         com.mycompany.Entidades.Estado estado = com.mycompany.Entidades.Estado.INACTIVO;
         if (dto.getEstado() == Estado.ACTIVO) {
             estado = com.mycompany.Entidades.Estado.ACTIVO;
@@ -29,6 +30,7 @@ public class AdapterRepartidor {
         repartidor.setIdRepartidor(dto.getId());
         repartidor.setNombre(dto.getNombre());
         repartidor.setTelefono(dto.getTelefono());
+        repartidor.setCorreo(dto.getCorreo());
         repartidor.setVehiculo(dto.getVehiculo());
         repartidor.setEstado(estado);
         repartidor.setNumBloqueos(dto.getNumBloqueos());
@@ -51,10 +53,10 @@ public class AdapterRepartidor {
         dto.setId(entity.getIdRepartidor());
         dto.setNombre(entity.getNombre());
         dto.setTelefono(entity.getTelefono());
+        dto.setCorreo(entity.getCorreo());
         dto.setVehiculo(entity.getVehiculo());
         dto.setEstado(estado);
         dto.setNumBloqueos(entity.getNumBloqueos());
         return dto;
     }
-
 }

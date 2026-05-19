@@ -65,7 +65,7 @@ public class ControlMenuPrincipal {
      * @param id identificador del repartidor.
      * @return datos del repartidor; null si no se encuentra o si ocurre un error.
      */
-    public RepartidorDTO buscarRepartidorPorId(Long id) {
+    public RepartidorDTO buscarRepartidorPorId(String id) {
         try {
             return cuBuscarRepartidor.buscarRepartidorPorId(id);
         } catch (NegocioException ex) {

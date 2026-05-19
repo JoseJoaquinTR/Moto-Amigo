@@ -60,7 +60,7 @@ public class RepartidoresDAO implements IRepartidoresDAO {
             throws PersistenciaException {
 
         try {
-            MongoCollection<Repartidor> coleccion= obtenercColeccion(obtenerBaseDatos());
+            MongoCollection<Repartidor> coleccion = obtenercColeccion(obtenerBaseDatos());
 
             ObjectId id = new ObjectId(idRepartidor);
             UpdateResult resultado = coleccion.updateOne(
@@ -71,12 +71,12 @@ public class RepartidoresDAO implements IRepartidoresDAO {
             if (resultado.getMatchedCount() == 0) {
                 return null;
             }
-            
+
             return coleccion.find(eq("_id", id)).first();
 
         } catch (MongoException ex) {
             throw new PersistenciaException(
-                    "Error al cambiar estado del repartidor.",ex);
+                    "Error al cambiar estado del repartidor.", ex);
         }
     }
 
@@ -117,6 +117,30 @@ public class RepartidoresDAO implements IRepartidoresDAO {
             return coleccion.find(filtros).first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar repartidor por id.", ex);
+        }
+    }
+
+    @Override
+    public Repartidor incrementarNumeroBloqueos(String id) throws PersistenciaException {
+
+        try {
+
+            MongoCollection<Repartidor> coleccion = obtenercColeccion(obtenerBaseDatos());
+
+            UpdateResult resultado = coleccion.updateOne(
+                    eq("_id", new ObjectId(id)),
+                    inc("numBloqueos", 1)
+            );
+
+            if (resultado.getMatchedCount() == 0) {
+                return null;
+            }
+
+            return coleccion.find(eq("_id", new ObjectId(id))).first();
+
+        } catch (MongoException ex) {
+
+            throw new PersistenciaException("Error al incrementar número de bloqueos del repartidor.", ex);
         }
     }
 }

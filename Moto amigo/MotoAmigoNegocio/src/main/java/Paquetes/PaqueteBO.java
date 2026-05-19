@@ -1,4 +1,3 @@
-
 package Paquetes;
 
 import Adapter.AdapterPaqueteAPaqueteDTO;
@@ -22,7 +21,7 @@ import java.util.List;
  *
  * @author joset
  */
-public class PaqueteBO implements IPaqueteBO,IClientePaqueteBO {
+public class PaqueteBO implements IPaqueteBO, IClientePaqueteBO {
 
     private static PaqueteBO instancia;
 
@@ -30,6 +29,13 @@ public class PaqueteBO implements IPaqueteBO,IClientePaqueteBO {
     private final AdapterPaqueteAPaqueteDTO adapterPaquete;
     private final AdapterProductoAProductoDTO adapterProducto;
     private final List<IObservadorPaqueteBO> observadores;
+    private static final float PESO_MAX_CHICO = 10f;
+    private static final float PESO_MAX_MEDIANO = 20f;
+    private static final float PESO_MAX_GRANDE = 50f;
+    private static final int PRODUCTOS_MAX_CHICO = 10;
+    private static final int PRODUCTOS_MAX_MEDIANO = 25;
+    private static final int PRODUCTOS_MAX_GRANDE = 50;
+    private static final int CANTIDAD_MAX_POR_PRODUCTO = 50;
 
     private PaqueteBO() {
         this.fachada = FachadaPersistencia.getInstancia();
@@ -185,7 +191,7 @@ public class PaqueteBO implements IPaqueteBO,IClientePaqueteBO {
             nuevaLista.add(new ProductosPaquete(idNuevoProducto, cantidad, pesoTotal));
 
             EditarPaqueteDTO edicion = new EditarPaqueteDTO();
-            edicion.setProductos(convertirAProductosPaqueteDTO(nuevaLista));
+            edicion.setProductos(adapterPaquete.crearProductoDTOID(nuevaLista));
 
             Paquete actualizado = fachada.actualizarPaquete(idPaquete, edicion);
             PaqueteDTO dto = adapterPaquete.adaptar(actualizado);
@@ -230,7 +236,7 @@ public class PaqueteBO implements IPaqueteBO,IClientePaqueteBO {
             }
 
             EditarPaqueteDTO edicion = new EditarPaqueteDTO();
-            edicion.setProductos(convertirAProductosPaqueteDTO(nuevaLista));
+            edicion.setProductos(adapterPaquete.crearProductoDTOID(nuevaLista));
 
             Paquete actualizado = fachada.actualizarPaquete(idPaquete, edicion);
             PaqueteDTO dto = adapterPaquete.adaptar(actualizado);
@@ -247,19 +253,6 @@ public class PaqueteBO implements IPaqueteBO,IClientePaqueteBO {
         }
     }
 
-    private List<ProductosPaqueteDTO> convertirAProductosPaqueteDTO(List<ProductosPaquete> referencias) {
-        List<ProductosPaqueteDTO> resultado = new ArrayList<>();
-        if (referencias == null) {
-            return resultado;
-        }
-        for (ProductosPaquete pp : referencias) {
-            ProductoDTO p = new ProductoDTO();
-            p.setId(pp.getIdProducto());
-            resultado.add(new ProductosPaqueteDTO(p, pp.getCantidad(), pp.getPesoTotal()));
-        }
-        return resultado;
-    }
-
     private void validarNuevoPaquete(NuevoPaqueteDTO nuevo) throws NegocioException {
         if (nuevo == null) {
             throw new NegocioException("El paquete a crear no puede ser nulo.");
@@ -270,9 +263,10 @@ public class PaqueteBO implements IPaqueteBO,IClientePaqueteBO {
         if (nuevo.getTamaño() == null) {
             throw new NegocioException("El tamaño del paquete es obligatorio.");
         }
-         if (nuevo.getProductos() == null || nuevo.getProductos().isEmpty()) {
+        if (nuevo.getProductos() == null || nuevo.getProductos().isEmpty()) {
             throw new NegocioException("El paquete debe tener al menos un producto.");
         }
+        validarLimitesPaquete(nuevo);
     }
 
     private void notificarPaqueteCreado(PaqueteDTO paquete) {
@@ -302,6 +296,60 @@ public class PaqueteBO implements IPaqueteBO,IClientePaqueteBO {
     private void notificarProductoQuitadoDePaquete(String idPaquete, ProductoDTO producto) {
         for (IObservadorPaqueteBO obs : new ArrayList<>(observadores)) {
             obs.productoQuitadoDePaquete(idPaquete, producto);
+        }
+    }
+
+    private void validarLimitesPaquete(NuevoPaqueteDTO nuevo) throws NegocioException {
+        if (nuevo.getProductos() == null) {
+            return;
+        }
+
+        float pesoMax;
+        int productosMax;
+        String tamañoTexto;
+
+        switch (nuevo.getTamaño()) {
+            case CHICO -> {
+                pesoMax = PESO_MAX_CHICO;
+                productosMax = PRODUCTOS_MAX_CHICO;
+                tamañoTexto = "CHICO";
+            }
+            case MEDIANO -> {
+                pesoMax = PESO_MAX_MEDIANO;
+                productosMax = PRODUCTOS_MAX_MEDIANO;
+                tamañoTexto = "MEDIANO";
+            }
+            case GRANDE -> {
+                pesoMax = PESO_MAX_GRANDE;
+                productosMax = PRODUCTOS_MAX_GRANDE;
+                tamañoTexto = "GRANDE";
+            }
+            default -> {
+                return;
+            }
+        }
+
+        if (nuevo.getProductos().size() > productosMax) {
+            throw new NegocioException(
+                    "Un paquete " + tamañoTexto + " admite un máximo de " + productosMax + " productos distintos."
+            );
+        }
+
+        float pesoTotal = 0f;
+        for (ProductosPaqueteDTO pp : nuevo.getProductos()) {
+            if (pp.getCantidad() > CANTIDAD_MAX_POR_PRODUCTO) {
+                throw new NegocioException(
+                        "La cantidad por producto no puede exceder " + CANTIDAD_MAX_POR_PRODUCTO + " unidades."
+                );
+            }
+            pesoTotal += pp.getPesoTotal();
+        }
+
+        if (pesoTotal > pesoMax) {
+            throw new NegocioException(
+                    "El peso total (" + String.format("%.2f", pesoTotal) + " kg) " + "excede el máximo permitido para un paquete " + tamañoTexto
+                    + " (" + pesoMax + " kg)."
+            );
         }
     }
 

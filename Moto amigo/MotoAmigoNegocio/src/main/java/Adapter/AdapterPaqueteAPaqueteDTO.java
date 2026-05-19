@@ -44,8 +44,7 @@ public class AdapterPaqueteAPaqueteDTO {
         return dto;
     }
 
-    private List<ProductosPaqueteDTO> adaptarProductos(List<ProductosPaquete> productos)
-            throws PersistenciaException {
+    private List<ProductosPaqueteDTO> adaptarProductos(List<ProductosPaquete> productos)throws PersistenciaException {
         List<ProductosPaqueteDTO> resultado = new ArrayList<>();
         if (productos == null) {
             return resultado;
@@ -60,5 +59,17 @@ public class AdapterPaqueteAPaqueteDTO {
         }
         return resultado;
     }
-
+    
+    public List<ProductosPaqueteDTO> crearProductoDTOID(List<ProductosPaquete> prodcutos) {
+        List<ProductosPaqueteDTO> resultado = new ArrayList<>();
+        if (prodcutos == null) {
+            return resultado;
+        }
+        for (ProductosPaquete pp : prodcutos) {
+            ProductoDTO p = new ProductoDTO();
+            p.setId(pp.getIdProducto());
+            resultado.add(new ProductosPaqueteDTO(p, pp.getCantidad(), pp.getPesoTotal()));
+        }
+        return resultado;
+    }
 }

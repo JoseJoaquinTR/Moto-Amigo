@@ -254,4 +254,14 @@ public class FachadaNegocio implements IFachadaNegocio {
     public List<InformacionReporteDesbloqueoDTO> consultarReportesDesbloqueoParaPDF(FiltrosDTO filtros) throws NegocioException {
         return reportesDesbloqueosBO.consultarReportesDesbloqueoParaPDF(filtros);
     }
+
+    @Override
+    public boolean existeMotivo(MotivoDTO motivo, Tipo tipo) throws NegocioException {
+        return motivosBO.existeMotivo(motivo, tipo);
+    }
+
+    @Override
+    public RepartidorDTO incrementarNumeroBloqueos(String id) throws NegocioException {
+        return repartidoresBO.incrementarNumeroBloqueos(id);
+    }
 }

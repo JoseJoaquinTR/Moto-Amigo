@@ -65,7 +65,7 @@ public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
         this.response = control.obtenerRuta(request.getDireccionRecoleccion(), request.getDireccionEntrega());
 
         if (response != null && response.isRutaValida()) {
-            response.setIdRepartidorAsignado(1L);
+            response.setIdRepartidorAsignado("1L");
             inicializarPanelMapa(response);
 
             lblDistancia.setText(String.format("%.2f km", response.getDistancia()));

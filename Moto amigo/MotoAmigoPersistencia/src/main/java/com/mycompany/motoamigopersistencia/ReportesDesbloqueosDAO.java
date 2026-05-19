@@ -49,6 +49,7 @@ public class ReportesDesbloqueosDAO implements IReportesDesbloqueosDAO {
             reporte.setMotivo(motivo);
             reporte.setDetalles(dto.getDetalles());
             reporte.setFechaHora(dto.getFechaHora());
+            reporte.setNumRepartidoresDesbloqueados(dto.getNumRepartidoresDesbloqueados());
 
             InsertOneResult resultado = coleccion.insertOne(reporte);
             if (!resultado.wasAcknowledged()) {

@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-
 package Reportes;
 
 import com.mycompany.bloqueorepartidores.MotivoDTO;
@@ -17,4 +16,6 @@ import java.util.List;
 public interface IMotivosBO {
 
     List<MotivoDTO> obetnerMotivos(Tipo tipo) throws NegocioException;
+
+    boolean existeMotivo(MotivoDTO motivo, Tipo tipo) throws NegocioException;
 }

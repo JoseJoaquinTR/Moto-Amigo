@@ -1,18 +1,18 @@
-
 package com.mycompany.paquetespresentacion;
 
-import com.mycompany.paquetespresentacion.FrmHistorialPaquetes;
-import com.mycompany.paquetespresentacion.FrmEliminarPaquete;
-import com.mycompany.paquetespresentacion.DlgBuscarPaquetes;
-import com.mycompany.paquetespresentacion.FrmEditarPaquete;
-import com.mycompany.paquetespresentacion.FrmCrearPaquete;
+import Paquete.BuscarPaquete;
+import Paquete.IBuscarPaquete;
+import Paquete.PaqueteException;
 import Utilerias.utileriaHeaderSidebar;
+import Utilerias.utileriaTablas;
 import Utilerias.utileriasBotones;
 import com.mycompany.paquetesdto.PaqueteDTO;
 import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import com.mycompany.motoamigopresentacion.controladores.ControlPaquetes;
 
 /**
  * Frame del menú de paquetes del emprendedor. Muestra una tarjeta con los
@@ -29,18 +29,36 @@ public class FrmMenuPaquetes extends JFrame {
     private FrmEliminarPaquete frmEliminar;
     private FrmHistorialPaquetes frmHistorial;
     private DlgBuscarPaquetes dlgBuscarPaquetes;
+    private final IBuscarPaquete cuBuscarPaquete;
 
     /**
      * Crea una nueva instancia del menú de paquetes.
      */
     public FrmMenuPaquetes() {
+        this.cuBuscarPaquete = new BuscarPaquete();
         initComponents();
+        utileriaTablas.configurarTablaPaquetes(tblPaquetes, 70);
         setLocationRelativeTo(null);
         setTitle("MotoAmigo - Paquetes");
         utileriaHeaderSidebar.aplicarHeaderYSidebar(jPanel1, "PAQUETES");
         ControlNavegacionEmprendedor.getInstancia().registrarMenuActivo(this);
         estilarBotones();
+        refrescarTablaPaquetes();
+        ControlPaquetes.getInstancia().setMenuActivo(this);
+        
+    }
 
+    public void refrescarTablaPaquetes() {
+        try {
+            utileriaTablas.cargarPaquetes(tblPaquetes, cuBuscarPaquete.buscar(" "));
+        } catch (PaqueteException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    ex.getMessage(),
+                    "Sin resultados",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
     }
 
     /**
@@ -115,6 +133,8 @@ public class FrmMenuPaquetes extends JFrame {
         btnAgregar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnHistorial = new javax.swing.JButton();
+        scrollResultados = new javax.swing.JScrollPane();
+        tblPaquetes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1020, 740));
@@ -185,6 +205,14 @@ public class FrmMenuPaquetes extends JFrame {
             }
         });
 
+        tblPaquetes.setRowHeight(28);
+        tblPaquetes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPaquetesMouseClicked(evt);
+            }
+        });
+        scrollResultados.setViewportView(tblPaquetes);
+
         javax.swing.GroupLayout panelTarjetaLayout = new javax.swing.GroupLayout(panelTarjeta);
         panelTarjeta.setLayout(panelTarjetaLayout);
         panelTarjetaLayout.setHorizontalGroup(
@@ -192,17 +220,25 @@ public class FrmMenuPaquetes extends JFrame {
             .addGroup(panelTarjetaLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitulo)
-                    .addComponent(lblDescripcion)
                     .addGroup(panelTarjetaLayout.createSequentialGroup()
                         .addGroup(panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
+                            .addComponent(scrollResultados)
+                            .addGroup(panelTarjetaLayout.createSequentialGroup()
+                                .addGroup(panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblTitulo)
+                                    .addComponent(lblDescripcion))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(panelTarjetaLayout.createSequentialGroup()
+                        .addGap(0, 80, Short.MAX_VALUE)
                         .addGroup(panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(210, Short.MAX_VALUE))
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(70, 70, 70)
+                        .addGroup(panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHistorial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(80, 80, 80))))
         );
         panelTarjetaLayout.setVerticalGroup(
             panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,14 +248,16 @@ public class FrmMenuPaquetes extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDescripcion)
                 .addGap(35, 35, 35)
-                .addGroup(panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addGroup(panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(376, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrollResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(panelTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 860, -1));
@@ -270,6 +308,16 @@ public class FrmMenuPaquetes extends JFrame {
         frmHistorial.setVisible(true);
     }//GEN-LAST:event_btnHistorialActionPerformed
 
+    private void tblPaquetesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPaquetesMouseClicked
+
+    }//GEN-LAST:event_tblPaquetesMouseClicked
+    
+    @Override
+    public void dispose() {
+        ControlPaquetes.getInstancia().setMenuActivo(null);
+        super.dispose();
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -280,5 +328,7 @@ public class FrmMenuPaquetes extends JFrame {
     private javax.swing.JLabel lblDescripcion;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panelTarjeta;
+    private javax.swing.JScrollPane scrollResultados;
+    private javax.swing.JTable tblPaquetes;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,7 @@
 package com.mycompany.motoamigopersistencia;
 
 import com.mycompany.Entidades.Motivo;
+import com.mycompany.bloqueorepartidores.MotivoDTO;
 import enums.Tipo;
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface IMotivosDAO {
 
     List<Motivo> obtenerMotivos(Tipo tipoMotivo);
 
+    boolean existeMotivo(MotivoDTO motivo, Tipo tipo);
 }
