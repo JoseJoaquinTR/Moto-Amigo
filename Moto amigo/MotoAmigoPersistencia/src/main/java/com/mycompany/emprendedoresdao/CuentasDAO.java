@@ -44,13 +44,9 @@ public class CuentasDAO implements ICuentasDAO {
     }
 
     @Override
-    public CuentaUsuario buscarCuenta(String correo, String contrasenia) throws PersistenciaException {
+    public CuentaUsuario buscarCuenta(String correo) throws PersistenciaException {
         try {
-            Emprendedor emprendedor = coleccion.find(
-                    and(
-                            eq("cuentaUsuario.correo", correo),
-                            eq("cuentaUsuario.contrasenia", contrasenia))
-            ).first();
+            Emprendedor emprendedor = coleccion.find(eq("cuentaUsuario.correo", correo)).first();
             return emprendedor.getCuentaUsuario();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al buscar la cuenta", ex);
