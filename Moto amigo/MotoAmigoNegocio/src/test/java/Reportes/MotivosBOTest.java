@@ -4,9 +4,9 @@
  */
 package Reportes;
 
+import com.mycompany.reportes.IMotivosBO;
+import com.mycompany.reportes.MotivosBO;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
-import com.mycompany.motoamigonegocio.IMotivosBO;
-import com.mycompany.motoamigonegocio.MotivosBO;
 import enums.Tipo;
 import java.util.List;
 import org.junit.jupiter.api.Test;

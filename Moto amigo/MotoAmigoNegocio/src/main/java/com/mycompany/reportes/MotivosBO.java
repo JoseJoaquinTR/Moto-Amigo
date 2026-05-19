@@ -2,11 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.motoamigonegocio;
+package com.mycompany.reportes;
 
+import com.mycompany.reportes.IMotivosBO;
 import static Adapter.AdapterMotivoToDTO.adaptarLista;
 import com.mycompany.Entidades.Motivo;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
+import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 import enums.Tipo;

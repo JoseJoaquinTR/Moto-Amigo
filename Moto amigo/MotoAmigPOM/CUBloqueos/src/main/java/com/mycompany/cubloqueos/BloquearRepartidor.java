@@ -10,11 +10,12 @@ import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteBloqueoDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
-import com.mycompany.motoamigonegocio.IMotivosBO;
-import com.mycompany.motoamigonegocio.IReportesBloqueoBO;
-import com.mycompany.motoamigonegocio.MotivosBO;
 import com.mycompany.motoamigonegocio.NegocioException;
-import com.mycompany.motoamigonegocio.ReportesBloqueoBO;
+import com.mycompany.reportes.IMotivosBO;
+import com.mycompany.reportes.IReportesBloqueoBO;
+import com.mycompany.reportes.MotivosBO;
+import com.mycompany.reportes.ReportesBloqueoBO;
+
 import enums.Estado;
 
 /**
