@@ -13,6 +13,7 @@ import Paquete.CrearPaquete;
 import Paquete.ICrearPaquete;
 import Paquete.PaqueteException;
 import Utilerias.UtileriaImagen;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import com.mycompany.productospresentacion.DlgBuscarProductos;
 import com.mycompany.productosdto.ProductoDTO;
 import enums.TamañoPaqueteDTO;
@@ -329,14 +330,14 @@ public class FrmCrearPaquete extends JFrame {
                 precio += pp.getProducto().getPrecio() * pp.getCantidad();
             }
         }
-
+        String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
         NuevoPaqueteDTO nuevo = new NuevoPaqueteDTO(
                 txtNombre.getText().trim(),
                 tamanio,
                 productosAgregados,
                 precio,
                 imagenSeleccionada,
-                null
+                idEmprendedor
         );
         try {
             PaqueteDTO creado = cuCrearPaquete.crear(nuevo);

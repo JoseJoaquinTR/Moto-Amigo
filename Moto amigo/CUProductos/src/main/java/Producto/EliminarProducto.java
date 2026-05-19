@@ -1,22 +1,25 @@
 package Producto;
 
-import Productos.IProductoBO;
-import Productos.ProductoBO;
+import Productos.ProductosBO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.productosdto.EliminarProductoDTO;
+import Productos.IProductosBO;
 
 
 /**
  * @author joset
  */
 public class EliminarProducto implements IEliminarProducto {
-private final IProductoBO productoBO;
+private final IProductosBO productoBO;
     public EliminarProducto() {
-        this.productoBO = ProductoBO.getInstancia();
+        this.productoBO = ProductosBO.getInstancia();
     }
 
     @Override
     public boolean eliminar(EliminarProductoDTO producto) throws ProductoException {
+        if (producto.getId() == null || producto.getId().isBlank()) {
+            throw new ProductoException("El id del producto a eliminar es obligatorio.");
+        }
         try {
             return productoBO.eliminarProducto(producto.getId());
         } catch (NegocioException ex) {

@@ -17,43 +17,27 @@ import java.util.List;
  *
  * @author joset
  */
-public class ProductoBO implements IProductoBO {
+public class ProductosBO implements IProductosBO {
 
-    private static ProductoBO instancia;
+    private static ProductosBO instancia;
 
     private final IFachadaPersistencia fachada;
     private final AdapterProductoAProductoDTO adapter;
 
-    private ProductoBO() {
+    private ProductosBO() {
         this.fachada = FachadaPersistencia.getInstancia();
         this.adapter = new AdapterProductoAProductoDTO();
     }
 
-    public static synchronized ProductoBO getInstancia() {
+    public static synchronized ProductosBO getInstancia() {
         if (instancia == null) {
-            instancia = new ProductoBO();
+            instancia = new ProductosBO();
         }
         return instancia;
     }
 
     @Override
     public ProductoDTO crearProducto(NuevoProductoDTO nuevoProducto) throws NegocioException {
-        if (nuevoProducto == null) {
-            throw new NegocioException("El producto a crear no puede ser nulo.");
-        }
-        if (nuevoProducto.getNombre() == null || nuevoProducto.getNombre().isBlank()) {
-            throw new NegocioException("El nombre del producto es obligatorio.");
-        }
-        if (nuevoProducto.getPeso() <= 0) {
-            throw new NegocioException("El peso del producto debe ser mayor a 0.");
-        }
-        if (nuevoProducto.getPrecio() <= 0) {
-            throw new NegocioException("El precio del producto debe ser mayor a 0.");
-        }
-        if (nuevoProducto.getUnidad() == null) {
-            throw new NegocioException("La unidad del producto es obligatoria.");
-        }
-
         try {
             Producto creado = fachada.agregarProducto(nuevoProducto);
             return adapter.adaptar(creado);
@@ -64,13 +48,6 @@ public class ProductoBO implements IProductoBO {
 
     @Override
     public ProductoDTO editarProducto(String id, EditarProductoDTO datosNuevos) throws NegocioException {
-        if (id == null || id.isBlank()) {
-            throw new NegocioException("El id del producto a editar es obligatorio.");
-        }
-        if (datosNuevos == null) {
-            throw new NegocioException("Los datos del producto a editar no pueden ser nulos.");
-        }
-
         try {
             Producto actualizado = fachada.actualizarProducto(id, datosNuevos);
             return adapter.adaptar(actualizado);
@@ -81,9 +58,6 @@ public class ProductoBO implements IProductoBO {
 
     @Override
     public boolean eliminarProducto(String id) throws NegocioException {
-        if (id == null || id.isBlank()) {
-            throw new NegocioException("El id del producto a eliminar es obligatorio.");
-        }
         try {
             return fachada.eliminarProducto(id);
         } catch (PersistenciaException ex) {
@@ -93,9 +67,6 @@ public class ProductoBO implements IProductoBO {
 
     @Override
     public ProductoDTO consultarProductoPorId(String id) throws NegocioException {
-        if (id == null || id.isBlank()) {
-            throw new NegocioException("El id del producto a consultar es obligatorio.");
-        }
         try {
             Producto encontrado = fachada.consultarProductoPorId(id);
             return adapter.adaptar(encontrado);
@@ -105,9 +76,9 @@ public class ProductoBO implements IProductoBO {
     }
 
     @Override
-    public List<ProductoDTO> buscarProductosPorNombre(String nombreSimilar) throws NegocioException {
+    public List<ProductoDTO> buscarProductosPorNombre(String criterio,String idEmprendedor) throws NegocioException {
         try {
-            List<Producto> entidades = fachada.consultarProductosPorNombre(nombreSimilar);
+            List<Producto> entidades = fachada.consultarProductosPorNombre(criterio,idEmprendedor);
             List<ProductoDTO> resultado = new ArrayList<>();
             for (Producto p : entidades) {
                 resultado.add(adapter.adaptar(p));

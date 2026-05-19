@@ -1,10 +1,10 @@
 
 package Paquete;
 
-import Paquetes.IPaqueteHistorialBO;
-import Paquetes.PaqueteHistorialBO;
+import Paquetes.PaqueteHistorialesBO;
 import com.mycompany.paquetesdto.ReporteHistorialPaquetePDFDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
+import Paquetes.IPaqueteHistorialesBO;
 
 /**
  * Caso de uso para generar y descargar el historial de paquetes.
@@ -13,10 +13,10 @@ import com.mycompany.motoamigonegocio.NegocioException;
  */
 public class GenerarHistorialPDF implements IGenerarHistorialPDF {
 
-    private final IPaqueteHistorialBO paqueteHistorialBO;
+    private final IPaqueteHistorialesBO paqueteHistorialBO;
 
     public GenerarHistorialPDF() {
-        this.paqueteHistorialBO = PaqueteHistorialBO.getInstancia();
+        this.paqueteHistorialBO = PaqueteHistorialesBO.getInstancia();
     }
 
     @Override

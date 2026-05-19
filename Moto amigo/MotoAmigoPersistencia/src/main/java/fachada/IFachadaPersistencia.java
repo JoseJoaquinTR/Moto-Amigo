@@ -18,8 +18,7 @@ import java.util.List;
  * @author joset
  */
 public interface IFachadaPersistencia {
-    
-    
+
     //CU Productos y Paquetes
     Producto agregarProducto(NuevoProductoDTO producto) throws PersistenciaException;
 
@@ -29,7 +28,7 @@ public interface IFachadaPersistencia {
 
     Producto consultarProductoPorId(String id) throws PersistenciaException;
 
-    List<Producto> consultarProductosPorNombre(String nombreSimilar) throws PersistenciaException;
+    List<Producto> consultarProductosPorNombre(String criterio,String idEmprendedor) throws PersistenciaException;
 
     List<Producto> obtenerProductosPorEmprendedor(String idEmprendedor) throws PersistenciaException;
 
@@ -41,36 +40,35 @@ public interface IFachadaPersistencia {
 
     Paquete consultarPaquetePorId(String id) throws PersistenciaException;
 
-    List<Paquete> consultarPaquetesPorNombre(String nombre) throws PersistenciaException;
+    List<Paquete> consultarPaquetesPorNombre(String criterio, String idEmprendedor) throws PersistenciaException;
 
     List<Paquete> obtenerPaquetesPorEmprendedor(String idEmprendedor) throws PersistenciaException;
 
-    
     //CU Bloquear Repartidores
     List<Repartidor> obtenerRepartidoresActivos() throws PersistenciaException;
 
-    Repartidor cambiarEstadoRepartidor(String id, Estado estado)throws PersistenciaException;
+    Repartidor cambiarEstadoRepartidor(String id, Estado estado) throws PersistenciaException;
 
     ReporteBloqueo guardarReporteBloqueo(NuevoReporteBloqueoDTO dto) throws PersistenciaException;
 
-    ReporteDesbloqueo guardarReporteDesbloqueo(NuevoReporteDesbloqueoDTO dto)throws PersistenciaException;
+    ReporteDesbloqueo guardarReporteDesbloqueo(NuevoReporteDesbloqueoDTO dto) throws PersistenciaException;
 
-    List<ReporteBloqueo> consultarReportesBloqueos()throws PersistenciaException;
-    
-    List<ReporteBloqueo> consultarReportesBloqueos(FiltrosDTO filtros)throws PersistenciaException;
+    List<ReporteBloqueo> consultarReportesBloqueos() throws PersistenciaException;
 
-    List<ReporteDesbloqueo> consultarReportesDesbloqueos()throws PersistenciaException;
-    
-    List<ReporteDesbloqueo> consultarReportesDesbloqueos(FiltrosDTO filtros)throws PersistenciaException;
+    List<ReporteBloqueo> consultarReportesBloqueos(FiltrosDTO filtros) throws PersistenciaException;
+
+    List<ReporteDesbloqueo> consultarReportesDesbloqueos() throws PersistenciaException;
+
+    List<ReporteDesbloqueo> consultarReportesDesbloqueos(FiltrosDTO filtros) throws PersistenciaException;
 
     List<Motivo> obtenerMotivos(Tipo tipo);
 
-    List<Repartidor> obtenerRepartidores()throws PersistenciaException;
+    List<Repartidor> obtenerRepartidores() throws PersistenciaException;
 
-    List<Repartidor> obtenerRepartidoresParaDesbloqueo(FiltrosDTO filtros)throws PersistenciaException;
-    
+    List<Repartidor> obtenerRepartidoresParaDesbloqueo(FiltrosDTO filtros) throws PersistenciaException;
+
     List<Repartidor> buscarRepartidor(String nombre) throws PersistenciaException;
-    
+
     Repartidor consultarRepartidorPorId(String id) throws PersistenciaException;
 
 }

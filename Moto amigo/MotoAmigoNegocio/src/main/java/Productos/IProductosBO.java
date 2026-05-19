@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author joset
  */
-public interface IProductoBO {
+public interface IProductosBO {
 
     /**
      * Registra un nuevo producto en el sistema.
@@ -53,11 +53,12 @@ public interface IProductoBO {
     /**
      * Busca productos cuyo nombre contenga el texto indicado.
      *
-     * @param nombreSimilar fragmento del nombre a buscar.
+     * @param criterio,String idEmprendedor fragmento del nombre a buscar.
+     * @param idEmprendedor
      * @return lista de productos que coinciden.
      * @throws NegocioException si falla la persistencia.
      */
-    List<ProductoDTO> buscarProductosPorNombre(String nombreSimilar) throws NegocioException;
+    List<ProductoDTO> buscarProductosPorNombre(String criterio,String idEmprendedor) throws NegocioException;
 
     /**
      * Obtiene todos los productos pertenecientes a un emprendedor.

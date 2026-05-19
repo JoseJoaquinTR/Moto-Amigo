@@ -249,8 +249,7 @@ public class FrmEditarProducto extends JFrame {
                 peso,
                 unidad,
                 precio,
-                imagenSeleccionada,
-                null
+                imagenSeleccionada
         );
         try {
             ProductoDTO actualizado = cuEditarProducto.editar(idEditando, editado);

@@ -9,7 +9,10 @@ import org.bson.codecs.pojo.annotations.BsonRepresentation;
  * @author joset
  */
 public class ProductosPaquete {
-
+    
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idProductoPaquete;
+    
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String idProducto;
 

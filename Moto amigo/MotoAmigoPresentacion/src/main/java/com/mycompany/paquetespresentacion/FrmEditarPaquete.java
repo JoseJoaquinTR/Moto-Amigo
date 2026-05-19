@@ -367,8 +367,7 @@ public class FrmEditarPaquete extends JFrame {
                 tamanio,
                 productosAgregados,
                 precio,
-                imagenSeleccionada,
-                null
+                imagenSeleccionada
         );
 
         PaqueteDTO actualizado;

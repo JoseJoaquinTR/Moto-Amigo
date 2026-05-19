@@ -18,14 +18,14 @@ import com.mycompany.paquetesdto.EditarPaqueteDTO;
 import com.mycompany.productosdto.EditarProductoDTO;
 import com.mycompany.paquetesdto.NuevoPaqueteDTO;
 import com.mycompany.productosdto.NuevoProductoDTO;
-import com.mycompany.paquetesdao.IPaqueteDAO;
-import com.mycompany.productosdao.IProductoDAO;
-import com.mycompany.paquetesdao.PaqueteDAO;
+import com.mycompany.paquetesdao.PaquetesDAO;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
-import com.mycompany.productosdao.ProductoDAO;
+import com.mycompany.productosdao.ProductosDAO;
 import com.mycompany.motoamigopersistencia.*;
 import java.util.List;
 import com.mycompany.motoamigopersistencia.IRepartidoresDAO;
+import com.mycompany.paquetesdao.IPaquetesDAO;
+import com.mycompany.productosdao.IProductosDAO;
 
 /**
  *
@@ -35,16 +35,16 @@ public class FachadaPersistencia implements IFachadaPersistencia {
 
     private static FachadaPersistencia instancia;
 
-    private final IProductoDAO productoDAO;
-    private final IPaqueteDAO paqueteDAO;
+    private final IProductosDAO productoDAO;
+    private final IPaquetesDAO paqueteDAO;
     private final IRepartidoresDAO repartidoresDAO;
     private final IReportesBloqueosDAO bloqueosDAO;
     private final IReportesDesbloqueosDAO desbloqueosDAO;
     private final IMotivosDAO motivosDAO;
 
     private FachadaPersistencia() {
-        this.productoDAO = ProductoDAO.getInstancia();
-        this.paqueteDAO = PaqueteDAO.getInstancia();
+        this.productoDAO = ProductosDAO.getInstancia();
+        this.paqueteDAO = PaquetesDAO.getInstancia();
         this.repartidoresDAO = RepartidoresDAO.getInstancia();
         this.bloqueosDAO = ReportesBloqueosDAO.getInstancia();
         this.desbloqueosDAO = ReportesDesbloqueosDAO.getInstancia();
@@ -79,8 +79,8 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     }
 
     @Override
-    public List<Producto> consultarProductosPorNombre(String nombreSimilar) throws PersistenciaException {
-        return productoDAO.consultarPorNombre(nombreSimilar);
+    public List<Producto> consultarProductosPorNombre(String nombreSimilar,String idEmprendedor) throws PersistenciaException {
+        return productoDAO.consultarPorNombre(nombreSimilar,idEmprendedor);
     }
 
     @Override
@@ -109,8 +109,8 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     }
 
     @Override
-    public List<Paquete> consultarPaquetesPorNombre(String nombre) throws PersistenciaException {
-        return paqueteDAO.consultarPorNombre(nombre);
+    public List<Paquete> consultarPaquetesPorNombre(String criterio,String idEmprendedor) throws PersistenciaException {
+        return paqueteDAO.consultarPorNombre(criterio,idEmprendedor);
     }
 
     @Override

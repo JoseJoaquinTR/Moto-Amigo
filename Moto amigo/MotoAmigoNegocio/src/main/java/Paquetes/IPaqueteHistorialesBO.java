@@ -9,7 +9,7 @@ import com.mycompany.motoamigonegocio.NegocioException;
  *
  * @author joset
  */
-public interface IPaqueteHistorialBO {
+public interface IPaqueteHistorialesBO {
 
     /**
      * Genera el reporte de historial de paquetes de un emprendedor: cuántas

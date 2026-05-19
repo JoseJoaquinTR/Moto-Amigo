@@ -9,6 +9,7 @@ import Paquete.BuscarPaquete;
 import Paquete.IBuscarPaquete;
 import Paquete.PaqueteException;
 import Utilerias.utileriaTablas;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import com.mycompany.paquetesdto.PaqueteDTO;
 import java.awt.Color;
 import java.awt.Font;
@@ -63,8 +64,8 @@ public class DlgBuscarPaquetes extends JDialog {
     private void buscar() {
         try {
             String criterio = txtBuscar.getText().trim();
-            paquetes = cuBuscarPaquete.buscar(criterio);
-            utileriaTablas.cargarPaquetes(tblPaquetes, paquetes);
+            String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
+            utileriaTablas.cargarPaquetes(tblPaquetes, cuBuscarPaquete.buscar(criterio,idEmprendedor));
         } catch (PaqueteException ex) {
             JOptionPane.showMessageDialog(
                     this,

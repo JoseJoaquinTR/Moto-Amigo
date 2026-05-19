@@ -12,6 +12,7 @@ import Producto.CrearProducto;
 import Producto.ICrearProducto;
 import Producto.ProductoException;
 import Utilerias.UtileriaImagen;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import enums.TipoUnidadProductoDTO;
 import java.awt.Color;
 import java.awt.Font;
@@ -214,13 +215,14 @@ public class FrmCrearProducto extends JFrame {
         }
 
         TipoUnidadProductoDTO unidad = TipoUnidadProductoDTO.valueOf((String) cmbUnidad.getSelectedItem());
+        String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
         NuevoProductoDTO nuevo = new NuevoProductoDTO(
                 txtNombre.getText().trim(),
                 peso,
                 unidad,
                 precio,
                 imagenSeleccionada,
-                null
+                idEmprendedor
         );
         try {
             ProductoDTO creado = cuCrearProducto.crear(nuevo);

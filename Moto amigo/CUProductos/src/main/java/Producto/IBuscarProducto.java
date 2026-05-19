@@ -16,5 +16,5 @@ public interface IBuscarProducto {
      * coincidencias.
      * @throws Producto.ProductoException
      */
-    List<ProductoDTO> buscar(String criterio)throws ProductoException;
+    List<ProductoDTO> buscar(String criterio,String idEmprendedor)throws ProductoException;
 }

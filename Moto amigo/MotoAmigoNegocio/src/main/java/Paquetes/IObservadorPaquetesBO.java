@@ -8,7 +8,7 @@ import com.mycompany.productosdto.ProductoDTO;
  * 
  * @author joset
  */
-public interface IObservadorPaqueteBO {
+public interface IObservadorPaquetesBO {
 
     /**
      * Notifica que se creó un paquete.

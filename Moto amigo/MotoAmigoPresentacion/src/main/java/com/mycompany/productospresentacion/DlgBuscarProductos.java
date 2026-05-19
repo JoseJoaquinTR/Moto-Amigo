@@ -9,6 +9,7 @@ import Producto.BuscarProducto;
 import Producto.IBuscarProducto;
 import Producto.ProductoException;
 import Utilerias.utileriaTablas;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import com.mycompany.productosdto.ProductoDTO;
 import java.awt.Color;
 import java.awt.Font;
@@ -74,7 +75,8 @@ public class DlgBuscarProductos extends JDialog {
 
     private void buscar() throws ProductoException {
         String criterio = txtBuscar.getText().trim();
-        resultadosActuales = cuBuscarProducto.buscar(criterio);
+        String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
+        resultadosActuales = cuBuscarProducto.buscar(criterio,idEmprendedor);
         utileriaTablas.cargarProductos(tblResultados, resultadosActuales);
     }
 

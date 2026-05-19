@@ -1,16 +1,16 @@
 package observerCambiosPaquete;
 
-import Paquetes.IObservadorPaqueteBO;
 import com.mycompany.paquetesdto.PaqueteDTO;
 import com.mycompany.productosdto.ProductoDTO;
 import java.util.ArrayList;
 import java.util.List;
+import Paquetes.IObservadorPaquetesBO;
 
 /**
  *
  * @author joset
  */
-public class ObserverCambiosPaquete implements IObservadorPaqueteBO, IObserverCambiosPaquete {
+public class ObserverCambiosPaquete implements IObservadorPaquetesBO, IObserverCambiosPaquete {
 
     private static ObserverCambiosPaquete instancia;
 

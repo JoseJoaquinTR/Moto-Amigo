@@ -1,7 +1,6 @@
 package com.mycompany.paquetesdao;
 
 import Adapter.AdapterPaquete;
-import Adapter.AdapterProducto;
 import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
@@ -27,31 +26,28 @@ import org.bson.conversions.Bson;
  *
  * @author joset
  */
-public class PaqueteDAO implements IPaqueteDAO {
+public class PaquetesDAO implements IPaquetesDAO {
 
     private static final String NOMBRE_COLECCION = "paquetes";
 
-    private static PaqueteDAO instancia;
+    private static PaquetesDAO instancia;
 
     private final MongoCollection<Paquete> coleccion;
 
-    private PaqueteDAO() {
+    private PaquetesDAO() {
         MongoDatabase db = ManejadorConexiones.getInstancia().obtenerBaseDatos();
         this.coleccion = db.getCollection(NOMBRE_COLECCION, Paquete.class);
     }
 
-    public static synchronized PaqueteDAO getInstancia() {
+    public static synchronized PaquetesDAO getInstancia() {
         if (instancia == null) {
-            instancia = new PaqueteDAO();
+            instancia = new PaquetesDAO();
         }
         return instancia;
     }
 
     @Override
     public Paquete agregar(NuevoPaqueteDTO paquete) throws PersistenciaException {
-        if (paquete == null) {
-            throw new PersistenciaException("El paquete a agregar no puede ser nulo.");
-        }
         try {
             Paquete entidad = AdapterPaquete.aPaqueteDTO(paquete);
             coleccion.insertOne(entidad);
@@ -63,12 +59,6 @@ public class PaqueteDAO implements IPaqueteDAO {
 
     @Override
     public Paquete actualizar(String id, EditarPaqueteDTO datosNuevos) throws PersistenciaException {
-        if (id == null) {
-            throw new PersistenciaException("El id del paquete a actualizar no puede ser nulo.");
-        }
-        if (datosNuevos == null) {
-            throw new PersistenciaException("Los datos a actualizar no pueden ser nulos.");
-        }
 
         try {
             List<Bson> cambios = new ArrayList<>();
@@ -87,9 +77,6 @@ public class PaqueteDAO implements IPaqueteDAO {
             }
             if (datosNuevos.getImagen() != null) {
                 cambios.add(Updates.set("imagen", datosNuevos.getImagen()));
-            }
-            if (datosNuevos.getIdEmprendedor() != null) {
-                cambios.add(Updates.set("idEmprendedor", datosNuevos.getIdEmprendedor()));
             }
 
             if (cambios.isEmpty()) {
@@ -113,9 +100,6 @@ public class PaqueteDAO implements IPaqueteDAO {
 
     @Override
     public boolean eliminar(String id) throws PersistenciaException {
-        if (id == null) {
-            throw new PersistenciaException("El id del paquete a eliminar no puede ser nulo.");
-        }
         try {
             DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", AdapterPaquete.aObjectId(id)));
             return resultado.getDeletedCount() > 0;
@@ -126,9 +110,6 @@ public class PaqueteDAO implements IPaqueteDAO {
 
     @Override
     public Paquete consultarPorId(String id) throws PersistenciaException {
-        if (id == null) {
-            throw new PersistenciaException("El id a consultar no puede ser nulo.");
-        }
         try {
             AggregateIterable<Paquete> resultado = coleccion.aggregate(Arrays.asList(
                     Aggregates.match(Filters.eq("_id", AdapterPaquete.aObjectId(id))),
@@ -146,13 +127,19 @@ public class PaqueteDAO implements IPaqueteDAO {
     }
 
     @Override
-    public List<Paquete> consultarPorNombre(String nombre) throws PersistenciaException {
+    public List<Paquete> consultarPorNombre(String criterio, String idEmprendedor) throws PersistenciaException {
         try {
             List<Bson> pipeline = new ArrayList<>();
 
-            if (nombre != null && !nombre.isBlank()) {
-                String patron = Pattern.quote(nombre);
-                pipeline.add(Aggregates.match(Filters.regex("nombre", patron, "i")));
+            if (criterio != null && !criterio.isBlank()) {
+                pipeline.add(Aggregates.match(Filters.and(
+                        Filters.regex("nombre", Pattern.quote(criterio), "i"),
+                        Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor))
+                )));
+            } else {
+                pipeline.add(Aggregates.match(
+                        Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor))
+                ));
             }
 
             pipeline.add(Aggregates.lookup(
@@ -175,9 +162,6 @@ public class PaqueteDAO implements IPaqueteDAO {
 
     @Override
     public List<Paquete> obtenerPorEmprendedor(String idEmprendedor) throws PersistenciaException {
-        if (idEmprendedor == null) {
-            throw new PersistenciaException("El id del emprendedor no puede ser nulo.");
-        }
         try {
             AggregateIterable<Paquete> resultadoAgg = coleccion.aggregate(Arrays.asList(
                     Aggregates.match(Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor))),

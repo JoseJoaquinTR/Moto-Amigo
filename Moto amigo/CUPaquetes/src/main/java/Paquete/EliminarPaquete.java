@@ -1,9 +1,9 @@
 package Paquete;
 
-import Paquetes.IPaqueteBO;
-import Paquetes.PaqueteBO;
+import Paquetes.PaquetesBO;
 import com.mycompany.paquetesdto.EliminarPaqueteDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
+import Paquetes.IPaquetesBO;
 
 /**
  *
@@ -11,14 +11,17 @@ import com.mycompany.motoamigonegocio.NegocioException;
  */
 public class EliminarPaquete implements IEliminarPaquete {
 
-    private final IPaqueteBO paqueteBO;
+    private final IPaquetesBO paqueteBO;
 
     public EliminarPaquete() {
-        this.paqueteBO = PaqueteBO.getInstancia();
+        this.paqueteBO = PaquetesBO.getInstancia();
     }
 
     @Override
     public boolean eliminar(EliminarPaqueteDTO paquete)throws PaqueteException {
+        if ( paquete.getId() == null ||  paquete.getId().isBlank()) {
+            throw new PaqueteException("El id del paquete a eliminar es obligatorio.");
+        }
         try {
             if (paquete == null || paquete.getId()== null) {
                 return false;

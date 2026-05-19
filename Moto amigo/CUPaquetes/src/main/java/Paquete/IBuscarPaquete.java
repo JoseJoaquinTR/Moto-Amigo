@@ -19,6 +19,7 @@ public interface IBuscarPaquete {
      * @param criterio texto de búsqueda.
      * @return lista de paquetes encontrados, o lista vacía si no hay
      * coincidencias.
+     * @throws Paquete.PaqueteException
      */
-    List<PaqueteDTO> buscar(String criterio)throws PaqueteException ;
+    List<PaqueteDTO> buscar(String criterio,String idEmprendedor)throws PaqueteException ;
 }

@@ -1,7 +1,6 @@
 
 package com.mycompany.productosdao;
 
-import com.mycompany.productosdao.IProductoDAO;
 import Adapter.AdapterPaquete;
 import Adapter.AdapterProducto;
 import com.mongodb.MongoException;
@@ -25,31 +24,29 @@ import org.bson.conversions.Bson;
  *
  * @author joset
  */
-public class ProductoDAO implements IProductoDAO {
+public class ProductosDAO implements IProductosDAO {
 
     private static final String NOMBRE_COLECCION = "productos";
 
-    private static ProductoDAO instancia;
+    private static ProductosDAO instancia;
 
     private final MongoCollection<Producto> coleccion;
 
-    private ProductoDAO() {
+    private ProductosDAO() {
         MongoDatabase db = ManejadorConexiones.getInstancia().obtenerBaseDatos();
         this.coleccion = db.getCollection(NOMBRE_COLECCION, Producto.class);
     }
 
-    public static synchronized ProductoDAO getInstancia() {
+    public static synchronized ProductosDAO getInstancia() {
         if (instancia == null) {
-            instancia = new ProductoDAO();
+            instancia = new ProductosDAO();
         }
         return instancia;
     }
 
     @Override
     public Producto agregar(NuevoProductoDTO producto) throws PersistenciaException {
-        if (producto == null) {
-            throw new PersistenciaException("El producto a agregar no puede ser nulo.");
-        }
+
         try {
             Producto entidad = AdapterProducto.aProductoDTO(producto);
             coleccion.insertOne(entidad);
@@ -61,12 +58,7 @@ public class ProductoDAO implements IProductoDAO {
 
     @Override
     public Producto actualizar(String id, EditarProductoDTO datosNuevos) throws PersistenciaException {
-        if (id == null) {
-            throw new PersistenciaException("El id del producto a actualizar no puede ser nulo.");
-        }
-        if (datosNuevos == null) {
-            throw new PersistenciaException("Los datos a actualizar no pueden ser nulos.");
-        }
+
 
         try {
             List<Bson> cambios = new ArrayList<>();
@@ -84,9 +76,6 @@ public class ProductoDAO implements IProductoDAO {
             }
             if (datosNuevos.getImagen() != null) {
                 cambios.add(Updates.set("imagen", datosNuevos.getImagen()));
-            }
-            if (datosNuevos.getIdEmprendedor() != null) {
-                cambios.add(Updates.set("idEmprendedor", datosNuevos.getIdEmprendedor()));
             }
 
             if (cambios.isEmpty()) {
@@ -110,9 +99,7 @@ public class ProductoDAO implements IProductoDAO {
 
     @Override
     public boolean eliminar(String id) throws PersistenciaException {
-        if (id == null) {
-            throw new PersistenciaException("El id del producto a eliminar no puede ser nulo.");
-        }
+
         try {
             DeleteResult resultado = coleccion.deleteOne(Filters.eq("_id", AdapterPaquete.aObjectId(id)));
             return resultado.getDeletedCount() > 0;
@@ -123,9 +110,7 @@ public class ProductoDAO implements IProductoDAO {
 
     @Override
     public Producto consultarPorId(String id) throws PersistenciaException {
-        if (id == null) {
-            throw new PersistenciaException("El id a consultar no puede ser nulo.");
-        }
+
         try {
             return coleccion.find(Filters.eq("_id", AdapterPaquete.aObjectId(id))).first();
         } catch (MongoException ex) {
@@ -134,16 +119,16 @@ public class ProductoDAO implements IProductoDAO {
     }
 
     @Override
-    public List<Producto> consultarPorNombre(String nombreSimilar) throws PersistenciaException {
+    public List<Producto> consultarPorNombre(String criterio,String idEmprendedor) throws PersistenciaException {
         try {
             List<Producto> resultado = new ArrayList<>();
-            if (nombreSimilar == null || nombreSimilar.isBlank()) {
+            if (criterio == null || criterio.isBlank()) {
                 for (Producto p : coleccion.find()) {
                     resultado.add(p);
                 }
                 return resultado;
             }
-            String patron = Pattern.quote(nombreSimilar);
+            String patron = Pattern.quote(criterio);
             for (Producto p : coleccion.find(Filters.regex("nombre", patron, "i"))) {
                 resultado.add(p);
             }
@@ -151,13 +136,13 @@ public class ProductoDAO implements IProductoDAO {
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar productos por nombre.", ex);
         }
+         
     }
+    
 
     @Override
     public List<Producto> obtenerPorEmprendedor(String idEmprendedor) throws PersistenciaException {
-        if (idEmprendedor == null) {
-            throw new PersistenciaException("El id del emprendedor no puede ser nulo.");
-        }
+
         try {
             List<Producto> resultado = new ArrayList<>();
             for (Producto p : coleccion.find(Filters.eq("idEmprendedor", AdapterPaquete.aObjectId(idEmprendedor)))) {

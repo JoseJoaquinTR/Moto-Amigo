@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author joset
  */
-public interface IPaqueteDAO {
+public interface IPaquetesDAO {
 
 
     Paquete agregar(NuevoPaqueteDTO paquete) throws PersistenciaException;
@@ -22,7 +22,7 @@ public interface IPaqueteDAO {
 
     Paquete consultarPorId(String id) throws PersistenciaException;
 
-    List<Paquete> consultarPorNombre(String nombre) throws PersistenciaException;
+    List<Paquete> consultarPorNombre(String nombre,String idEmprendedor) throws PersistenciaException;
 
     List<Paquete> obtenerPorEmprendedor(String idEmprendedor) throws PersistenciaException;
 

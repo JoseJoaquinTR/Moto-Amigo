@@ -6,12 +6,11 @@ import com.mycompany.motoamigopersistencia.PersistenciaException;
 import com.mycompany.productosdto.EditarProductoDTO;
 import com.mycompany.productosdto.NuevoProductoDTO;
 import java.util.List;
-import org.bson.types.ObjectId;
 
 /**
  * @author joset
  */
-public interface IProductoDAO {
+public interface IProductosDAO {
 
     /**
      * Crea un producto nuevo en la base de datos. 
@@ -53,11 +52,11 @@ public interface IProductoDAO {
     /**
      * Busca productos con el nombre que contenga el string .
      *
-     * @param nombreSimilar fragmento de texto a buscar dentro del nombre.
+     * @param criterio fragmento de texto a buscar dentro del nombre.
      * @return lista de productos que coinciden.
      * @throws PersistenciaException si ocurre un error .
      */
-    List<Producto> consultarPorNombre(String nombreSimilar) throws PersistenciaException;
+    List<Producto> consultarPorNombre(String criterio,String idEmprendedor) throws PersistenciaException;
 
     /**
      * Obtiene todos los productos pertenecientes a un emprendedor específico.

@@ -13,6 +13,7 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import com.mycompany.motoamigopresentacion.controladores.ControlPaquetes;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 
 /**
  * Frame del menú de paquetes del emprendedor. Muestra una tarjeta con los
@@ -50,7 +51,8 @@ public class FrmMenuPaquetes extends JFrame {
 
     public void refrescarTablaPaquetes() {
         try {
-            utileriaTablas.cargarPaquetes(tblPaquetes, cuBuscarPaquete.buscar(" "));
+            String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
+            utileriaTablas.cargarPaquetes(tblPaquetes, cuBuscarPaquete.buscar(" ",idEmprendedor));
         } catch (PaqueteException ex) {
             JOptionPane.showMessageDialog(
                     this,

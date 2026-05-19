@@ -5,7 +5,7 @@ package Paquetes;
  *
  * @author joset
  */
-public interface IClientePaqueteBO {
+public interface IClientePaquetesBO {
 
     /**
      * crea un observador para recibir notificaciones de cambios en
@@ -13,12 +13,12 @@ public interface IClientePaqueteBO {
      *
      * @param observador observador a registrar.
      */
-    void agregarObservador(IObservadorPaqueteBO observador);
+    void agregarObservador(IObservadorPaquetesBO observador);
 
     /**
      * elimina un observador.
      *
      * @param observador observador a remover.
      */
-    void eliminarObservador(IObservadorPaqueteBO observador);
+    void eliminarObservador(IObservadorPaquetesBO observador);
 }

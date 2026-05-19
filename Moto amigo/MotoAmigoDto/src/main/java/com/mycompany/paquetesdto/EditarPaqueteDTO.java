@@ -19,20 +19,19 @@ public class EditarPaqueteDTO {
     private List<ProductosPaqueteDTO> productos;
     private float precio;
     private byte[] imagen;
-    private String idEmprendedor;
+    
 
     public EditarPaqueteDTO() {
     }
 
     public EditarPaqueteDTO(String nombre, TamañoPaqueteDTO tamaño,
             List<ProductosPaqueteDTO> productos, float precio,
-            byte[] imagen, String idEmprendedor) {
+            byte[] imagen) {
         this.nombre = nombre;
         this.tamaño = tamaño;
         this.productos = productos;
         this.precio = precio;
         this.imagen = imagen;
-        this.idEmprendedor = idEmprendedor;
     }
 
     public String getNombre() {
@@ -73,13 +72,5 @@ public class EditarPaqueteDTO {
 
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
-    }
-
-    public String getIdEmprendedor() {
-        return idEmprendedor;
-    }
-
-    public void setIdEmprendedor(String idEmprendedor) {
-        this.idEmprendedor = idEmprendedor;
     }
 }

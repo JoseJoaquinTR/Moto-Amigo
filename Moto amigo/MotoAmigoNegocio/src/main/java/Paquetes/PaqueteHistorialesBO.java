@@ -1,7 +1,6 @@
 
 package Paquetes;
 
-import Paquetes.IPaqueteHistorialBO;
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.Entidades.ProductosPaquete;
 import com.mycompany.paquetesdto.PaqueteHistorialDTO;
@@ -13,24 +12,25 @@ import fachada.IFachadaPersistencia;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import Paquetes.IPaqueteHistorialesBO;
 
 /**
  *
  * @author joset
  */
-public class PaqueteHistorialBO implements IPaqueteHistorialBO {
+public class PaqueteHistorialesBO implements IPaqueteHistorialesBO {
 
-    private static PaqueteHistorialBO instancia;
+    private static PaqueteHistorialesBO instancia;
 
     private final IFachadaPersistencia fachada;
 
-    private PaqueteHistorialBO() {
+    private PaqueteHistorialesBO() {
         this.fachada = FachadaPersistencia.getInstancia();
     }
 
-    public static synchronized PaqueteHistorialBO getInstancia() {
+    public static synchronized PaqueteHistorialesBO getInstancia() {
         if (instancia == null) {
-            instancia = new PaqueteHistorialBO();
+            instancia = new PaqueteHistorialesBO();
         }
         return instancia;
     }

@@ -17,19 +17,17 @@ public class EditarProductoDTO {
     private TipoUnidadProductoDTO unidad;
     private float precio;
     private byte[] imagen;
-    private String idEmprendedor;
 
     public EditarProductoDTO() {
     }
 
     public EditarProductoDTO(String nombre, float peso, TipoUnidadProductoDTO unidad,
-            float precio, byte[] imagen, String idEmprendedor) {
+            float precio, byte[] imagen) {
         this.nombre = nombre;
         this.peso = peso;
         this.unidad = unidad;
         this.precio = precio;
         this.imagen = imagen;
-        this.idEmprendedor = idEmprendedor;
     }
 
     public String getNombre() {
@@ -72,11 +70,4 @@ public class EditarProductoDTO {
         this.imagen = imagen;
     }
 
-    public String getIdEmprendedor() {
-        return idEmprendedor;
-    }
-
-    public void setIdEmprendedor(String idEmprendedor) {
-        this.idEmprendedor = idEmprendedor;
-    }
 }

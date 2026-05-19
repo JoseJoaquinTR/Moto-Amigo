@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author joset
  */
-public interface IPaqueteBO  {
+public interface IPaquetesBO  {
 
     /**
      * Crea un nuevo paquete en el sistema.
@@ -55,11 +55,12 @@ public interface IPaqueteBO  {
     /**
      * Busca paquetes cuyo nombre contenga el texto indicado.
      *
-     * @param nombreSimilar fragmento del nombre a buscar.
+     * @param criterio fragmento del nombre a buscar.
+     * @param idEmprendedor
      * @return lista de paquetes que coinciden, con sus productos resueltos.
      * @throws NegocioException si falla la persistencia.
      */
-    List<PaqueteDTO> buscarPaquetesPorNombre(String nombreSimilar) throws NegocioException;
+    List<PaqueteDTO> buscarPaquetesPorNombre(String criterio,String idEmprendedor) throws NegocioException;
 
     /**
      * Obtiene todos los paquetes pertenecientes a un emprendedor.
