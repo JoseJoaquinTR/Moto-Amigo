@@ -35,17 +35,17 @@ public class RepartidorDAOTest {
         coleccion = baseDatos.getCollection("repartidores", Repartidor.class);
 
         Repartidor repartidor1 = new Repartidor();
-        repartidor1.setIdRepartidor(new ObjectId().toHexString());
+        repartidor1.setIdRepartidor("6a0d2317cc336268ad738f61");
         repartidor1.setNombre("Juan Pérez");
         repartidor1.setEstado(Estado.ACTIVO);
 
         Repartidor repartidor2 = new Repartidor();
-        repartidor2.setIdRepartidor(new ObjectId().toHexString());
+        repartidor2.setIdRepartidor("6a0d2317cc336268ad738f62");
         repartidor2.setNombre("Carlos López");
         repartidor2.setEstado(Estado.BLOQUEADO);
 
         Repartidor repartidor3 = new Repartidor();
-        repartidor3.setIdRepartidor(new ObjectId().toHexString());
+        repartidor3.setIdRepartidor("6a0d2317cc336268ad738f63");
         repartidor3.setNombre("Juana Martínez");
         repartidor3.setEstado(Estado.ACTIVO);
 

@@ -2,18 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.emprendedorpresentacion;
+package com.mycompany.repartidorespresentacion;
 
 import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
-import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
-import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
-import com.mycompany.motoamigopresentacion.FrmSeguimientoTiempoRealRepartidor;
+import com.mycompany.motoamigonegocio.Observers.EventoEntrega;
+import com.mycompany.motoamigonegocio.Observers.GestorNotificacionesEntrega;
 import javax.swing.JOptionPane;
-import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
 import com.mycompany.motoamigopresentacion.controladores.ControlSolicitarEntrega;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 import panelesUtilerias.PanelHeader;
@@ -42,8 +41,8 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
         this.solicitud = solicitud;
         txt_origen.setText(solicitud.getOrigen());
         txt_destino.setText(solicitud.getDestino());
-        txt_tipoPaquete.setText(solicitud.getTipoPaquete());
-        txt_peso.setText(String.format("%.2f kg", solicitud.getPesoAprox()));
+        txt_tipoPaquete.setText(solicitud.getTipo() != null ? solicitud.getTipo().name() : "");
+        txt_peso.setText(String.format("%.2f kg", solicitud.getPesoTotal()));
         txt_distancia.setText(String.format("%.2f km", solicitud.getDistancia()));
         txt_ganancia.setText(String.format("$%.2f MXN", solicitud.getCosto()));
         
@@ -323,7 +322,7 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
 
-        RepartidorDTO repartidor = ControlMenuPrincipal.getInstance().buscarRepartidorPorId("1L");
+        RepartidorDTO repartidor = SesionActiva.getInstancia().getRepartidor();;
         String nombreRepartidor = repartidor != null ? repartidor.getNombre() : "Repartidor";
 
         GestorNotificacionesEntrega.getInstance().notificar(

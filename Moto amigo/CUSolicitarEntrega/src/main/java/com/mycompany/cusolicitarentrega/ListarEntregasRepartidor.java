@@ -30,7 +30,12 @@ public class ListarEntregasRepartidor implements IListarEntregasRepartidor {
     }
 
     @Override
-    public List<EntregaDTO> listarEntregasRepartidor(Long idRepartidor) throws NegocioException {
+    public List<EntregaDTO> listarEntregasRepartidor(String idRepartidor) throws NegocioException {
         return fachada.obtenerEntregasRepartidor(idRepartidor);
+    }
+    
+    @Override
+    public List<EntregaDTO> obtenerEntregasDisponibles() throws NegocioException {
+        return fachada.obtenerEntregasDisponibles();  
     }
 }

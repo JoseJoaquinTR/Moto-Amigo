@@ -8,7 +8,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.Entidades.ProductosPaquete;
-import com.mycompany.Entidades.TamañoPaquete;
+import Enums.TamanoPaquete;
+import com.mycompany.Entidades.Producto;
+import com.mycompany.Entidades.TipoUnidadProducto;
 import com.mycompany.paquetesdao.PaquetesDAO;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ public class PaquetesDAOTest {
 
     private String idEmprendedor1;
     private String idEmprendedor2;
+    private MongoCollection<Producto> coleccionProductos;
+    private List<String> idsProductosDisponibles;
 
     @BeforeEach
     public void setUp() {
@@ -36,43 +40,73 @@ public class PaquetesDAOTest {
         MongoDatabase baseDatos = ManejadorConexiones.getInstancia().obtenerBaseDatos();
 
         coleccion = baseDatos.getCollection("paquetes", Paquete.class);
+        coleccionProductos = baseDatos.getCollection("productos", Producto.class);
 
         coleccion.deleteMany(new org.bson.Document());
+        coleccionProductos.deleteMany(new org.bson.Document());
 
-        idEmprendedor1 = new ObjectId().toHexString();
+        idEmprendedor1 = "6a0d216d8655134c496f96d9";
         idEmprendedor2 = new ObjectId().toHexString();
+
+        // Crear productos REALES en BD que los paquetes puedan referenciar
+        idsProductosDisponibles = crearProductosEnBD();
 
         Paquete paquete1 = new Paquete();
         paquete1.setNombre("Paquete Básico");
-        paquete1.setTamaño(TamañoPaquete.CHICO);
+        paquete1.setTamaño(TamanoPaquete.CHICO);
         paquete1.setPrecio(150f);
         paquete1.setIdEmprendedor(idEmprendedor1);
-        paquete1.setProductos(crearProductos(2));
+        paquete1.setProductos(crearProductosDelPaquete(idsProductosDisponibles, 2));
 
         Paquete paquete2 = new Paquete();
         paquete2.setNombre("Paquete Premium");
-        paquete2.setTamaño(TamañoPaquete.MEDIANO);
+        paquete2.setTamaño(TamanoPaquete.MEDIANO);
         paquete2.setPrecio(350f);
         paquete2.setIdEmprendedor(idEmprendedor1);
-        paquete2.setProductos(crearProductos(3));
+        paquete2.setProductos(crearProductosDelPaquete(idsProductosDisponibles, 3));
 
         Paquete paquete3 = new Paquete();
         paquete3.setNombre("Paquete Familiar");
-        paquete3.setTamaño(TamañoPaquete.GRANDE);
+        paquete3.setTamaño(TamanoPaquete.GRANDE);
         paquete3.setPrecio(800f);
         paquete3.setIdEmprendedor(idEmprendedor2);
-        paquete3.setProductos(crearProductos(5));
+        paquete3.setProductos(crearProductosDelPaquete(idsProductosDisponibles, 5));
 
         coleccion.insertOne(paquete1);
         coleccion.insertOne(paquete2);
         coleccion.insertOne(paquete3);
     }
 
-    private List<ProductosPaquete> crearProductos(int cantidad) {
+    /**
+     * Crea 5 productos reales en la colección "productos" y devuelve sus ids.
+     */
+    private List<String> crearProductosEnBD() {
+        List<String> ids = new ArrayList<>();
+        String[] nombres = {"Tomate", "Cebolla", "Pollo", "Arroz", "Frijol"};
+
+        for (String nombre : nombres) {
+            Producto p = new Producto();
+            p.setNombre(nombre);
+            p.setPeso(0.5f);
+            p.setUnidad(TipoUnidadProducto.PIEZA);
+            p.setPrecio(15f);
+            p.setIdEmprendedor(idEmprendedor1);
+            coleccionProductos.insertOne(p);
+            ids.add(p.getId());
+        }
+        return ids;
+    }
+
+    /**
+     * Crea referencias a productos del paquete usando los ids reales ya
+     * insertados.
+     */
+    private List<ProductosPaquete> crearProductosDelPaquete(List<String> idsDisponibles, int cantidad) {
         List<ProductosPaquete> productos = new ArrayList<>();
-        for (int i = 0; i < cantidad; i++) {
+        int max = Math.min(cantidad, idsDisponibles.size());
+        for (int i = 0; i < max; i++) {
             productos.add(new ProductosPaquete(
-                    new ObjectId().toHexString(),
+                    idsDisponibles.get(i),
                     1,
                     1.5f
             ));
@@ -85,10 +119,10 @@ public class PaquetesDAOTest {
         assertDoesNotThrow(() -> {
             Paquete nuevo = new Paquete();
             nuevo.setNombre("Paquete Nuevo");
-            nuevo.setTamaño(TamañoPaquete.CHICO);
+            nuevo.setTamaño(TamanoPaquete.CHICO);
             nuevo.setPrecio(100f);
             nuevo.setIdEmprendedor(idEmprendedor1);
-            nuevo.setProductos(crearProductos(1));
+            nuevo.setProductos(crearProductosDelPaquete(idsProductosDisponibles, 1));
 
             Paquete agregado = paquetesDAO.agregar(nuevo);
 
@@ -112,7 +146,6 @@ public class PaquetesDAOTest {
             assertNotNull(actualizado);
             assertEquals("Nombre Modificado", actualizado.getNombre());
             assertEquals(999f, actualizado.getPrecio());
-            // Lo demás no se debe haber cambiado
             assertEquals(original.getTamaño(), actualizado.getTamaño());
         });
     }
@@ -230,7 +263,6 @@ public class PaquetesDAOTest {
         assertDoesNotThrow(() -> {
             String idSinPaquetes = new ObjectId().toHexString();
             List<Paquete> resultados = paquetesDAO.obtenerPorEmprendedor(idSinPaquetes);
-
             assertNotNull(resultados);
             assertTrue(resultados.isEmpty());
         });

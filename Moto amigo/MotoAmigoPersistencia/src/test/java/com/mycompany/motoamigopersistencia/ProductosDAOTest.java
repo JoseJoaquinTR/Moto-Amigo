@@ -39,7 +39,7 @@ public class ProductosDAOTest {
  
         coleccion.deleteMany(new org.bson.Document());
  
-        idEmprendedor1 = new ObjectId().toHexString();
+        idEmprendedor1 =  "6a0d216d8655134c496f96d9";
         idEmprendedor2 = new ObjectId().toHexString();
  
         Producto producto1 = new Producto();
@@ -100,7 +100,6 @@ public class ProductosDAOTest {
             assertNotNull(actualizado);
             assertEquals("Nombre Modificado", actualizado.getNombre());
             assertEquals(999f, actualizado.getPrecio());
-            // Lo demás no se debe haber cambiado
             assertEquals(original.getUnidad(), actualizado.getUnidad());
         });
     }

@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.motoamigopresentacion;
+package com.mycompany.repartidorespresentacion;
 
 import Utilerias.OSMTileFactoryCustom;
 import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
-import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
-import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
+import com.mycompany.motoamigonegocio.Observers.EventoEntrega;
+import com.mycompany.motoamigonegocio.Observers.GestorNotificacionesEntrega;
 import com.mycompany.motoamigopresentacion.controladores.ControlRegistrarIncidente;
 import com.mycompany.motoamigopresentacion.controladores.ControlSeguimiento;
 import java.awt.BasicStroke;

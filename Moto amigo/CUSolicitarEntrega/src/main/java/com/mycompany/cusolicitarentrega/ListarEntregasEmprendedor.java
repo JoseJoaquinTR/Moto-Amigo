@@ -30,7 +30,7 @@ public class ListarEntregasEmprendedor implements IListarEntregasEmprendedor {
     }
 
     @Override
-    public List<EntregaDTO> listarEntregasEmprendedor(Long idEmprendedor) throws NegocioException {
+    public List<EntregaDTO> listarEntregasEmprendedor(String idEmprendedor) throws NegocioException {
         return fachada.obtenerEntregasEmprendedor(idEmprendedor);
     }
 }

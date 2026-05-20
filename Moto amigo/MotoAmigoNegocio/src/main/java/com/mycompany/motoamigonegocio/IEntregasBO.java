@@ -17,7 +17,7 @@ public interface IEntregasBO {
      * @return lista de entregas; vacía si no hay entregas.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    List<EntregaDTO> obtenerEntregasRepartidor(Long id) throws NegocioException;
+    List<EntregaDTO> obtenerEntregasRepartidor(String id) throws NegocioException;
 
     /**
      * Obtiene la lista de entregas asociadas al emprendedor indicado.
@@ -26,5 +26,13 @@ public interface IEntregasBO {
      * @return lista de entregas; vacía si no hay entregas.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    List<EntregaDTO> obtenerEntregasEmprendedor(Long id) throws NegocioException;
+    List<EntregaDTO> obtenerEntregasEmprendedor(String id) throws NegocioException;
+
+    /**
+     * Obtiene la lista de entregas disponibles.
+     *
+     * @return lista de entregas.
+     * @throws NegocioException si ocurre un error durante la consulta.
+     */
+    List<EntregaDTO> obtenerEntregasDisponibles() throws NegocioException;
 }

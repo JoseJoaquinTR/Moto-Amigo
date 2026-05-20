@@ -4,55 +4,73 @@
  */
 package com.mycompany.Entidades;
 
+import Enums.TipoEnvio;
+import java.time.LocalDateTime;
+import java.util.List;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
+
 /**
+ * Entidad de persistencia de una entrega. Vive en la colección "entregas".
  *
  * @author joset
  */
-
 public class Entrega {
-    private Long idEntrega;
-    private Long idEmprendedor;
-    private Long idRepartidor;
+
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String id;
+
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idEmprendedor;
+
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idRepartidor;
+
     private String direccionOrigen;
     private String direccionDestino;
-    private String tipoPaquete;
+
+    private TipoEnvio tipo;
+    private List<String> idsPaquetes;
+    private Sobre sobre;
+
     private String estadoEntrega;
-    private double pesoAprox;
+    private double pesoTotal;
+    private double distancia;
     private double costo;
 
-    public Entrega(Long idEntrega, Long idEmprendedor, Long idRepartidor, String direccionOrigen, String direccionDestino, String tipoPaquete, String estadoEntrega, double pesoAprox, double costo) {
-        this.idEntrega = idEntrega;
-        this.idEmprendedor = idEmprendedor;
-        this.idRepartidor = idRepartidor;
-        this.direccionOrigen = direccionOrigen;
-        this.direccionDestino = direccionDestino;
-        this.tipoPaquete = tipoPaquete;
-        this.estadoEntrega = estadoEntrega;
-        this.pesoAprox = pesoAprox;
-        this.costo = costo;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaEntrega;
+
+    @BsonIgnore
+    private List<Paquete> paquetesResueltos;
+
+    public Entrega() {
     }
 
-    public Long getIdEntrega() {
-        return idEntrega;
+    public String getId() {
+        return id;
     }
 
-    public void setIdEntrega(Long idEntrega) {
-        this.idEntrega = idEntrega;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public Long getIdEmprendedor() {
+    public String getIdEmprendedor() {
         return idEmprendedor;
     }
 
-    public void setIdEmprendedor(Long idEmprendedor) {
+    public void setIdEmprendedor(String idEmprendedor) {
         this.idEmprendedor = idEmprendedor;
     }
 
-    public Long getIdRepartidor() {
+    public String getIdRepartidor() {
         return idRepartidor;
     }
 
-    public void setIdRepartidor(Long idRepartidor) {
+    public void setIdRepartidor(String idRepartidor) {
         this.idRepartidor = idRepartidor;
     }
 
@@ -72,12 +90,28 @@ public class Entrega {
         this.direccionDestino = direccionDestino;
     }
 
-    public String getTipoPaquete() {
-        return tipoPaquete;
+    public TipoEnvio getTipo() {
+        return tipo;
     }
 
-    public void setTipoPaquete(String tipoPaquete) {
-        this.tipoPaquete = tipoPaquete;
+    public void setTipo(TipoEnvio tipo) {
+        this.tipo = tipo;
+    }
+
+    public List<String> getIdsPaquetes() {
+        return idsPaquetes;
+    }
+
+    public void setIdsPaquetes(List<String> idsPaquetes) {
+        this.idsPaquetes = idsPaquetes;
+    }
+
+    public Sobre getSobre() {
+        return sobre;
+    }
+
+    public void setSobre(Sobre sobre) {
+        this.sobre = sobre;
     }
 
     public String getEstadoEntrega() {
@@ -88,12 +122,20 @@ public class Entrega {
         this.estadoEntrega = estadoEntrega;
     }
 
-    public double getPesoAprox() {
-        return pesoAprox;
+    public double getPesoTotal() {
+        return pesoTotal;
     }
 
-    public void setPesoAprox(double pesoAprox) {
-        this.pesoAprox = pesoAprox;
+    public void setPesoTotal(double pesoTotal) {
+        this.pesoTotal = pesoTotal;
+    }
+
+    public double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(double distancia) {
+        this.distancia = distancia;
     }
 
     public double getCosto() {
@@ -104,5 +146,27 @@ public class Entrega {
         this.costo = costo;
     }
 
-    
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public LocalDateTime getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(LocalDateTime fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
+    public List<Paquete> getPaquetesResueltos() {
+        return paquetesResueltos;
+    }
+
+    public void setPaquetesResueltos(List<Paquete> paquetesResueltos) {
+        this.paquetesResueltos = paquetesResueltos;
+    }
 }

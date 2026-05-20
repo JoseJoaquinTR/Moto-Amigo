@@ -2,7 +2,6 @@ package com.mycompany.motoamigonegocio.fachada;
 
 import Repartidores.IRepartidoresBO;
 import Repartidores.RepartidoresBO;
-import com.mycompany.Entidades.Emprendedor;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.InformacionReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.InformacionReporteDesbloqueoDTO;
@@ -20,26 +19,39 @@ import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
-import com.mycompany.emprendedoresbo.EmprendedorBO;
+import com.mycompany.emprendedoresbo.EmprendedoresBO;
 import com.mycompany.motoamigonegocio.EntregasBO;
 import com.mycompany.motoamigonegocio.GestionRepartidores;
 import com.mycompany.emprendedoresbo.IEmprendedoresBO;
+import com.mycompany.emprendedoresbo.INegociosBO;
+import com.mycompany.emprendedoresbo.NegociosBO;
+import com.mycompany.emprendedoresdto.CuentaBancariaDTO;
+import com.mycompany.emprendedoresdto.CuentaUsuarioSesionDTO;
+import com.mycompany.emprendedoresdto.DireccionDTO;
+import com.mycompany.emprendedoresdto.DocumentoDTO;
+import com.mycompany.emprendedoresdto.ImagenDTO;
+import com.mycompany.emprendedoresdto.NegocioDTO;
+import com.mycompany.emprendedoresdto.RegistroEmprendedorDTO;
+import com.mycompany.emprendedoresdto.ReporteEmprendedoresDTO;
 import com.mycompany.motoamigonegocio.IEntregasBO;
 import com.mycompany.motoamigonegocio.IGestionRepartidores;
 import com.mycompany.motoamigonegocio.IIncidenteBO;
-import com.mycompany.reportes.IMotivosBO;
-import com.mycompany.reportes.IReportesBloqueoBO;
-import com.mycompany.reportes.IReportesDesbloqueosBO;
 import com.mycompany.motoamigonegocio.IRutaBO;
 import com.mycompany.motoamigonegocio.IUbicacionBO;
 import com.mycompany.motoamigonegocio.IncidenteBO;
-import com.mycompany.reportes.MotivosBO;
 import com.mycompany.motoamigonegocio.NegocioException;
-import com.mycompany.reportes.ReportesBloqueoBO;
-import com.mycompany.reportes.ReportesDesbloqueosBO;
+import com.mycompany.motoamigonegocio.Observers.IObservableEstatusEmprendedor;
+import com.mycompany.motoamigonegocio.Observers.ObservadorEstatusEmprendedor;
 import com.mycompany.motoamigonegocio.RutaBO;
 import com.mycompany.motoamigonegocio.UbicacionBO;
+import com.mycompany.reportes.IMotivosBO;
+import com.mycompany.reportes.IReportesBloqueoBO;
+import com.mycompany.reportes.IReportesDesbloqueosBO;
+import com.mycompany.reportes.MotivosBO;
+import com.mycompany.reportes.ReportesBloqueoBO;
+import com.mycompany.reportes.ReportesDesbloqueosBO;
 import enums.Estado;
+import enums.EstatusEmprendedorDTO;
 import enums.Tipo;
 import java.util.List;
 
@@ -52,7 +64,8 @@ import java.util.List;
 public class FachadaNegocio implements IFachadaNegocio {
 
     private final IRutaBO rutaBO;
-    private final IEmprendedoresBO emprendedorBO;
+    private final IEmprendedoresBO emprendedoresBO;
+    private final INegociosBO negociosBO;
     private final IRepartidoresBO repartidoresBO;
     private final IEntregasBO entregasBO;
     private final IUbicacionBO ubicacionBO;
@@ -86,9 +99,11 @@ public class FachadaNegocio implements IFachadaNegocio {
             IIncidenteBO incidenteBO,
             IMotivosBO motivosBO,
             IReportesBloqueoBO reportesBloqueoBO,
-            IReportesDesbloqueosBO reportesDesbloqueosBO) {
+            IReportesDesbloqueosBO reportesDesbloqueosBO,
+            INegociosBO negociosBO
+    ) {
         this.rutaBO = rutaBO;
-        this.emprendedorBO = emprendedorBO;
+        this.emprendedoresBO = emprendedorBO;
         this.repartidoresBO = repartidoresBO;
         this.entregasBO = entregasBO;
         this.ubicacionBO = ubicacionBO;
@@ -97,6 +112,7 @@ public class FachadaNegocio implements IFachadaNegocio {
         this.motivosBO = motivosBO;
         this.reportesBloqueoBO = reportesBloqueoBO;
         this.reportesDesbloqueosBO = reportesDesbloqueosBO;
+        this.negociosBO = negociosBO;
     }
 
     /**
@@ -107,7 +123,7 @@ public class FachadaNegocio implements IFachadaNegocio {
     public static FachadaNegocio crear() {
         return new FachadaNegocio(
                 new RutaBO(MapBoxService.getInstance()),
-                new EmprendedorBO(),
+                EmprendedoresBO.getInstancia(),
                 new RepartidoresBO(),
                 EntregasBO.getInstance(),
                 UbicacionBO.getInstancia(),
@@ -115,13 +131,9 @@ public class FachadaNegocio implements IFachadaNegocio {
                 IncidenteBO.getInstancia(),
                 MotivosBO.getInstancia(),
                 ReportesBloqueoBO.getInstancia(),
-                ReportesDesbloqueosBO.getInstancia()
+                ReportesDesbloqueosBO.getInstancia(),
+                NegociosBO.getInstancia()
         );
-    }
-
-    @Override
-    public Emprendedor registrarEmprendedor(EmprendedorDTO emprendedorDTO) throws NegocioException {
-        return emprendedorBO.registrarEmprendedor(emprendedorDTO);
     }
 
     @Override
@@ -160,17 +172,17 @@ public class FachadaNegocio implements IFachadaNegocio {
     }
 
     @Override
-    public EmprendedorDTO obtenerEmprendedorPorId(Long id) throws NegocioException {
-        return emprendedorBO.obtenerEmprendedorPorId(id);
+    public EmprendedorDTO obtenerEmprendedorPorId(String id) throws NegocioException {
+        return emprendedoresBO.obtenerEmprendedorPorID(id);
     }
 
     @Override
-    public List<EntregaDTO> obtenerEntregasRepartidor(Long idRepartidor) throws NegocioException {
+    public List<EntregaDTO> obtenerEntregasRepartidor(String idRepartidor) throws NegocioException {
         return entregasBO.obtenerEntregasRepartidor(idRepartidor);
     }
 
     @Override
-    public List<EntregaDTO> obtenerEntregasEmprendedor(Long idEmprendedor) throws NegocioException {
+    public List<EntregaDTO> obtenerEntregasEmprendedor(String idEmprendedor) throws NegocioException {
         return entregasBO.obtenerEntregasEmprendedor(idEmprendedor);
     }
 
@@ -263,5 +275,86 @@ public class FachadaNegocio implements IFachadaNegocio {
     @Override
     public RepartidorDTO incrementarNumeroBloqueos(String id) throws NegocioException {
         return repartidoresBO.incrementarNumeroBloqueos(id);
+    }
+
+    @Override
+    public List<EntregaDTO> obtenerEntregasDisponibles() throws NegocioException {
+
+        return entregasBO.obtenerEntregasDisponibles();
+    }
+
+    @Override
+    public EmprendedorDTO registrarEmprendedor(RegistroEmprendedorDTO dto) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public EmprendedorDTO actualizarEstatusEmprendedor(String idEmprendedor, EstatusEmprendedorDTO estatus) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public EmprendedorDTO obtenerEmprendedorPorID(String idEmprendedor) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<EmprendedorDTO> consultarEmprendedores() throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ReporteEmprendedoresDTO generarDatosReportePDF() throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public CuentaBancariaDTO obtenerCuentaBancariaPorIdEmprendedor(String idEmprendedor) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ImagenDTO actualizarImagen(String idEmprendedor, ImagenDTO imagen) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ImagenDTO obtenerImagenPorIdEmprendedor(String idEmprendedor) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public DocumentoDTO actualizarDocumento(String idEmprendedor, DocumentoDTO documento) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public DocumentoDTO obtenerDocumentoPorIdEmprendedor(String idEmprendedor) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public CuentaUsuarioSesionDTO buscarCuenta(String correo) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public NegocioDTO registrarNegocio(String idEmprendedor, NegocioDTO dto) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public NegocioDTO obtenerNegocioPorIdEmprendedor(String idEmprendedor) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public DireccionDTO obtenerDireccionPorIdNegocio(String idNegocio) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public DireccionDTO actualizarDireccion(String idNegocio, DireccionDTO direccion) throws NegocioException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

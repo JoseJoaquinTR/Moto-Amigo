@@ -61,7 +61,8 @@ public class CuentasDAOTest {
     @Test
     public void buscarCuentaOK() {
         assertDoesNotThrow(() -> {
-            CuentaUsuario cuenta = cuentasDAO.buscarCuenta("isaac@gmail.com");
+            Emprendedor usuario = cuentasDAO.buscarCuentaPorCorreo("isaac@gmail.com");
+            CuentaUsuario cuenta = usuario.getCuentaUsuario();
 
             assertNotNull(cuenta);
             assertEquals("isaac@gmail.com", cuenta.getCorreo());

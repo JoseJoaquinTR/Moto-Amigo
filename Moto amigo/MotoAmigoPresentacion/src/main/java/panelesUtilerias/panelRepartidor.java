@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.emprendedorpresentacion;
+package panelesUtilerias;
 
 import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import javax.swing.JPanel;
@@ -101,9 +102,11 @@ public class panelRepartidor extends javax.swing.JPanel {
         if(evt.getStateChange() == ItemEvent.SELECTED){
             lblConexion.setText("Conectado");
             lblConexion.setForeground(Color.GREEN);
-            if(panelDestino != null){
-                ControlMenuPrincipal.getInstance().cargarEntregas(panelDestino, 1L, "repartidor");
+            String idRepartidor = SesionActiva.getInstancia().getIdRepartidor();
+            if (idRepartidor == null) {
+                return;
             }
+            ControlMenuPrincipal.getInstance().cargarEntregasRepartidor(panelDestino, idRepartidor);
         }else{
             lblConexion.setText("Desconectado");
             lblConexion.setForeground(new Color(156,163,175));

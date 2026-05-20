@@ -1,63 +1,102 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.motoamigopersistencia;
 
+import Adapter.AdapterStringAObjectID;
+import com.mongodb.MongoException;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mycompany.Entidades.Entrega;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mongodb.client.model.Filters.eq;
+
 /**
+ * DAO para consultar entregas desde MongoDB.
+ *
  *
  * @author Jesus Omar
  */
-public class EntregasDAO implements IEntregasDAO{
+public class EntregasDAO implements IEntregasDAO {
+
+    private static final String NOMBRE_COLECCION = "entregas";
 
     private static EntregasDAO instancia;
-    
-    private EntregasDAO(){
-        
+
+    private final MongoCollection<Entrega> coleccion;
+
+    private EntregasDAO() {
+        MongoDatabase baseDatos = ManejadorConexiones.getInstancia().obtenerBaseDatos();
+        this.coleccion = baseDatos.getCollection(NOMBRE_COLECCION, Entrega.class);
     }
-    
-    public static EntregasDAO getInstancia(){
+
+    public static synchronized EntregasDAO getInstancia() {
         if (instancia == null) {
             instancia = new EntregasDAO();
         }
         return instancia;
     }
-    
+
     @Override
-    public List<Entrega> obtenerEntregasRepartidor(Long id) {
-        List<Entrega> entregasRepartidor = new ArrayList<>();
-        List<Entrega> entregas = obtenerTodasLasEntregas();
-        for(Entrega e : entregas){
-            if(e.getIdRepartidor().equals(id)){
-                entregasRepartidor.add(e);
-            }
+    public List<Entrega> obtenerTodasLasEntregas() throws PersistenciaException {
+        try {
+            List<Entrega> entregas = new ArrayList<>();
+            coleccion.find().into(entregas);
+            return entregas;
+        } catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar todas las entregas.", ex);
         }
-        return entregasRepartidor;
     }
 
     @Override
-    public List<Entrega> obtenerTodasLasEntregas() {
-        List<Entrega> listaEntregas = new ArrayList<>();
-        listaEntregas.add(new Entrega(1L, 2L, 1L, "Cananea 456", "Norte 322", "Caja", "En camino", 0, 45));
-        listaEntregas.add(new Entrega(2L, 2L, 1L, "Amberes 111", "Antonio Ocaso 782", "Caja", "En camino", 0, 10));
-        listaEntregas.add(new Entrega(3L, 2L, 1L, "Morelos 834", "Michoacan 567", "Caja", "En camino", 0, 100));
-        return listaEntregas;
+    public List<Entrega> obtenerEntregasRepartidor(String id) throws PersistenciaException {
+        try {
+            List<Entrega> entregas = new ArrayList<>();
+
+            if (id == null) {
+                return entregas;
+            }
+
+            coleccion.find(eq("idRepartidor", AdapterStringAObjectID.aObjectId(id))).into(entregas);
+
+            return entregas;
+        } catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar entregas del repartidor.", ex);
+        }
+    }
+     @Override
+    public List<Entrega> obtenerEntregasDisponibles() throws PersistenciaException {
+        try {
+            List<Entrega> entregas = new ArrayList<>();
+            coleccion.find(eq("estadoEntrega", "DISPONIBLE")).into(entregas);
+            return entregas;
+        } catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar entregas disponibles.", ex);
+        }
+    }
+    @Override
+    public List<Entrega> obtenerEntregasEmprendedor(String id) throws PersistenciaException {
+        try {
+            List<Entrega> entregas = new ArrayList<>();
+
+            if (id == null) {
+                return entregas;
+            }
+
+            coleccion.find(eq("idEmprendedor", AdapterStringAObjectID.aObjectId(id))).into(entregas);
+
+            return entregas;
+        } catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar entregas del emprendedor.", ex);
+        }
     }
 
     @Override
-    public List<Entrega> obtenerEntregasEmprendedor(Long id) {
-        List<Entrega> entregasEmprendedor = new ArrayList<>();
-        List<Entrega> entregas = obtenerTodasLasEntregas();
-        for(Entrega e : entregas){
-            if(e.getIdEmprendedor().equals(id)){
-                entregasEmprendedor.add(e);
-            }
+    public Entrega agregar(Entrega entrega) throws PersistenciaException {
+        try {
+            coleccion.insertOne(entrega);
+            return entrega;
+        } catch (MongoException ex) {
+            throw new PersistenciaException("Error al agregar la entrega.", ex);
         }
-        return entregasEmprendedor;
     }
-    
 }

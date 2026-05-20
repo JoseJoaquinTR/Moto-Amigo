@@ -1,6 +1,7 @@
 package com.mycompany.emprendedoresdao;
 
 import com.mycompany.Entidades.CuentaUsuario;
+import com.mycompany.Entidades.Emprendedor;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 
 /**
@@ -11,12 +12,16 @@ public interface ICuentasDAO {
 
     /**
      * Busca una cuenta que coincida con el correo que se mando
+     * y te regresa el emprendedor que tiene la cuenta, este 
+     * metodo regresa un emprendedor por que la DTO de CuentaUsuarioSesion
+     * necesita el id y estatus del emprendedor, ademas de las credenciales
+     * de la cuenta
      *
      * @param correo el correo de la cuenta que se buscara
      * @return la cuenta que coincide ocn el correo
      * @throws PersistenciaException
-     */
-    CuentaUsuario buscarCuenta(String correo) throws PersistenciaException;
+     */     
+    Emprendedor buscarCuentaPorCorreo(String correo) throws PersistenciaException;
 
     /**
      * Activa la cuenta del emprendedor que tiene el id que se recibe como

@@ -1,4 +1,4 @@
-package com.mycompany.motoamigonegocio.Observer;
+package com.mycompany.motoamigonegocio.Observers;
 
 /**
  * Subject del patrón Observer para los eventos de entrega.

@@ -6,6 +6,7 @@ import com.mycompany.Entidades.CuentaUsuario;
 import com.mycompany.Entidades.Direccion;
 import com.mycompany.Entidades.Documento;
 import com.mycompany.Entidades.Emprendedor;
+import com.mycompany.Entidades.Entrega;
 import com.mycompany.Entidades.Imagen;
 import enums.Estado;
 import com.mycompany.Entidades.Motivo;
@@ -15,7 +16,6 @@ import com.mycompany.Entidades.Producto;
 import com.mycompany.Entidades.Repartidor;
 import com.mycompany.Entidades.ReporteBloqueo;
 import com.mycompany.Entidades.ReporteDesbloqueo;
-import enums.Tipo;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
@@ -45,6 +45,7 @@ import java.util.List;
 import com.mycompany.motoamigopersistencia.IRepartidoresDAO;
 import com.mycompany.paquetesdao.IPaquetesDAO;
 import com.mycompany.productosdao.IProductosDAO;
+import enums.Tipo;
 
 /**
  *
@@ -268,8 +269,8 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     }
 
     @Override
-    public CuentaUsuario buscarCuentaPorCorreo(String correo) throws PersistenciaException {
-        return cuentasDAO.buscarCuenta(correo);
+    public Emprendedor buscarCuentaPorCorreo(String correo) throws PersistenciaException {
+        return cuentasDAO.buscarCuentaPorCorreo(correo);
     }
 
     @Override
@@ -317,4 +318,27 @@ public class FachadaPersistencia implements IFachadaPersistencia {
         return direccionesDAO.obtenerDireccionPorIdNegocio(idNegocio);
     }
 
+    @Override
+    public Entrega agregarEntrega(Entrega entrega) throws PersistenciaException {
+        return EntregasDAO.getInstancia().agregar(entrega);
+    }
+
+    @Override
+    public List<Entrega> obtenerTodasLasEntregas() throws PersistenciaException {
+        return EntregasDAO.getInstancia().obtenerTodasLasEntregas();
+    }
+
+    @Override
+    public List<Entrega> obtenerEntregasRepartidor(String idRepartidor) throws PersistenciaException {
+        return EntregasDAO.getInstancia().obtenerEntregasRepartidor(idRepartidor);
+    }
+
+    @Override
+    public List<Entrega> obtenerEntregasEmprendedor(String idEmprendedor) throws PersistenciaException {
+        return EntregasDAO.getInstancia().obtenerEntregasEmprendedor(idEmprendedor);
+    }
+    @Override
+    public List<Entrega> obtenerEntregasDisponibles() throws PersistenciaException {
+        return EntregasDAO.getInstancia().obtenerEntregasDisponibles();
+    }
 }

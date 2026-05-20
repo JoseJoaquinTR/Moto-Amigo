@@ -4,12 +4,7 @@
  */
 package enums;
 
-/**
- * Tamaños posibles de un paquete. Versión DTO del enum.
- * @author joset
- */
-public enum TamañoPaqueteDTO {
-    CHICO,
-    MEDIANO,
-    GRANDE
+public enum TipoEnvioDTO {
+    PAQUETES,
+    SOBRE
 }

@@ -4,7 +4,6 @@
  */
 package com.mycompany.motoamigopresentacion;
 
-import com.mycompany.repartidorespresentacion.FrmSeguimientoEnTiempoRealEmprendedor;
 import Utilerias.OSMTileFactoryCustom;
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;

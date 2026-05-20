@@ -1,4 +1,4 @@
-package com.mycompany.repartidorespresentacion;
+package com.mycompany.motoamigopresentacion;
 
 import com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor;
 import Utilerias.OSMTileFactoryCustom;
@@ -6,9 +6,9 @@ import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
-import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
-import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
-import com.mycompany.motoamigonegocio.Observer.INotificacionPedido;
+import com.mycompany.motoamigonegocio.Observers.EventoEntrega;
+import com.mycompany.motoamigonegocio.Observers.GestorNotificacionesEntrega;
+import com.mycompany.motoamigonegocio.Observers.INotificacionPedido;
 import com.mycompany.motoamigopresentacion.controladores.ControlSeguimiento;
 import java.awt.BorderLayout;
 import java.time.LocalTime;

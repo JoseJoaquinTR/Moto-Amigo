@@ -2,16 +2,11 @@ package fachada;
 
 import Enums.EstatusEmprendedor;
 import enums.Estado;
-import enums.Tipo;
 import com.mycompany.Entidades.*;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
-import com.mycompany.paquetesdto.EditarPaqueteDTO;
-import com.mycompany.productosdto.EditarProductoDTO;
-import com.mycompany.paquetesdto.NuevoPaqueteDTO;
-import com.mycompany.productosdto.NuevoProductoDTO;
 import com.mycompany.motoamigopersistencia.*;
 import java.util.List;
 
@@ -63,7 +58,7 @@ public interface IFachadaPersistencia {
 
     List<ReporteDesbloqueo> consultarReportesDesbloqueos(FiltrosDTO filtros) throws PersistenciaException;
 
-    List<Motivo> obtenerMotivos(Tipo tipo);
+    List<Motivo> obtenerMotivos(enums.Tipo tipo);
 
     List<Repartidor> obtenerRepartidores() throws PersistenciaException;
 
@@ -73,7 +68,7 @@ public interface IFachadaPersistencia {
 
     Repartidor consultarRepartidorPorId(String id) throws PersistenciaException;
 
-    boolean existeMotivo(MotivoDTO motivo, Tipo tipo) throws PersistenciaException;
+    boolean existeMotivo(MotivoDTO motivo, enums.Tipo tipo) throws PersistenciaException;
 
     Repartidor incrementarNumeroBloqueos(String id) throws PersistenciaException;
 
@@ -90,7 +85,7 @@ public interface IFachadaPersistencia {
 
     Negocio obtenerNegocioPorIdEmprendedor(String idEmprendedor) throws PersistenciaException;
 
-    CuentaUsuario buscarCuentaPorCorreo(String correo) throws PersistenciaException;
+    Emprendedor buscarCuentaPorCorreo(String correo) throws PersistenciaException;
 
     void activarCuenta(String idEmprendedor) throws PersistenciaException;
 
@@ -109,4 +104,15 @@ public interface IFachadaPersistencia {
     Direccion actualizarDireccion(String idNegocio, Direccion direccion) throws PersistenciaException;
 
     Direccion obtenerDireccionPorIdNegocio(String idNegocio) throws PersistenciaException;
+
+    //CUBase
+    Entrega agregarEntrega(Entrega entrega) throws PersistenciaException;
+
+    List<Entrega> obtenerTodasLasEntregas() throws PersistenciaException;
+
+    List<Entrega> obtenerEntregasRepartidor(String idRepartidor) throws PersistenciaException;
+
+    List<Entrega> obtenerEntregasEmprendedor(String idEmprendedor) throws PersistenciaException;
+
+    List<Entrega> obtenerEntregasDisponibles() throws PersistenciaException;
 }

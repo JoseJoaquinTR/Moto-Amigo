@@ -1,6 +1,7 @@
 
 package com.mycompany.Entidades;
 
+import Enums.TamanoPaquete;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.BsonType;
@@ -19,12 +20,11 @@ public class Paquete {
     private String id;
 
     private String nombre;
-    private TamañoPaquete tamaño;
+    private TamanoPaquete tamaño;
     private List<ProductosPaquete> productos;
     private float precio;
     private byte[] imagen;
     
-    @BsonIgnore 
     private List<Producto> productosResueltos;
 
     @BsonRepresentation(BsonType.OBJECT_ID)
@@ -34,7 +34,7 @@ public class Paquete {
         this.productos = new ArrayList<>();
     }
 
-    public Paquete(String nombre, TamañoPaquete tamaño, List<ProductosPaquete> productos,
+    public Paquete(String nombre, TamanoPaquete tamaño, List<ProductosPaquete> productos,
             float precio, byte[] imagen, String idEmprendedor) {
         this.nombre = nombre;
         this.tamaño = tamaño;
@@ -44,7 +44,7 @@ public class Paquete {
         this.idEmprendedor = idEmprendedor;
     }
 
-    public Paquete(String id, String nombre, TamañoPaquete tamaño,
+    public Paquete(String id, String nombre, TamanoPaquete tamaño,
             List<ProductosPaquete> productos, float precio, byte[] imagen,
             String idEmprendedor) {
         this.id = id;
@@ -72,11 +72,11 @@ public class Paquete {
         this.nombre = nombre;
     }
 
-    public TamañoPaquete getTamaño() {
+    public TamanoPaquete getTamaño() {
         return tamaño;
     }
 
-    public void setTamaño(TamañoPaquete tamaño) {
+    public void setTamaño(TamanoPaquete tamaño) {
         this.tamaño = tamaño;
     }
 
