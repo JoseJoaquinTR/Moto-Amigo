@@ -17,5 +17,5 @@ public interface IBuscarEmprendedorPorId {
      * @return datos del emprendedor; null si no se encuentra.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    EmprendedorDTO buscarEmprendedorPorId(Long id) throws NegocioException;
+    EmprendedorDTO buscarEmprendedorPorId(String id) throws NegocioException;
 }

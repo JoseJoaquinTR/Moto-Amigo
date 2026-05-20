@@ -66,7 +66,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
-        <exec.mainClass>com.mycompany.motoamigopresentacion.Main</exec.mainClass>
+        <exec.mainClass>com.mycompany.motoamigopresentacion.MainEmprendedor</exec.mainClass>
     </properties>
     <build>
         <plugins>

@@ -5,7 +5,7 @@
 package com.mycompany.paquetesdto;
 
 import com.mycompany.paquetesdto.ProductosPaqueteDTO;
-import enums.TamañoPaqueteDTO;
+import enums.TamanoPaqueteDTO;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
 public class NuevoPaqueteDTO {
 
     private String nombre;
-    private TamañoPaqueteDTO tamaño;
+    private TamanoPaqueteDTO tamaño;
     private List<ProductosPaqueteDTO> productos;
     private float precio;
     private byte[] imagen;
@@ -24,7 +24,7 @@ public class NuevoPaqueteDTO {
     public NuevoPaqueteDTO() {
     }
 
-    public NuevoPaqueteDTO(String nombre, TamañoPaqueteDTO tamaño,
+    public NuevoPaqueteDTO(String nombre, TamanoPaqueteDTO tamaño,
             List<ProductosPaqueteDTO> productos, float precio,
             byte[] imagen, String idEmprendedor) {
         this.nombre = nombre;
@@ -43,11 +43,11 @@ public class NuevoPaqueteDTO {
         this.nombre = nombre;
     }
 
-    public TamañoPaqueteDTO getTamaño() {
+    public TamanoPaqueteDTO getTamaño() {
         return tamaño;
     }
 
-    public void setTamaño(TamañoPaqueteDTO tamaño) {
+    public void setTamaño(TamanoPaqueteDTO tamaño) {
         this.tamaño = tamaño;
     }
 

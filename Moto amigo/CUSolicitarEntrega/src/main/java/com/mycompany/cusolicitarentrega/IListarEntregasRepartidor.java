@@ -18,5 +18,7 @@ public interface IListarEntregasRepartidor {
      * @return lista de entregas; vacía si no hay entregas.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    List<EntregaDTO> listarEntregasRepartidor(Long idRepartidor) throws NegocioException;
+    List<EntregaDTO> listarEntregasRepartidor(String idRepartidor) throws NegocioException;
+    
+    List<EntregaDTO> obtenerEntregasDisponibles() throws NegocioException;
 }

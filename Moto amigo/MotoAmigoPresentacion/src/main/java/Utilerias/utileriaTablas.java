@@ -196,7 +196,7 @@ public final class utileriaTablas {
         }
     }
 
-    private static float calcularPesoPaquete(List<ProductosPaqueteDTO> productos) {
+    public static float calcularPesoPaquete(List<ProductosPaqueteDTO> productos) {
         if (productos == null || productos.isEmpty()) {
             return 0.0f;
         }

@@ -29,7 +29,7 @@ public class BuscarEmprendedorPorId implements IBuscarEmprendedorPorId {
     }
 
     @Override
-    public EmprendedorDTO buscarEmprendedorPorId(Long id) throws NegocioException {
+    public EmprendedorDTO buscarEmprendedorPorId(String id) throws NegocioException {
         return fachada.obtenerEmprendedorPorId(id);
     }
 }

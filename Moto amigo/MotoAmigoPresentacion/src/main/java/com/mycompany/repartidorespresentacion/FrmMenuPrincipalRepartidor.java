@@ -4,7 +4,6 @@
  */
 package com.mycompany.repartidorespresentacion;
 
-import com.mycompany.emprendedorpresentacion.FrmPublicarPedidoRepartidor;
 import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
@@ -12,6 +11,7 @@ import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
 import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
 import com.mycompany.motoamigonegocio.Observer.INotificacionPedido;
 import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -37,7 +37,8 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements IN
         pnlListaEnvios.setBorder(null);
         utileriasBotones.panelRedondeado(panelRepartidor, new Color(29, 38, 59), 30);
         panelRepartidor.setPanel(this.pnlListaEnvios);
-        RepartidorDTO repartidor = ControlMenuPrincipal.getInstance().buscarRepartidorPorId("1L");
+
+        RepartidorDTO repartidor = SesionActiva.getInstancia().getRepartidor();
         panelRepartidor.cargarDatosRepartidor(repartidor);
     }
     
@@ -52,7 +53,7 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements IN
 
         pnlMenuInferior = new javax.swing.JPanel();
         pnlCentral = new javax.swing.JPanel();
-        panelRepartidor = new com.mycompany.emprendedorpresentacion.panelRepartidor();
+        panelRepartidor = new panelesUtilerias.panelRepartidor();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlListaEnvios = new javax.swing.JPanel();
 
@@ -122,7 +123,7 @@ public class FrmMenuPrincipalRepartidor extends javax.swing.JFrame implements IN
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private com.mycompany.emprendedorpresentacion.panelRepartidor panelRepartidor;
+    private panelesUtilerias.panelRepartidor panelRepartidor;
     private javax.swing.JPanel pnlCentral;
     private javax.swing.JPanel pnlListaEnvios;
     private javax.swing.JPanel pnlMenuInferior;

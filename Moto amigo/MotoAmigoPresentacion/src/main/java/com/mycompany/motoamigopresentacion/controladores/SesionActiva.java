@@ -1,6 +1,7 @@
 package com.mycompany.motoamigopresentacion.controladores;
 
 import com.mycompany.emprendedoresdto.CuentaUsuarioSesionDTO;
+import com.mycompany.motoamigodto.RepartidorDTO;
 
 /**
  * Singleton que mantiene el emprendedor logueado durante toda la sesión de la
@@ -16,6 +17,7 @@ public class SesionActiva {
     private static SesionActiva instancia;
 
     private CuentaUsuarioSesionDTO cuenta;
+    private RepartidorDTO repartidor;
 
     private SesionActiva() {
     }
@@ -46,8 +48,30 @@ public class SesionActiva {
     /**
      * Cierra la sesión activa. Útil cuando se implemente "Cerrar sesión".
      */
-    public void cerrarSesion() {
+    public void cerrarSesionEmprendedor() {
         this.cuenta = null;
     }
+    
+    /**
+     * Cierra la sesión activa. Útil cuando se implemente "Cerrar sesión".
+     */
+    public void cerrarSesionRepartidor() {
+        this.repartidor = null;
+    }
+    
+    public RepartidorDTO getRepartidor() {
+        return repartidor;
+    }
 
+    public void setRepartidor(RepartidorDTO repartidor) {
+        this.repartidor = repartidor;
+    }
+
+    public String getIdRepartidor() {
+        return repartidor != null ? repartidor.getId() : null;
+    }
+
+    public boolean esRepartidor() {
+        return repartidor != null;
+    }
 }

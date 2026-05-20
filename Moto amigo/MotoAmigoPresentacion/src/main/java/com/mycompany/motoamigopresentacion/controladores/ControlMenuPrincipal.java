@@ -12,7 +12,7 @@ import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
-import com.mycompany.emprendedorpresentacion.FrmPublicarPedidoRepartidor;
+import com.mycompany.repartidorespresentacion.FrmPublicarPedidoRepartidor;
 import com.mycompany.emprendedorpresentacion.FrmPublicarPedidosEmprendedor;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -63,7 +63,8 @@ public class ControlMenuPrincipal {
      * Busca un repartidor por su identificador.
      *
      * @param id identificador del repartidor.
-     * @return datos del repartidor; null si no se encuentra o si ocurre un error.
+     * @return datos del repartidor; null si no se encuentra o si ocurre un
+     * error.
      */
     public RepartidorDTO buscarRepartidorPorId(String id) {
         try {
@@ -78,7 +79,8 @@ public class ControlMenuPrincipal {
      * Busca un emprendedor por su identificador.
      *
      * @param id identificador del emprendedor.
-     * @return datos del emprendedor; null si no se encuentra o si ocurre un error.
+     * @return datos del emprendedor; null si no se encuentra o si ocurre un
+     * error.
      */
 //    public EmprendedorDTO buscarEmprendedorPorId(Long id) {
 //        try {
@@ -88,7 +90,6 @@ public class ControlMenuPrincipal {
 //            return null;
 //        }
 //    }
-
     /**
      * Obtiene la lista de entregas según el filtro indicado.
      *
@@ -97,8 +98,11 @@ public class ControlMenuPrincipal {
      * para entregas del emprendedor.
      * @return lista de entregas; lista vacía si ocurre un error.
      */
-    private List<EntregaDTO> obtenerEntregas(Long id, String filtro) {
+    private List<EntregaDTO> obtenerEntregas(String id, String filtro) {
         try {
+            if ("disponibles".equals(filtro)) {
+                return cuEntregasRepartidor.obtenerEntregasDisponibles();
+            }
             if ("repartidor".equals(filtro)) {
                 return cuEntregasRepartidor.listarEntregasRepartidor(id);
             }
@@ -110,14 +114,14 @@ public class ControlMenuPrincipal {
     }
 
     /**
-     * Carga las entregas en el panel indicado, generando una tarjeta visual
-     * por cada entrega encontrada.
+     * Carga las entregas en el panel indicado, generando una tarjeta visual por
+     * cada entrega encontrada.
      *
      * @param panel panel donde se renderizarán las tarjetas.
      * @param id identificador del repartidor o del emprendedor.
      * @param filtro "repartidor" o "emprendedor".
      */
-    public void cargarEntregas(JPanel panel, Long id, String filtro) {
+    public void cargarEntregasEmprendedor(JPanel panel, String id, String filtro) {
         List<EntregaDTO> entregas = obtenerEntregas(id, filtro);
         panel.removeAll();
         panel.setBorder(BorderFactory.createEmptyBorder(20, 10, 0, 10));
@@ -137,6 +141,50 @@ public class ControlMenuPrincipal {
     }
 
     /**
+     * Carga en el panel las entregas activas del repartidor (en curso) y las
+     * entregas disponibles que puede tomar. Las en curso aparecen primero.
+     */
+    public void cargarEntregasRepartidor(JPanel panel, String idRepartidor) {
+        try {
+            List<EntregaDTO> enCurso = idRepartidor != null
+                    ? cuEntregasRepartidor.listarEntregasRepartidor(idRepartidor)
+                    : Collections.emptyList();
+
+            List<EntregaDTO> disponibles = cuEntregasRepartidor.obtenerEntregasDisponibles();
+
+            panel.removeAll();
+            panel.setBorder(BorderFactory.createEmptyBorder(20, 10, 0, 10));
+
+            // Primero las en curso (lo prioritario para el repartidor)
+            for (EntregaDTO entrega : enCurso) {
+                agregarTarjeta(panel, entrega);
+            }
+            // Después las disponibles
+            for (EntregaDTO entrega : disponibles) {
+                agregarTarjeta(panel, entrega);
+            }
+
+            panel.revalidate();
+            panel.repaint();
+        } catch (NegocioException ex) {
+            Logger.getLogger(ControlMenuPrincipal.class.getName())
+                    .log(Level.SEVERE, "Error listando entregas del repartidor", ex);
+        }
+    }
+
+    private void agregarTarjeta(JPanel panel, EntregaDTO entrega) {
+        PanelTarjetaPedido tarjetaPedido = new PanelTarjetaPedido();
+        tarjetaPedido.cargarDatosEnTarjeta(entrega);
+        tarjetaPedido.setBackground(new Color(248, 249, 250));
+        tarjetaPedido.setOpaque(true);
+        Border margenExterior = BorderFactory.createEmptyBorder(0, 10, 15, 10);
+        Border lineaSuave = BorderFactory.createLineBorder(new Color(222, 226, 230), 1);
+        tarjetaPedido.setBorder(BorderFactory.createCompoundBorder(margenExterior, lineaSuave));
+        tarjetaPedido.setMaximumSize(new Dimension(Integer.MAX_VALUE, tarjetaPedido.getPreferredSize().height));
+        panel.add(tarjetaPedido);
+    }
+
+    /**
      * Abre la pantalla de publicación de pedido del emprendedor.
      */
     public void abrirPantallaEnvioEmpr() {
@@ -149,14 +197,17 @@ public class ControlMenuPrincipal {
      * @param entrega entrega cuyo detalle se mostrará.
      */
     public void mostrarDetallePedido(EntregaDTO entrega) {
-        SolicitudEntregaDTO solicitud = new SolicitudEntregaDTO(
-                entrega.getDireccionOrigen(),
-                entrega.getDireccionDestino(),
-                entrega.getTipoPaquete(),
-                entrega.getPesoAprox(),
-                entrega.getEstadoEntrega(),
-                0
-        );
+        SolicitudEntregaDTO solicitud = new SolicitudEntregaDTO();
+        solicitud.setOrigen(entrega.getDireccionOrigen());
+        solicitud.setDestino(entrega.getDireccionDestino());
+        solicitud.setTipo(entrega.getTipo());
+        solicitud.setPaquetes(entrega.getPaquetes());
+        solicitud.setSobre(entrega.getSobre());
+        solicitud.setDistancia(entrega.getDistancia());
+        solicitud.setIdEmprendedor(entrega.getIdEmprendedor());
+        solicitud.setPesoTotal(entrega.getPesoTotal());
+        solicitud.setCosto(entrega.getCosto());
+        solicitud.setEstado(entrega.getEstadoEntrega());
         new FrmPublicarPedidoRepartidor(solicitud).setVisible(true);
     }
 }

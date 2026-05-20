@@ -18,7 +18,7 @@ public interface IEmprendedoresBO {
      * @return datos del emprendedor; null si no se encuentra.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    EmprendedorDTO obtenerEmprendedorPorId(Long id) throws NegocioException;
+    EmprendedorDTO obtenerEmprendedorPorId(String id) throws NegocioException;
 
     /**
      * Registra un nuevo emprendedor en el sistema.

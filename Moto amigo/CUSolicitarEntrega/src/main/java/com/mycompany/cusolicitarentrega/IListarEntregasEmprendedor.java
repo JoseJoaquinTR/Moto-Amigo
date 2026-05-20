@@ -18,5 +18,5 @@ public interface IListarEntregasEmprendedor {
      * @return lista de entregas; vacía si no hay entregas.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    List<EntregaDTO> listarEntregasEmprendedor(Long idEmprendedor) throws NegocioException;
+    List<EntregaDTO> listarEntregasEmprendedor(String idEmprendedor) throws NegocioException;
 }

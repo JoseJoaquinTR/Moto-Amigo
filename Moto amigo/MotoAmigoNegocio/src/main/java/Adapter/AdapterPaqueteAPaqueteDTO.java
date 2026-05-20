@@ -3,18 +3,17 @@ package Adapter;
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.Entidades.Producto;
 import com.mycompany.Entidades.ProductosPaquete;
-import com.mycompany.Entidades.TamañoPaquete;
+import Enums.TamanoPaquete;
 import com.mycompany.paquetesdto.EditarPaqueteDTO;
 import com.mycompany.paquetesdto.NuevoPaqueteDTO;
 import com.mycompany.paquetesdto.PaqueteDTO;
 import com.mycompany.productosdto.ProductoDTO;
 import com.mycompany.paquetesdto.ProductosPaqueteDTO;
-import enums.TamañoPaqueteDTO;
+import enums.TamanoPaqueteDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.bson.types.ObjectId;
 
 /**
  *
@@ -32,11 +31,17 @@ public class AdapterPaqueteAPaqueteDTO {
         if (paquete == null) {
             return null;
         }
+        System.out.println(">>> Paquete: " + paquete.getNombre());
+        System.out.println(">>> productos (refs): "
+                + (paquete.getProductos() != null ? paquete.getProductos().size() : "null"));
+        System.out.println(">>> productosResueltos: "
+                + (paquete.getProductosResueltos() != null ? paquete.getProductosResueltos().size() : "null"));
+        
         PaqueteDTO dto = new PaqueteDTO();
         dto.setIdPaquete(paquete.getId());
         dto.setNombre(paquete.getNombre());
         if (paquete.getTamaño() != null) {
-            dto.setTamaño(TamañoPaqueteDTO.valueOf(paquete.getTamaño().name()));
+            dto.setTamaño(TamanoPaqueteDTO.valueOf(paquete.getTamaño().name()));
         }
         dto.setPrecio(paquete.getPrecio());
         dto.setImagen(paquete.getImagen());
@@ -118,11 +123,11 @@ public class AdapterPaqueteAPaqueteDTO {
         return entidad;
     }
 
-    public TamañoPaquete aTamañoPaqueteEntidad(TamañoPaqueteDTO dto) {
+    public TamanoPaquete aTamañoPaqueteEntidad(TamanoPaqueteDTO dto) {
         if (dto == null) {
             return null;
         }
-        return TamañoPaquete.valueOf(dto.name());
+        return TamanoPaquete.valueOf(dto.name());
     }
 
     public List<ProductosPaquete> aProductosPaqueteEntidad(List<ProductosPaqueteDTO> dtos) {

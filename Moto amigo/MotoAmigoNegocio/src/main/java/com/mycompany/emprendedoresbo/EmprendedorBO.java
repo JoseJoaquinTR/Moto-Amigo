@@ -17,7 +17,7 @@ public class EmprendedorBO implements IEmprendedoresBO {
     private final IEmprendedoresDAO dao = EmprendedoresDAO.getInstancia();
 
     @Override
-    public EmprendedorDTO obtenerEmprendedorPorId(Long id) throws NegocioException {
+    public EmprendedorDTO obtenerEmprendedorPorId(String id) throws NegocioException {
         if (id == null) {
             throw new NegocioException("El identificador del emprendedor no puede ser nulo.");
         }

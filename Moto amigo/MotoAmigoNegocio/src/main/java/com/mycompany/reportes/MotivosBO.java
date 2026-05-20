@@ -4,19 +4,15 @@
  */
 package com.mycompany.reportes;
 
-import com.mycompany.reportes.IMotivosBO;
 import static Adapter.AdapterMotivoToDTO.adaptarLista;
 import com.mycompany.Entidades.Motivo;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
-import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 import enums.Tipo;
 import fachada.FachadaPersistencia;
 import fachada.IFachadaPersistencia;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

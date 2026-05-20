@@ -15,7 +15,7 @@ import Paquete.IEditarPaquete;
 import Paquete.PaqueteException;
 import Utilerias.UtileriaImagen;
 import com.mycompany.productospresentacion.DlgBuscarProductos;
-import enums.TamañoPaqueteDTO;
+import enums.TamanoPaqueteDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class FrmEditarPaquete extends JFrame {
     private void configurarTamanios() {
         cmbTamanio.removeAllItems();
         cmbTamanio.addItem("Selecciona un tamaño");
-        for (TamañoPaqueteDTO t : TamañoPaqueteDTO.values()) {
+        for (TamanoPaqueteDTO t : TamanoPaqueteDTO.values()) {
             cmbTamanio.addItem(t.name());
         }
     }
@@ -354,7 +354,7 @@ public class FrmEditarPaquete extends JFrame {
             return;
         }
 
-        TamañoPaqueteDTO tamanio = TamañoPaqueteDTO.valueOf((String) cmbTamanio.getSelectedItem());
+        TamanoPaqueteDTO tamanio = TamanoPaqueteDTO.valueOf((String) cmbTamanio.getSelectedItem());
         float precio = 0f;
         for (ProductosPaqueteDTO pp : productosAgregados) {
             if (pp.getProducto() != null) {
