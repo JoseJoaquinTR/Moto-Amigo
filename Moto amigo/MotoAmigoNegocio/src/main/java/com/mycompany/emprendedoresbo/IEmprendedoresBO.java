@@ -28,6 +28,7 @@ public interface IEmprendedoresBO {
      */
     EmprendedorDTO registrarEmprendedor(RegistroEmprendedorDTO nuevoEmprendedorDTO) throws NegocioException;
 
+
     /**
      * Actualiza el estatus de un emprendedor a ACTIVO, BAJA o RECHAZADO
      *

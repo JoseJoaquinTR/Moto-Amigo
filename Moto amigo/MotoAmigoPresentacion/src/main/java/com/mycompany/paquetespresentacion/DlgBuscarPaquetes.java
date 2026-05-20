@@ -65,7 +65,8 @@ public class DlgBuscarPaquetes extends JDialog {
         try {
             String criterio = txtBuscar.getText().trim();
             String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
-            utileriaTablas.cargarPaquetes(tblPaquetes, cuBuscarPaquete.buscar(criterio,idEmprendedor));
+            paquetes = cuBuscarPaquete.buscar(criterio, idEmprendedor);
+            utileriaTablas.cargarPaquetes(tblPaquetes, paquetes);
         } catch (PaqueteException ex) {
             JOptionPane.showMessageDialog(
                     this,

@@ -112,111 +112,58 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
 
     @Override
     public List<Repartidor> obtenerRepartidoresParaDesbloqueoMasivo(FiltrosDTO filtros) throws PersistenciaException {
-
         try {
-
             MongoDatabase bd = ManejadorConexiones.getInstancia().obtenerBaseDatos();
-
-            MongoCollection<ReporteBloqueo> coleccion
-                    = bd.getCollection(NOMBRE_COLECCION, ReporteBloqueo.class);
+            MongoCollection<ReporteBloqueo> coleccion = bd.getCollection(NOMBRE_COLECCION, ReporteBloqueo.class);
 
             List<Bson> pipeline = new LinkedList<>();
             List<Bson> filtrosReporteBloqueo = new LinkedList<>();
 
-            if (filtros.getFechaDesde() != null) {
-                filtrosReporteBloqueo.add(
-                        Filters.gte("fechaHora", filtros.getFechaDesde())
-                );
-            }
+            if (filtros != null) {
+                if (filtros.getFechaDesde() != null) {
+                    filtrosReporteBloqueo.add(Filters.gte("fechaHora", filtros.getFechaDesde()));
+                }
 
-            if (filtros.getFechaHasta() != null) {
-                filtrosReporteBloqueo.add(
-                        Filters.lte("fechaHora", filtros.getFechaHasta())
-                );
-            }
+                if (filtros.getFechaHasta() != null) {
+                    filtrosReporteBloqueo.add(Filters.lte("fechaHora", filtros.getFechaHasta()));
+                }
 
-            if (filtros.getMotivo() != null) {
-                filtrosReporteBloqueo.add(
-                        Filters.eq(
-                                "motivo.motivo",
-                                filtros.getMotivo().getMotivo()
-                        )
-                );
+                if (filtros.getMotivo() != null && filtros.getMotivo().getMotivo() != null && !filtros.getMotivo().getMotivo().isBlank()) {
+                    filtrosReporteBloqueo.add(Filters.eq("motivo.motivo", filtros.getMotivo().getMotivo()));
+                }
             }
 
             if (!filtrosReporteBloqueo.isEmpty()) {
-                pipeline.add(
-                        Aggregates.match(
-                                Filters.and(filtrosReporteBloqueo)
-                        )
-                );
+                pipeline.add(Aggregates.match(Filters.and(filtrosReporteBloqueo)));
             }
 
-            pipeline.add(
-                    Aggregates.group("$idRepartidor")
-            );
+            pipeline.add(Aggregates.group("$idRepartidor"));
 
-            pipeline.add(
-                    Aggregates.lookup(
-                            "repartidores",
-                            "_id",
-                            "_id",
-                            "repartidor"
-                    )
-            );
+            pipeline.add(Aggregates.lookup("repartidores", "_id", "_id", "repartidor"));
 
-            pipeline.add(
-                    Aggregates.unwind("$repartidor")
-            );
+            pipeline.add(Aggregates.unwind("$repartidor"));
 
             List<Bson> filtrosRepartidor = new LinkedList<>();
+            filtrosRepartidor.add(Filters.eq("repartidor.estado", Estado.BLOQUEADO));
 
-            filtrosRepartidor.add(
-                    Filters.eq(
-                            "repartidor.estado",
-                            Estado.BLOQUEADO
-                    )
-            );
-
-            if (filtros.getNumBloqueos() > 0) {
-                filtrosRepartidor.add(
-                        Filters.gte(
-                                "repartidor.numBloqueos",
-                                filtros.getNumBloqueos()
-                        )
-                );
+            if (filtros != null && filtros.getNumBloqueos() != null && filtros.getNumBloqueos() > 0) {
+                filtrosRepartidor.add(Filters.gte("repartidor.numBloqueos", filtros.getNumBloqueos()));
             }
 
-            pipeline.add(
-                    Aggregates.match(
-                            Filters.and(filtrosRepartidor)
-                    )
-            );
+            pipeline.add(Aggregates.match(Filters.and(filtrosRepartidor)));
 
-            pipeline.add(
-                    Aggregates.replaceRoot("$repartidor")
-            );
+            pipeline.add(Aggregates.replaceRoot("$repartidor"));
 
             List<Repartidor> repartidores = new LinkedList<>();
-
-            AggregateIterable<Repartidor> resultado
-                    = coleccion.aggregate(
-                            pipeline,
-                            Repartidor.class
-                    );
+            AggregateIterable<Repartidor> resultado = coleccion.aggregate(pipeline, Repartidor.class);
 
             for (Repartidor repartidor : resultado) {
                 repartidores.add(repartidor);
             }
 
             return repartidores;
-
         } catch (MongoException ex) {
-
-            throw new PersistenciaException(
-                    "Error al obtener repartidores para desbloqueo masivo.",
-                    ex
-            );
+            throw new PersistenciaException("Error al obtener repartidores para desbloqueo masivo.", ex);
         }
     }
 }

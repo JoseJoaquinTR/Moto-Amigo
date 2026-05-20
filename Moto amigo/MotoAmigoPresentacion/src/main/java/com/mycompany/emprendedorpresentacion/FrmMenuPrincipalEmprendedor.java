@@ -6,6 +6,7 @@ import Utilerias.utileriasBotones;
 import com.mycompany.emprendedoresdto.EmprendedorDTO;
 import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
 import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import java.awt.Color;
 
 /**
@@ -27,17 +28,14 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
     }
 
     private void iniciarUI(){
-        // Formato de los componentes del frame
         utileriasBotones.panelRedondeado(pnlNuevoEnvio, new Color(232, 100, 10), 30);
         utileriasBotones.btnRedondeado(btnNuevoEnvio, "blanco", 30);
         jScrollPane1.setBorder(null);
         pnlEnvios.setBorder(null);
-        // Cargar datos del emprendedor
-//        EmprendedorDTO e = ControlMenuPrincipal.getInstance().buscarEmprendedorPorId(2L);
-//        lblEmprendedor.setText("¡Hola, "+e.getNombre()+"!");
-        // Cargar entregas del emprendedor
-        ControlMenuPrincipal.getInstance().cargarEntregas(this.pnlEnvios, 2L, "emprendedor");
+        String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
+        ControlMenuPrincipal.getInstance().cargarEntregasEmprendedor(this.pnlEnvios,idEmprendedor, "emprendedor");
     }
+ 
     
     /**
      * This method is called from within the constructor to initialize the form.

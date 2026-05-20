@@ -4,82 +4,136 @@
  */
 package com.mycompany.motoamigodto;
 
+import com.mycompany.paquetesdto.PaqueteDTO;
+import enums.TipoEnvioDTO;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * DTO de la solicitud de entrega que el emprendedor publica. Puede tener dos
+ * modalidades según el campo {@code tipo}:
  *
- * @author xiomi
+ * - TipoEnvio.PAQUETES: el campo {@code paquetes} lleva uno o varios paquetes
+ *   del inventario del emprendedor (sin duplicados). El campo {@code sobre} es
+ *   null.
+ * - TipoEnvio.SOBRE: el campo {@code sobre} lleva las dimensiones y datos del
+ *   sobre o documento. El campo {@code paquetes} es null.
+ *
+ * Las validaciones de consistencia entre el tipo y los campos correspondientes
+ * se hacen en el CU PublicarSolicitud, no en el DTO.
+ *
+ * @author joset
  */
 public class SolicitudEntregaDTO {
 
+    private String idSolicitud;
     private String origen;
     private String destino;
-    private String tipoPaquete;
-    private double pesoAprox;
-    private String estado;
-    private double distancia;
-    private double largo;
-    private double ancho;
-    private double alto;
-    private Double costo;
 
-    public SolicitudEntregaDTO(String origen, String destino, String tipoPaquete, double pesoAprox, String estado, double distancia) {
+    private TipoEnvioDTO tipo;
+    private List<PaqueteDTO> paquetes;
+    private SobreDTO sobre;
+
+    private double distancia;
+    private double pesoTotal;
+    private Double costo;
+    private String estado;
+    private String idEmprendedor;
+
+    public SolicitudEntregaDTO() {
+    }
+
+    /**
+     * Constructor para la modalidad PAQUETES.
+     */
+    public SolicitudEntregaDTO(String origen, String destino,
+            List<PaqueteDTO> paquetes, double distancia, String idEmprendedor) {
         this.origen = origen;
         this.destino = destino;
-        this.tipoPaquete = tipoPaquete;
-        this.pesoAprox = pesoAprox;
-        this.estado = estado;
+        this.tipo = TipoEnvioDTO.PAQUETES;
+        this.paquetes = paquetes != null ? paquetes : new ArrayList<>();
+        this.sobre = null;
         this.distancia = distancia;
+        this.idEmprendedor = idEmprendedor;
+    }
+
+    /**
+     * Constructor para la modalidad SOBRE.
+     */
+    public SolicitudEntregaDTO(String origen, String destino,
+            SobreDTO sobre, double distancia, String idEmprendedor) {
+        this.origen = origen;
+        this.destino = destino;
+        this.tipo = TipoEnvioDTO.SOBRE;
+        this.paquetes = null;
+        this.sobre = sobre;
+        this.distancia = distancia;
+        this.idEmprendedor = idEmprendedor;
+        this.pesoTotal = sobre != null ? sobre.getPeso() : 0;
+    }
+
+    public String getIdSolicitud() {
+        return idSolicitud;
+    }
+
+    public void setIdSolicitud(String idSolicitud) {
+        this.idSolicitud = idSolicitud;
     }
 
     public String getOrigen() {
         return origen;
     }
 
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
     public String getDestino() {
         return destino;
     }
 
-    public String getTipoPaquete() {
-        return tipoPaquete;
+    public void setDestino(String destino) {
+        this.destino = destino;
     }
 
-    public Double getPesoAprox() {
-        return pesoAprox;
+    public TipoEnvioDTO getTipo() {
+        return tipo;
     }
 
-    public String getEstado() {
-        return estado;
+    public void setTipo(TipoEnvioDTO tipo) {
+        this.tipo = tipo;
     }
 
-    public Double getDistancia() {
+    public List<PaqueteDTO> getPaquetes() {
+        return paquetes;
+    }
+
+    public void setPaquetes(List<PaqueteDTO> paquetes) {
+        this.paquetes = paquetes;
+    }
+
+    public SobreDTO getSobre() {
+        return sobre;
+    }
+
+    public void setSobre(SobreDTO sobre) {
+        this.sobre = sobre;
+    }
+
+    public double getDistancia() {
         return distancia;
     }
 
-    public Double getLargo() {
-        return largo;
+    public void setDistancia(double distancia) {
+        this.distancia = distancia;
     }
 
-    public Double getAncho() {
-        return ancho;
+    public double getPesoTotal() {
+        return pesoTotal;
     }
 
-    public Double getAlto() {
-        return alto;
-    }
-
-    public void setTipoPaquete(String tipoPaquete) {
-        this.tipoPaquete = tipoPaquete;
-    }
-
-    public void setLargo(Double largo) {
-        this.largo = largo;
-    }
-
-    public void setAncho(Double ancho) {
-        this.ancho = ancho;
-    }
-
-    public void setAlto(Double alto) {
-        this.alto = alto;
+    public void setPesoTotal(double pesoTotal) {
+        this.pesoTotal = pesoTotal;
     }
 
     public Double getCosto() {
@@ -90,8 +144,19 @@ public class SolicitudEntregaDTO {
         this.costo = costo;
     }
 
-    public void setDistancia(Double distancia) {
-        this.distancia = distancia;
+    public String getEstado() {
+        return estado;
     }
-    
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getIdEmprendedor() {
+        return idEmprendedor;
+    }
+
+    public void setIdEmprendedor(String idEmprendedor) {
+        this.idEmprendedor = idEmprendedor;
+    }
 }

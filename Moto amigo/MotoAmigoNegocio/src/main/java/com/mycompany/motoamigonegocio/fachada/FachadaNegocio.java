@@ -35,18 +35,25 @@ import com.mycompany.emprendedoresdto.ReporteEmprendedoresDTO;
 import com.mycompany.motoamigonegocio.IEntregasBO;
 import com.mycompany.motoamigonegocio.IGestionRepartidores;
 import com.mycompany.motoamigonegocio.IIncidenteBO;
-import com.mycompany.reportes.IMotivosBO;
-import com.mycompany.reportes.IReportesBloqueoBO;
-import com.mycompany.reportes.IReportesDesbloqueosBO;
 import com.mycompany.motoamigonegocio.IRutaBO;
 import com.mycompany.motoamigonegocio.IUbicacionBO;
 import com.mycompany.motoamigonegocio.IncidenteBO;
-import com.mycompany.reportes.MotivosBO;
 import com.mycompany.motoamigonegocio.NegocioException;
+
 import com.mycompany.reportes.ReportesBloqueoBO;
 import com.mycompany.reportes.ReportesDesbloqueosBO;
+
+import com.mycompany.motoamigonegocio.Observers.IObservableEstatusEmprendedor;
+import com.mycompany.motoamigonegocio.Observers.ObservadorEstatusEmprendedor;
+
 import com.mycompany.motoamigonegocio.RutaBO;
 import com.mycompany.motoamigonegocio.UbicacionBO;
+import com.mycompany.reportes.IMotivosBO;
+import com.mycompany.reportes.IReportesBloqueoBO;
+import com.mycompany.reportes.IReportesDesbloqueosBO;
+import com.mycompany.reportes.MotivosBO;
+import com.mycompany.reportes.ReportesBloqueoBO;
+import com.mycompany.reportes.ReportesDesbloqueosBO;
 import enums.Estado;
 import enums.EstatusEmprendedorDTO;
 import enums.Tipo;
@@ -98,7 +105,7 @@ public class FachadaNegocio implements IFachadaNegocio {
             IReportesBloqueoBO reportesBloqueoBO,
             IReportesDesbloqueosBO reportesDesbloqueosBO,
             INegociosBO negociosBO
-            ) {
+    ) {
         this.rutaBO = rutaBO;
         this.emprendedoresBO = emprendedorBO;
         this.repartidoresBO = repartidoresBO;
@@ -174,12 +181,12 @@ public class FachadaNegocio implements IFachadaNegocio {
     }
 
     @Override
-    public List<EntregaDTO> obtenerEntregasRepartidor(Long idRepartidor) throws NegocioException {
+    public List<EntregaDTO> obtenerEntregasRepartidor(String idRepartidor) throws NegocioException {
         return entregasBO.obtenerEntregasRepartidor(idRepartidor);
     }
 
     @Override
-    public List<EntregaDTO> obtenerEntregasEmprendedor(Long idEmprendedor) throws NegocioException {
+    public List<EntregaDTO> obtenerEntregasEmprendedor(String idEmprendedor) throws NegocioException {
         return entregasBO.obtenerEntregasEmprendedor(idEmprendedor);
     }
 
@@ -272,6 +279,10 @@ public class FachadaNegocio implements IFachadaNegocio {
     @Override
     public RepartidorDTO incrementarNumeroBloqueos(String id) throws NegocioException {
         return repartidoresBO.incrementarNumeroBloqueos(id);
+    }
+
+    public List<EntregaDTO> obtenerEntregasDisponibles() throws NegocioException {
+        return entregasBO.obtenerEntregasDisponibles();
     }
 
     @Override

@@ -1,9 +1,11 @@
+
 package com.mycompany.motoamigonegocio;
 
 import Adapter.AdapterEntregaAEntregaDTO;
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigopersistencia.EntregasDAO;
 import com.mycompany.motoamigopersistencia.IEntregasDAO;
+import com.mycompany.motoamigopersistencia.PersistenciaException;
 import java.util.List;
 
 /**
@@ -14,6 +16,7 @@ import java.util.List;
 public class EntregasBO implements IEntregasBO {
 
     private final IEntregasDAO dao = EntregasDAO.getInstancia();
+    private final AdapterEntregaAEntregaDTO adapter = new AdapterEntregaAEntregaDTO();
 
     private static EntregasBO instancia;
 
@@ -33,18 +36,37 @@ public class EntregasBO implements IEntregasBO {
     }
 
     @Override
-    public List<EntregaDTO> obtenerEntregasRepartidor(Long id) throws NegocioException {
-        if (id == null) {
-            throw new NegocioException("El identificador del repartidor no puede ser nulo.");
+    public List<EntregaDTO> obtenerEntregasRepartidor(String id) throws NegocioException {
+        if (id == null || id.isBlank()) {
+            throw new NegocioException("El identificador del repartidor no puede ser nulo o vacío.");
         }
-        return new AdapterEntregaAEntregaDTO().adaptarLista(dao.obtenerEntregasRepartidor(id));
+
+        try {
+            return adapter.adaptarLista(dao.obtenerEntregasRepartidor(id));
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("No fue posible obtener las entregas del repartidor.", ex);
+        }
     }
 
     @Override
-    public List<EntregaDTO> obtenerEntregasEmprendedor(Long id) throws NegocioException {
-        if (id == null) {
-            throw new NegocioException("El identificador del emprendedor no puede ser nulo.");
+    public List<EntregaDTO> obtenerEntregasEmprendedor(String id) throws NegocioException {
+        if (id == null || id.isBlank()) {
+            throw new NegocioException("El identificador del emprendedor no puede ser nulo o vacío.");
         }
-        return new AdapterEntregaAEntregaDTO().adaptarLista(dao.obtenerEntregasEmprendedor(id));
+
+        try {
+            return adapter.adaptarLista(dao.obtenerEntregasEmprendedor(id));
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("No fue posible obtener las entregas del emprendedor.", ex);
+        }
     }
+    @Override
+    public List<EntregaDTO> obtenerEntregasDisponibles() throws NegocioException {
+        try {
+            return adapter.adaptarLista(dao.obtenerEntregasDisponibles());
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("No fue posible obtener las entregas disponibles.", ex);
+        }
+    }
+    
 }

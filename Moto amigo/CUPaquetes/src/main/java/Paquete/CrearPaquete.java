@@ -6,9 +6,9 @@ import com.mycompany.paquetesdto.PaqueteDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import Paquetes.IPaquetesBO;
 import com.mycompany.paquetesdto.ProductosPaqueteDTO;
-import static enums.TamañoPaqueteDTO.CHICO;
-import static enums.TamañoPaqueteDTO.GRANDE;
-import static enums.TamañoPaqueteDTO.MEDIANO;
+import static enums.TamanoPaqueteDTO.CHICO;
+import static enums.TamanoPaqueteDTO.GRANDE;
+import static enums.TamanoPaqueteDTO.MEDIANO;
 
 /**
  *

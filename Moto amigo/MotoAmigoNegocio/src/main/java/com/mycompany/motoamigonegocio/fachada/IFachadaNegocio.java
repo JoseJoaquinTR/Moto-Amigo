@@ -117,7 +117,7 @@ public interface IFachadaNegocio {
      * @return lista de entregas; vacía si no hay entregas.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    List<EntregaDTO> obtenerEntregasRepartidor(Long idRepartidor) throws NegocioException;
+    List<EntregaDTO> obtenerEntregasRepartidor(String idRepartidor) throws NegocioException;
 
     /**
      * Obtiene la lista de entregas asociadas a un emprendedor.
@@ -126,7 +126,7 @@ public interface IFachadaNegocio {
      * @return lista de entregas; vacía si no hay entregas.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    List<EntregaDTO> obtenerEntregasEmprendedor(Long idEmprendedor) throws NegocioException;
+    List<EntregaDTO> obtenerEntregasEmprendedor(String idEmprendedor) throws NegocioException;
 
     /**
      * Busca ubicaciones que coincidan con el texto proporcionado.
@@ -287,6 +287,14 @@ public interface IFachadaNegocio {
      * @throws NegocioException si ocurre un error durante la actualización.
      */
     RepartidorDTO incrementarNumeroBloqueos(String id) throws NegocioException;
+
+    /**
+     * Obtiene la lista de entregas disponibles.
+     *
+     * @return lista de entregas.
+     * @throws NegocioException si ocurre un error durante la consulta.
+     */
+    List<EntregaDTO> obtenerEntregasDisponibles() throws NegocioException;
 
     // CU Emprendedor
     EmprendedorDTO registrarEmprendedor(RegistroEmprendedorDTO dto) throws NegocioException;

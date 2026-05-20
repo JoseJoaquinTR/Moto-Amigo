@@ -1,4 +1,4 @@
-package com.mycompany.repartidorespresentacion;
+package com.mycompany.motoamigopresentacion;
 
 import com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor;
 import Utilerias.OSMTileFactoryCustom;

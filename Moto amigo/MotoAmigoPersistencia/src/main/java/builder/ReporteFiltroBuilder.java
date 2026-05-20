@@ -37,7 +37,7 @@ public class ReporteFiltroBuilder {
                 filtro.append("motivo.motivo", motivo.getMotivo());
             }
             if (motivo.getTipo() != null) {
-                filtro.append("motivo.tipoMotivo", motivo.getTipo().toString());
+                filtro.append("motivo.tipo", motivo.getTipo().toString());
             }
         }
         return this;
