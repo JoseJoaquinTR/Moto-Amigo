@@ -23,6 +23,7 @@ public class ObserverCambiosPaquete implements IObservadorPaquetesBO, IObserverC
     public static synchronized ObserverCambiosPaquete getInstancia() {
         if (instancia == null) {
             instancia = new ObserverCambiosPaquete();
+            Paquetes.PaquetesBO.getInstancia().agregarObservador(instancia);
         }
         return instancia;
     }

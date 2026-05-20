@@ -40,7 +40,6 @@ import java.util.List;
  */
 public interface IFachadaNegocio {
 
-   
     /**
      * Registra un incidente en el sistema.
      *
@@ -326,4 +325,9 @@ public interface IFachadaNegocio {
     DireccionDTO obtenerDireccionPorIdNegocio(String idNegocio) throws NegocioException;
 
     DireccionDTO actualizarDireccion(String idNegocio, DireccionDTO direccion) throws NegocioException;
+
+    EntregaDTO aceptarEntrega(String idEntrega, String idRepartidor) throws NegocioException;
+
+    EntregaDTO finalizarEntrega(String idEntrega) throws NegocioException;
+
 }

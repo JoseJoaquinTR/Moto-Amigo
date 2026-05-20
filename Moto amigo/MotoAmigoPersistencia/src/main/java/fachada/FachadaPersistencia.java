@@ -341,4 +341,8 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     public List<Entrega> obtenerEntregasDisponibles() throws PersistenciaException {
         return EntregasDAO.getInstancia().obtenerEntregasDisponibles();
     }
+    @Override
+    public Entrega actualizarEntrega(String idEntrega, String idRepartidor, String nuevoEstado) throws PersistenciaException {
+        return EntregasDAO.getInstancia().actualizar(idEntrega, idRepartidor, nuevoEstado);
+    }
 }

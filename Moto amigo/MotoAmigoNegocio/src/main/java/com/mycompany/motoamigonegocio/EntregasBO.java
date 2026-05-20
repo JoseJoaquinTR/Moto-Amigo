@@ -2,10 +2,11 @@
 package com.mycompany.motoamigonegocio;
 
 import Adapter.AdapterEntregaAEntregaDTO;
+import com.mycompany.Entidades.Entrega;
 import com.mycompany.motoamigodto.EntregaDTO;
-import com.mycompany.motoamigopersistencia.EntregasDAO;
-import com.mycompany.motoamigopersistencia.IEntregasDAO;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
+import fachada.FachadaPersistencia;
+import fachada.IFachadaPersistencia;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class EntregasBO implements IEntregasBO {
 
-    private final IEntregasDAO dao = EntregasDAO.getInstancia();
+    private final IFachadaPersistencia fachada = FachadaPersistencia.getInstancia();
     private final AdapterEntregaAEntregaDTO adapter = new AdapterEntregaAEntregaDTO();
 
     private static EntregasBO instancia;
@@ -42,7 +43,7 @@ public class EntregasBO implements IEntregasBO {
         }
 
         try {
-            return adapter.adaptarLista(dao.obtenerEntregasRepartidor(id));
+            return adapter.adaptarLista(fachada.obtenerEntregasRepartidor(id));
         } catch (PersistenciaException ex) {
             throw new NegocioException("No fue posible obtener las entregas del repartidor.", ex);
         }
@@ -55,7 +56,7 @@ public class EntregasBO implements IEntregasBO {
         }
 
         try {
-            return adapter.adaptarLista(dao.obtenerEntregasEmprendedor(id));
+            return adapter.adaptarLista(fachada.obtenerEntregasEmprendedor(id));
         } catch (PersistenciaException ex) {
             throw new NegocioException("No fue posible obtener las entregas del emprendedor.", ex);
         }
@@ -63,10 +64,34 @@ public class EntregasBO implements IEntregasBO {
     @Override
     public List<EntregaDTO> obtenerEntregasDisponibles() throws NegocioException {
         try {
-            return adapter.adaptarLista(dao.obtenerEntregasDisponibles());
+            return adapter.adaptarLista(fachada.obtenerEntregasDisponibles());
         } catch (PersistenciaException ex) {
             throw new NegocioException("No fue posible obtener las entregas disponibles.", ex);
         }
     }
+    @Override
+    public EntregaDTO aceptarEntrega(String idEntrega, String idRepartidor) throws NegocioException {
+        try {
+            Entrega actualizada = fachada.actualizarEntrega(idEntrega, idRepartidor, "EN_CAMINO");
+            if (actualizada == null) {
+                throw new NegocioException("No se encontró la entrega.");
+            }
+            return adapter.adaptar(actualizada);
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al aceptar la entrega.", ex);
+        }
+    }
     
+    @Override
+    public EntregaDTO finalizarEntrega(String idEntrega) throws NegocioException {
+        try {
+            Entrega actualizada = fachada.actualizarEntrega(idEntrega, null, "COMPLETADA");
+            if (actualizada == null) {
+                throw new NegocioException("No se encontró la entrega.");
+            }
+            return adapter.adaptar(actualizada);
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al finalizar la entrega.", ex);
+        }
+    }
 }

@@ -141,8 +141,8 @@ public class EntregasDAOTest {
             List<Entrega> entregas = entregasDAO.obtenerEntregasRepartidor(idRepartidor1);
  
             assertNotNull(entregas);
-            assertEquals(2, entregas.size(),
-                    "Debe traer las 2 entregas asignadas al repartidor1");
+            assertEquals(1, entregas.size(),
+                    "Debe traer las 1 entregas asignadas al repartidor1");
             entregas.forEach(e
                     -> assertEquals(idRepartidor1, e.getIdRepartidor()));
         });

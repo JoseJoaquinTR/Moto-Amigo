@@ -39,7 +39,6 @@ import com.mycompany.motoamigonegocio.IRutaBO;
 import com.mycompany.motoamigonegocio.IUbicacionBO;
 import com.mycompany.motoamigonegocio.IncidenteBO;
 import com.mycompany.motoamigonegocio.NegocioException;
-
 import com.mycompany.reportes.ReportesBloqueoBO;
 import com.mycompany.reportes.ReportesDesbloqueosBO;
 
@@ -359,4 +358,13 @@ public class FachadaNegocio implements IFachadaNegocio {
     public DireccionDTO actualizarDireccion(String idNegocio, DireccionDTO direccion) throws NegocioException {
         return negociosBO.actualizarDireccion(idNegocio, direccion);
     }
+    @Override
+    public EntregaDTO aceptarEntrega(String idEntrega, String idRepartidor) throws NegocioException {
+        return entregasBO.aceptarEntrega(idEntrega, idRepartidor);
+    }
+    @Override
+    public EntregaDTO finalizarEntrega(String idEntrega) throws NegocioException {
+        return entregasBO.finalizarEntrega(idEntrega);
+    }
+    
 }

@@ -5,9 +5,12 @@
 package com.mycompany.repartidorespresentacion;
 
 import Utilerias.utileriasBotones;
+import com.mycompany.cusolicitarentrega.ActualizarEntrega;
+import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
+import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigonegocio.Observers.EventoEntrega;
 import com.mycompany.motoamigonegocio.Observers.GestorNotificacionesEntrega;
 import javax.swing.JOptionPane;
@@ -16,6 +19,7 @@ import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 import panelesUtilerias.PanelHeader;
+import com.mycompany.cusolicitarentrega.IActualizarEntrega;
 
 /**
  *
@@ -321,25 +325,40 @@ public class FrmPublicarPedidoRepartidor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
+        RepartidorDTO repartidor = SesionActiva.getInstancia().getRepartidor();
 
-        RepartidorDTO repartidor = SesionActiva.getInstancia().getRepartidor();;
-        String nombreRepartidor = repartidor != null ? repartidor.getNombre() : "Repartidor";
-
-        GestorNotificacionesEntrega.getInstance().notificar(
-                EventoEntrega.PEDIDO_ACEPTADO,
-                nombreRepartidor
-        );
-
-        RutaResponseDTO rutaReal = control.obtenerRuta(solicitud.getOrigen(), solicitud.getDestino());
-
-        if (rutaReal != null && rutaReal.isRutaValida()) {
-            JOptionPane.showMessageDialog(this, "Pedido aceptado. Iniciando navegación.");
-            new FrmSeguimientoTiempoRealRepartidor(rutaReal).setVisible(true);
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al trazar la ruta.");
+        if (repartidor == null) {
+            JOptionPane.showMessageDialog(this, "No hay sesión de repartidor activa.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
+        if (solicitud.getIdSolicitud() == null) {
+            JOptionPane.showMessageDialog(this, "La solicitud no tiene id válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            IActualizarEntrega cuAceptar = ActualizarEntrega.crear();
+            EntregaDTO aceptada = cuAceptar.aceptar(solicitud.getIdSolicitud(), repartidor.getId());
+
+            GestorNotificacionesEntrega.getInstance().notificar(
+                    EventoEntrega.PEDIDO_ACEPTADO,
+                    aceptada
+            );
+
+            RutaResponseDTO rutaReal = control.obtenerRuta(solicitud.getOrigen(), solicitud.getDestino());
+            if (rutaReal != null && rutaReal.isRutaValida()) {
+                JOptionPane.showMessageDialog(this, "Pedido aceptado. Iniciando navegación.");
+                new FrmSeguimientoTiempoRealRepartidor(rutaReal,solicitud.getIdSolicitud()).setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Pedido aceptado pero no se pudo calcular la ruta.");
+            }
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al aceptar el pedido: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
 

@@ -21,9 +21,8 @@ public class MainEmprendedor {
         CuentaUsuarioSesionDTO cuentaMock = new CuentaUsuarioSesionDTO();
         cuentaMock.setIdEmprendedor("6a0d216d8655134c496f96d9"); // id real
         SesionActiva.getInstancia().setCuenta(cuentaMock);
-
+        
         ObserverCambiosPaquete observerCU = ObserverCambiosPaquete.getInstancia();
-        PaquetesBO.getInstancia().agregarObservador(observerCU);
         observerCU.agregarObservador(ControlPaquetes.getInstancia());
 
         EventQueue.invokeLater(() -> {
