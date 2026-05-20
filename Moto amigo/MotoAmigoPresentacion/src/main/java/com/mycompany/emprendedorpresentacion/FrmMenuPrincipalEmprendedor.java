@@ -3,9 +3,7 @@ package com.mycompany.emprendedorpresentacion;
 
 import Utilerias.utileriaHeaderSidebar;
 import Utilerias.utileriasBotones;
-import com.mycompany.emprendedoresdto.EmprendedorDTO;
 import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
-import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
 import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import java.awt.Color;
 
@@ -20,8 +18,6 @@ public class FrmMenuPrincipalEmprendedor extends javax.swing.JFrame {
      */
     public FrmMenuPrincipalEmprendedor() {
         initComponents();
-        
-        ControlNavegacionEmprendedor.getInstancia().registrarMenuActivo(this);
         setLocationRelativeTo(null);
         iniciarUI();
         utileriaHeaderSidebar.aplicarHeaderYSidebar(jPanel1, "INICIO");

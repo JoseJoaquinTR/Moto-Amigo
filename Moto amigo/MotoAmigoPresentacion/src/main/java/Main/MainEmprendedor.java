@@ -1,7 +1,7 @@
 package Main;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.mycompany.emprendedoresdto.CuentaUsuarioSesionDTO;
-import com.mycompany.emprendedorpresentacion.FrmPrincipal;
+import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
 import com.mycompany.motoamigopresentacion.controladores.ControlPaquetes;
 import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import java.awt.EventQueue;
@@ -26,7 +26,7 @@ public class MainEmprendedor {
         observerCU.agregarObservador(ControlPaquetes.getInstancia());
 
         EventQueue.invokeLater(() -> {
-            new FrmPrincipal().setVisible(true);
+            ControlNavegacionEmprendedor.getInstancia().irAPrincipal();
         });
     }
 }

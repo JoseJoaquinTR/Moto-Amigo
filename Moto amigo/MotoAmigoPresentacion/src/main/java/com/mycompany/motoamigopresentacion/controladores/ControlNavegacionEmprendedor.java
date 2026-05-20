@@ -60,6 +60,7 @@ public class ControlNavegacionEmprendedor {
         }
         cerrarMenuActivo();
         FrmMenuPrincipalEmprendedor menu = new FrmMenuPrincipalEmprendedor();
+        registrarMenuActivo(menu);
         menu.setVisible(true);
     }
 
