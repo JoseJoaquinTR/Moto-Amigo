@@ -22,21 +22,25 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblDireccionDestino" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblDireccionOrigen" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="380" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="lblDistancia" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPrecio" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblDireccionDestino" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDireccionOrigen" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblDistancia" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblPrecio" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnVerPedido" min="-2" pref="128" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="btnVerPedido" min="-2" pref="128" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -99,6 +103,9 @@
           <Color blue="16" green="73" red="f9" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$0.00"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[360, 200]"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblDistancia">
@@ -107,6 +114,9 @@
           <Color blue="63" green="55" red="4b" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0.0 km"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[350, 160]"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

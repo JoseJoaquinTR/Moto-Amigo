@@ -14,6 +14,9 @@ import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.repartidorespresentacion.FrmPublicarPedidoRepartidor;
 import com.mycompany.emprendedorpresentacion.FrmPublicarPedidosEmprendedor;
+import com.mycompany.motoamigodto.RutaResponseDTO;
+import com.mycompany.motoamigopresentacion.FrmSeguimientoEnTiempoRealEmprendedor;
+import com.mycompany.repartidorespresentacion.FrmSeguimientoTiempoRealRepartidor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Collections;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import panelesUtilerias.PanelTarjetaPedido;
@@ -198,16 +202,48 @@ public class ControlMenuPrincipal {
      */
     public void mostrarDetallePedido(EntregaDTO entrega) {
         SolicitudEntregaDTO solicitud = new SolicitudEntregaDTO();
+        solicitud.setIdSolicitud(entrega.getId());           
+        solicitud.setIdEmprendedor(entrega.getIdEmprendedor());
         solicitud.setOrigen(entrega.getDireccionOrigen());
         solicitud.setDestino(entrega.getDireccionDestino());
         solicitud.setTipo(entrega.getTipo());
         solicitud.setPaquetes(entrega.getPaquetes());
         solicitud.setSobre(entrega.getSobre());
-        solicitud.setDistancia(entrega.getDistancia());
-        solicitud.setIdEmprendedor(entrega.getIdEmprendedor());
         solicitud.setPesoTotal(entrega.getPesoTotal());
+        solicitud.setDistancia(entrega.getDistancia());
         solicitud.setCosto(entrega.getCosto());
         solicitud.setEstado(entrega.getEstadoEntrega());
         new FrmPublicarPedidoRepartidor(solicitud).setVisible(true);
+    }
+
+    /**
+     * Abre directamente el mapa de seguimiento de una entrega en curso, según
+     * el rol del usuario activo (repartidor o emprendedor).
+     *
+     * @param entrega
+     */
+    public void continuarPedido(EntregaDTO entrega) {
+        if (entrega == null) {
+            return;
+        }
+
+        RutaResponseDTO ruta = ControlSolicitarEntrega.getInstance().obtenerRuta(
+                entrega.getDireccionOrigen(),
+                entrega.getDireccionDestino()
+        );
+
+        if (ruta == null || !ruta.isRutaValida()) {
+            JOptionPane.showMessageDialog(null,
+                    "No se pudo obtener la ruta de esta entrega.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (SesionActiva.getInstancia().esRepartidor()) {
+            new FrmSeguimientoTiempoRealRepartidor(ruta, entrega.getId()).setVisible(true);
+        } else {
+            new FrmSeguimientoEnTiempoRealEmprendedor(ruta).setVisible(true);
+        }
     }
 }

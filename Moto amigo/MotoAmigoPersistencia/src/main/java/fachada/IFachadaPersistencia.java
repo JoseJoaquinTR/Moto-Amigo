@@ -115,4 +115,6 @@ public interface IFachadaPersistencia {
     List<Entrega> obtenerEntregasEmprendedor(String idEmprendedor) throws PersistenciaException;
 
     List<Entrega> obtenerEntregasDisponibles() throws PersistenciaException;
+    
+    Entrega actualizarEntrega(String idEntrega, String idRepartidor, String nuevoEstado) throws PersistenciaException;
 }

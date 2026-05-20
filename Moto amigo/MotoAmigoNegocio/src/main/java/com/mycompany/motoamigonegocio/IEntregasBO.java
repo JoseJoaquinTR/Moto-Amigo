@@ -35,4 +35,15 @@ public interface IEntregasBO {
      * @throws NegocioException si ocurre un error durante la consulta.
      */
     List<EntregaDTO> obtenerEntregasDisponibles() throws NegocioException;
+    /**
+     * Actualiza la entrega
+     * 
+     * @param idEntrega
+     * @param idRepartidor
+     * @return
+     * @throws NegocioException 
+     */
+    EntregaDTO aceptarEntrega(String idEntrega, String idRepartidor) throws NegocioException;
+    
+    EntregaDTO finalizarEntrega(String idEntrega) throws NegocioException;
 }
