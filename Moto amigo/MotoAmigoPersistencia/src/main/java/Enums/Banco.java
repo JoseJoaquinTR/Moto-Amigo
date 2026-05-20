@@ -8,7 +8,7 @@ public enum Banco {
     
     BBVA,
     SANTANDER,
-    HSCB,
+    HSBC,
     BANAMEX
     
 }

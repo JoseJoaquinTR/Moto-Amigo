@@ -9,7 +9,15 @@ import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteDesbloqueoDTO;
+import com.mycompany.emprendedoresdto.CuentaBancariaDTO;
+import com.mycompany.emprendedoresdto.CuentaUsuarioSesionDTO;
+import com.mycompany.emprendedoresdto.DireccionDTO;
+import com.mycompany.emprendedoresdto.DocumentoDTO;
 import com.mycompany.emprendedoresdto.EmprendedorDTO;
+import com.mycompany.emprendedoresdto.ImagenDTO;
+import com.mycompany.emprendedoresdto.NegocioDTO;
+import com.mycompany.emprendedoresdto.RegistroEmprendedorDTO;
+import com.mycompany.emprendedoresdto.ReporteEmprendedoresDTO;
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.IncidenteDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
@@ -19,6 +27,7 @@ import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import enums.Estado;
+import enums.EstatusEmprendedorDTO;
 import enums.Tipo;
 import java.util.List;
 
@@ -31,15 +40,7 @@ import java.util.List;
  */
 public interface IFachadaNegocio {
 
-    /**
-     * Registra un nuevo emprendedor en el sistema.
-     *
-     * @param emprendedorDTO datos del emprendedor a registrar.
-     * @return entidad del emprendedor registrado.
-     * @throws NegocioException si ocurre un error durante el registro.
-     */
-    Emprendedor registrarEmprendedor(EmprendedorDTO emprendedorDTO) throws NegocioException;
-
+   
     /**
      * Registra un incidente en el sistema.
      *
@@ -107,7 +108,7 @@ public interface IFachadaNegocio {
      * @return datos del emprendedor; null si no se encuentra.
      * @throws NegocioException si ocurre un error durante la consulta.
      */
-    EmprendedorDTO obtenerEmprendedorPorId(Long id) throws NegocioException;
+    EmprendedorDTO obtenerEmprendedorPorId(String id) throws NegocioException;
 
     /**
      * Obtiene la lista de entregas asignadas a un repartidor.
@@ -287,4 +288,34 @@ public interface IFachadaNegocio {
      */
     RepartidorDTO incrementarNumeroBloqueos(String id) throws NegocioException;
 
+    // CU Emprendedor
+    EmprendedorDTO registrarEmprendedor(RegistroEmprendedorDTO dto) throws NegocioException;
+
+    EmprendedorDTO actualizarEstatusEmprendedor(String idEmprendedor, EstatusEmprendedorDTO estatus) throws NegocioException;
+
+    EmprendedorDTO obtenerEmprendedorPorID(String idEmprendedor) throws NegocioException;
+
+    List<EmprendedorDTO> consultarEmprendedores() throws NegocioException;
+
+    ReporteEmprendedoresDTO generarDatosReportePDF() throws NegocioException;
+
+    CuentaBancariaDTO obtenerCuentaBancariaPorIdEmprendedor(String idEmprendedor) throws NegocioException;
+
+    ImagenDTO actualizarImagen(String idEmprendedor, ImagenDTO imagen) throws NegocioException;
+
+    ImagenDTO obtenerImagenPorIdEmprendedor(String idEmprendedor) throws NegocioException;
+
+    DocumentoDTO actualizarDocumento(String idEmprendedor, DocumentoDTO documento) throws NegocioException;
+
+    DocumentoDTO obtenerDocumentoPorIdEmprendedor(String idEmprendedor) throws NegocioException;
+
+    CuentaUsuarioSesionDTO buscarCuenta(String correo) throws NegocioException;
+
+    NegocioDTO registrarNegocio(String idEmprendedor, NegocioDTO dto) throws NegocioException;
+
+    NegocioDTO obtenerNegocioPorIdEmprendedor(String idEmprendedor) throws NegocioException;
+
+    DireccionDTO obtenerDireccionPorIdNegocio(String idNegocio) throws NegocioException;
+
+    DireccionDTO actualizarDireccion(String idNegocio, DireccionDTO direccion) throws NegocioException;
 }

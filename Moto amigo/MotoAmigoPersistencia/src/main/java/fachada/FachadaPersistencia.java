@@ -268,8 +268,8 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     }
 
     @Override
-    public CuentaUsuario buscarCuentaPorCorreo(String correo) throws PersistenciaException {
-        return cuentasDAO.buscarCuenta(correo);
+    public Emprendedor buscarCuentaPorCorreo(String correo) throws PersistenciaException {
+        return cuentasDAO.buscarCuentaPorCorreo(correo);
     }
 
     @Override

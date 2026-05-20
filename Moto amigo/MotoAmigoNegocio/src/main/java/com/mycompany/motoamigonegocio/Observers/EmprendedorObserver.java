@@ -1,4 +1,4 @@
-package com.mycompany.motoamigonegocio.Observer;
+package com.mycompany.motoamigonegocio.Observers;
 
 /**
  * Observer de apoyo para el emprendedor.

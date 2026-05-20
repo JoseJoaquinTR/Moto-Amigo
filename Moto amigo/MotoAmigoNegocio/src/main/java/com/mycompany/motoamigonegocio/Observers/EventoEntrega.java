@@ -1,4 +1,4 @@
-package com.mycompany.motoamigonegocio.Observer;
+package com.mycompany.motoamigonegocio.Observers;
 
 /**
  * Eventos válidos para el flujo de una entrega.
