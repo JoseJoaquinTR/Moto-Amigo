@@ -78,4 +78,7 @@ public class SesionActiva {
     public boolean esRepartidor() {
         return repartidor != null;
     }
+     public boolean esEmprendedor() {
+        return cuenta != null;
+    }
 }

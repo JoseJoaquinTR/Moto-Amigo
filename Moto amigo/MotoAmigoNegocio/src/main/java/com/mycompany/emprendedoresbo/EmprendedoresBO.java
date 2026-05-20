@@ -46,7 +46,6 @@ public class EmprendedoresBO implements IEmprendedoresBO, IObservableEstatusEmpr
     private static EmprendedoresBO instancia;
     private final IFachadaPersistencia persistencia;
     private final List<IObservadorEstatusEmprendedor> observadores;
-
     /**
      * Constructor privado para que solo se pueda crear la instancia dentro de
      * la clase, y para que solo haya una

@@ -65,6 +65,7 @@ public class FrmPrincipal extends JFrame {
         btnCrearCuenta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCrearCuenta.addActionListener(e -> {
             ControlNavegacionEmprendedor.getInstancia().irATipoUsuario();
+
         });
 
         pnlPrincipal.add(lblTitulo);

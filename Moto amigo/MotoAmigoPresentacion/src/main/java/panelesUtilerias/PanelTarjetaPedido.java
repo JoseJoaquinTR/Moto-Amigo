@@ -7,6 +7,7 @@ package panelesUtilerias;
 import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import java.awt.Color;
 
 /**
@@ -25,6 +26,7 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
         utileriasBotones.btnRedondeado(btnVerPedido, "naranja", 30);
         utileriasBotones.panelRedondeado(this, new Color(248, 249, 250), 30);
     }
+   
     public void cargarDatosEnTarjeta(EntregaDTO entrega) {
         this.entrega = entrega;
 
@@ -34,17 +36,20 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
         lblPrecio.setText("$" + String.format("%.2f", entrega.getCosto()));
         lblDistancia.setText(String.format("%.1f km", entrega.getDistancia()));
 
-        String estado = entrega.getEstadoEntrega();
-        if ("EN_CAMINO".equals(estado) || "ACEPTADA".equals(estado)) {
-            btnVerPedido.setText("Continuar");
-        } else {
-            btnVerPedido.setText("Ver pedido");
+        if (SesionActiva.getInstancia().esEmprendedor()) {
+            String estado = entrega.getEstadoEntrega();
+            if ("EN_CAMINO".equals(estado) || "ACEPTADA".equals(estado)) {
+                btnVerPedido.setText("Rastrear pedido");
+            } else if ("ENTREGADA".equals(estado) || "FINALIZADA".equals(estado)) {
+                btnVerPedido.setVisible(false);
+            } else {
+                btnVerPedido.setText("Ver pedido");
+            }
         }
 
         revalidate();
         repaint();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -126,12 +131,23 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPedidoActionPerformed
+        if (entrega == null) {
+            return;
+        }
+
+        if (SesionActiva.getInstancia().esEmprendedor()) {
+            String estado = entrega.getEstadoEntrega();
+            if ("EN_CAMINO".equals(estado) || "ACEPTADA".equals(estado)) {
+                ControlMenuPrincipal.getInstance().continuarPedido(entrega);
+            } else {
+                ControlMenuPrincipal.getInstance().mostrarDetallePedidoEmprendedor(entrega);
+            }
+            return;
+        }
         String estado = entrega.getEstadoEntrega();
         if ("EN_CAMINO".equals(estado) || "ACEPTADA".equals(estado)) {
-           
             ControlMenuPrincipal.getInstance().continuarPedido(entrega);
         } else {
-            
             ControlMenuPrincipal.getInstance().mostrarDetallePedido(entrega);
         }
     }//GEN-LAST:event_btnVerPedidoActionPerformed

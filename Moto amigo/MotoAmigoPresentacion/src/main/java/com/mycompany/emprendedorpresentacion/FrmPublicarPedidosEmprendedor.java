@@ -2,11 +2,14 @@ package com.mycompany.emprendedorpresentacion;
 
 import Utilerias.utileriaTablas;
 import Utilerias.utileriasBotones;
+import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.SobreDTO;
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
 import com.mycompany.motoamigopresentacion.FrmConsultarRutaEmprendedor;
+import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
+import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
 import com.mycompany.motoamigopresentacion.controladores.ControlSolicitarEntrega;
 import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import com.mycompany.paquetesdto.PaqueteDTO;
@@ -76,6 +79,107 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
         iniciarUI();
         iniciarAutocompletado();
         setLocationRelativeTo(null);
+    }
+
+    public FrmPublicarPedidosEmprendedor(EntregaDTO entrega) {
+        initComponents();
+
+        this.getContentPane().setBackground(new Color(248, 250, 252));
+        setLayout(new AbsoluteLayout());
+        add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
+
+        iniciarUI();
+        setLocationRelativeTo(null);
+
+        cargarDetalleEntrega(entrega);
+    }
+
+    private void cargarDetalleEntrega(EntregaDTO entrega) {
+        if (entrega == null) {
+            return;
+        }
+
+        txt_origen.setText(entrega.getDireccionOrigen());
+        txt_destino.setText(entrega.getDireccionDestino());
+        txt_peso.setText(String.format("%.2f", entrega.getPesoTotal()));
+
+        txt_origen.setEditable(false);
+        txt_destino.setEditable(false);
+        txt_peso.setEditable(false);
+
+        btnCajaPaquete.setEnabled(false);
+        btnSobreDoc.setEnabled(false);
+        btnQuitarPaquete.setVisible(false);
+
+        if (entrega.getPaquetes() != null && !entrega.getPaquetes().isEmpty()) {
+            tipoEnvio = TipoEnvioDTO.PAQUETES;
+            tipoSeleccionado = "caja";
+
+            scrollPaquetes.setVisible(true);
+            panelDimensiones.setVisible(false);
+
+            DefaultTableModel modelo = (DefaultTableModel) tblPaquetes.getModel();
+            modelo.setRowCount(0);
+
+            for (PaqueteDTO paquete : entrega.getPaquetes()) {
+                modelo.addRow(new Object[]{
+                    paquete.getNombre(),
+                    paquete.getTamaño() != null ? paquete.getTamaño().name() : "",
+                    String.format("%.2f", utileriaTablas.calcularPesoPaquete(paquete.getProductos()))
+                });
+            }
+        } else if (entrega.getSobre() != null) {
+            tipoEnvio = TipoEnvioDTO.SOBRE;
+            tipoSeleccionado = "sobre";
+
+            scrollPaquetes.setVisible(false);
+            panelDimensiones.setVisible(true);
+
+            txtLargo.setText(String.valueOf(entrega.getSobre().getLargo()));
+            txtAncho.setText(String.valueOf(entrega.getSobre().getAncho()));
+            txtAlto.setText(String.valueOf(entrega.getSobre().getAlto()));
+
+            txtLargo.setEditable(false);
+            txtAncho.setEditable(false);
+            txtAlto.setEditable(false);
+        }
+
+        boolean aceptada = "EN_CAMINO".equals(entrega.getEstadoEntrega())
+                || "ACEPTADA".equals(entrega.getEstadoEntrega());
+
+        if (aceptada) {
+            btn_solicitar.setText("SEGUIMIENTO");
+            btn_solicitar.removeActionListener(btn_solicitar.getActionListeners()[0]);
+            btn_solicitar.addActionListener(e -> {
+                ControlMenuPrincipal.getInstance().continuarPedido(entrega);
+                this.dispose();
+            });
+
+            JButton btnVolver = new JButton("VOLVER AL MENÚ");
+            btnVolver.setBackground(new Color(255, 105, 0));
+            btnVolver.setForeground(Color.WHITE);
+            btnVolver.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            btnVolver.setFocusPainted(false);
+            btnVolver.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            btnVolver.setBounds(760, 620, 180, 40);
+            btnVolver.addActionListener(e -> {
+                this.dispose();
+                ControlNavegacionEmprendedor.getInstancia().irAInicio();
+            });
+
+            jPanel1.add(btnVolver);
+        } else {
+            btn_solicitar.setText("VOLVER AL MENÚ");
+            btn_solicitar.removeActionListener(btn_solicitar.getActionListeners()[0]);
+            btn_solicitar.addActionListener(e -> {
+                this.dispose();
+                ControlNavegacionEmprendedor.getInstancia().irAInicio();
+
+            });
+        }
+
+        jPanel1.revalidate();
+        jPanel1.repaint();
     }
 
     private void iniciarUI() {
@@ -150,6 +254,8 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
         btnQuitarPaquete.setBounds(rCaja.x, scrollPaquetes.getY() + scrollPaquetes.getHeight() + 5, 220, 30);
         btnQuitarPaquete.setVisible(false);
         btnQuitarPaquete.addActionListener(e -> quitarPaqueteSeleccionado());
+        txt_peso.setText("0.0");
+        txt_peso.setEditable(false);
 
         panelDimensiones.add(lblLargo);
         panelDimensiones.add(txtLargo);
@@ -182,12 +288,10 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
             btnSobreDoc.setBackground(new Color(255, 247, 237));
             btnSobreDoc.setForeground(new Color(255, 105, 0));
 
-            // Modo PAQUETES: ocultar dimensiones, mostrar tabla
             panelDimensiones.setVisible(false);
             scrollPaquetes.setVisible(true);
             btnQuitarPaquete.setVisible(true);
 
-            // Abrir buscador de paquetes
             abrirBuscadorPaquetes();
         } else {
             tipoEnvio = TipoEnvioDTO.SOBRE;
@@ -196,7 +300,6 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
             btnCajaPaquete.setBackground(new Color(255, 247, 237));
             btnCajaPaquete.setForeground(new Color(255, 105, 0));
 
-            // Modo SOBRE: mostrar dimensiones, ocultar tabla
             scrollPaquetes.setVisible(false);
             btnQuitarPaquete.setVisible(false);
             panelDimensiones.setVisible(true);
@@ -267,8 +370,11 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
         paquetesAgregados.remove(filaModelo);
         DefaultTableModel modelo = (DefaultTableModel) tblPaquetes.getModel();
         modelo.removeRow(filaModelo);
+        actualizarPesoTotal();
     }
-
+    private void actualizarPesoTotal() {
+        txt_peso.setText(String.format("%.2f", calcularPesoTotal()));
+    }
     /**
      * Calcula el peso total sumando todos los paquetes agregados.
      */
@@ -511,7 +617,7 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
                     txt_origen.getText(),
                     txt_destino.getText(),
                     new ArrayList<>(paquetesAgregados),
-                    0,
+                    calcularPesoTotal(),
                     idEmprendedor
             );
             solicitud.setPesoTotal(calcularPesoTotal());
@@ -521,7 +627,8 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
                 double largo = Double.parseDouble(txtLargo.getText().trim());
                 double ancho = Double.parseDouble(txtAncho.getText().trim());
                 double peso = Double.parseDouble(txt_peso.getText().trim());
-
+                txt_peso.setEditable(true);
+                txt_peso.setText("0.0"); 
                 if (largo <= 0 || ancho <= 0 || peso <= 0) {
                     JOptionPane.showMessageDialog(this,
                             "Las dimensiones y peso deben ser mayores a 0",
@@ -531,12 +638,11 @@ public class FrmPublicarPedidosEmprendedor extends javax.swing.JFrame {
                 }
 
                 SobreDTO sobre = new SobreDTO(largo, ancho, 0, peso, "Sobre/Doc");
-
                 solicitud = new SolicitudEntregaDTO(
                         txt_origen.getText(),
                         txt_destino.getText(),
                         sobre,
-                        0,
+                        peso,
                         idEmprendedor
                 );
             } catch (NumberFormatException ex) {

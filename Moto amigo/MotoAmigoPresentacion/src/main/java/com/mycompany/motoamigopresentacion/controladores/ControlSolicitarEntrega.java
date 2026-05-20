@@ -4,10 +4,13 @@ import com.mycompany.cusolicitarentrega.BuscarUbicacion;
 import com.mycompany.cusolicitarentrega.ConsultarRuta;
 import com.mycompany.cusolicitarentrega.IBuscarUbicacion;
 import com.mycompany.cusolicitarentrega.IConsultarRuta;
+import com.mycompany.cusolicitarentrega.IListarEntregasEmprendedor;
 import com.mycompany.cusolicitarentrega.IObtenerRepartidoresDisponibles;
 import com.mycompany.cusolicitarentrega.IPublicarSolicitud;
+import com.mycompany.cusolicitarentrega.ListarEntregasEmprendedor;
 import com.mycompany.cusolicitarentrega.ObtenerRepartidoresDisponibles;
 import com.mycompany.cusolicitarentrega.PublicarSolicitud;
+import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaRequestDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
@@ -29,7 +32,7 @@ import javax.swing.Timer;
  * @author joset
  */
 public class ControlSolicitarEntrega {
-
+    private final IListarEntregasEmprendedor cuListarEntregasEmprendedor;
     private static ControlSolicitarEntrega instancia;
 
     private final IObtenerRepartidoresDisponibles cuObtenerRep;
@@ -43,6 +46,7 @@ public class ControlSolicitarEntrega {
         this.cuPublicar = PublicarSolicitud.crear();
         this.cuConsultarRuta = ConsultarRuta.crear();
         this.cuBuscarUbicacion = BuscarUbicacion.crear();
+        this.cuListarEntregasEmprendedor = ListarEntregasEmprendedor.crear();
     }
 
     /**
@@ -127,23 +131,49 @@ public class ControlSolicitarEntrega {
      * @param alAceptar callback a ejecutar cuando se acepte la solicitud.
      */
     public void publicarYEsperarAceptacion(SolicitudEntregaDTO solicitud, Runnable alAceptar) {
-        emprendedorObserver = configurarObserverEmprendedor();
-
         boolean publicado = publicarSolicitud(solicitud);
+
         if (!publicado) {
             return;
         }
 
         Timer timer = new Timer(1000, null);
+
         timer.addActionListener(e -> {
-            if (emprendedorObserver.isPedidoAceptado()) {
-                timer.stop();
-                GestorNotificacionesEntrega.getInstance().eliminarObserver(emprendedorObserver);
-                if (alAceptar != null) {
-                    alAceptar.run();
+            try {
+                List<EntregaDTO> entregas = cuListarEntregasEmprendedor
+                        .listarEntregasEmprendedor(solicitud.getIdEmprendedor());
+
+                for (EntregaDTO entrega : entregas) {
+                    if (entrega == null || entrega.getId() == null) {
+                        continue;
+                    }
+
+                    if (!entrega.getId().equals(solicitud.getIdSolicitud())) {
+                        continue;
+                    }
+
+                    boolean aceptada = entrega.getIdRepartidor() != null
+                            && !entrega.getIdRepartidor().isBlank()
+                            && "EN_CAMINO".equals(entrega.getEstadoEntrega());
+
+                    if (aceptada) {
+                        timer.stop();
+
+                        if (alAceptar != null) {
+                            alAceptar.run();
+                        }
+                    }
+
+                    return;
                 }
+
+            } catch (NegocioException ex) {
+                Logger.getLogger(ControlSolicitarEntrega.class.getName())
+                        .log(Level.SEVERE, "Error verificando aceptación de la entrega", ex);
             }
         });
+
         timer.start();
     }
 

@@ -36,7 +36,6 @@ import panelesUtilerias.PanelTarjetaPedido;
 public class ControlMenuPrincipal {
 
     private static ControlMenuPrincipal instancia;
-
     private final IBuscarRepartidorPorId cuBuscarRepartidor;
     private final IListarEntregasRepartidor cuEntregasRepartidor;
     private final IListarEntregasEmprendedor cuEntregasEmprendedor;
@@ -74,7 +73,22 @@ public class ControlMenuPrincipal {
             return null;
         }
     }
-    
+
+
+    public EntregaDTO obtenerEntregaPorId(String idEntrega) throws NegocioException {
+        String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
+
+        List<EntregaDTO> entregas = ListarEntregasEmprendedor.crear()
+                .listarEntregasEmprendedor(idEmprendedor);
+
+        for (EntregaDTO entrega : entregas) {
+            if (entrega != null && idEntrega.equals(entrega.getId())) {
+                return entrega;
+            }
+        }
+
+        return null;
+    }
     /**
      * Obtiene la lista de entregas según el filtro indicado.
      *
@@ -182,8 +196,16 @@ public class ControlMenuPrincipal {
      * @param entrega entrega cuyo detalle se mostrará.
      */
     public void mostrarDetallePedido(EntregaDTO entrega) {
+        if (!SesionActiva.getInstancia().esRepartidor()) {
+            JOptionPane.showMessageDialog(null,
+                    "Esta acción solo está disponible para repartidores.",
+                    "Acción no permitida",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         SolicitudEntregaDTO solicitud = new SolicitudEntregaDTO();
-        solicitud.setIdSolicitud(entrega.getId());           
+        solicitud.setIdSolicitud(entrega.getId());
         solicitud.setIdEmprendedor(entrega.getIdEmprendedor());
         solicitud.setOrigen(entrega.getDireccionOrigen());
         solicitud.setDestino(entrega.getDireccionDestino());
@@ -194,6 +216,7 @@ public class ControlMenuPrincipal {
         solicitud.setDistancia(entrega.getDistancia());
         solicitud.setCosto(entrega.getCosto());
         solicitud.setEstado(entrega.getEstadoEntrega());
+
         new FrmPublicarPedidoRepartidor(solicitud).setVisible(true);
     }
 
@@ -221,10 +244,20 @@ public class ControlMenuPrincipal {
             return;
         }
 
+        ruta.setIdRepartidorAsignado(entrega.getIdRepartidor());
+
         if (SesionActiva.getInstancia().esRepartidor()) {
             new FrmSeguimientoTiempoRealRepartidor(ruta, entrega.getId()).setVisible(true);
         } else {
-            new FrmSeguimientoEnTiempoRealEmprendedor(ruta).setVisible(true);
+            new FrmSeguimientoEnTiempoRealEmprendedor(ruta, entrega).setVisible(true);
         }
+    }
+
+    public void mostrarDetallePedidoEmprendedor(EntregaDTO entrega) {
+        if (entrega == null) {
+            return;
+        }
+
+        new FrmPublicarPedidosEmprendedor(entrega).setVisible(true);
     }
 }

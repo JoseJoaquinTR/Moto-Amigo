@@ -22,7 +22,7 @@ public class GenerarHistorialPDF implements IGenerarHistorialPDF {
     @Override
     public ReporteHistorialPaquetePDFDTO generar(String idEmprendedor) throws PaqueteException {
         try {
-            return paqueteHistorialBO.generarHistorial(null);
+            return paqueteHistorialBO.generarHistorial(idEmprendedor);
         } catch (NegocioException ex) {
             throw new PaqueteException("Error al generar el historial de paquetes.", ex);
         }

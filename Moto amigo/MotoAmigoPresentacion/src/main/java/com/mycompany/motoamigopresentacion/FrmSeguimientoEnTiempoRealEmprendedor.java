@@ -1,21 +1,26 @@
 package com.mycompany.motoamigopresentacion;
 
-import com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor;
 import Utilerias.OSMTileFactoryCustom;
 import Utilerias.utileriasBotones;
+import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
 import com.mycompany.motoamigonegocio.Observers.EventoEntrega;
 import com.mycompany.motoamigonegocio.Observers.GestorNotificacionesEntrega;
 import com.mycompany.motoamigonegocio.Observers.INotificacionPedido;
+import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
 import com.mycompany.motoamigopresentacion.controladores.ControlSeguimiento;
 import java.awt.BorderLayout;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCenter;
@@ -36,7 +41,12 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame im
     private WaypointPainter<DefaultWaypoint> waypointPainter;
     private DefaultWaypoint marcador;
 
+    private Timer timerSeguimiento;
+    private boolean navegandoAlMenu = false;
+
+    private EntregaDTO entregaActual;
     private RutaResponseDTO ruta;
+
     private final ControlSeguimiento control;
 
     /**
@@ -52,12 +62,30 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame im
         setLocationRelativeTo(null);
     }
 
+    public FrmSeguimientoEnTiempoRealEmprendedor(RutaResponseDTO ruta, EntregaDTO entrega) {
+        this(ruta);
+        this.entregaActual = entrega;
+        if (entrega != null) {
+            lblEstado.setText("Estado: " + entrega.getEstadoEntrega());
+            txtSeguimiento.append("[" + LocalTime.now().withNano(0)
+                    + "] Seguimiento iniciado. Estado actual: " + entrega.getEstadoEntrega() + "\n");
+        }
+
+    }
+
     private void inicializarUI() {
         panPrincipal.setLayout(new AbsoluteLayout());
         utileriasBotones.btnRedondeado(btnContactarRepa, "naranja", 30);
         utileriasBotones.btnRedondeado(btnVolverMenu, "naranja", 30);
         panPrincipal.add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
 
+    }
+
+    private void detenerTimerSeguimiento() {
+        if (timerSeguimiento != null) {
+            timerSeguimiento.stop();
+            timerSeguimiento = null;
+        }
     }
 
     private void inicializarMapa() {
@@ -75,7 +103,7 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame im
         GeoPosition posInicial = new GeoPosition(ruta.getLatOrigen(), ruta.getLngOrigen());
 
         mapViewer.setAddressLocation(posInicial);
-        mapViewer.setZoom(4);
+        mapViewer.setZoom(3);
 
         marcador = new DefaultWaypoint(posInicial);
         waypointPainter = new WaypointPainter<>();
@@ -85,21 +113,35 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame im
 
         panelMapa.setLayout(new BorderLayout());
         panelMapa.add(mapViewer, BorderLayout.CENTER);
-
-        iniciarSeguimiento();
+        iniciarTimerUbicacion();
     }
 
-    /**
-     * Crea temporizador que cada 3 segundos consulta la siguiente ubicación del
-     * repartidor usando el modulo de funcionalidad. Actualiza el estado y el
-     * historial de texto y mueve el marcador en el mapa usando mover(lat, lng)
-     *
-     */
-    private void iniciarSeguimiento() {
-        lblEstado.setText("Estado: Esperando actualización del repartidor");
-        txtSeguimiento.append("[" + LocalTime.now().withNano(0)
-                + "] Esperando ubicación del repartidor...\n");
-        txtSeguimiento.setCaretPosition(txtSeguimiento.getDocument().getLength());
+    private void iniciarTimerUbicacion() {
+        detenerTimerSeguimiento();
+        timerSeguimiento = new Timer(3000, e -> {
+            try {
+                String contenido = Files.readString(
+                        Path.of("ubicacion_repartidor.txt")
+                );
+                String[] partes = contenido.split(",", 3);
+                UbicacionDTO ubi = new UbicacionDTO();
+                ubi.setLatitud(Double.parseDouble(partes[0]));
+                ubi.setLongitud(Double.parseDouble(partes[1]));
+                ubi.setDescripcion(partes[2]);
+
+                SwingUtilities.invokeLater(() -> {
+                    lblEstado.setText("Estado: " + ubi.getDescripcion());
+                    txtSeguimiento.append("[" + LocalTime.now()
+                            + "] " + ubi.getDescripcion() + "\n");
+                    txtSeguimiento.setCaretPosition(txtSeguimiento.getDocument().getLength());
+                    moverMarcador(ubi);
+                });
+            } catch (NoSuchFileException nf) {
+            } catch (Exception ex) {
+                System.err.println("Error leyendo ubicacion_repartidor.txt: " + ex);
+            }
+        });
+        timerSeguimiento.start();
     }
 
     @Override
@@ -158,25 +200,20 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame im
 
     @Override
     public void dispose() {
+        detenerTimerSeguimiento();
         GestorNotificacionesEntrega.getInstance().eliminarObserver(this);
         super.dispose();
     }
 
-    /**
-     * Mueve el marcador en el mapa al hilo de. Solo actúa si el mapa ya terminó
-     * de cargar.
-     */
     private void moverMarcador(UbicacionDTO ubi) {
         if (mapViewer == null || ubi == null) {
             return;
         }
-
         GeoPosition nuevaPos = new GeoPosition(ubi.getLatitud(), ubi.getLongitud());
         marcador = new DefaultWaypoint(nuevaPos);
         waypointPainter.setWaypoints(new HashSet<>(Arrays.asList(marcador)));
-
+        mapViewer.setOverlayPainter(waypointPainter);  // ← reasigna
         mapViewer.setAddressLocation(nuevaPos);
-
         mapViewer.repaint();
     }
 
@@ -327,8 +364,16 @@ public class FrmSeguimientoEnTiempoRealEmprendedor extends javax.swing.JFrame im
     }//GEN-LAST:event_btnContactarRepaActionPerformed
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-        new FrmMenuPrincipalEmprendedor().setVisible(true);
+        if (navegandoAlMenu) {
+            return;
+        }
+
+        navegandoAlMenu = true;
+        btnVolverMenu.setEnabled(false);
+
+        detenerTimerSeguimiento();
         dispose();
+        ControlNavegacionEmprendedor.getInstancia().irAInicio();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
 

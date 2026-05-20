@@ -153,11 +153,7 @@ public final class utileriaTablas {
             });
         }
     }
-
-    public static void cargarPaquetesHistorial(
-            JTable tabla,
-            ReporteHistorialPaquetePDFDTO reporte
-    ) {
+    public static void cargarPaquetesHistorial(JTable tabla, ReporteHistorialPaquetePDFDTO reporte) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         modelo.setRowCount(0);
 
@@ -166,23 +162,9 @@ public final class utileriaTablas {
             return;
         }
 
-        cargarPaquetesHistorial(tabla, reporte.getPaqueteHistorial());
-    }
-
-    public static void cargarPaquetesHistorial(
-            JTable tabla,
-            List<PaqueteHistorialDTO> paquetes
-    ) {
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        modelo.setRowCount(0);
-
-        if (paquetes == null || paquetes.isEmpty()) {
-            return;
-        }
-
         DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        for (PaqueteHistorialDTO paquete : paquetes) {
+        for (PaqueteHistorialDTO paquete : reporte.getPaqueteHistorial()) {
             String ultimoUso = paquete.getUltimoUso() != null
                     ? paquete.getUltimoUso().format(formatoFecha)
                     : "Sin uso";

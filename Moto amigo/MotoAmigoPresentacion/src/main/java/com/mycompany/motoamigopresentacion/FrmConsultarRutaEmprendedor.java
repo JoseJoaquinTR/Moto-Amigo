@@ -298,15 +298,17 @@ public class FrmConsultarRutaEmprendedor extends javax.swing.JFrame {
             solicitud.setCosto(response.getCosto());
         }
 
-        JOptionPane.showMessageDialog(this,
-                "Solicitud publicada. Esperando a que un repartidor la acepte.",
-                "Solicitud enviada",
-                JOptionPane.INFORMATION_MESSAGE);
+        btnEnviarSolicitud.setEnabled(false);
 
         control.publicarYEsperarAceptacion(solicitud, () -> {
             new FrmSeguimientoEnTiempoRealEmprendedor(this.response).setVisible(true);
             this.dispose();
         });
+
+        JOptionPane.showMessageDialog(this,
+                "Solicitud publicada. Esperando a que un repartidor la acepte.",
+                "Solicitud enviada",
+                JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnEnviarSolicitudActionPerformed
 
     private void btnCancelarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarSolicitudActionPerformed

@@ -45,7 +45,9 @@ public class ControlNavegacionEmprendedor {
      * @param menu menú que se está mostrando.
      */
     public void registrarMenuActivo(JFrame menu) {
-        this.menuActivo = menu;
+        if (menu != null) {
+            this.menuActivo = menu;
+        }
     }
 
     /**
@@ -86,6 +88,11 @@ public class ControlNavegacionEmprendedor {
         menu.setVisible(true);
     }
 
+
+    /**
+     * Metodo auxiliar que sirve para cerrar el menu que se encuentre activo.
+     *
+     */
     private void cerrarMenuActivo() {
         if (menuActivo != null) {
             menuActivo.dispose();

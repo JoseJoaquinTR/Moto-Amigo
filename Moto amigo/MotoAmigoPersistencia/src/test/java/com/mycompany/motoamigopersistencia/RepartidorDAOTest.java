@@ -34,8 +34,8 @@ public class RepartidorDAOTest {
                 .obtenerBaseDatos();
 
         coleccion = baseDatos.getCollection("repartidores", Repartidor.class);
-
         coleccion.deleteMany(new Document());
+
         
         Repartidor repartidor1 = new Repartidor();
         repartidor1.setIdRepartidor("6a0d2317cc336268ad738f61");

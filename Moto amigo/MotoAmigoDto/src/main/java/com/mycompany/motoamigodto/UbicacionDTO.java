@@ -21,6 +21,10 @@ public class UbicacionDTO {
         this.descripcion = descripcion;
     }
 
+    public UbicacionDTO() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public double getLatitud() {
         return latitud;
     }
@@ -31,6 +35,18 @@ public class UbicacionDTO {
 
     public String getDescripcion() {
         return descripcion;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     @Override

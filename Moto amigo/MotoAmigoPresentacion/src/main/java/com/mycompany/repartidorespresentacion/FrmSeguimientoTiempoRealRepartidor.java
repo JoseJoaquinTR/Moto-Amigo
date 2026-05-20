@@ -22,6 +22,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -179,6 +181,18 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
                     EventoEntrega.UBICACION_ACTUALIZADA,
                     ubi
             );
+            try {
+                Path destino = Path.of("ubicacion_repartidor.txt");
+                Path temp = Path.of("ubicacion_repartidor.tmp");
+                Files.writeString(temp, ubi.getLatitud() + "," + ubi.getLongitud() + "," + ubi.getDescripcion());
+                Files.move(temp, destino, java.nio.file.StandardCopyOption.REPLACE_EXISTING,
+                        java.nio.file.StandardCopyOption.ATOMIC_MOVE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Error al crear el archivo con la ubicacion",
+                        "Error",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
 
             if (ubi.getDescripcion().toLowerCase().contains("llegó al origen") && !pedidoRecolectado) {
                 timer.stop();
@@ -216,9 +230,9 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
                         cu.finalizar(idEntregaActual);
                     } catch (NegocioException ex) {
                         JOptionPane.showMessageDialog(this,
-                        "Error al finalizar entrega",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                                "Error al finalizar entrega",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
 
