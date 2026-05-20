@@ -1,4 +1,4 @@
-package com.mycompany.motoamigonegocio.Observer;
+package com.mycompany.motoamigonegocio.Observers;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

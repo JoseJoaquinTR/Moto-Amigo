@@ -8,8 +8,8 @@ import com.mycompany.repartidorespresentacion.FrmSeguimientoTiempoRealRepartidor
 import Utilerias.utileriasBotones;
 import Utilerias.utileriasMensajes;
 import com.mycompany.motoamigodto.IncidenteDTO;
-import com.mycompany.motoamigonegocio.Observer.EventoEntrega;
-import com.mycompany.motoamigonegocio.Observer.GestorNotificacionesEntrega;
+import com.mycompany.motoamigonegocio.Observers.EventoEntrega;
+import com.mycompany.motoamigonegocio.Observers.GestorNotificacionesEntrega;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Rectangle;

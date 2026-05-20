@@ -1,4 +1,4 @@
-package com.mycompany.motoamigonegocio.Observer;
+package com.mycompany.motoamigonegocio.Observers;
 
 import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 

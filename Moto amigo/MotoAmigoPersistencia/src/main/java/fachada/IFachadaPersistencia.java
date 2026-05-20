@@ -85,7 +85,7 @@ public interface IFachadaPersistencia {
 
     Negocio obtenerNegocioPorIdEmprendedor(String idEmprendedor) throws PersistenciaException;
 
-    CuentaUsuario buscarCuentaPorCorreo(String correo) throws PersistenciaException;
+    Emprendedor buscarCuentaPorCorreo(String correo) throws PersistenciaException;
 
     void activarCuenta(String idEmprendedor) throws PersistenciaException;
 

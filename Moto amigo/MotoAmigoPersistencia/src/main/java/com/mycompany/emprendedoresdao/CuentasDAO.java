@@ -43,11 +43,22 @@ public class CuentasDAO implements ICuentasDAO {
         return instancia;
     }
 
+    /**
+     * Busca una cuenta que coincida con el correo que se mando y te regresa el
+     * emprendedor que tiene la cuenta, este metodo regresa un emprendedor por
+     * que la DTO de CuentaUsuarioSesion necesita el id y estatus del
+     * emprendedor, ademas de las credenciales de la cuenta
+     *
+     * @param correo el correo de la cuenta que se buscara
+     * @return la cuenta que coincide ocn el correo
+     * @throws PersistenciaException
+     */
     @Override
-    public CuentaUsuario buscarCuenta(String correo) throws PersistenciaException {
+    public Emprendedor buscarCuentaPorCorreo(String correo) throws PersistenciaException {
         try {
-            Emprendedor emprendedor = coleccion.find(eq("cuentaUsuario.correo", correo)).first();
-            return emprendedor.getCuentaUsuario();
+            return coleccion.find(
+                    eq("cuentaUsuario.correo", correo)
+            ).first();
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al buscar la cuenta", ex);
         }

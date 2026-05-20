@@ -57,7 +57,7 @@ public class EmprendedoresDAOTest {
         emprendedor2.setRfc("LOPM850505XYZ");
         emprendedor2.setEstatus(EstatusEmprendedor.ACTIVO);
         emprendedor2.setCuentaUsuario(new CuentaUsuario(new ObjectId().toHexString(), "ernesto@gmail.com", "123456", true));
-        emprendedor2.setCuentaBancaria(new CuentaBancaria(new ObjectId().toHexString(), "0987654321", "Ernesto Cisneros", Banco.HSCB));
+        emprendedor2.setCuentaBancaria(new CuentaBancaria(new ObjectId().toHexString(), "0987654321", "Ernesto Cisneros", Banco.HSBC));
         emprendedor2.setImagen(new Imagen(new ObjectId().toHexString(), new byte[]{1}));
         emprendedor2.setDocumento(new Documento(new ObjectId().toHexString(), new byte[]{4}));
 
