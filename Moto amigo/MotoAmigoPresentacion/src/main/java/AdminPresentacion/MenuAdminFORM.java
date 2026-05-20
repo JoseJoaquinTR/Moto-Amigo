@@ -4,6 +4,7 @@
  */
 package AdminPresentacion;
 
+import javax.swing.JButton;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import panelesUtilerias.PanelHeader;
 
@@ -13,12 +14,32 @@ import panelesUtilerias.PanelHeader;
  */
 public class MenuAdminFORM extends javax.swing.JFrame {
 
+    private final ControlCUBloqueos control;
+
     /**
      * Creates new form MenuAdminFORM
      */
     public MenuAdminFORM() {
         initComponents();
-        add(new PanelHeader(), new AbsoluteConstraints(0, 0, 1366, 130));
+        control = new ControlCUBloqueos();
+
+        control.inicializarMenuAdmin(this);
+    }
+
+    public JButton getBtnBloquearRepartidor() {
+        return btnBloquearRepartidor;
+    }
+
+    public JButton getBtnDesbloqueoMasivo() {
+        return btnDesbloqueoMasivo;
+    }
+
+    public JButton getBtnHistorialBloqueos() {
+        return btnHistorialBloqueos;
+    }
+
+    public JButton getBtnHistorialDesbloqueos() {
+        return btnHistorialDesbloqueos;
     }
 
     /**
@@ -36,8 +57,11 @@ public class MenuAdminFORM extends javax.swing.JFrame {
         btnDesbloqueoMasivo = new javax.swing.JButton();
         btnHistorialBloqueos = new javax.swing.JButton();
         btnHistorialDesbloqueos = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         panelFondo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -90,7 +114,7 @@ public class MenuAdminFORM extends javax.swing.JFrame {
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(122, 122, 122)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -101,7 +125,7 @@ public class MenuAdminFORM extends javax.swing.JFrame {
                             .addComponent(btnDesbloqueoMasivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnHistorialDesbloqueos, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)))
                     .addComponent(jLabel1))
-                .addGap(82, 82, Short.MAX_VALUE))
+                .addGap(122, 122, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,19 +140,40 @@ public class MenuAdminFORM extends javax.swing.JFrame {
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHistorialBloqueos, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnHistorialDesbloqueos, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(256, Short.MAX_VALUE))
+                .addContainerGap(264, Short.MAX_VALUE))
         );
+
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel3.setMinimumSize(new java.awt.Dimension(1008, 80));
+        jPanel3.setPreferredSize(new java.awt.Dimension(1008, 80));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("MotoAmigo");
+        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        jLabel13.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 102, 0));
+        jLabel13.setText("Admin");
+        jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 20, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelFondo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1249, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 61, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -192,6 +237,9 @@ public class MenuAdminFORM extends javax.swing.JFrame {
     private javax.swing.JButton btnHistorialBloqueos;
     private javax.swing.JButton btnHistorialDesbloqueos;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel panelFondo;
     // End of variables declaration//GEN-END:variables
 }

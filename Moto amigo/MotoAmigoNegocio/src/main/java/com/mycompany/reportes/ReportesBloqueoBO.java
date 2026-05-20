@@ -4,11 +4,8 @@
  */
 package com.mycompany.reportes;
 
-
-import com.mycompany.reportes.IReportesBloqueoBO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteBloqueoDTO;
-import com.mycompany.motoamigonegocio.NegocioException;
 import static Adapter.AdapterReporteBloqueoToDTO.*;
 import static Adapter.AdapterInformacionReporte.*;
 import Repartidores.IRepartidoresBO;
@@ -20,6 +17,7 @@ import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 import fachada.FachadaPersistencia;
 import fachada.IFachadaPersistencia;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -64,19 +62,9 @@ public class ReportesBloqueoBO implements IReportesBloqueoBO {
     }
 
     @Override
-
     public List<ReporteBloqueoDTO> consultarReportesBloqueos() throws NegocioException {
         try {
-            List<ReporteBloqueoDTO> reportes = adaptarLista(persistencia.consultarReportesBloqueos());
-
-            for (ReporteBloqueoDTO reporte : reportes) {
-                if (reporte.getRepartidor() != null && reporte.getRepartidor().getId() != null) {
-                    RepartidorDTO repartidor = repartidoresBO.consultarRepartidorPorId(reporte.getRepartidor().getId());
-                    reporte.setRepartidor(repartidor);
-                }
-            }
-
-            return reportes;
+            return completarRepartidores(adaptarLista(persistencia.consultarReportesBloqueos()));
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al consultar reportes de bloqueo.", ex);
         }
@@ -85,16 +73,7 @@ public class ReportesBloqueoBO implements IReportesBloqueoBO {
     @Override
     public List<ReporteBloqueoDTO> consultarReportesBloqueos(FiltrosDTO filtros) throws NegocioException {
         try {
-            List<ReporteBloqueoDTO> reportes = adaptarLista(persistencia.consultarReportesBloqueos(filtros));
-
-            for (ReporteBloqueoDTO reporte : reportes) {
-                if (reporte.getRepartidor() != null && reporte.getRepartidor().getId() != null) {
-                    RepartidorDTO repartidor = repartidoresBO.consultarRepartidorPorId(reporte.getRepartidor().getId());
-                    reporte.setRepartidor(repartidor);
-                }
-            }
-
-            return reportes;
+            return completarRepartidores(adaptarLista(persistencia.consultarReportesBloqueos(filtros)));
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al consultar reportes de bloqueo con filtros.", ex);
         }
@@ -111,16 +90,39 @@ public class ReportesBloqueoBO implements IReportesBloqueoBO {
     }
 
     @Override
-    public List<InformacionReporteBloqueoDTO> consultarReportesBloqueoParaPDF(FiltrosDTO filtros)
-            throws NegocioException {
+    public List<InformacionReporteBloqueoDTO> consultarReportesBloqueoParaPDF(FiltrosDTO filtros) throws NegocioException {
         try {
-            List<ReporteBloqueoDTO> reportes
-                    = consultarReportesBloqueos(filtros);
-
-            return adaptarLista(reportes);
-
+            return adaptarLista(consultarReportesBloqueos(filtros));
         } catch (NegocioException ex) {
             throw new NegocioException("Error al consultar reportes de bloqueo para PDF.", ex);
         }
+    }
+
+    private ReporteBloqueoDTO completarRepartidor(ReporteBloqueoDTO reporte) throws NegocioException {
+        if (reporte == null || reporte.getRepartidor() == null || reporte.getRepartidor().getId() == null) {
+            return reporte;
+        }
+
+        RepartidorDTO repartidor = repartidoresBO.consultarRepartidorPorId(reporte.getRepartidor().getId());
+
+        if (repartidor != null) {
+            reporte.setRepartidor(repartidor);
+        }
+
+        return reporte;
+    }
+
+    private List<ReporteBloqueoDTO> completarRepartidores(List<ReporteBloqueoDTO> reportes) throws NegocioException {
+        List<ReporteBloqueoDTO> reportesCompletos = new LinkedList<>();
+
+        if (reportes == null) {
+            return reportesCompletos;
+        }
+
+        for (ReporteBloqueoDTO reporte : reportes) {
+            reportesCompletos.add(completarRepartidor(reporte));
+        }
+
+        return reportesCompletos;
     }
 }

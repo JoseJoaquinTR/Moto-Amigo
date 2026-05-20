@@ -18,7 +18,6 @@ import com.mycompany.reportes.IReportesDesbloqueosBO;
 import com.mycompany.reportes.MotivosBO;
 import com.mycompany.reportes.ReportesBloqueoBO;
 import com.mycompany.reportes.ReportesDesbloqueosBO;
-
 import enums.Estado;
 import java.time.LocalDateTime;
 import java.util.List;

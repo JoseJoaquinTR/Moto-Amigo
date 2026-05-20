@@ -34,7 +34,7 @@ public class ReportesBloqueosDAOTest {
     @Test
     public void testGuardarReporteBloqueo() {
         assertDoesNotThrow(() -> {
-            MotivoDTO motivoDTO = new MotivoDTO("Incumplimiento de reglas", Tipo.BLOQUEO);
+            MotivoDTO motivoDTO = new MotivoDTO("Conducta inapropiada con clientes", Tipo.BLOQUEO);
 
             String idRepartidor = new ObjectId().toHexString();
 
@@ -51,7 +51,7 @@ public class ReportesBloqueosDAOTest {
             NuevoReporteBloqueoDTO nuevoReporte = new NuevoReporteBloqueoDTO();
             nuevoReporte.setMotivo(motivoDTO);
             nuevoReporte.setRepartidor(repartidorDTO);
-            nuevoReporte.setDetalles("El repartidor no respetó la zona asignada.");
+            nuevoReporte.setDetalles("Grosero con clientes.");
             nuevoReporte.setFechaHora(LocalDateTime.now());
             nuevoReporte.setImagenEvidencia(evidencia);
 
@@ -64,7 +64,7 @@ public class ReportesBloqueosDAOTest {
 
             assertNotNull(reporte.getIdRepartidor());
             assertEquals(idRepartidor, reporte.getIdRepartidor());
-            assertEquals("Incumplimiento de reglas", reporte.getMotivo().getMotivo());
+            assertEquals("Conducta inapropiada con clientes", reporte.getMotivo().getMotivo());
             assertArrayEquals(evidencia, reporte.getImagenEvidencia());
         });
     }
@@ -82,7 +82,7 @@ public class ReportesBloqueosDAOTest {
     public void testConsultarConFiltros() {
         assertDoesNotThrow(() -> {
             FiltrosDTO filtros = new FiltrosDTO();
-            filtros.setMotivo(new MotivoDTO("Incumplimiento", Tipo.BLOQUEO));
+            filtros.setMotivo(new MotivoDTO("Conducta inapropiada con clientes", Tipo.BLOQUEO));
 
             List<ReporteBloqueo> resultados = dao.consultarConFiltros(filtros);
             assertNotNull(resultados);
