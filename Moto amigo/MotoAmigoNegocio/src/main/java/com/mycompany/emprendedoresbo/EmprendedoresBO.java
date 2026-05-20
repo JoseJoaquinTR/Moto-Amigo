@@ -14,8 +14,6 @@ import com.mycompany.Entidades.Imagen;
 import com.mycompany.Entidades.Negocio;
 import com.mycompany.emprendedoresdto.EmprendedorDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
-import com.mycompany.emprendedoresdao.EmprendedoresDAO;
-import com.mycompany.emprendedoresdao.IEmprendedoresDAO;
 import com.mycompany.emprendedoresdto.CuentaBancariaDTO;
 import com.mycompany.emprendedoresdto.CuentaUsuarioSesionDTO;
 import com.mycompany.emprendedoresdto.DocumentoDTO;

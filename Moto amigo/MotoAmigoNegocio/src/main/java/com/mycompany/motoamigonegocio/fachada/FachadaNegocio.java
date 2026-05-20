@@ -113,8 +113,6 @@ public class FachadaNegocio implements IFachadaNegocio {
         this.reportesBloqueoBO = reportesBloqueoBO;
         this.reportesDesbloqueosBO = reportesDesbloqueosBO;
         this.negociosBO = negociosBO;
-
-        ((IObservableEstatusEmprendedor) this.emprendedoresBO).agregarObservador(new ObservadorEstatusEmprendedor());
     }
 
     /**
