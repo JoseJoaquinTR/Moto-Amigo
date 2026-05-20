@@ -302,9 +302,11 @@ public interface IFachadaNegocio {
 
     EmprendedorDTO obtenerEmprendedorPorID(String idEmprendedor) throws NegocioException;
 
-    List<EmprendedorDTO> consultarEmprendedores() throws NegocioException;
+    List<EmprendedorDTO> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedorDTO estatus) throws NegocioException;
 
     ReporteEmprendedoresDTO generarDatosReportePDF() throws NegocioException;
+
+    boolean generarYDescargarReportePDF(ReporteEmprendedoresDTO reporte, String ruta) throws NegocioException;
 
     CuentaBancariaDTO obtenerCuentaBancariaPorIdEmprendedor(String idEmprendedor) throws NegocioException;
 
@@ -317,6 +319,8 @@ public interface IFachadaNegocio {
     DocumentoDTO obtenerDocumentoPorIdEmprendedor(String idEmprendedor) throws NegocioException;
 
     CuentaUsuarioSesionDTO buscarCuenta(String correo) throws NegocioException;
+
+    CuentaUsuarioSesionDTO iniciarSesion(String correo, String contrasenia) throws NegocioException;
 
     NegocioDTO registrarNegocio(String idEmprendedor, NegocioDTO dto) throws NegocioException;
 

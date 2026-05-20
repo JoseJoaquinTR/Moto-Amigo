@@ -13,6 +13,12 @@ public class RegistroEmprendedorDTO {
     public RegistroEmprendedorDTO() {
     }
 
+    public RegistroEmprendedorDTO(NuevoEmprendedorDTO emprendedor, NegocioDTO negocio, CuentaBancariaDTO cuentaBancaria) {
+        this.emprendedor = emprendedor;
+        this.negocio = negocio;
+        this.cuentaBancaria = cuentaBancaria;
+    }
+
     public NuevoEmprendedorDTO getEmprendedor() {
         return emprendedor;
     }

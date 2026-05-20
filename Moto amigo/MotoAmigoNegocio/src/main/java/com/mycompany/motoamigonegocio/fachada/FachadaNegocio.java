@@ -300,8 +300,8 @@ public class FachadaNegocio implements IFachadaNegocio {
     }
 
     @Override
-    public List<EmprendedorDTO> consultarEmprendedores() throws NegocioException {
-        return emprendedoresBO.consultarEmprendedores();
+    public List<EmprendedorDTO> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedorDTO estatus) throws NegocioException {
+        return emprendedoresBO.consultarEmprendedores(nombre, rfc, estatus);
     }
 
     @Override
@@ -340,6 +340,11 @@ public class FachadaNegocio implements IFachadaNegocio {
     }
 
     @Override
+    public CuentaUsuarioSesionDTO iniciarSesion(String correo, String contrasenia) throws NegocioException {
+        return emprendedoresBO.iniciarSesion(correo, contrasenia);
+    }
+    
+    @Override
     public NegocioDTO registrarNegocio(String idEmprendedor, NegocioDTO nuevoNegocio) throws NegocioException {
         return negociosBO.registrarNegocio(idEmprendedor, nuevoNegocio);
     }
@@ -366,5 +371,10 @@ public class FachadaNegocio implements IFachadaNegocio {
     public EntregaDTO finalizarEntrega(String idEntrega) throws NegocioException {
         return entregasBO.finalizarEntrega(idEntrega);
     }
-    
+
+    @Override
+    public boolean generarYDescargarReportePDF(ReporteEmprendedoresDTO reporte, String ruta) throws NegocioException {
+        return emprendedoresBO.generarYDescargarReportePDF(reporte, ruta);
+    }
+
 }

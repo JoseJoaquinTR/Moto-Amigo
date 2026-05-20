@@ -5,7 +5,6 @@ import com.mycompany.cuemprendedor.ICURegistrarEmprendedorFachada;
 import com.mycompany.emprendedoresdto.CuentaBancariaDTO;
 import com.mycompany.emprendedoresdto.CuentaUsuarioDTO;
 import com.mycompany.emprendedoresdto.CuentaUsuarioSesionDTO;
-import com.mycompany.emprendedoresdto.DireccionDTO;
 import com.mycompany.emprendedoresdto.DocumentoDTO;
 import com.mycompany.emprendedoresdto.EmprendedorDTO;
 import com.mycompany.emprendedoresdto.ImagenDTO;
@@ -22,7 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
+import com.mycompany.emprendedoresdto.DireccionDTO;
 /**
  *
  * @author Jesus Omar
@@ -96,7 +95,7 @@ public class ControlEmprendedor {
             PanelPaso2 paso2,
             PanelPaso3 paso3) {
         try {
-            // Armar DTOs
+
             ImagenDTO imagen = null;
             byte[] fotoBytes = paso1.getFotoPerfil();
             if (fotoBytes != null) {
@@ -149,9 +148,9 @@ public class ControlEmprendedor {
         }
     }
 
-    public List<EmprendedorDTO> consultarEmprendedores() {
+    public List<EmprendedorDTO> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedorDTO estatus) {
         try {
-            return cu.consultarEmprendedores();
+            return cu.consultarEmprendedores(nombre, rfc, estatus);
         } catch (NegocioException ex) {
             Logger.getLogger(ControlEmprendedor.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -200,7 +199,7 @@ public class ControlEmprendedor {
             }
             CuentaUsuarioSesionDTO cuenta = cu.iniciarSesion(
                     SesionActiva.getInstancia().getCuenta().getCorreo(),
-                    null 
+                    null
             );
             if (cuenta == null) {
                 return null;
@@ -210,5 +209,25 @@ public class ControlEmprendedor {
             return null;
         }
     }
-}
 
+    public boolean generarYDescargarReportePDF(ReporteEmprendedoresDTO reporte, String ruta) {
+        try {
+            return cu.generarYDescargarPDF(reporte, ruta);
+        } catch (NegocioException ex) {
+            Logger.getLogger(ControlEmprendedor.class.getName())
+                    .log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public DocumentoDTO obtenerDocumentoEmprendedor(
+            String idEmprendedor) {
+        try {
+            return cu.obtenerDocumentoPorIdEmprendedor(idEmprendedor);
+        } catch (NegocioException ex) {
+            Logger.getLogger(ControlEmprendedor.class.getName())
+                    .log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+}

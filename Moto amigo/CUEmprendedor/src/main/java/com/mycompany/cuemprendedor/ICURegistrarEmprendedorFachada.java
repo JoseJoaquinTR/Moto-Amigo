@@ -25,9 +25,11 @@ public interface ICURegistrarEmprendedorFachada {
 
     EmprendedorDTO obtenerEmprendedorPorID(String idEmprendedor) throws NegocioException;
 
-    List<EmprendedorDTO> consultarEmprendedores() throws NegocioException;
+    List<EmprendedorDTO> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedorDTO estatus) throws NegocioException;
 
     ReporteEmprendedoresDTO generarDatosReportePDF() throws NegocioException;
+
+    boolean generarYDescargarPDF(ReporteEmprendedoresDTO reporte, String rutaDestino) throws NegocioException;
 
     CuentaBancariaDTO obtenerCuentaBancariaPorIdEmprendedor(String idEmprendedor) throws NegocioException;
 
@@ -46,4 +48,7 @@ public interface ICURegistrarEmprendedorFachada {
     DireccionDTO actualizarDireccion(String idNegocio, DireccionDTO direccion) throws NegocioException;
 
     CuentaUsuarioSesionDTO buscarCuenta(String correo) throws NegocioException;
+
+    CuentaUsuarioSesionDTO iniciarSesion(String correo, String contrasenia) throws NegocioException;
+
 }

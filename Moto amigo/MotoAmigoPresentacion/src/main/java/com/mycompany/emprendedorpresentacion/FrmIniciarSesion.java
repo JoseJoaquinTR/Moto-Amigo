@@ -1,9 +1,11 @@
-package com.mycompany.motoamigopresentacion;
+package com.mycompany.emprendedorpresentacion;
 
+import com.mycompany.emprendedorpresentacion.FrmPrincipal;
 import com.mycompany.cuemprendedor.CURegistrarEmprendedorFachada;
 import com.mycompany.cuemprendedor.ICURegistrarEmprendedorFachada;
 import com.mycompany.emprendedoresdto.CuentaUsuarioSesionDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
+import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
 import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import static enums.EstatusEmprendedorDTO.BAJA;
 import static enums.EstatusEmprendedorDTO.PENDIENTE;
@@ -49,12 +51,10 @@ public class FrmIniciarSesion extends JFrame{
         JPanel pnlPrincipal = new JPanel(null);
         pnlPrincipal.setBackground(new Color(240, 242, 245));
 
-        // Título
         JLabel lblTitulo = new JLabel("Iniciar Sesión");
         lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 28));
         lblTitulo.setBounds(354, 60, 300, 40);
 
-        // Correo
         JLabel lblCorreo = new JLabel("CORREO");
         lblCorreo.setFont(new Font("SansSerif", Font.PLAIN, 11));
         lblCorreo.setForeground(Color.GRAY);
@@ -68,7 +68,6 @@ public class FrmIniciarSesion extends JFrame{
         ));
         txtCorreo.setBounds(354, 143, 300, 42);
 
-        // Contraseña
         JLabel lblContrasenia = new JLabel("CONTRASEÑA");
         lblContrasenia.setFont(new Font("SansSerif", Font.PLAIN, 11));
         lblContrasenia.setForeground(Color.GRAY);
@@ -82,14 +81,12 @@ public class FrmIniciarSesion extends JFrame{
         ));
         txtContrasenia.setBounds(354, 223, 300, 42);
 
-        // Mensaje error
         lblError = new JLabel("");
         lblError.setForeground(Color.RED);
         lblError.setFont(new Font("SansSerif", Font.PLAIN, 12));
         lblError.setHorizontalAlignment(SwingConstants.CENTER);
         lblError.setBounds(354, 272, 300, 20);
 
-        // Botón Entrar
         btnEntrar = new JButton("Entrar");
         btnEntrar.setBackground(Color.BLACK);
         btnEntrar.setForeground(Color.WHITE);
@@ -100,7 +97,6 @@ public class FrmIniciarSesion extends JFrame{
         btnEntrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEntrar.addActionListener(e -> iniciarSesion());
 
-        // Volver
         JLabel lblVolver = new JLabel("Volver");
         lblVolver.setFont(new Font("SansSerif", Font.PLAIN, 14));
         lblVolver.setForeground(new Color(100, 100, 180));
@@ -110,8 +106,7 @@ public class FrmIniciarSesion extends JFrame{
         lblVolver.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                new FrmPrincipal().setVisible(true);
-                dispose();
+                ControlNavegacionEmprendedor.getInstancia().irAPrincipal();
             }
         });
 
@@ -144,25 +139,20 @@ public class FrmIniciarSesion extends JFrame{
                 return;
             }
 
-            // Verificar contraseña con BCrypt
-            // Nota: la verificación real requiere acceso al hash guardado
-            // aquí solo validamos que la cuenta exista y esté activa
             if (!cuenta.isActiva()) {
                 switch (cuenta.getEstatusEmprendedor()) {
                     case PENDIENTE ->
-                        lblError.setText("Tu cuenta está pendiente de revisión.");
+                        lblError.setText("Tu cuenta esta pendiente de revision");
                     case RECHAZADO ->
-                        lblError.setText("Tu cuenta fue rechazada.");
+                        lblError.setText("Tu cuenta fue rechazada");
                     case BAJA ->
-                        lblError.setText("Tu cuenta fue dada de baja.");
+                        lblError.setText("Tu cuenta fue dada de baja");
                 }
                 return;
             }
 
-            // Guardar sesión y navegar al menú
             SesionActiva.getInstancia().setCuenta(cuenta);
-            new com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor().setVisible(true);
-            dispose();
+            ControlNavegacionEmprendedor.getInstancia().irAInicio();
 
         } catch (NegocioException ex) {
             lblError.setText("Error al iniciar sesión.");

@@ -20,6 +20,9 @@ public class AdapterImagen {
      * @return la entidad de la Imagen
      */
     public static Imagen dtoAImagen(ImagenDTO imagenDTO) {
+        if(imagenDTO == null){
+            return null;
+        }
         Imagen imagen = new Imagen();
         imagen.setIdImagen(new ObjectId().toHexString());
         imagen.setImagen(imagenDTO.getImagen());

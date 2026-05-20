@@ -33,6 +33,10 @@ public class SesionActiva {
         return cuenta;
     }
 
+    public CuentaUsuarioSesionDTO getCuenta() {
+        return cuenta;
+    }
+
     public void setCuenta(CuentaUsuarioSesionDTO cuenta) {
         this.cuenta = cuenta;
     }

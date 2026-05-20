@@ -205,8 +205,8 @@ public class CURegistrarEmprendedorFachada implements ICURegistrarEmprendedorFac
     }
 
     @Override
-    public List<EmprendedorDTO> consultarEmprendedores() throws NegocioException {
-        return fachadaNegocio.consultarEmprendedores();
+    public List<EmprendedorDTO> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedorDTO estatus) throws NegocioException {
+        return fachadaNegocio.consultarEmprendedores(nombre, rfc, estatus);
     }
 
     @Override
@@ -298,6 +298,22 @@ public class CURegistrarEmprendedorFachada implements ICURegistrarEmprendedorFac
             throw new NegocioException("El formato del correo es incorrecto");
         }
         return fachadaNegocio.buscarCuenta(correo);
+    }
+
+    @Override
+    public CuentaUsuarioSesionDTO iniciarSesion(String correo, String contrasenia) throws NegocioException {
+        if (correo == null || correo.isBlank()) {
+            throw new NegocioException("El correo es obligatorio");
+        }
+        if (contrasenia == null || contrasenia.isBlank()) {
+            throw new NegocioException("La contraseña es obligatoria");
+        }
+        return fachadaNegocio.iniciarSesion(correo, contrasenia);
+    }
+
+    @Override
+    public boolean generarYDescargarPDF(ReporteEmprendedoresDTO reporte, String rutaDestino) throws NegocioException {
+        return fachadaNegocio.generarYDescargarReportePDF(reporte, rutaDestino);
     }
 
 }

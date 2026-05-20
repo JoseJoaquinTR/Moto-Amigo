@@ -10,7 +10,6 @@ import com.mycompany.motoamigopresentacion.FrmConsultarRutaEmprendedor;
 import com.mycompany.motoamigopresentacion.controladores.ControlSolicitarEntrega;
 import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import com.mycompany.paquetesdto.PaqueteDTO;
-import com.mycompany.paquetesdto.ProductosPaqueteDTO;
 import com.mycompany.paquetespresentacion.DlgBuscarPaquetes;
 import enums.TipoEnvioDTO;
 import java.awt.Color;

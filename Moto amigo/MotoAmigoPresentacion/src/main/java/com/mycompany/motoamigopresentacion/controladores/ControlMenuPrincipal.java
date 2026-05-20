@@ -1,7 +1,5 @@
 package com.mycompany.motoamigopresentacion.controladores;
 
-import com.mycompany.cuemprendedor.BuscarEmprendedorPorId;
-import com.mycompany.cuemprendedor.IBuscarEmprendedorPorId;
 import com.mycompany.curepartidor.BuscarRepartidorPorId;
 import com.mycompany.curepartidor.IBuscarRepartidorPorId;
 import com.mycompany.cusolicitarentrega.IListarEntregasEmprendedor;
@@ -40,13 +38,11 @@ public class ControlMenuPrincipal {
     private static ControlMenuPrincipal instancia;
 
     private final IBuscarRepartidorPorId cuBuscarRepartidor;
-    private final IBuscarEmprendedorPorId cuBuscarEmprendedor;
     private final IListarEntregasRepartidor cuEntregasRepartidor;
     private final IListarEntregasEmprendedor cuEntregasEmprendedor;
 
     private ControlMenuPrincipal() {
         this.cuBuscarRepartidor = BuscarRepartidorPorId.crear();
-        this.cuBuscarEmprendedor = BuscarEmprendedorPorId.crear();
         this.cuEntregasRepartidor = ListarEntregasRepartidor.crear();
         this.cuEntregasEmprendedor = ListarEntregasEmprendedor.crear();
     }
@@ -78,22 +74,7 @@ public class ControlMenuPrincipal {
             return null;
         }
     }
-
-    /**
-     * Busca un emprendedor por su identificador.
-     *
-     * @param id identificador del emprendedor.
-     * @return datos del emprendedor; null si no se encuentra o si ocurre un
-     * error.
-     */
-//    public EmprendedorDTO buscarEmprendedorPorId(Long id) {
-//        try {
-//            return cuBuscarEmprendedor.buscarEmprendedorPorId(id);
-//        } catch (NegocioException ex) {
-//            Logger.getLogger(ControlMenuPrincipal.class.getName()).log(Level.SEVERE, "Error buscando emprendedor", ex);
-//            return null;
-//        }
-//    }
+    
     /**
      * Obtiene la lista de entregas según el filtro indicado.
      *
