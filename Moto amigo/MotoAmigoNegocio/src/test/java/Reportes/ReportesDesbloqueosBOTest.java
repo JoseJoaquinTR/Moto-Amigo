@@ -4,13 +4,13 @@
  */
 package Reportes;
 
+import com.mycompany.reportes.ReportesDesbloqueosBO;
+import com.mycompany.reportes.IReportesDesbloqueosBO;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.InformacionReporteDesbloqueoDTO;
 import com.mycompany.bloqueorepartidores.MotivoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteDesbloqueoDTO;
-import com.mycompany.motoamigonegocio.IReportesDesbloqueosBO;
-import com.mycompany.motoamigonegocio.ReportesDesbloqueosBO;
 import enums.Tipo;
 import java.time.LocalDateTime;
 import java.util.List;

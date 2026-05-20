@@ -3,8 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package com.mycompany.motoamigonegocio;
+package com.mycompany.reportes;
 
+import com.mycompany.reportes.IReportesDesbloqueosBO;
 import static Adapter.AdapterInformacionReporte.adaptarListaDesbloqueos;
 import static Adapter.AdapterReporteDesbloqueoToDTO.adaptarLista;
 import static Adapter.AdapterReporteDesbloqueoToDTO.toDTO;
@@ -12,6 +13,7 @@ import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.InformacionReporteDesbloqueoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteDesbloqueoDTO;
 import com.mycompany.bloqueorepartidores.ReporteDesbloqueoDTO;
+import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 import fachada.FachadaPersistencia;

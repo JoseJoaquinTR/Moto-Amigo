@@ -37,18 +37,22 @@ import com.mycompany.emprendedoresdto.ReporteEmprendedoresDTO;
 import com.mycompany.motoamigonegocio.IEntregasBO;
 import com.mycompany.motoamigonegocio.IGestionRepartidores;
 import com.mycompany.motoamigonegocio.IIncidenteBO;
-import com.mycompany.motoamigonegocio.IMotivosBO;
-import com.mycompany.motoamigonegocio.IReportesBloqueoBO;
-import com.mycompany.motoamigonegocio.IReportesDesbloqueosBO;
+import com.mycompany.reportes.IMotivosBO;
+import com.mycompany.reportes.IReportesBloqueoBO;
+import com.mycompany.reportes.IReportesDesbloqueosBO;
 import com.mycompany.motoamigonegocio.IRutaBO;
 import com.mycompany.motoamigonegocio.IUbicacionBO;
 import com.mycompany.motoamigonegocio.IncidenteBO;
-import com.mycompany.motoamigonegocio.MotivosBO;
+import com.mycompany.reportes.MotivosBO;
 import com.mycompany.motoamigonegocio.NegocioException;
+
 import com.mycompany.motoamigonegocio.Observers.IObservableEstatusEmprendedor;
 import com.mycompany.motoamigonegocio.Observers.ObservadorEstatusEmprendedor;
 import com.mycompany.motoamigonegocio.ReportesBloqueoBO;
 import com.mycompany.motoamigonegocio.ReportesDesbloqueosBO;
+
+import com.mycompany.reportes.ReportesBloqueoBO;
+import com.mycompany.reportes.ReportesDesbloqueosBO;
 import com.mycompany.motoamigonegocio.RutaBO;
 import com.mycompany.motoamigonegocio.UbicacionBO;
 import enums.Estado;

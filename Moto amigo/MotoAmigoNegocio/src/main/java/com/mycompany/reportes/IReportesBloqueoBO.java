@@ -3,13 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package com.mycompany.motoamigonegocio;
+package com.mycompany.reportes;
 
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.InformacionReporteBloqueoDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import com.mycompany.bloqueorepartidores.ReporteBloqueoDTO;
+import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigonegocio.NegocioException;
 import java.util.List;
 
