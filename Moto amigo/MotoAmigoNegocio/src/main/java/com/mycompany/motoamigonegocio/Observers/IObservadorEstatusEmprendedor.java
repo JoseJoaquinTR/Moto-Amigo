@@ -18,5 +18,5 @@ public interface IObservadorEstatusEmprendedor {
      * @param estatus el nuevo estatus de del emprendedor
      * @throws NegocioException
      */
-    void estatusEmprendedorActualizado(String idEmprendedor, EstatusEmprendedor estatus) throws NegocioException;
+    void estatusEmprendedorActualizado(String idEmprendedor, EstatusEmprendedor estatus);
 }

@@ -14,7 +14,7 @@ public class ObservadorEstatusEmprendedor implements IObservadorEstatusEmprended
 
     private final IFachadaPersistencia persistencia;
 
-    public ObservadorEstatusEmprendedor(IFachadaPersistencia persistencia) {
+    public ObservadorEstatusEmprendedor() {
         this.persistencia = FachadaPersistencia.getInstancia();
     }
 
@@ -28,7 +28,7 @@ public class ObservadorEstatusEmprendedor implements IObservadorEstatusEmprended
      * @throws NegocioException
      */
     @Override
-    public void estatusEmprendedorActualizado(String idEmprendedor, EstatusEmprendedor estatus) throws NegocioException {
+    public void estatusEmprendedorActualizado(String idEmprendedor, EstatusEmprendedor estatus) {
         try {
             if (estatus.equals(EstatusEmprendedor.ACTIVO)) {
                 persistencia.activarCuenta(idEmprendedor);
@@ -36,7 +36,7 @@ public class ObservadorEstatusEmprendedor implements IObservadorEstatusEmprended
                 persistencia.desactivarCuenta(idEmprendedor);
             }
         } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al actualizar la cuenta del emprendedor", ex);
+            System.err.println("Error al actualizar la cuenta");
         }
     }
 }

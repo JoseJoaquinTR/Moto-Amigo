@@ -1,5 +1,7 @@
 package com.mycompany.motoamigopresentacion.controladores;
 
+import com.mycompany.cuemprendedor.CURegistrarEmprendedorFachada;
+import com.mycompany.cuemprendedor.ICURegistrarEmprendedorFachada;
 import com.mycompany.paquetespresentacion.FrmMenuPaquetes;
 import com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor;
 import com.mycompany.productospresentacion.FrmMenuProductos;
@@ -12,10 +14,11 @@ import javax.swing.JFrame;
 public class ControlNavegacionEmprendedor {
 
     private static ControlNavegacionEmprendedor instancia;
-
+    private final ICURegistrarEmprendedorFachada cu;
     private JFrame menuActivo;
 
     private ControlNavegacionEmprendedor() {
+        this.cu = new CURegistrarEmprendedorFachada();
     }
 
     /**

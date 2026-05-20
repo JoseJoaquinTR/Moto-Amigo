@@ -24,6 +24,7 @@ import com.mycompany.emprendedoresdto.RegistroEmprendedorDTO;
 import com.mycompany.emprendedoresdto.ReporteEmprendedoresDTO;
 import com.mycompany.motoamigonegocio.Observers.IObservableEstatusEmprendedor;
 import com.mycompany.motoamigonegocio.Observers.IObservadorEstatusEmprendedor;
+import com.mycompany.motoamigonegocio.Observers.ObservadorEstatusEmprendedor;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 import enums.EstatusEmprendedorDTO;
 import fachada.FachadaPersistencia;
@@ -52,6 +53,12 @@ public class EmprendedoresBO implements IEmprendedoresBO, IObservableEstatusEmpr
     private EmprendedoresBO() {
         this.persistencia = FachadaPersistencia.getInstancia();
         this.observadores = new ArrayList<>();
+    }
+
+    public static EmprendedoresBO getInstanciaConObserver() {
+        EmprendedoresBO instancia = getInstancia();
+        instancia.agregarObservador(new ObservadorEstatusEmprendedor());
+        return instancia;
     }
 
     /**
@@ -318,12 +325,12 @@ public class EmprendedoresBO implements IEmprendedoresBO, IObservableEstatusEmpr
      * @throws NegocioException
      */
     @Override
-    public void agregarObservador(IObservadorEstatusEmprendedor observador) throws NegocioException {
+    public void agregarObservador(IObservadorEstatusEmprendedor observador){
         observadores.add(observador);
     }
 
     @Override
-    public void notificarObservadores(String idEmprendedor, EstatusEmprendedor estatus) throws NegocioException {
+    public void notificarObservadores(String idEmprendedor, EstatusEmprendedor estatus){
         for (IObservadorEstatusEmprendedor observador : observadores) {
             observador.estatusEmprendedorActualizado(idEmprendedor, estatus);
         }
