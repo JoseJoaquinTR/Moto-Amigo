@@ -7,6 +7,7 @@ import Adapter.AdapterEmprendedor;
 import Adapter.AdapterImagen;
 import Adapter.AdapterNegocio;
 import Enums.EstatusEmprendedor;
+import com.itextpdf.text.DocumentException;
 import com.mycompany.Entidades.CuentaBancaria;
 import com.mycompany.Entidades.Documento;
 import com.mycompany.Entidades.Emprendedor;
@@ -22,10 +23,13 @@ import com.mycompany.emprendedoresdto.RegistroEmprendedorDTO;
 import com.mycompany.emprendedoresdto.ReporteEmprendedoresDTO;
 import com.mycompany.motoamigonegocio.Observers.IObservableEstatusEmprendedor;
 import com.mycompany.motoamigonegocio.Observers.IObservadorEstatusEmprendedor;
+import com.mycompany.motoamigonegocio.Observers.ObservadorEstatusEmprendedor;
 import com.mycompany.motoamigopersistencia.PersistenciaException;
 import enums.EstatusEmprendedorDTO;
 import fachada.FachadaPersistencia;
 import fachada.IFachadaPersistencia;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -42,7 +46,6 @@ public class EmprendedoresBO implements IEmprendedoresBO, IObservableEstatusEmpr
     private static EmprendedoresBO instancia;
     private final IFachadaPersistencia persistencia;
     private final List<IObservadorEstatusEmprendedor> observadores;
-
     /**
      * Constructor privado para que solo se pueda crear la instancia dentro de
      * la clase, y para que solo haya una
@@ -50,6 +53,12 @@ public class EmprendedoresBO implements IEmprendedoresBO, IObservableEstatusEmpr
     private EmprendedoresBO() {
         this.persistencia = FachadaPersistencia.getInstancia();
         this.observadores = new ArrayList<>();
+    }
+
+    public static EmprendedoresBO getInstanciaConObserver() {
+        EmprendedoresBO instancia = getInstancia();
+        instancia.agregarObservador(new ObservadorEstatusEmprendedor());
+        return instancia;
     }
 
     /**
@@ -133,26 +142,6 @@ public class EmprendedoresBO implements IEmprendedoresBO, IObservableEstatusEmpr
     }
 
     /**
-     * Consulta a los emprendedores que hay en la base de datos
-     *
-     * @return una lista con los emprendedores que estan en la base de datos
-     * @throws NegocioException
-     */
-    @Override
-    public List<EmprendedorDTO> consultarEmprendedores() throws NegocioException {
-        try {
-            List<Emprendedor> emprendedores = persistencia.consultarEmprendedores();
-            List<EmprendedorDTO> listaEmprendedores = new LinkedList<>();
-            for (Emprendedor e : emprendedores) {
-                listaEmprendedores.add(AdapterEmprendedor.emprendedorAEmprendedorDTO(e));
-            }
-            return listaEmprendedores;
-        } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al consultar los emprendedores", ex);
-        }
-    }
-
-    /**
      * Genera un reporte detallado de los emprendedores
      *
      * @return regresa los datos para el reporte PDF
@@ -161,7 +150,7 @@ public class EmprendedoresBO implements IEmprendedoresBO, IObservableEstatusEmpr
     @Override
     public ReporteEmprendedoresDTO generarDatosReportePDF() throws NegocioException {
         try {
-            List<Emprendedor> emprendedores = persistencia.consultarEmprendedores();
+            List<Emprendedor> emprendedores = persistencia.consultarEmprendedores(null, null, null);
             List<EmprendedorDTO> listaReporte = new LinkedList<>();
             // contadores para la cantidad de los emprendedores con el mismo estatus
             int totalActivos = 0;
@@ -296,6 +285,14 @@ public class EmprendedoresBO implements IEmprendedoresBO, IObservableEstatusEmpr
         }
     }
 
+    /**
+     * Busca la una cuenta por el correo
+     *
+     * @param correo el correo asociado a la cuenta
+     * @return la CuentaUsuarioDTO con el idEmprendedor, EstatusEmprendedor,
+     * idCuenta y el estado
+     * @throws NegocioException
+     */
     @Override
     public CuentaUsuarioSesionDTO buscarCuenta(String correo) throws NegocioException {
         try {
@@ -307,23 +304,108 @@ public class EmprendedoresBO implements IEmprendedoresBO, IObservableEstatusEmpr
         }
     }
 
-    /**
-     * Busca la una cuenta por el correo
-     *
-     * @param correo el correo asociado a la cuenta
-     * @return la CuentaUsuarioDTO con el idEmprendedor, EstatusEmprendedor,
-     * idCuenta y el estado
-     * @throws NegocioException
-     */
     @Override
-    public void agregarObservador(IObservadorEstatusEmprendedor observador) throws NegocioException {
+    public void agregarObservador(IObservadorEstatusEmprendedor observador) {
         observadores.add(observador);
     }
 
     @Override
-    public void notificarObservadores(String idEmprendedor, EstatusEmprendedor estatus) throws NegocioException {
+    public void notificarObservadores(String idEmprendedor, EstatusEmprendedor estatus) {
         for (IObservadorEstatusEmprendedor observador : observadores) {
             observador.estatusEmprendedorActualizado(idEmprendedor, estatus);
+        }
+    }
+
+    @Override
+    public CuentaUsuarioSesionDTO iniciarSesion(String correo, String contrasenia) throws NegocioException {
+        try {
+            Emprendedor emprendedor = persistencia.buscarCuentaPorCorreo(correo);
+            if (emprendedor == null) {
+                return null;
+            }
+            if (!BCrypt.checkpw(contrasenia, emprendedor.getCuentaUsuario().getContrasenia())) {
+                return null;
+            }
+            return AdapterCuentaUsuario.cuentaUsuarioADTO(emprendedor);
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al iniciar sesion", ex);
+        }
+    }
+
+    @Override
+    public List<EmprendedorDTO> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedorDTO estatus) throws NegocioException {
+        try {
+            List<EmprendedorDTO> resultado = new LinkedList<>();
+            for (Emprendedor e : persistencia.consultarEmprendedores(nombre, rfc, AdapterEmprendedor.estatusDTOAEstatus(estatus))) {
+                resultado.add(AdapterEmprendedor.emprendedorAEmprendedorDTO(e));
+            }
+            return resultado;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al consultar los emprendedores", ex);
+        }
+    }
+
+    @Override
+    public boolean generarYDescargarReportePDF(ReporteEmprendedoresDTO reporte, String ruta) throws NegocioException {
+        try {
+            com.itextpdf.text.Document doc
+                    = new com.itextpdf.text.Document();
+            com.itextpdf.text.pdf.PdfWriter.getInstance(
+                    doc, new FileOutputStream(ruta));
+            doc.open();
+
+            com.itextpdf.text.Font fuenteTitulo = new com.itextpdf.text.Font(
+                    com.itextpdf.text.Font.FontFamily.HELVETICA, 18,
+                    com.itextpdf.text.Font.BOLD);
+            doc.add(new com.itextpdf.text.Paragraph(
+                    "Reporte de Emprendedores", fuenteTitulo));
+            doc.add(new com.itextpdf.text.Paragraph(
+                    "Fecha: " + new java.util.Date()));
+            doc.add(com.itextpdf.text.Chunk.NEWLINE);
+
+            doc.add(new com.itextpdf.text.Paragraph(
+                    "Total: " + reporte.getTotalEmprendedores()
+                    + "  Activos: " + reporte.getTotalActivos()
+                    + "  Pendientes: " + reporte.getTotalPendientes()
+                    + "  Rechazados: " + reporte.getTotalRechazados()
+                    + "  Baja: " + reporte.getTotalBaja()));
+            doc.add(com.itextpdf.text.Chunk.NEWLINE);
+
+            com.itextpdf.text.pdf.PdfPTable tabla
+                    = new com.itextpdf.text.pdf.PdfPTable(5);
+            tabla.setWidthPercentage(100);
+            tabla.setWidths(new float[]{3, 4, 2, 2, 2});
+
+            com.itextpdf.text.Font fuenteHeader = new com.itextpdf.text.Font(
+                    com.itextpdf.text.Font.FontFamily.HELVETICA, 11,
+                    com.itextpdf.text.Font.BOLD,
+                    com.itextpdf.text.BaseColor.WHITE);
+
+            for (String header : new String[]{
+                "Nombre", "Correo", "RFC", "Teléfono", "Estatus"}) {
+                com.itextpdf.text.pdf.PdfPCell celda
+                        = new com.itextpdf.text.pdf.PdfPCell(
+                                new com.itextpdf.text.Phrase(header, fuenteHeader));
+                celda.setBackgroundColor(new com.itextpdf.text.BaseColor(230, 72, 0));
+                celda.setPadding(6);
+                tabla.addCell(celda);
+            }
+
+            for (EmprendedorDTO e : reporte.getListaEmprendedores()) {
+                tabla.addCell(e.getNombre() != null ? e.getNombre() : "");
+                tabla.addCell(e.getCorreo() != null ? e.getCorreo() : "");
+                tabla.addCell(e.getRfc() != null ? e.getRfc() : "");
+                tabla.addCell(e.getTelefono() != null ? e.getTelefono() : "");
+                tabla.addCell(e.getEstatus() != null ? e.getEstatus().name() : "");
+            }
+
+            doc.add(tabla);
+            doc.close();
+            return true;
+        }catch(DocumentException ex){
+            throw new NegocioException("Error al generar el PDF" + ex.getMessage());
+        }catch(FileNotFoundException ex){
+            throw new NegocioException("Error al generar el PDF" + ex.getMessage());
         }
     }
 }

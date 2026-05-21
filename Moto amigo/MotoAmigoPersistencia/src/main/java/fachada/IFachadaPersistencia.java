@@ -79,7 +79,7 @@ public interface IFachadaPersistencia {
 
     Emprendedor obtenerEmprendedorPorID(String idEmprendedor) throws PersistenciaException;
 
-    List<Emprendedor> consultarEmprendedores() throws PersistenciaException;
+    List<Emprendedor> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedor estatus) throws PersistenciaException;
 
     Negocio registrarNegocio(Negocio negocio) throws PersistenciaException;
 
@@ -115,4 +115,6 @@ public interface IFachadaPersistencia {
     List<Entrega> obtenerEntregasEmprendedor(String idEmprendedor) throws PersistenciaException;
 
     List<Entrega> obtenerEntregasDisponibles() throws PersistenciaException;
+    
+    Entrega actualizarEntrega(String idEntrega, String idRepartidor, String nuevoEstado) throws PersistenciaException;
 }

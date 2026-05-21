@@ -254,8 +254,8 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     }
 
     @Override
-    public List<Emprendedor> consultarEmprendedores() throws PersistenciaException {
-        return emprendedoresDAO.consultarEmprendedores();
+    public List<Emprendedor> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedor estatus) throws PersistenciaException {
+        return emprendedoresDAO.consultarEmprendedores(nombre, rfc, estatus);
     }
 
     @Override
@@ -340,5 +340,9 @@ public class FachadaPersistencia implements IFachadaPersistencia {
     @Override
     public List<Entrega> obtenerEntregasDisponibles() throws PersistenciaException {
         return EntregasDAO.getInstancia().obtenerEntregasDisponibles();
+    }
+    @Override
+    public Entrega actualizarEntrega(String idEntrega, String idRepartidor, String nuevoEstado) throws PersistenciaException {
+        return EntregasDAO.getInstancia().actualizar(idEntrega, idRepartidor, nuevoEstado);
     }
 }

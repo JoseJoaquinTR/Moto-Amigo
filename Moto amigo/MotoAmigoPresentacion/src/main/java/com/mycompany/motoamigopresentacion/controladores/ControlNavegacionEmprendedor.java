@@ -1,7 +1,14 @@
 package com.mycompany.motoamigopresentacion.controladores;
 
+import com.mycompany.cuemprendedor.CURegistrarEmprendedorFachada;
+import com.mycompany.cuemprendedor.ICURegistrarEmprendedorFachada;
+import com.mycompany.emprendedorpresentacion.FrmEsperaDeValidacion;
+import com.mycompany.emprendedorpresentacion.FrmIniciarSesion;
 import com.mycompany.paquetespresentacion.FrmMenuPaquetes;
 import com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor;
+import com.mycompany.emprendedorpresentacion.FrmPrincipal;
+import com.mycompany.emprendedorpresentacion.FrmRegistroEmprendedor;
+import com.mycompany.emprendedorpresentacion.FrmTipoUsuario;
 import com.mycompany.productospresentacion.FrmMenuProductos;
 import javax.swing.JFrame;
 
@@ -12,10 +19,11 @@ import javax.swing.JFrame;
 public class ControlNavegacionEmprendedor {
 
     private static ControlNavegacionEmprendedor instancia;
-
+    private final ICURegistrarEmprendedorFachada cu;
     private JFrame menuActivo;
 
     private ControlNavegacionEmprendedor() {
+        this.cu = new CURegistrarEmprendedorFachada();
     }
 
     /**
@@ -31,13 +39,15 @@ public class ControlNavegacionEmprendedor {
     }
 
     /**
-     * Registra el menú que se abre como el menú activo. Cada Frm de
-     * menú principal debe llamar a este método al iniciarse.
+     * Registra el menú que se abre como el menú activo. Cada Frm de menú
+     * principal debe llamar a este método al iniciarse.
      *
      * @param menu menú que se está mostrando.
      */
     public void registrarMenuActivo(JFrame menu) {
-        this.menuActivo = menu;
+        if (menu != null) {
+            this.menuActivo = menu;
+        }
     }
 
     /**
@@ -50,6 +60,7 @@ public class ControlNavegacionEmprendedor {
         }
         cerrarMenuActivo();
         FrmMenuPrincipalEmprendedor menu = new FrmMenuPrincipalEmprendedor();
+        registrarMenuActivo(menu);
         menu.setVisible(true);
     }
 
@@ -61,7 +72,7 @@ public class ControlNavegacionEmprendedor {
             return;
         }
         cerrarMenuActivo();
-        FrmMenuPaquetes menu= new FrmMenuPaquetes();
+        FrmMenuPaquetes menu = new FrmMenuPaquetes();
         menu.setVisible(true);
     }
 
@@ -74,18 +85,54 @@ public class ControlNavegacionEmprendedor {
             return;
         }
         cerrarMenuActivo();
-        FrmMenuProductos menu= new FrmMenuProductos();
+        FrmMenuProductos menu = new FrmMenuProductos();
         menu.setVisible(true);
     }
+
+
     /**
-     * Metodo auxiliar que sirve para cerrar 
-     * el menu que se encuentre activo. 
-     * 
+     * Metodo auxiliar que sirve para cerrar el menu que se encuentre activo.
+     *
      */
     private void cerrarMenuActivo() {
         if (menuActivo != null) {
             menuActivo.dispose();
             menuActivo = null;
         }
+    }
+
+    public void irAPrincipal() {
+        cerrarMenuActivo();
+        FrmPrincipal frm = new FrmPrincipal();
+        registrarMenuActivo(frm);
+        frm.setVisible(true);
+    }
+
+    public void irAIniciarSesion() {
+        cerrarMenuActivo();
+        FrmIniciarSesion frm = new FrmIniciarSesion();
+        registrarMenuActivo(frm);
+        frm.setVisible(true);
+    }
+
+    public void irATipoUsuario() {
+        cerrarMenuActivo();
+        FrmTipoUsuario frm = new FrmTipoUsuario();
+        registrarMenuActivo(frm);
+        frm.setVisible(true);
+    }
+
+    public void irARegistroEmprendedor() {
+        cerrarMenuActivo();
+        FrmRegistroEmprendedor frm = new FrmRegistroEmprendedor();
+        registrarMenuActivo(frm);
+        frm.setVisible(true);
+    }
+
+    public void irAEsperaValidacion(String idEmprendedor) {
+        cerrarMenuActivo();
+        FrmEsperaDeValidacion frm = new FrmEsperaDeValidacion();
+        registrarMenuActivo(frm);
+        frm.setVisible(true);
     }
 }

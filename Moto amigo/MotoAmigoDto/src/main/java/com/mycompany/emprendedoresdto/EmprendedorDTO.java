@@ -1,5 +1,7 @@
 package com.mycompany.emprendedoresdto;
 
+import enums.EstatusEmprendedorDTO;
+
 /**
  *
  * @author Jesus Omar
@@ -11,16 +13,18 @@ public class EmprendedorDTO {
     private String correo;
     private String telefono;
     private String rfc;
+    private EstatusEmprendedorDTO estatus;
 
     public EmprendedorDTO() {
     }
 
-    public EmprendedorDTO(String idEmprendedor, String nombre, String correo, String telefono, String rfc) {
+    public EmprendedorDTO(String idEmprendedor, String nombre, String correo, String telefono, String rfc, EstatusEmprendedorDTO estatus) {
         this.idEmprendedor = idEmprendedor;
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
         this.rfc = rfc;
+        this.estatus = estatus;
     }
 
     public String getIdEmprendedor() {
@@ -41,6 +45,10 @@ public class EmprendedorDTO {
 
     public String getRfc() {
         return rfc;
+    }
+
+    public EstatusEmprendedorDTO getEstatus() {
+        return estatus;
     }
 
 }

@@ -1,7 +1,5 @@
 package com.mycompany.motoamigopresentacion.controladores;
 
-import com.mycompany.cuemprendedor.BuscarEmprendedorPorId;
-import com.mycompany.cuemprendedor.IBuscarEmprendedorPorId;
 import com.mycompany.curepartidor.BuscarRepartidorPorId;
 import com.mycompany.curepartidor.IBuscarRepartidorPorId;
 import com.mycompany.cusolicitarentrega.IListarEntregasEmprendedor;
@@ -14,6 +12,9 @@ import com.mycompany.motoamigodto.SolicitudEntregaDTO;
 import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.repartidorespresentacion.FrmPublicarPedidoRepartidor;
 import com.mycompany.emprendedorpresentacion.FrmPublicarPedidosEmprendedor;
+import com.mycompany.motoamigodto.RutaResponseDTO;
+import com.mycompany.motoamigopresentacion.FrmSeguimientoEnTiempoRealEmprendedor;
+import com.mycompany.repartidorespresentacion.FrmSeguimientoTiempoRealRepartidor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Collections;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import panelesUtilerias.PanelTarjetaPedido;
@@ -34,15 +36,12 @@ import panelesUtilerias.PanelTarjetaPedido;
 public class ControlMenuPrincipal {
 
     private static ControlMenuPrincipal instancia;
-
     private final IBuscarRepartidorPorId cuBuscarRepartidor;
-    private final IBuscarEmprendedorPorId cuBuscarEmprendedor;
     private final IListarEntregasRepartidor cuEntregasRepartidor;
     private final IListarEntregasEmprendedor cuEntregasEmprendedor;
 
     private ControlMenuPrincipal() {
         this.cuBuscarRepartidor = BuscarRepartidorPorId.crear();
-        this.cuBuscarEmprendedor = BuscarEmprendedorPorId.crear();
         this.cuEntregasRepartidor = ListarEntregasRepartidor.crear();
         this.cuEntregasEmprendedor = ListarEntregasEmprendedor.crear();
     }
@@ -75,21 +74,21 @@ public class ControlMenuPrincipal {
         }
     }
 
-    /**
-     * Busca un emprendedor por su identificador.
-     *
-     * @param id identificador del emprendedor.
-     * @return datos del emprendedor; null si no se encuentra o si ocurre un
-     * error.
-     */
-//    public EmprendedorDTO buscarEmprendedorPorId(Long id) {
-//        try {
-//            return cuBuscarEmprendedor.buscarEmprendedorPorId(id);
-//        } catch (NegocioException ex) {
-//            Logger.getLogger(ControlMenuPrincipal.class.getName()).log(Level.SEVERE, "Error buscando emprendedor", ex);
-//            return null;
-//        }
-//    }
+
+    public EntregaDTO obtenerEntregaPorId(String idEntrega) throws NegocioException {
+        String idEmprendedor = SesionActiva.getInstancia().getIdEmprendedor();
+
+        List<EntregaDTO> entregas = ListarEntregasEmprendedor.crear()
+                .listarEntregasEmprendedor(idEmprendedor);
+
+        for (EntregaDTO entrega : entregas) {
+            if (entrega != null && idEntrega.equals(entrega.getId())) {
+                return entrega;
+            }
+        }
+
+        return null;
+    }
     /**
      * Obtiene la lista de entregas según el filtro indicado.
      *
@@ -197,17 +196,68 @@ public class ControlMenuPrincipal {
      * @param entrega entrega cuyo detalle se mostrará.
      */
     public void mostrarDetallePedido(EntregaDTO entrega) {
+        if (!SesionActiva.getInstancia().esRepartidor()) {
+            JOptionPane.showMessageDialog(null,
+                    "Esta acción solo está disponible para repartidores.",
+                    "Acción no permitida",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         SolicitudEntregaDTO solicitud = new SolicitudEntregaDTO();
+        solicitud.setIdSolicitud(entrega.getId());
+        solicitud.setIdEmprendedor(entrega.getIdEmprendedor());
         solicitud.setOrigen(entrega.getDireccionOrigen());
         solicitud.setDestino(entrega.getDireccionDestino());
         solicitud.setTipo(entrega.getTipo());
         solicitud.setPaquetes(entrega.getPaquetes());
         solicitud.setSobre(entrega.getSobre());
-        solicitud.setDistancia(entrega.getDistancia());
-        solicitud.setIdEmprendedor(entrega.getIdEmprendedor());
         solicitud.setPesoTotal(entrega.getPesoTotal());
+        solicitud.setDistancia(entrega.getDistancia());
         solicitud.setCosto(entrega.getCosto());
         solicitud.setEstado(entrega.getEstadoEntrega());
+
         new FrmPublicarPedidoRepartidor(solicitud).setVisible(true);
+    }
+
+    /**
+     * Abre directamente el mapa de seguimiento de una entrega en curso, según
+     * el rol del usuario activo (repartidor o emprendedor).
+     *
+     * @param entrega
+     */
+    public void continuarPedido(EntregaDTO entrega) {
+        if (entrega == null) {
+            return;
+        }
+
+        RutaResponseDTO ruta = ControlSolicitarEntrega.getInstance().obtenerRuta(
+                entrega.getDireccionOrigen(),
+                entrega.getDireccionDestino()
+        );
+
+        if (ruta == null || !ruta.isRutaValida()) {
+            JOptionPane.showMessageDialog(null,
+                    "No se pudo obtener la ruta de esta entrega.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        ruta.setIdRepartidorAsignado(entrega.getIdRepartidor());
+
+        if (SesionActiva.getInstancia().esRepartidor()) {
+            new FrmSeguimientoTiempoRealRepartidor(ruta, entrega.getId()).setVisible(true);
+        } else {
+            new FrmSeguimientoEnTiempoRealEmprendedor(ruta, entrega).setVisible(true);
+        }
+    }
+
+    public void mostrarDetallePedidoEmprendedor(EntregaDTO entrega) {
+        if (entrega == null) {
+            return;
+        }
+
+        new FrmPublicarPedidosEmprendedor(entrega).setVisible(true);
     }
 }

@@ -10,6 +10,7 @@ import com.mycompany.Entidades.Estado;
 import com.mycompany.Entidades.Repartidor;
 import com.mycompany.motoamigodto.RepartidorDTO;
 import java.util.List;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +34,9 @@ public class RepartidorDAOTest {
                 .obtenerBaseDatos();
 
         coleccion = baseDatos.getCollection("repartidores", Repartidor.class);
+        coleccion.deleteMany(new Document());
 
+        
         Repartidor repartidor1 = new Repartidor();
         repartidor1.setIdRepartidor("6a0d2317cc336268ad738f61");
         repartidor1.setNombre("Juan Pérez");

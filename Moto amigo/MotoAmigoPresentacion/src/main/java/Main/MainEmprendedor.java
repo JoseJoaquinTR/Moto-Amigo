@@ -1,8 +1,10 @@
 package Main;
+
 import Paquetes.PaquetesBO;
 import com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.mycompany.emprendedoresdto.CuentaUsuarioSesionDTO;
+import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
 import com.mycompany.motoamigopresentacion.controladores.ControlPaquetes;
 import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import java.awt.EventQueue;
@@ -20,15 +22,14 @@ public class MainEmprendedor {
         FlatLightLaf.setup();
 
         CuentaUsuarioSesionDTO cuentaMock = new CuentaUsuarioSesionDTO();
-        cuentaMock.setIdEmprendedor("6a0d216d8655134c496f96d9"); // id real
+        cuentaMock.setIdEmprendedor("6a0d216d8655134c496f96d9"); 
         SesionActiva.getInstancia().setCuenta(cuentaMock);
-
+        
         ObserverCambiosPaquete observerCU = ObserverCambiosPaquete.getInstancia();
-        PaquetesBO.getInstancia().agregarObservador(observerCU);
         observerCU.agregarObservador(ControlPaquetes.getInstancia());
 
         EventQueue.invokeLater(() -> {
-            new FrmMenuPrincipalEmprendedor().setVisible(true);
+            ControlNavegacionEmprendedor.getInstancia().irAPrincipal();
         });
     }
 }

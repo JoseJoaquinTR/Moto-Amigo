@@ -7,6 +7,7 @@ package panelesUtilerias;
 import Utilerias.utileriasBotones;
 import com.mycompany.motoamigodto.EntregaDTO;
 import com.mycompany.motoamigopresentacion.controladores.ControlMenuPrincipal;
+import com.mycompany.motoamigopresentacion.controladores.SesionActiva;
 import java.awt.Color;
 
 /**
@@ -14,7 +15,9 @@ import java.awt.Color;
  * @author Jesus Omar
  */
 public class PanelTarjetaPedido extends javax.swing.JPanel {
-    private EntregaDTO entrega ;
+
+    private EntregaDTO entrega;
+
     /**
      * Creates new form PanelTarjetaPedido
      */
@@ -23,15 +26,31 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
         utileriasBotones.btnRedondeado(btnVerPedido, "naranja", 30);
         utileriasBotones.panelRedondeado(this, new Color(248, 249, 250), 30);
     }
-
-    public void cargarDatosEnTarjeta(EntregaDTO entrega){
+   
+    public void cargarDatosEnTarjeta(EntregaDTO entrega) {
         this.entrega = entrega;
-        String precio = String.valueOf(entrega.getCosto());
+
         lblDireccionOrigen.setText(entrega.getDireccionOrigen());
-        lblDireccionDestino.setText("→"+entrega.getDireccionDestino());
-        lblPrecio.setText(precio);
+        lblDireccionDestino.setText("→ " + entrega.getDireccionDestino());
+
+        lblPrecio.setText("$" + String.format("%.2f", entrega.getCosto()));
+        lblDistancia.setText(String.format("%.1f km", entrega.getDistancia()));
+
+        if (SesionActiva.getInstancia().esEmprendedor()) {
+            String estado = entrega.getEstadoEntrega();
+            if ("EN_CAMINO".equals(estado) || "ACEPTADA".equals(estado)) {
+                btnVerPedido.setText("Rastrear pedido");
+            } else if ("ENTREGADA".equals(estado) || "FINALIZADA".equals(estado)) {
+                btnVerPedido.setVisible(false);
+            } else {
+                btnVerPedido.setText("Ver pedido");
+            }
+        }
+
+        revalidate();
+        repaint();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,27 +86,31 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
         lblPrecio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblPrecio.setForeground(new java.awt.Color(249, 115, 22));
         lblPrecio.setText("$0.00");
+        lblPrecio.setMaximumSize(new java.awt.Dimension(360, 200));
 
         lblDistancia.setForeground(new java.awt.Color(75, 85, 99));
         lblDistancia.setText("0.0 km");
+        lblDistancia.setMaximumSize(new java.awt.Dimension(350, 160));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDireccionDestino)
-                    .addComponent(lblDireccionOrigen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblDistancia)
-                    .addComponent(lblPrecio))
-                .addGap(26, 26, 26))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnVerPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDireccionDestino)
+                            .addComponent(lblDireccionOrigen))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVerPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
@@ -96,11 +119,11 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDireccionOrigen)
-                    .addComponent(lblPrecio))
+                    .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDireccionDestino)
-                    .addComponent(lblDistancia))
+                    .addComponent(lblDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnVerPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -108,7 +131,25 @@ public class PanelTarjetaPedido extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPedidoActionPerformed
-        ControlMenuPrincipal.getInstance().mostrarDetallePedido(entrega);
+        if (entrega == null) {
+            return;
+        }
+
+        if (SesionActiva.getInstancia().esEmprendedor()) {
+            String estado = entrega.getEstadoEntrega();
+            if ("EN_CAMINO".equals(estado) || "ACEPTADA".equals(estado)) {
+                ControlMenuPrincipal.getInstance().continuarPedido(entrega);
+            } else {
+                ControlMenuPrincipal.getInstance().mostrarDetallePedidoEmprendedor(entrega);
+            }
+            return;
+        }
+        String estado = entrega.getEstadoEntrega();
+        if ("EN_CAMINO".equals(estado) || "ACEPTADA".equals(estado)) {
+            ControlMenuPrincipal.getInstance().continuarPedido(entrega);
+        } else {
+            ControlMenuPrincipal.getInstance().mostrarDetallePedido(entrega);
+        }
     }//GEN-LAST:event_btnVerPedidoActionPerformed
 
 

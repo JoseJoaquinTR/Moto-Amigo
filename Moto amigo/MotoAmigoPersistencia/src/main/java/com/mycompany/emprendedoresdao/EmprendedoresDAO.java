@@ -4,6 +4,7 @@ import Enums.EstatusEmprendedor;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import com.mycompany.Entidades.Emprendedor;
 import com.mycompany.motoamigopersistencia.ManejadorConexiones;
@@ -13,25 +14,26 @@ import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Updates.*;
 import com.mongodb.client.result.UpdateResult;
 import java.util.LinkedList;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**
  *
  * @author Jesus Omar
  */
-public class EmprendedoresDAO implements IEmprendedoresDAO{
+public class EmprendedoresDAO implements IEmprendedoresDAO {
 
     private static final String NOMBRE_COLECCION = "emprendedores";
     private static EmprendedoresDAO instancia;
-    private final MongoCollection<Emprendedor> COLECCION;
+    private final MongoCollection<Emprendedor> coleccion;
 
     private EmprendedoresDAO() {
         MongoDatabase baseDatos = ManejadorConexiones.getInstancia().obtenerBaseDatos();
-        this.COLECCION = baseDatos.getCollection(NOMBRE_COLECCION, Emprendedor.class);
+        this.coleccion = baseDatos.getCollection(NOMBRE_COLECCION, Emprendedor.class);
     }
-    
-    public static EmprendedoresDAO getInstancia(){
-        if(instancia == null){
+
+    public static EmprendedoresDAO getInstancia() {
+        if (instancia == null) {
             instancia = new EmprendedoresDAO();
         }
         return instancia;
@@ -39,74 +41,96 @@ public class EmprendedoresDAO implements IEmprendedoresDAO{
 
     /**
      * Resgistra un nuevo emprendedor en la base de datos
+     *
      * @param emprendedor el emprendedor que se registrara
      * @return el emprendedor que se registro
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     @Override
     public Emprendedor registrarEmprendedor(Emprendedor emprendedor) throws PersistenciaException {
-        try{
-            InsertOneResult resultado = COLECCION.insertOne(emprendedor);
-            if(!resultado.wasAcknowledged()){
+        try {
+            InsertOneResult resultado = coleccion.insertOne(emprendedor);
+            if (!resultado.wasAcknowledged()) {
                 throw new PersistenciaException("No se pudo resgitrar al emprendedor");
             }
             return emprendedor;
-        }catch(MongoException ex){
+        } catch (MongoException ex) {
             throw new PersistenciaException("Error al registrar al emprendedor", ex);
         }
     }
 
     /**
      * Actualiza el estatus de un emprendedor
+     *
      * @param idEmprendedor el id del emprendedor a actualizar
      * @param estatus el nuevo estatus del emprendedor
      * @return el emprendedor que se actualizo
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     @Override
     public Emprendedor actualizarEmprendedor(String idEmprendedor, EstatusEmprendedor estatus) throws PersistenciaException {
-        try{
+        try {
             ObjectId id = new ObjectId(idEmprendedor);
-            UpdateResult resultado = COLECCION.updateOne(eq("_id", id), set("estatus", estatus));
-            if(resultado.getMatchedCount() == 0){
+            UpdateResult resultado = coleccion.updateOne(eq("_id", id), set("estatus", estatus));
+            if (resultado.getMatchedCount() == 0) {
                 throw new PersistenciaException("No se encontro el emprendedor");
             }
-            return COLECCION.find(eq("_id", id)).first();
-        }catch(MongoException ex){
+            return coleccion.find(eq("_id", id)).first();
+        } catch (MongoException ex) {
             throw new PersistenciaException("Error al actualizar el estatus del emprendedor", ex);
         }
     }
 
     /**
      * permite consultar a un emprendedor por su id
+     *
      * @param idEmprendedor el id del emprendedor a buscar
      * @return el emprendedor que coincida con el id
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     @Override
     public Emprendedor obtenerEmprendedorPorID(String idEmprendedor) throws PersistenciaException {
-        try{
-            return COLECCION.find(eq("_id", new ObjectId(idEmprendedor))).first();
-        }catch(MongoException ex){
+        try {
+            return coleccion.find(eq("_id", new ObjectId(idEmprendedor))).first();
+        } catch (MongoException ex) {
             throw new PersistenciaException("Error al obtener el emprendedor", ex);
         }
     }
 
     /**
-     * Te regresa la lista de emprendedores existentes, no importa
-     * el estatus que tengan
+     * Te regresa la lista de emprendedores existentes, y aparte te permite
+     * buscar por filtros
+     *
+     * @param nombre
+     * @param rfc
      * @return la lista de emprendedores que estan en la base de datos
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     @Override
-    public List<Emprendedor> consultarEmprendedores() throws PersistenciaException {
-        try{
+    public List<Emprendedor> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedor estatus) throws PersistenciaException {
+        try {
+            List<Bson> filtros = new LinkedList<>();
+
+            if (nombre != null && !nombre.isBlank()) {
+                filtros.add(Filters.regex("nombre", nombre, "i"));
+            }
+            if (rfc != null && !rfc.isBlank()) {
+                filtros.add(Filters.regex("rfc", rfc, "i"));
+            }
+            if (estatus != null) {
+                filtros.add(Filters.eq("estatus", estatus.toString()));
+            }
+
             List<Emprendedor> resultado = new LinkedList<>();
-            COLECCION.find().into(resultado);
+            if (filtros.isEmpty()) {
+                coleccion.find().into(resultado);
+            } else {
+                coleccion.find(Filters.and(filtros)).into(resultado);
+            }
             return resultado;
-        }catch(MongoException ex){
+        } catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar los emprendedores", ex);
         }
     }
- 
+
 }

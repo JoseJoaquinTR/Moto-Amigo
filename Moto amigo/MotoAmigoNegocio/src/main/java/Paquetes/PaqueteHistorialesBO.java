@@ -1,5 +1,6 @@
 package Paquetes;
 
+import com.mycompany.Entidades.Entrega;
 import com.mycompany.Entidades.Paquete;
 import com.mycompany.Entidades.ProductosPaquete;
 import com.mycompany.paquetesdto.PaqueteHistorialDTO;
@@ -48,22 +49,74 @@ public class PaqueteHistorialesBO implements IPaqueteHistorialesBO {
         }
         return instancia;
     }
+    private int calcularNumeroUsos(Paquete paquete, List<Entrega> entregas) {
+        if (paquete == null || paquete.getId() == null || entregas == null) {
+            return 0;
+        }
 
+        int contador = 0;
+
+        for (Entrega entrega : entregas) {
+            if (entrega == null || entrega.getIdsPaquetes() == null) {
+                continue;
+            }
+
+            if (entrega.getIdsPaquetes().contains(paquete.getId())) {
+                contador++;
+            }
+        }
+
+        return contador;
+    }
+
+    private LocalDate calcularUltimoUso(Paquete paquete, List<Entrega> entregas) {
+        if (paquete == null || paquete.getId() == null || entregas == null) {
+            return null;
+        }
+
+        LocalDate ultimoUso = null;
+
+        for (Entrega entrega : entregas) {
+            if (entrega == null || entrega.getIdsPaquetes() == null) {
+                continue;
+            }
+
+            if (!entrega.getIdsPaquetes().contains(paquete.getId())) {
+                continue;
+            }
+
+            if (entrega.getFechaCreacion() == null) {
+                continue;
+            }
+
+            LocalDate fecha = entrega.getFechaCreacion().toLocalDate();
+
+            if (ultimoUso == null || fecha.isAfter(ultimoUso)) {
+                ultimoUso = fecha;
+            }
+        }
+
+        return ultimoUso;
+    }
     @Override
     public ReporteHistorialPaquetePDFDTO generarHistorial(String idEmprendedor)
             throws NegocioException {
+
         if (idEmprendedor == null || idEmprendedor.isBlank()) {
             throw new NegocioException("El id del emprendedor es obligatorio.");
         }
 
         try {
             List<Paquete> paquetes = fachada.obtenerPaquetesPorEmprendedor(idEmprendedor);
+            List<Entrega> entregas = fachada.obtenerEntregasEmprendedor(idEmprendedor);
+
             List<PaqueteHistorialDTO> historial = new ArrayList<>();
 
             int usosTotal = 0;
+
             for (Paquete p : paquetes) {
-                int numeroUsos = 0;
-                LocalDate ultimoUso = null;
+                int numeroUsos = calcularNumeroUsos(p, entregas);
+                LocalDate ultimoUso = calcularUltimoUso(p, entregas);
                 Float pesoPaquete = calcularPesoTotal(p);
 
                 historial.add(new PaqueteHistorialDTO(
@@ -72,6 +125,7 @@ public class PaqueteHistorialesBO implements IPaqueteHistorialesBO {
                         ultimoUso,
                         pesoPaquete
                 ));
+
                 usosTotal += numeroUsos;
             }
 
@@ -81,7 +135,9 @@ public class PaqueteHistorialesBO implements IPaqueteHistorialesBO {
             reporte.setNumeroPaquetesRegistrados(paquetes.size());
             reporte.setUsosTotal(usosTotal);
             reporte.setPaqueteHistorial(historial);
+
             return reporte;
+
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al generar el historial de paquetes.", ex);
         }
@@ -101,7 +157,6 @@ public class PaqueteHistorialesBO implements IPaqueteHistorialesBO {
                 throw new NegocioException("No se encontró la plantilla del reporte.");
             }
 
-            // Compilar la plantilla
             JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
 
             // Preparar parámetros del reporte

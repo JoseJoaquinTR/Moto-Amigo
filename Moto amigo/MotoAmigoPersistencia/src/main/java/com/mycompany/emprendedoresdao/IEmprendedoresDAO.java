@@ -13,5 +13,5 @@ public interface IEmprendedoresDAO {
     Emprendedor registrarEmprendedor(Emprendedor emprendedor)throws PersistenciaException;
     Emprendedor actualizarEmprendedor(String idEmprendedor, EstatusEmprendedor estatus)throws PersistenciaException;
     Emprendedor obtenerEmprendedorPorID(String idEmprendedor)throws PersistenciaException;
-    List<Emprendedor> consultarEmprendedores()throws PersistenciaException;
+    List<Emprendedor> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedor estatus)throws PersistenciaException;
 }

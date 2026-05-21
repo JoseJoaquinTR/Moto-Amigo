@@ -132,7 +132,7 @@ public class EmprendedoresDAOTest {
     @Test
     public void consultarEmprendedoresOK(){
         assertDoesNotThrow(() -> {
-            List<Emprendedor> emprendedores = emprendedoresDAO.consultarEmprendedores();
+            List<Emprendedor> emprendedores = emprendedoresDAO.consultarEmprendedores(null, null, null);
             assertNotNull(emprendedores);
             assertEquals(2, emprendedores.size());
         });

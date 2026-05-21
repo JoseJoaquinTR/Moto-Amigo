@@ -20,9 +20,9 @@ public class MenuAdminFORM extends javax.swing.JFrame {
      * Creates new form MenuAdminFORM
      */
     public MenuAdminFORM() {
+        setLocationRelativeTo(null);
         initComponents();
         control = new ControlCUBloqueos();
-
         control.inicializarMenuAdmin(this);
     }
 
@@ -57,6 +57,7 @@ public class MenuAdminFORM extends javax.swing.JFrame {
         btnDesbloqueoMasivo = new javax.swing.JButton();
         btnHistorialBloqueos = new javax.swing.JButton();
         btnHistorialDesbloqueos = new javax.swing.JButton();
+        btnCatalogoEmprendedores = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -109,23 +110,41 @@ public class MenuAdminFORM extends javax.swing.JFrame {
             }
         });
 
+        btnCatalogoEmprendedores.setBackground(new java.awt.Color(255, 102, 0));
+        btnCatalogoEmprendedores.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 20)); // NOI18N
+        btnCatalogoEmprendedores.setForeground(new java.awt.Color(255, 255, 255));
+        btnCatalogoEmprendedores.setText("Catalogo emprendedores");
+        btnCatalogoEmprendedores.setMaximumSize(new java.awt.Dimension(248, 31));
+        btnCatalogoEmprendedores.setMinimumSize(new java.awt.Dimension(248, 31));
+        btnCatalogoEmprendedores.setPreferredSize(new java.awt.Dimension(248, 31));
+        btnCatalogoEmprendedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCatalogoEmprendedoresMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(122, 122, 122)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnHistorialBloqueos, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
-                            .addComponent(btnBloquearRepartidor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(71, 71, 71)
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnDesbloqueoMasivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnHistorialDesbloqueos, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)))
-                    .addComponent(jLabel1))
-                .addGap(122, 122, Short.MAX_VALUE))
+                        .addGap(122, 122, 122)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btnHistorialBloqueos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                                    .addComponent(btnBloquearRepartidor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(71, 71, 71)
+                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnDesbloqueoMasivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnHistorialDesbloqueos, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)))))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(387, 387, 387)
+                        .addComponent(btnCatalogoEmprendedores, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +159,9 @@ public class MenuAdminFORM extends javax.swing.JFrame {
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHistorialBloqueos, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnHistorialDesbloqueos, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addGap(74, 74, 74)
+                .addComponent(btnCatalogoEmprendedores, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(147, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
@@ -196,6 +217,10 @@ public class MenuAdminFORM extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnHistorialDesbloqueosActionPerformed
 
+    private void btnCatalogoEmprendedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCatalogoEmprendedoresMouseClicked
+        new CatalogoEmprendedoresFORM().setVisible(true);
+    }//GEN-LAST:event_btnCatalogoEmprendedoresMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -233,6 +258,7 @@ public class MenuAdminFORM extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBloquearRepartidor;
+    private javax.swing.JButton btnCatalogoEmprendedores;
     private javax.swing.JButton btnDesbloqueoMasivo;
     private javax.swing.JButton btnHistorialBloqueos;
     private javax.swing.JButton btnHistorialDesbloqueos;

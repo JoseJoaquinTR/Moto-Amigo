@@ -4,11 +4,16 @@ import Adapter.AdapterStringAObjectID;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.and;
 import com.mycompany.Entidades.Entrega;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.nin;
+import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.UpdateResult;
+import org.bson.conversions.Bson;
 
 /**
  * DAO para consultar entregas desde MongoDB.
@@ -50,17 +55,17 @@ public class EntregasDAO implements IEntregasDAO {
     @Override
     public List<Entrega> obtenerEntregasRepartidor(String id) throws PersistenciaException {
         try {
-            List<Entrega> entregas = new ArrayList<>();
-
             if (id == null) {
-                return entregas;
+                return new ArrayList<>();
             }
-
-            coleccion.find(eq("idRepartidor", AdapterStringAObjectID.aObjectId(id))).into(entregas);
-
+            List<Entrega> entregas = new ArrayList<>();
+            coleccion.find(and(
+                    eq("idRepartidor", AdapterStringAObjectID.aObjectId(id)),
+                    nin("estadoEntrega", "COMPLETADA", "NO COMPLETADA")
+            )).into(entregas);
             return entregas;
         } catch (MongoException ex) {
-            throw new PersistenciaException("Error al consultar entregas del repartidor.", ex);
+            throw new PersistenciaException("Error...", ex);
         }
     }
      @Override
@@ -97,6 +102,32 @@ public class EntregasDAO implements IEntregasDAO {
             return entrega;
         } catch (MongoException ex) {
             throw new PersistenciaException("Error al agregar la entrega.", ex);
+        }
+    }
+    
+    @Override
+    public Entrega actualizar(String idEntrega, String idRepartidor, String nuevoEstado) throws PersistenciaException {
+        try {
+            List<Bson> cambios = new ArrayList<>();
+            if (idRepartidor != null) {
+                cambios.add(Updates.set("idRepartidor", AdapterStringAObjectID.aObjectId(idRepartidor)));
+            }
+            if (nuevoEstado != null) {
+                cambios.add(Updates.set("estadoEntrega", nuevoEstado));
+            }
+            if (cambios.isEmpty()) {
+                return coleccion.find(eq("_id", AdapterStringAObjectID.aObjectId(idEntrega))).first();
+            }
+            UpdateResult resultado = coleccion.updateOne(
+                    eq("_id", AdapterStringAObjectID.aObjectId(idEntrega)),
+                    Updates.combine(cambios)
+            );
+            if (resultado.getMatchedCount() == 0) {
+                return null;
+            }
+            return coleccion.find(eq("_id", AdapterStringAObjectID.aObjectId(idEntrega))).first();
+        } catch (MongoException ex) {
+            throw new PersistenciaException("Error al actualizar la entrega.", ex);
         }
     }
 }

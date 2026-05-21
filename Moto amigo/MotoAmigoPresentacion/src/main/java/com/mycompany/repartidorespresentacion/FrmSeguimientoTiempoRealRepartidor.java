@@ -6,8 +6,11 @@ package com.mycompany.repartidorespresentacion;
 
 import Utilerias.OSMTileFactoryCustom;
 import Utilerias.utileriasBotones;
+import com.mycompany.cusolicitarentrega.ActualizarEntrega;
+import com.mycompany.cusolicitarentrega.IActualizarEntrega;
 import com.mycompany.motoamigodto.RutaResponseDTO;
 import com.mycompany.motoamigodto.UbicacionDTO;
+import com.mycompany.motoamigonegocio.NegocioException;
 import com.mycompany.motoamigonegocio.Observers.EventoEntrega;
 import com.mycompany.motoamigonegocio.Observers.GestorNotificacionesEntrega;
 import com.mycompany.motoamigopresentacion.controladores.ControlRegistrarIncidente;
@@ -19,6 +22,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -51,14 +56,26 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
     private GeoPosition destino;
     private final ControlSeguimiento control;
     private ControlRegistrarIncidente controlIncidente;
-
+    private String idEntregaActual;
     private RutaResponseDTO ruta;
 
     public FrmSeguimientoTiempoRealRepartidor(RutaResponseDTO ruta) {
         this.ruta = ruta;
         this.control = ControlSeguimiento.getInstance();
         this.controlIncidente = ControlRegistrarIncidente.getInstance();
-        
+
+        initComponents();
+        inicializarUI();
+        inicializarMapa();
+        setLocationRelativeTo(null);
+    }
+
+    public FrmSeguimientoTiempoRealRepartidor(RutaResponseDTO ruta, String idEntrega) {
+        this.idEntregaActual = idEntrega;
+        this.ruta = ruta;
+        this.control = ControlSeguimiento.getInstance();
+        this.controlIncidente = ControlRegistrarIncidente.getInstance();
+
         initComponents();
         inicializarUI();
         inicializarMapa();
@@ -164,6 +181,18 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
                     EventoEntrega.UBICACION_ACTUALIZADA,
                     ubi
             );
+            try {
+                Path destino = Path.of("ubicacion_repartidor.txt");
+                Path temp = Path.of("ubicacion_repartidor.tmp");
+                Files.writeString(temp, ubi.getLatitud() + "," + ubi.getLongitud() + "," + ubi.getDescripcion());
+                Files.move(temp, destino, java.nio.file.StandardCopyOption.REPLACE_EXISTING,
+                        java.nio.file.StandardCopyOption.ATOMIC_MOVE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Error al crear el archivo con la ubicacion",
+                        "Error",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
 
             if (ubi.getDescripcion().toLowerCase().contains("llegó al origen") && !pedidoRecolectado) {
                 timer.stop();
@@ -195,6 +224,18 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
 
             if (control.haTerminado()) {
                 timer.stop();
+                if (idEntregaActual != null) {
+                    try {
+                        IActualizarEntrega cu = ActualizarEntrega.crear();
+                        cu.finalizar(idEntregaActual);
+                    } catch (NegocioException ex) {
+                        JOptionPane.showMessageDialog(this,
+                                "Error al finalizar entrega",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
                 GestorNotificacionesEntrega.getInstance().notificar(
                         EventoEntrega.PEDIDO_ENTREGADO,
                         ruta
@@ -334,7 +375,7 @@ public class FrmSeguimientoTiempoRealRepartidor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-    dispose();
+        dispose();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
     private void btnReportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportarActionPerformed

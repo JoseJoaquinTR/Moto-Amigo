@@ -25,6 +25,9 @@ public class AdapterEmprendedor {
     public static Emprendedor emprendedorDTOAEmprendedor(
             NuevoEmprendedorDTO nuevoEmprendedor,
             String contraHasheada) {
+        if(nuevoEmprendedor == null){
+            return null;
+        }
         Emprendedor emprendedor = new Emprendedor();
         emprendedor.setNombre(nuevoEmprendedor.getNombre());
         emprendedor.setCorreo(nuevoEmprendedor.getCorreo());
@@ -51,12 +54,17 @@ public class AdapterEmprendedor {
      * @return un EmprendedorDTO
      */
     public static EmprendedorDTO emprendedorAEmprendedorDTO(Emprendedor emprendedor) {
+        if(emprendedor == null){
+            return null;
+        }
         return new EmprendedorDTO(
                 emprendedor.getIdEmprendedor(),
                 emprendedor.getNombre(),
                 emprendedor.getCorreo(),
                 emprendedor.getTelefono(),
-                emprendedor.getRfc());
+                emprendedor.getRfc(),
+                AdapterEmprendedor.estatusEmprendedorAEstatusEmprendedorDTO(emprendedor.getEstatus())
+        );
     }
 
     /**
@@ -67,6 +75,9 @@ public class AdapterEmprendedor {
      * @return el estatus de persistencia
      */
     public static EstatusEmprendedor estatusDTOAEstatus(EstatusEmprendedorDTO estatus) {
+        if(estatus == null){
+            return null;
+        }
         if (estatus.toString().equals("PENDIENTE")) {
             return EstatusEmprendedor.PENDIENTE;
         } else if (estatus.toString().equals("ACTIVO")) {
@@ -86,6 +97,9 @@ public class AdapterEmprendedor {
      * @return el estatusDTO
      */
     public static EstatusEmprendedorDTO estatusEmprendedorAEstatusEmprendedorDTO(EstatusEmprendedor estatus) {
+        if(estatus == null){
+            return null;
+        }
         if (estatus.toString().equals("PENDIENTE")) {
             return EstatusEmprendedorDTO.PENDIENTE;
         } else if (estatus.toString().equals("ACTIVO")) {

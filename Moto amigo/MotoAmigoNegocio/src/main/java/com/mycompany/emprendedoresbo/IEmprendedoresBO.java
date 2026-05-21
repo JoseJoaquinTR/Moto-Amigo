@@ -55,7 +55,7 @@ public interface IEmprendedoresBO {
      * @return una lista con los emprendedores que estan en la base de datos
      * @throws NegocioException
      */
-    List<EmprendedorDTO> consultarEmprendedores() throws NegocioException;
+    List<EmprendedorDTO> consultarEmprendedores(String nombre, String rfc, EstatusEmprendedorDTO estatus) throws NegocioException;
 
     /**
      * Hace un reporte de los emprendedores que estan en la base de datos
@@ -127,4 +127,14 @@ public interface IEmprendedoresBO {
      */
     CuentaUsuarioSesionDTO buscarCuenta(String correo) throws NegocioException;
 
+    /**
+     * Metodo para iniciar sesion
+     * @param correo
+     * @param contrasenia
+     * @return
+     * @throws NegocioException 
+     */
+    CuentaUsuarioSesionDTO iniciarSesion(String correo, String contrasenia)throws NegocioException;
+    
+    boolean generarYDescargarReportePDF(ReporteEmprendedoresDTO reporte, String ruta)throws NegocioException;
 }

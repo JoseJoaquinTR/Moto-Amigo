@@ -56,6 +56,11 @@ public interface IEntregasDAO {
      */
     
     Entrega agregar(Entrega entrega) throws PersistenciaException ;
-    
-    
+    /**
+     * Actualiza el estado de una entrega
+     *
+     * @return Entrega actualizada
+     * @throws PersistenciaException si ocurre un error al consultar MongoDB.
+     */
+    Entrega actualizar(String idEntrega, String idRepartidor, String nuevoEstado) throws PersistenciaException;
 }

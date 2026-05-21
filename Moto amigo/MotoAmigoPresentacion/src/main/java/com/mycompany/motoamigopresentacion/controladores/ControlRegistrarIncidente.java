@@ -45,6 +45,7 @@ public class ControlRegistrarIncidente {
         return instancia;
     }
  
+    
     /**
      * Establece la entrega sobre la que el repartidor podrá registrar
      * incidentes. Debe llamarse desde el flujo principal antes de abrir el
