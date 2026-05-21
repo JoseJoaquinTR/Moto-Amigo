@@ -20,9 +20,9 @@ public class MenuAdminFORM extends javax.swing.JFrame {
      * Creates new form MenuAdminFORM
      */
     public MenuAdminFORM() {
+        setLocationRelativeTo(null);
         initComponents();
         control = new ControlCUBloqueos();
-
         control.inicializarMenuAdmin(this);
     }
 

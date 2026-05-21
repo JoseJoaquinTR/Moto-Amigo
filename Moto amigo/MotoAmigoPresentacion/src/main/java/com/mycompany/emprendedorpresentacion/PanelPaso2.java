@@ -15,11 +15,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import com.mycompany.emprendedorpresentacion.FrmTipoUsuario;
 import com.mycompany.motoamigopresentacion.controladores.ControlNavegacionEmprendedor;
+
 /**
+ * Panel del segundo paso del registro del emprendedor
  *
  * @author Jesus Omar
  */
-public class PanelPaso2 extends JPanel{
+public class PanelPaso2 extends JPanel {
 
     private final FrmRegistroEmprendedor frame;
 
@@ -45,7 +47,7 @@ public class PanelPaso2 extends JPanel{
     }
 
     private void initComponents() {
-        
+
         JLabel lblNombre = new JLabel("NOMBRE DEL NEGOCIO");
         lblNombre.setFont(new Font("SansSerif", Font.BOLD, 11));
         lblNombre.setForeground(Color.GRAY);
@@ -214,31 +216,51 @@ public class PanelPaso2 extends JPanel{
         boolean valido = true;
 
         if (txtNombreNegocio.getText().isBlank()) {
-            lblErrorNombre.setText("El nombre del negocio es obligatorio.");
+            lblErrorNombre.setText("El nombre del negocio es obligatorio");
+            marcarError(txtNombreNegocio);
+            valido = false;
+        } else if (!txtNombreNegocio.getText().matches("^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ0-9\\s]+$")) {
+            lblErrorNombre.setText("El nombre del negocio solo puede tener letras, numeros y espacios");
             marcarError(txtNombreNegocio);
             valido = false;
         }
+
         if (cmbTipoNegocio.getSelectedItem() == null) {
-            lblErrorTipo.setText("Selecciona el tipo de negocio.");
+            lblErrorTipo.setText("Selecciona el tipo de negocio");
             valido = false;
         }
+
         if (txtCalle.getText().isBlank()) {
-            lblErrorCalle.setText("La calle es obligatoria.");
+            lblErrorCalle.setText("La calle es obligatoria");
             marcarError(txtCalle);
             valido = false;
         }
         if (txtNumero.getText().isBlank()) {
-            lblErrorNumero.setText("El número es obligatorio.");
+            lblErrorNumero.setText("El numero es obligatorio");
+            marcarError(txtNumero);
+            valido = false;
+        } else if (txtNumero.getText().matches("^\\d{3,6}$")) {
+            lblErrorNumero.setText("El numero de la direccion solo puede tener digitos");
             marcarError(txtNumero);
             valido = false;
         }
+
         if (txtColonia.getText().isBlank()) {
-            lblErrorColonia.setText("La colonia es obligatoria.");
+            lblErrorColonia.setText("La colonia es obligatoria");
+            marcarError(txtColonia);
+            valido = false;
+        } else if (!txtColonia.getText().matches("^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\\s]+$")) {
+            lblErrorColonia.setText("El nombre de la colonia solo puede tener letras y espacios");
             marcarError(txtColonia);
             valido = false;
         }
+
         if (txtCodigoPostal.getText().isBlank()) {
-            lblErrorCP.setText("El código postal es obligatorio.");
+            lblErrorCP.setText("El codigo postal es obligatorio");
+            marcarError(txtCodigoPostal);
+            valido = false;
+        } else if (!txtCodigoPostal.getText().matches("^\\d{5}$")) {
+            lblErrorCP.setText("El codigo postal debe tener exactamente 5 digitos");
             marcarError(txtCodigoPostal);
             valido = false;
         }
@@ -274,26 +296,56 @@ public class PanelPaso2 extends JPanel{
         txtCodigoPostal.setBorder(normal);
     }
 
+    /**
+     * Regresa el nombre del negocio que ingreso el emprendedor
+     *
+     * @return nombre del negocio
+     */
     public String getNombreNegocio() {
         return txtNombreNegocio.getText().trim();
     }
 
+    /**
+     * Regresa el tipo de negocio que selecciono el emprendedor
+     *
+     * @return tipo de negocio
+     */
     public TipoNegocioDTO getTipoNegocio() {
         return (TipoNegocioDTO) cmbTipoNegocio.getSelectedItem();
     }
 
+    /**
+     * Regresa la calle que ingreso el emprendedor
+     *
+     * @return calle
+     */
     public String getCalle() {
         return txtCalle.getText().trim();
     }
 
+    /**
+     * Regresa el numero que ingreso el emprendedor
+     *
+     * @return numero de la direccion
+     */
     public String getNumero() {
         return txtNumero.getText().trim();
     }
 
+    /**
+     * Regresa la colonia que ingreso el emprendedor
+     *
+     * @return colonia
+     */
     public String getColonia() {
         return txtColonia.getText().trim();
     }
 
+    /**
+     * Regresa el codigo postal que ingreso el emprendedor
+     *
+     * @return codigo postal
+     */
     public String getCodigoPostal() {
         return txtCodigoPostal.getText().trim();
     }

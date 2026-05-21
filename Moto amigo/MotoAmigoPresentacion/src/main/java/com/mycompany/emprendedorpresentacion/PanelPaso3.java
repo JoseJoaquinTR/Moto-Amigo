@@ -21,10 +21,11 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
+ * Panel del tercer paso del registro del emprendedor
  *
  * @author Jesus Omar
  */
-public class PanelPaso3 extends JPanel{
+public class PanelPaso3 extends JPanel {
 
     private final FrmRegistroEmprendedor frame;
 
@@ -203,10 +204,27 @@ public class PanelPaso3 extends JPanel{
     private void seleccionarIne() {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileFilter(new FileNameExtensionFilter(
-                "PDF e imágenes", "pdf", "jpg", "jpeg", "png"));
+                "Solo PDF", "pdf"));
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
                 File archivo = chooser.getSelectedFile();
+                // Validamos que sea un archivo PDF
+                if (!archivo.getName().toLowerCase().endsWith(".pdf")) {
+                    lblErrorIne.setText("Solo se permiten archivos PDF");
+                    lblIneNombre.setText("El archivo no es valido");
+                    lblIneNombre.setForeground(Color.RED);
+                    documentoIne = null;
+                    return;
+                }
+                // Validamos que el archivo no sea muy pesado
+                if (archivo.length() > 5242880) {
+                    lblErrorIne.setText("El archivo no puede pesar mas de 5MB");
+                    lblIneNombre.setText("El archivo es muy pesado");
+                    lblIneNombre.setForeground(Color.RED);
+                    documentoIne = null;
+                    return;
+                }
+
                 documentoIne = Files.readAllBytes(archivo.toPath());
                 lblIneNombre.setText(archivo.getName());
                 lblIneNombre.setForeground(new Color(0, 150, 0));
@@ -230,14 +248,34 @@ public class PanelPaso3 extends JPanel{
             lblErrorRfc.setText("Ingresa un RFC valido");
             marcarError(txtRfc);
             valido = false;
+        } else if (!txtRfc.getText().matches("^[A-ZÑ&]{3,4}\\d{6}[A-Z0-9]{3}$")) {
+            lblErrorRfc.setText("El formato del RFC no es valido\nEj: GOCA900101ABC");
+            marcarError(txtRfc);
+            valido = false;
         }
+
         if (txtNombreTitular.getText().isBlank()) {
             lblErrorNombreTitular.setText("Ingresa el nombre del titular de la cuenta");
             marcarError(txtNombreTitular);
             valido = false;
+        } else if (!txtNombreTitular.getText().matches("^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\\s]+$")) {
+            lblErrorNombreTitular.setText("El nombre solo puede tener letras y espacios");
+            marcarError(txtNombreTitular);
+            valido = false;
         }
+
         if (cmbBanco.getSelectedItem() == null) {
             lblErrorBanco.setText("Selecciona tu institucion bancaria");
+            valido = false;
+        }
+
+        if (txtNumeroCuenta.getText().isBlank()) {
+            lblErrorCuenta.setText("El numero de cuenta es obligatorio");
+            marcarError(txtNumeroCuenta);
+            valido = false;
+        } else if (!txtNumeroCuenta.getText().matches("^\\d{10}$")) {
+            lblErrorCuenta.setText("El numero de cuenta debe tener exactamente 10 digitos");
+            marcarError(txtNumeroCuenta);
             valido = false;
         }
 

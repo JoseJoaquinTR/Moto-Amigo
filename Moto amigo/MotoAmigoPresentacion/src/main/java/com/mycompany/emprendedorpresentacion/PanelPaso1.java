@@ -19,10 +19,12 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
+ * Panel del primer paso del registro del emprendedor, solo captura los datos
+ * personales del emprendedor
  *
  * @author Jesus Omar
  */
-public class PanelPaso1 extends JPanel{
+public class PanelPaso1 extends JPanel {
 
     private final FrmRegistroEmprendedor frame;
 
@@ -37,9 +39,15 @@ public class PanelPaso1 extends JPanel{
     private JLabel lblErrorTelefono;
     private JLabel lblErrorContrasenia;
     private JLabel lblErrorConfirmar;
+    private JLabel lblErrorFoto;
 
     private byte[] fotoPerfil;
 
+    /**
+     * Constructor del panel del primer paso del registro
+     *
+     * @param frame el frame que contendra el panel
+     */
     public PanelPaso1(FrmRegistroEmprendedor frame) {
         this.frame = frame;
         setBackground(new Color(240, 242, 245));
@@ -48,7 +56,7 @@ public class PanelPaso1 extends JPanel{
     }
 
     private void initComponents() {
-  
+
         JLabel lblNombre = new JLabel("NOMBRE COMPLETO *");
         lblNombre.setFont(new Font("SansSerif", Font.BOLD, 11));
         lblNombre.setForeground(Color.GRAY);
@@ -85,7 +93,7 @@ public class PanelPaso1 extends JPanel{
         lblErrorCorreo.setFont(new Font("SansSerif", Font.PLAIN, 11));
         lblErrorCorreo.setBounds(10, 154, 560, 16);
 
-        JLabel lblTelefono = new JLabel("INFORMACIÓN DE CONTACTO *");
+        JLabel lblTelefono = new JLabel("NUMERO DE TELEFONO *");
         lblTelefono.setFont(new Font("SansSerif", Font.BOLD, 11));
         lblTelefono.setForeground(Color.GRAY);
         lblTelefono.setBounds(10, 174, 250, 20);
@@ -142,7 +150,7 @@ public class PanelPaso1 extends JPanel{
         lblFoto.setForeground(Color.GRAY);
         lblFoto.setBounds(10, 420, 200, 20);
 
-        JButton btnSubirFoto = new JButton("📷  Subir foto");
+        JButton btnSubirFoto = new JButton("Subir foto");
         btnSubirFoto.setFont(new Font("SansSerif", Font.PLAIN, 13));
         btnSubirFoto.setBackground(Color.WHITE);
         btnSubirFoto.setBorder(BorderFactory.createDashedBorder(
@@ -156,6 +164,11 @@ public class PanelPaso1 extends JPanel{
         lblFotoNombre.setFont(new Font("SansSerif", Font.PLAIN, 11));
         lblFotoNombre.setForeground(Color.GRAY);
         lblFotoNombre.setBounds(300, 455, 260, 20);
+
+        lblErrorFoto = new JLabel("");
+        lblErrorFoto.setForeground(Color.RED);
+        lblErrorFoto.setFont(new Font("SansSerif", Font.PLAIN, 11));
+        lblErrorFoto.setBounds(10, 492, 560, 16);
 
         JButton btnSiguiente = new JButton("Siguiente");
         btnSiguiente.setBackground(new Color(230, 81, 0));
@@ -205,15 +218,34 @@ public class PanelPaso1 extends JPanel{
     private void seleccionarFoto() {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileFilter(new FileNameExtensionFilter(
-                "Imágenes", "jpg", "jpeg", "png"));
+                "Imágenes (JPG, PNG)", "jpg", "jpeg", "png")
+        );
+        chooser.setAcceptAllFileFilterUsed(false);
+
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
                 File archivo = chooser.getSelectedFile();
+                String nombre = archivo.getName().toLowerCase();
+                // validamos que no se suban archivos que no son png o jpg
+                if (!nombre.endsWith(".jpg") && !nombre.endsWith(".jpeg") && !nombre.endsWith(".png")) {
+                    lblErrorFoto.setText("Solo se pueden subir fotos JPG o PNG");
+                    lblFotoNombre.setText("Archivo no valido");
+                    lblFotoNombre.setForeground(Color.RED);
+                    fotoPerfil = null;
+                    return;
+                }
+                // validamos que no pese mucho la foto
+                if (archivo.length() > 5242880) {
+                    lblErrorFoto.setText("La imagen no puede pesar mas de 5MB");
+                    lblFotoNombre.setText("El archivo es muy pesado");
+                    lblFotoNombre.setForeground(Color.RED);
+                }
+
                 fotoPerfil = Files.readAllBytes(archivo.toPath());
                 lblFotoNombre.setText(archivo.getName());
                 lblFotoNombre.setForeground(new Color(0, 150, 0));
             } catch (Exception ex) {
-                lblFotoNombre.setText("Error al cargar la foto.");
+                lblFotoNombre.setText("Error al cargar la foto");
                 lblFotoNombre.setForeground(Color.RED);
             }
         }
@@ -224,29 +256,53 @@ public class PanelPaso1 extends JPanel{
         boolean valido = true;
 
         if (txtNombre.getText().isBlank()) {
-            lblErrorNombre.setText("Ingresa tu nombre completo.");
+            lblErrorNombre.setText("El nombre es obligatorio, ingresa tu nombre completo");
+            marcarError(txtNombre);
+            valido = false;
+        } else if (!txtNombre.getText().matches("^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\\s]+$")) {
+            lblErrorNombre.setText("El nombre solo puede tener letras y espacios");
             marcarError(txtNombre);
             valido = false;
         }
+
         if (txtCorreo.getText().isBlank()) {
-            lblErrorCorreo.setText("Ingresa un correo válido.");
+            lblErrorCorreo.setText("El correo es obligatorio");
+            marcarError(txtCorreo);
+            valido = false;
+        } else if (!txtCorreo.getText().matches("^[\\w._%+\\-]+@[\\w.\\-]+\\.[a-zA-Z]{2,}$")) {
+            lblErrorCorreo.setText("Ingresa un correo valido \n Ej: correo@ejemplo.com");
             marcarError(txtCorreo);
             valido = false;
         }
+
         if (txtTelefono.getText().isBlank()) {
-            lblErrorTelefono.setText("El teléfono debe tener 10 dígitos.");
+            lblErrorTelefono.setText("El numero de telefono es obligatorio");
+            marcarError(txtTelefono);
+            valido = false;
+        } else if (!txtTelefono.getText().matches("\\d{10}$")) {
+            lblErrorTelefono.setText("El telefono debe tener 10 digitos");
             marcarError(txtTelefono);
             valido = false;
         }
-        String pass = new String(txtContrasenia.getPassword());
-        if (pass.isBlank()) {
-            lblErrorContrasenia.setText("La contraseña debe tener al menos 8 caracteres.");
+
+        String contra = new String(txtContrasenia.getPassword());
+        if (contra.isBlank()) {
+            lblErrorContrasenia.setText("Ingrese una contraseña");
+            marcarError(txtContrasenia);
+            valido = false;
+        } else if (contra.length() < 8 || contra.length() > 16) {
+            lblErrorContrasenia.setText("La contraseña debe tener entre 8 y 16 caracteres.");
             marcarError(txtContrasenia);
             valido = false;
         }
+
         String confirmar = new String(txtConfirmarContrasenia.getPassword());
-        if (!pass.equals(confirmar)) {
-            lblErrorConfirmar.setText("Las contraseñas no coinciden.");
+        if (confirmar.isBlank()) {
+            lblErrorConfirmar.setText("Confirma tu contraseña");
+            marcarError(txtConfirmarContrasenia);
+            valido = false;
+        } else if (!contra.equals(confirmar)) {
+            lblErrorConfirmar.setText("Las contraseñas no coinciden");
             marcarError(txtConfirmarContrasenia);
             valido = false;
         }
@@ -281,22 +337,47 @@ public class PanelPaso1 extends JPanel{
         txtConfirmarContrasenia.setBorder(normal);
     }
 
+    /**
+     * Regresa el nombre que ingreso el emprendedor
+     *
+     * @return nombre del emprendedor
+     */
     public String getNombre() {
         return txtNombre.getText().trim();
     }
 
+    /**
+     * Regresa el correo que ingreso el emprendedor
+     *
+     * @return correo del emprendedor
+     */
     public String getCorreo() {
         return txtCorreo.getText().trim();
     }
 
+    /**
+     * Regresa el telefono que ingreso el emprendedor
+     *
+     * @return telefono del emprendedor
+     */
     public String getTelefono() {
         return txtTelefono.getText().trim();
     }
 
+    /**
+     * Regresa la contrasenia que ingreso el emprendedor
+     *
+     * @return contrasenia del emprendedor
+     */
     public String getContrasenia() {
         return new String(txtContrasenia.getPassword());
     }
 
+    /**
+     * Regresa los bytes de la foto que subio el emprendedor
+     *
+     * @return bytes de la foto o null si no subio ninguna
+     */
     public byte[] getFotoPerfil() {
         return fotoPerfil;
     }
