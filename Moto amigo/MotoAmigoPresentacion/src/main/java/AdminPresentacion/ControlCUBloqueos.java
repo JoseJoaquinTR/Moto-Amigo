@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -383,12 +384,14 @@ public class ControlCUBloqueos {
     }
 
     private void llenarTablaHistorialBloqueos(HistorialBloqueosFORM formHistorial, List<ReporteBloqueoDTO> reportes) {
+        DateTimeFormatter formatter =
+        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         DefaultTableModel modelo = (DefaultTableModel) formHistorial.getTblBloqueos().getModel();
         modelo.setRowCount(0);
         for (ReporteBloqueoDTO reporte : reportes) {
             String nombreRepartidor = reporte.getRepartidor() != null ? reporte.getRepartidor().getNombre() : "";
             String motivo = reporte.getMotivo() != null ? reporte.getMotivo().getMotivo() : "";
-            modelo.addRow(new Object[]{reporte.getFechaHora(), nombreRepartidor, motivo});
+            modelo.addRow(new Object[]{reporte.getFechaHora().format(formatter), nombreRepartidor, motivo});
         }
     }
 
@@ -426,11 +429,13 @@ public class ControlCUBloqueos {
     }
 
     private void llenarTablaHistorialDesbloqueos(HistorialDesbloqueosFORM formHistorialDesbloq, List<ReporteDesbloqueoDTO> reportes) {
+        DateTimeFormatter formatter =
+        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         DefaultTableModel modelo = (DefaultTableModel) formHistorialDesbloq.getTblDesbloqueos().getModel();
         modelo.setRowCount(0);
         for (ReporteDesbloqueoDTO reporte : reportes) {
             String motivo = reporte.getMotivo() != null ? reporte.getMotivo().getMotivo() : "";
-            modelo.addRow(new Object[]{reporte.getFechaHora(), reporte.getNumRepartidoresDesbloqueados(), motivo});
+            modelo.addRow(new Object[]{reporte.getFechaHora().format(formatter), reporte.getNumRepartidoresDesbloqueados(), motivo});
         }
     }
 

@@ -1,4 +1,5 @@
 package Main;
+import Paquetes.PaquetesBO;
 import com.mycompany.emprendedorpresentacion.FrmMenuPrincipalEmprendedor;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.mycompany.emprendedoresdto.CuentaUsuarioSesionDTO;

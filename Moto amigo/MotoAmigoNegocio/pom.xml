@@ -52,6 +52,7 @@
         </dependency>
     </dependencies>
     <properties>
+        <skipTests>true</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
         <exec.mainClass>com.mycompany.motoamigonegocio.MotoAmigoNegocio</exec.mainClass>

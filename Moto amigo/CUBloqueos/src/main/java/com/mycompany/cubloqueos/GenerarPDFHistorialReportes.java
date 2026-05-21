@@ -123,7 +123,7 @@ public class GenerarPDFHistorialReportes implements IGenerarPDFHistorialReportes
             for (InformacionReporteDesbloqueoDTO reporte : reportes) {
                 Map<String, Object> fila = new HashMap<>();
                 fila.put("fechaHora", reporte.getFechaHora() != null ? reporte.getFechaHora().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) : "");
-                fila.put("numCuentas", reporte.getNumCuentasDesbloqueadas());
+                fila.put("numRepartidoresDesbloqueados", reporte.getNumCuentasDesbloqueadas());
                 fila.put("motivo", reporte.getMotivo() != null ? reporte.getMotivo().getMotivo() : "");
                 filas.add(fila);
             }
