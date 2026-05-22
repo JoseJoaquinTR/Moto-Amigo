@@ -11,11 +11,12 @@ import com.mongodb.MongoException;
 import com.mongodb.client.*;
 import com.mongodb.client.result.InsertOneResult;
 import com.mycompany.Entidades.*;
-import com.mycompany.motoamigodto.*;
 import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
 import com.mycompany.bloqueorepartidores.*;
+import factoryReporte.FabricaReporteDesbloqueo;
+import factoryReporte.IFabricaReporte;
 
 /**
  *
@@ -26,8 +27,11 @@ public class ReportesDesbloqueosDAO implements IReportesDesbloqueosDAO {
     private static final String NOMBRE_COLECCION = "reportesDesbloqueo";
 
     private static ReportesDesbloqueosDAO instancia;
+    
+    private final IFabricaReporte<NuevoReporteDesbloqueoDTO, ReporteDesbloqueo> fabricaReporte;
 
     private ReportesDesbloqueosDAO() {
+        this.fabricaReporte = new FabricaReporteDesbloqueo();
     }
 
     public static synchronized ReportesDesbloqueosDAO getInstancia() {
@@ -43,13 +47,7 @@ public class ReportesDesbloqueosDAO implements IReportesDesbloqueosDAO {
             MongoDatabase bd = ManejadorConexiones.getInstancia().obtenerBaseDatos();
             MongoCollection<ReporteDesbloqueo> coleccion = bd.getCollection(NOMBRE_COLECCION, ReporteDesbloqueo.class);
 
-            Motivo motivo = AdapterMotivo.toEntity(dto.getMotivo());
-
-            ReporteDesbloqueo reporte = new ReporteDesbloqueo();
-            reporte.setMotivo(motivo);
-            reporte.setDetalles(dto.getDetalles());
-            reporte.setFechaHora(dto.getFechaHora());
-            reporte.setNumRepartidoresDesbloqueados(dto.getNumRepartidoresDesbloqueados());
+            ReporteDesbloqueo reporte = fabricaReporte.crearReporte(dto);
 
             InsertOneResult resultado = coleccion.insertOne(reporte);
             if (!resultado.wasAcknowledged()) {

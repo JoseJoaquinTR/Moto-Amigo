@@ -92,6 +92,7 @@ public class DesbloqueoMasivoFORM extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         panelFondo.setBackground(new java.awt.Color(255, 255, 255));
 

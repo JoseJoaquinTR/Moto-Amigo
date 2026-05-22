@@ -5,7 +5,6 @@
 package com.mycompany.motoamigopersistencia;
 
 import Adapter.AdapterMotivo;
-import Adapter.AdapterRepartidor;
 import builder.ReporteFiltroBuilder;
 import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
@@ -20,6 +19,8 @@ import com.mycompany.Entidades.Repartidor;
 import com.mycompany.Entidades.ReporteBloqueo;
 import com.mycompany.bloqueorepartidores.FiltrosDTO;
 import com.mycompany.bloqueorepartidores.NuevoReporteBloqueoDTO;
+import factoryReporte.FabricaReporteBloqueo;
+import factoryReporte.IFabricaReporte;
 import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
@@ -34,8 +35,11 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
     private static final String NOMBRE_COLECCION = "reportesBloqueo";
 
     private static ReportesBloqueosDAO instancia;
+    
+    private final IFabricaReporte<NuevoReporteBloqueoDTO, ReporteBloqueo> fabricaReporte;
 
     private ReportesBloqueosDAO() {
+        this.fabricaReporte = new FabricaReporteBloqueo();
     }
 
     public static synchronized ReportesBloqueosDAO getInstancia() {
@@ -51,14 +55,7 @@ public class ReportesBloqueosDAO implements IReportesBloqueosDAO {
             MongoDatabase bd = ManejadorConexiones.getInstancia().obtenerBaseDatos();
             MongoCollection<ReporteBloqueo> coleccion = bd.getCollection(NOMBRE_COLECCION, ReporteBloqueo.class);
 
-            Motivo motivo = AdapterMotivo.toEntity(dto.getMotivo());
-
-            ReporteBloqueo reporte = new ReporteBloqueo();
-            reporte.setMotivo(motivo);
-            reporte.setIdRepartidor(dto.getRepartidor().getId());
-            reporte.setDetalles(dto.getDetalles());
-            reporte.setFechaHora(dto.getFechaHora());
-            reporte.setImagenEvidencia(dto.getImagenEvidencia());
+            ReporteBloqueo reporte = fabricaReporte.crearReporte(dto);
 
             InsertOneResult resultado = coleccion.insertOne(reporte);
 

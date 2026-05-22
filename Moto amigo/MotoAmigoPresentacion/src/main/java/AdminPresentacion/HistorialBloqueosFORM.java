@@ -78,6 +78,7 @@ public class HistorialBloqueosFORM extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         panelFondo.setBackground(new java.awt.Color(255, 255, 255));
 

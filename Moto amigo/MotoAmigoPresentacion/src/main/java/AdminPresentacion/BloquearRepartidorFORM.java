@@ -78,29 +78,30 @@ public class BloquearRepartidorFORM extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         panelFondo.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
         jLabel1.setText("Motivo");
+        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
 
+        btnBloquear.setText("Generar Reporte");
         btnBloquear.setBackground(new java.awt.Color(0, 0, 0));
         btnBloquear.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         btnBloquear.setForeground(new java.awt.Color(255, 255, 255));
-        btnBloquear.setText("Generar Reporte");
 
+        jLabel2.setText("Generar Reporte");
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("Generar Reporte");
 
-        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
         jLabel3.setText("Repartidor");
+        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
         jLabel4.setText("Detalles");
+        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
         jLabel5.setText("Imagen Evidencia");
+        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
 
         cboRepartidores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
 
@@ -111,15 +112,15 @@ public class BloquearRepartidorFORM extends javax.swing.JFrame {
         txtDetalles.setRows(5);
         jScrollPane1.setViewportView(txtDetalles);
 
+        btnSeleccionarArchivo.setText("Seleccionar Imagen");
         btnSeleccionarArchivo.setBackground(new java.awt.Color(153, 153, 153));
         btnSeleccionarArchivo.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
         btnSeleccionarArchivo.setForeground(new java.awt.Color(255, 255, 255));
-        btnSeleccionarArchivo.setText("Seleccionar Imagen");
 
+        btnRegresar.setText("Regresar");
         btnRegresar.setBackground(new java.awt.Color(255, 102, 0));
         btnRegresar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
-        btnRegresar.setText("Regresar");
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
